@@ -285,3 +285,31 @@ margin-bottom:10px;
 .stat-card p{
 font-size:18px;
 }
+.developer{
+max-width:1000px;
+margin:40px auto;
+padding:0 15px;
+}
+
+.developer h2{
+color:#0d47a1;
+text-align:center;
+margin-bottom:20px;
+}
+
+.developer-card{
+background:#ffffff;
+padding:25px;
+border-radius:12px;
+box-shadow:0 4px 12px rgba(0,0,0,.1);
+text-align:center;
+}
+
+.developer-card h3{
+color:#0d47a1;
+margin-bottom:15px;
+}
+
+.developer-card p{
+line-height:1.8;
+}
