@@ -156,3 +156,28 @@ width:100%;
 }
 
 }
+.latest-updates{
+max-width:1000px;
+margin:30px auto;
+padding:0 15px;
+}
+
+.latest-updates h2{
+color:#0d47a1;
+margin-bottom:15px;
+}
+
+.update-card{
+background:#fff;
+padding:20px;
+border-radius:12px;
+box-shadow:0 4px 10px rgba(0,0,0,.1);
+}
+
+.update-card h3{
+margin-bottom:10px;
+}
+
+.update-card p{
+line-height:1.7;
+}
