@@ -1,16 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>JharkhandVision123 Student Portal</title>
-
-<link rel="manifest" href="manifest.json">
-
-<meta name="theme-color" content="#0d47a1">
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>Student Portal</title>
 
 <style>
 
@@ -18,142 +13,122 @@
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:'Poppins',sans-serif;
+    font-family:Arial, sans-serif;
 }
+
 
 body{
-    background:#f4f7fb;
-    color:#333;
+    background:#f5f7fb;
 }
 
 
-/* HEADER */
+/* Header */
 
 header{
     background:#0d47a1;
     color:white;
-    padding:20px;
     text-align:center;
+    padding:25px;
 }
 
 header h1{
     font-size:28px;
 }
 
-header p{
-    margin-top:8px;
-}
 
 
-/* NAVIGATION */
+/* Navigation */
 
 nav{
     background:#08306b;
     display:flex;
     justify-content:center;
+    gap:10px;
     flex-wrap:wrap;
 }
+
 
 nav a{
     color:white;
     text-decoration:none;
-    padding:14px 22px;
-    font-weight:500;
+    padding:15px 25px;
 }
+
 
 nav a:hover{
     background:#1565c0;
 }
 
 
-/* HERO SECTION */
 
-.hero{
+/* Welcome Section */
 
-    padding:50px 20px;
-    text-align:center;
+.welcome{
+
     background:white;
+    text-align:center;
+    padding:45px 20px;
+
 }
 
-.hero h2{
+
+.welcome h2{
 
     color:#0d47a1;
     font-size:32px;
-    margin-bottom:15px;
-}
 
-.hero p{
-
-    max-width:700px;
-    margin:auto;
-    line-height:1.7;
-}
-
-
-/* BUTTON */
-
-.main-btn{
-
-    display:inline-block;
-    margin-top:25px;
-    background:#0d47a1;
-    color:white;
-    padding:12px 30px;
-    border-radius:8px;
-    text-decoration:none;
-}
-
-.main-btn:hover{
-
-    background:#08306b;
 }
 
 
 
-/* CARDS */
+/* Boxes */
 
 .container{
 
     width:90%;
     max-width:1100px;
     margin:40px auto;
+
 }
 
 
-.cards{
+.box-container{
 
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-    gap:20px;
+    grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+    gap:25px;
+
 }
 
 
-.card{
+
+.box{
 
     background:white;
-    padding:25px;
+    height:160px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
     border-radius:12px;
-    box-shadow:0 4px 15px rgba(0,0,0,0.1);
-    text-align:center;
-}
-
-
-.card h3{
-
+    box-shadow:0 4px 12px rgba(0,0,0,0.15);
+    font-size:22px;
+    font-weight:bold;
     color:#0d47a1;
-    margin-bottom:10px;
-}
+    text-align:center;
 
-
-.card p{
-
-    line-height:1.6;
 }
 
 
 
-/* FOOTER */
+.box:hover{
 
+    transform:translateY(-5px);
+
+}
+
+
+
+/* Footer */
 
 footer{
 
@@ -162,21 +137,26 @@ footer{
     text-align:center;
     padding:20px;
     margin-top:40px;
+
 }
 
 
-/* MOBILE */
 
+/* Mobile */
 
 @media(max-width:600px){
 
 header h1{
+
     font-size:22px;
+
 }
 
 
-.hero h2{
-    font-size:24px;
+.welcome h2{
+
+    font-size:25px;
+
 }
 
 
@@ -189,8 +169,8 @@ nav a{
 
 }
 
-</style>
 
+</style>
 
 </head>
 
@@ -200,9 +180,7 @@ nav a{
 
 <header>
 
-<h1>JharkhandVision123 Student Portal</h1>
-
-<p>BA FYUGP / NEP Student Digital Learning Platform</p>
+<h1>Student Portal</h1>
 
 </header>
 
@@ -212,31 +190,20 @@ nav a{
 
 <a href="index.html">Home</a>
 
-<a href="syllabus.html">Syllabus</a>
-
 <a href="notification.html">Notification</a>
 
 <a href="contact.html">Contact</a>
+
+<a href="about.html">About</a>
 
 </nav>
 
 
 
-<section class="hero">
+
+<section class="welcome">
 
 <h2>Welcome To Student Portal</h2>
-
-<p>
-यह पोर्टल विद्यार्थियों को Syllabus, Notes, E-Books,
-Previous Year Questions, Quiz और अन्य शैक्षणिक सामग्री
-एक ही स्थान पर उपलब्ध कराने के उद्देश्य से बनाया गया है।
-</p>
-
-
-<a href="syllabus.html" class="main-btn">
-Explore Syllabus
-</a>
-
 
 </section>
 
@@ -246,89 +213,54 @@ Explore Syllabus
 <div class="container">
 
 
-<div class="cards">
+<div class="box-container">
 
 
-<div class="card">
+<div class="box">
 
-<h3>📚 Syllabus</h3>
-
-<p>
-Semester 1 से Semester 8 तक सभी विषयों का
-Syllabus उपलब्ध होगा।
-</p>
+BA Details
 
 </div>
 
 
 
-<div class="card">
+<div class="box">
 
-<h3>📖 E-Books</h3>
-
-<p>
-विद्यार्थियों के लिए डिजिटल Books और Study Material।
-</p>
+Intermediate Details
 
 </div>
 
 
 
-<div class="card">
+<div class="box">
 
-<h3>📝 Notes</h3>
-
-<p>
-महत्वपूर्ण Notes और परीक्षा उपयोगी सामग्री।
-</p>
+Other Courses
 
 </div>
 
 
 
-<div class="card">
+<div class="box">
 
-<h3>🎯 Quiz</h3>
-
-<p>
-अपनी तैयारी जांचने के लिए Online Quiz सुविधा।
-</p>
+Important Video
 
 </div>
+
 
 
 </div>
 
 
 </div>
-
 
 
 
 
 <footer>
 
-<p>
-© 2026 JharkhandVision123 Student Portal
-</p>
-
-<p>
-Designed For Students
-</p>
+<p>Student Portal</p>
 
 </footer>
-
-
-
-<script>
-
-if('serviceWorker' in navigator){
-
-navigator.serviceWorker.register('service-worker.js');
-
-}
-
-</script>
 
 
 
