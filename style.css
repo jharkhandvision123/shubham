@@ -181,3 +181,35 @@ margin-bottom:10px;
 .update-card p{
 line-height:1.7;
 }
+.quick-links{
+max-width:1000px;
+margin:30px auto;
+padding:0 15px;
+}
+
+.quick-links h2{
+color:#0d47a1;
+margin-bottom:15px;
+}
+
+.quick-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+gap:15px;
+}
+
+.quick-grid a{
+background:#0d47a1;
+color:#fff;
+text-decoration:none;
+padding:18px;
+border-radius:10px;
+text-align:center;
+font-weight:bold;
+transition:.3s;
+}
+
+.quick-grid a:hover{
+background:#1565c0;
+transform:translateY(-3px);
+}
