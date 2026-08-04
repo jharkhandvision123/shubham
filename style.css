@@ -107,3 +107,10 @@ footer{
 }
 
 }
+.dashboard a{
+    text-decoration:none;
+}
+
+.dashboard a button{
+    width:100%;
+}
