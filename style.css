@@ -114,3 +114,45 @@ footer{
 .dashboard a button{
     width:100%;
 }
+.search-section{
+max-width:1000px;
+margin:20px auto;
+display:flex;
+gap:10px;
+padding:0 15px;
+}
+
+.search-section input{
+flex:1;
+padding:14px;
+font-size:16px;
+border:2px solid #0d47a1;
+border-radius:8px;
+outline:none;
+}
+
+.search-section button{
+background:#0d47a1;
+color:#fff;
+border:none;
+padding:14px 24px;
+border-radius:8px;
+cursor:pointer;
+font-weight:bold;
+}
+
+.search-section button:hover{
+background:#1565c0;
+}
+
+@media(max-width:768px){
+
+.search-section{
+flex-direction:column;
+}
+
+.search-section button{
+width:100%;
+}
+
+}
