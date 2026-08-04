@@ -10,65 +10,66 @@
 <meta name="theme-color" content="#0d47a1">
 
 <link rel="manifest" href="manifest.json">
-
 <link rel="stylesheet" href="style.css">
 
 </head>
 
 <body>
 
-<header class="header">
+<header class="top-header">
 
-<div class="logo">
-JharkhandVision123
-</div>
-
-<div class="banner">
-Student Portal
-</div>
+    <div class="logo">
+        <h1>JharkhandVision123</h1>
+        <p>Student Portal</p>
+    </div>
 
 </header>
 
-<section class="welcome">
-
-<h1>Welcome Student</h1>
-
-<p>
-One Platform for BA (FYUG / NEP), Intermediate and Other Courses.
-</p>
-
-</section>
-
 <nav class="navbar">
 
-<a href="#">Home</a>
-
-<a href="#">Notification</a>
-
-<a href="#">Contact</a>
-
-<a href="#">About</a>
+    <a href="#">Home</a>
+    <a href="#">Syllabus</a>
+    <a href="#">Notification</a>
+    <a href="#">Contact</a>
 
 </nav>
 
-<section class="main-buttons">
+<section class="hero">
 
-<button>BA Details</button>
+    <h2>Welcome to JharkhandVision123</h2>
 
-<button>Intermediate Details</button>
-
-<button>Other Courses</button>
-
-<button>Important Videos</button>
+    <p>
+        One Platform for BA (FYUG / NEP), Intermediate,
+        Notes, E-Books, Previous Year Questions,
+        Quiz and Latest Updates.
+    </p>
 
 </section>
 
+<section class="dashboard">
+
+    <button>📚 Syllabus</button>
+    <button>📖 Notes</button>
+    <button>📕 E-Books</button>
+    <button>📝 Previous Year Question</button>
+    <button>🧠 Quiz</button>
+    <button>🎥 Videos</button>
+
+</section>
+
+<footer>
+
+    <p>© 2026 JharkhandVision123 Student Portal</p>
+
+</footer>
+
 <script src="script.js"></script>
-  <script>
+
+<script>
 if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("sw.js");
-  });
+    window.addEventListener("load", () => {
+        navigator.serviceWorker.register("sw.js");
+    });
 }
 </script>
 
