@@ -364,3 +364,11 @@ transition:.3s;
 .footer-grid a:hover{
 background:#0d47a1;
 }
+.copyright{
+background:#0d47a1;
+color:#ffffff;
+text-align:center;
+padding:20px;
+margin-top:40px;
+font-size:15px;
+}
