@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Student CSC</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f4f7fc;
+    color:#222;
+}
+
+
+/* Header */
+
+header{
+    background:#0d47a1;
+    color:white;
+    text-align:center;
+    padding:25px 15px;
+}
+
+header h1{
+    font-size:30px;
+}
+
+
+/* Navigation */
+
+nav{
+    background:#1565c0;
+    display:flex;
+    justify-content:center;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    padding:15px 25px;
+    font-weight:bold;
+}
+
+nav a:hover{
+    background:#0d47a1;
+}
+
+
+/* Main */
+
+.container{
+    width:90%;
+    max-width:700px;
+    margin:30px auto;
+}
+
+
+/* Contact */
+
+.contact-box{
+    background:white;
+    padding:25px;
+    border-radius:12px;
+    box-shadow:0 4px 12px rgba(0,0,0,.1);
+    margin-bottom:25px;
+}
+
+.contact-box h2{
+    color:#0d47a1;
+    margin-bottom:15px;
+    text-align:center;
+}
+
+.contact-box p{
+    padding:8px 0;
+    font-size:17px;
+}
+
+
+/* Search */
+
+.search-box{
+    background:white;
+    padding:25px;
+    border-radius:12px;
+    box-shadow:0 4px 12px rgba(0,0,0,.1);
+}
+
+.search-box h2{
+    color:#0d47a1;
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.search-box label{
+    display:block;
+    margin-bottom:8px;
+    font-weight:bold;
+}
+
+.search-box input{
+    width:100%;
+    padding:14px;
+    border:2px solid #0d47a1;
+    border-radius:8px;
+    font-size:16px;
+    outline:none;
+}
+
+.search-box button{
+    width:100%;
+    margin-top:15px;
+    padding:14px;
+    background:#0d47a1;
+    color:white;
+    border:none;
+    border-radius:8px;
+    font-size:17px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.search-box button:hover{
+    background:#1565c0;
+}
+
+
+/* Result */
+
+#result{
+    margin-top:20px;
+    text-align:center;
+    font-size:17px;
+}
+
+
+/* Footer */
+
+footer{
+    background:#0d47a1;
+    color:white;
+    text-align:center;
+    padding:20px;
+    margin-top:40px;
+}
+
+
+/* Mobile */
+
+@media(max-width:600px){
+
+    header h1{
+        font-size:24px;
+    }
+
+    nav a{
+        width:100%;
+        text-align:center;
+    }
+
+    nav{
+        flex-direction:column;
+    }
+
+    .container{
+        width:92%;
+    }
+
+    .contact-box,
+    .search-box{
+        padding:20px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+<h1>Student CSC</h1>
+
+</header>
+
+
+<nav>
+
+<a href="index.html">Home</a>
+
+</nav>
+
+
+<div class="container">
+
+
+<!-- Contact Us -->
+
+<div class="contact-box">
+
+<h2>Contact Us</h2>
+
+<p>📞 Phone Number: YOUR PHONE NUMBER</p>
+
+<p>🟢 WhatsApp Number: YOUR WHATSAPP NUMBER</p>
+
+</div>
+
+
+<!-- Search -->
+
+<div class="search-box">
+
+<h2>Search Your CSC Receiving</h2>
+
+<label for="mobileNumber">
+Enter Mobile Number
+</label>
+
+<input
+    type="tel"
+    id="mobileNumber"
+    placeholder="Enter 10 digit mobile number"
+    maxlength="10"
+>
+
+<button id="searchBtn">
+SEARCH
+</button>
+
+
+<div id="result"></div>
+
+</div>
+
+
+</div>
+
+
+<footer>
+
+<p>Student Portal</p>
+
+</footer>
+
+
+</body>
+
+</html>
