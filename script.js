@@ -1,3 +1,5 @@
+
+```javascript
 document.addEventListener("DOMContentLoaded", () => {
 
     const searchBox = document.getElementById("mobileNumber");
@@ -6,16 +8,23 @@ document.addEventListener("DOMContentLoaded", () => {
     const SUPABASE_URL = "https://aghizlgvrhunpuxvohep.supabase.co";
     const SUPABASE_KEY = "sb_publishable_gpc7KUqUIykO3WM1aCzRfg_Myo8AKyx";
 
+    console.log("SCRIPT LOADED");
+    console.log("searchBox:", searchBox);
+    console.log("searchBtn:", searchBtn);
+
     if (!searchBtn || !searchBox) {
-        console.log("Search elements not found.");
+        console.error("SEARCH ELEMENT NOT FOUND");
         return;
     }
 
     searchBtn.addEventListener("click", async () => {
 
+        console.log("SEARCH BUTTON CLICKED");
+
         const mobile = searchBox.value.trim();
 
-        // Mobile number check
+        console.log("Mobile entered:", mobile);
+
         if (!/^[0-9]{10}$/.test(mobile)) {
             alert("Please enter a valid 10 digit mobile number.");
             return;
@@ -26,38 +35,41 @@ document.addEventListener("DOMContentLoaded", () => {
 
         try {
 
-            // Search receipts table
-            const response = await fetch(
+            const url =
                 SUPABASE_URL +
                 "/rest/v1/receipts?mobile_number=eq." +
                 encodeURIComponent(mobile) +
-                "&select=*",
-                {
-                    method: "GET",
-                    headers: {
-                        "apikey": SUPABASE_KEY,
-                        "Authorization": "Bearer " + SUPABASE_KEY
-                    }
+                "&select=*";
+
+            console.log("Searching URL:", url);
+
+            const response = await fetch(url, {
+                method: "GET",
+                headers: {
+                    "apikey": SUPABASE_KEY,
+                    "Authorization": "Bearer " + SUPABASE_KEY
                 }
-            );
+            });
+
+            console.log("Supabase status:", response.status);
 
             const data = await response.json();
+
+            console.log("Supabase response:", data);
 
             if (!response.ok) {
                 throw new Error(
                     data.message ||
                     data.error_description ||
-                    "Could not search receipts."
+                    JSON.stringify(data)
                 );
             }
 
-            // No receipt found
             if (!data || data.length === 0) {
                 alert("No receipt found for this mobile number.");
                 return;
             }
 
-            // Create receipt list
             let resultHTML = `
                 <div style="
                     margin-top:20px;
@@ -83,7 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         border-radius:8px;
                     ">
                         <strong>Receipt ${index + 1}</strong><br>
-                        ${receipt.file_name}<br><br>
+                        ${receipt.file_name || "Receipt PDF"}<br><br>
 
                         <a
                             href="${pdfURL}"
@@ -121,23 +133,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
             resultHTML += `</div>`;
 
-            // Show results below search section
-            let resultsDiv = document.getElementById("searchResults");
+            const resultDiv = document.getElementById("result");
 
-            if (!resultsDiv) {
-                resultsDiv = document.createElement("div");
-                resultsDiv.id = "searchResults";
-                searchBtn.parentElement.insertAdjacentElement(
-                    "afterend",
-                    resultsDiv
-                );
+            if (resultDiv) {
+                resultDiv.innerHTML = resultHTML;
             }
-
-            resultsDiv.innerHTML = resultHTML;
 
         } catch (error) {
 
-            console.error("Search error:", error);
+            console.error("SEARCH ERROR:", error);
 
             alert("Search failed: " + error.message);
 
@@ -149,7 +153,5 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
     });
-
-    console.log("JharkhandVision123 Student Portal Loaded");
 
 });
