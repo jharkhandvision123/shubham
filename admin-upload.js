@@ -1,4 +1,4 @@
-```javascript
+
 const SUPABASE_URL = "https://aghizlgvrhunpuxvohep.supabase.co";
 
 const SUPABASE_KEY = "sb_publishable_gpc7KUqUIykO3WM1aCzRfg_Myo8AKyx";
@@ -132,4 +132,3 @@ uploadBtn.addEventListener("click", async () => {
     uploadBtn.disabled = false;
 
 });
-```
