@@ -1,0 +1,171 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Receipt Management</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            background: #f4f7fc;
+            color: #222;
+        }
+
+        header {
+            background: #0d47a1;
+            color: white;
+            text-align: center;
+            padding: 25px 15px;
+        }
+
+        .container {
+            width: 92%;
+            max-width: 750px;
+            margin: 30px auto;
+        }
+
+        .box {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,.1);
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #0d47a1;
+            text-align: center;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px;
+            border: 2px solid #0d47a1;
+            border-radius: 8px;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        button {
+            width: 100%;
+            padding: 13px;
+            margin-top: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        #loginBtn,
+        #searchBtn {
+            background: #0d47a1;
+            color: white;
+        }
+
+        .deleteBtn {
+            background: #d32f2f;
+            color: white;
+        }
+
+        .receipt {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        .logoutBtn {
+            background: #555;
+            color: white;
+        }
+
+        #message {
+            text-align: center;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>Admin Receipt Management</h1>
+</header>
+
+<div class="container">
+
+    <!-- LOGIN -->
+
+    <div class="box" id="loginBox">
+
+        <h2>Admin Login</h2>
+
+        <input
+            type="email"
+            id="email"
+            placeholder="Admin Email"
+        >
+
+        <input
+            type="password"
+            id="password"
+            placeholder="Admin Password"
+        >
+
+        <button id="loginBtn">
+            LOGIN
+        </button>
+
+    </div>
+
+
+    <!-- ADMIN PANEL -->
+
+    <div class="box" id="adminBox" style="display:none;">
+
+        <h2>Delete Receipt</h2>
+
+        <input
+            type="tel"
+            id="adminMobile"
+            placeholder="Enter 10 digit mobile number"
+            maxlength="10"
+            inputmode="numeric"
+        >
+
+        <button id="searchBtn">
+            SEARCH RECEIPTS
+        </button>
+
+        <div id="message"></div>
+
+        <div id="receipts"></div>
+
+        <button
+            id="logoutBtn"
+            class="logoutBtn"
+        >
+            LOGOUT
+        </button>
+
+    </div>
+
+</div>
+
+
+<script src="admin.js"></script>
+
+</body>
+</html>
+```
