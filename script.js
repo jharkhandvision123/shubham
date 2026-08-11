@@ -1,3 +1,7 @@
 document.getElementById("searchBtn").onclick = function () {
-    alert("SEARCH BUTTON CLICKED");
+
+    const mobile = document.getElementById("mobileNumber").value;
+
+    alert("Mobile Number: " + mobile);
+
 };
