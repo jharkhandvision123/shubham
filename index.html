@@ -13,8 +13,11 @@
 
     <title>Student Portal</title>
 
-    <!-- PWA -->
-    <link rel="manifest" href="/shubham/manifest.json">
+    <!-- ==============================
+         PWA SETTINGS
+    ============================== -->
+
+    <link rel="manifest" href="./manifest.json">
 
     <meta name="theme-color" content="#ffffff">
 
@@ -22,6 +25,7 @@
         rel="apple-touch-icon"
         href="images/imageslogo-192.png%20(1).jpeg"
     >
+
 
     <link
         rel="stylesheet"
@@ -303,13 +307,15 @@
 
             navigator.serviceWorker
                 .register("./service-worker.js")
+
                 .then(function () {
 
                     console.log(
-                        "Student Portal Service Worker registered successfully."
+                        "JV 123 Service Worker registered successfully."
                     );
 
                 })
+
                 .catch(function (error) {
 
                     console.error(
