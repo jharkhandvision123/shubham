@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    const searchBox = document.getElementById("searchBox");
+    const searchBox = document.getElementById("mobileNumber");
     const searchBtn = document.getElementById("searchBtn");
 
     const SUPABASE_URL = "https://aghizlgvrhunpuxvohep.supabase.co";
