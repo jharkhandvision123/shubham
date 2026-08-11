@@ -1,0 +1,103 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Upload - Student Portal</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .upload-box {
+            max-width: 450px;
+            margin: 50px auto;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-top: 7px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 20px;
+            background: #1677ff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:disabled {
+            background: #999;
+        }
+
+        #message {
+            margin-top: 15px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="upload-box">
+
+    <h2>Upload Receipt</h2>
+
+    <label for="mobileNumber">Mobile Number</label>
+
+    <input
+        type="tel"
+        id="mobileNumber"
+        maxlength="10"
+        placeholder="Enter 10 digit mobile number"
+    >
+
+    <label for="pdfFile">Select PDF</label>
+
+    <input
+        type="file"
+        id="pdfFile"
+        accept="application/pdf"
+    >
+
+    <button id="uploadBtn">
+        Upload Receipt
+    </button>
+
+    <div id="message"></div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="admin-upload.js"></script>
+
+</body>
+</html>
+```
