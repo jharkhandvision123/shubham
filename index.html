@@ -24,12 +24,26 @@
            LOGO
         ============================== */
 
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
         .portal-logo {
-            width: 90px;
-            height: 90px;
-            object-fit: contain;
-            display: block;
-            margin: 0 auto 10px;
+            width: 65px;
+            height: 65px;
+            object-fit: cover;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .logo h1 {
+            margin: 0;
+        }
+
+        .logo p {
+            margin: 3px 0 0;
         }
 
 
@@ -38,8 +52,9 @@
         ============================== */
 
         .slider {
-            width: 100%;
-            max-width: 1000px;
+            width: 95%;
+            max-width: 1100px;
+            height: 180px;
             margin: 20px auto;
             overflow: hidden;
             border-radius: 12px;
@@ -48,12 +63,13 @@
         .slides {
             display: flex;
             width: 300%;
+            height: 100%;
             animation: slide 12s infinite;
         }
 
         .slides img {
             width: 33.3333%;
-            height: auto;
+            height: 100%;
             display: block;
             object-fit: cover;
         }
@@ -112,9 +128,13 @@
             class="portal-logo"
         >
 
-        <h1>Student Portal</h1>
+        <div>
 
-        <p>Welcome to Student Portal</p>
+            <h1>Student Portal</h1>
+
+            <p>Welcome to Student Portal</p>
+
+        </div>
 
     </div>
 
