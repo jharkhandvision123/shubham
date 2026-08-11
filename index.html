@@ -1,36 +1,72 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Student Portal</title>
+    <meta charset="UTF-8">
 
-<link rel="stylesheet" href="style.css">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Student Portal</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
 </head>
 
+
 <body>
+
+
+<!-- ==============================
+     HEADER
+================================ -->
 
 <header class="top-header">
 
     <div class="logo">
+
         <h1>Student Portal</h1>
+
         <p>Welcome to Student Portal</p>
+
     </div>
 
 </header>
 
 
+<!-- ==============================
+     NAVIGATION
+================================ -->
+
 <nav class="navbar">
 
     <a href="index.html">Home</a>
-    <a href="notification.html">Notification</a>
-    <a href="contact.html">Contact</a>
-    <a href="about.html">About</a>
+
+    <a href="notification.html">
+        Notification
+    </a>
+
+    <a href="contact.html">
+        Contact
+    </a>
+
+    <a href="about.html">
+        About
+    </a>
 
 </nav>
 
+
+<!-- ==============================
+     HERO
+================================ -->
 
 <section class="hero">
 
@@ -44,26 +80,39 @@
 </section>
 
 
-<!-- Search Section -->
+<!-- ==============================
+     SEARCH SECTION
+================================ -->
 
 <section class="search-section">
 
     <input
-        type="text"
-        id="searchBox"
-        placeholder="Search here..."
+        type="tel"
+        id="mobileNumber"
+        placeholder="Enter 10 digit mobile number"
+        maxlength="10"
+        inputmode="numeric"
+        autocomplete="tel"
     >
 
-    <button id="searchBtn">
+    <button
+        id="searchBtn"
+        type="button"
+    >
         SEARCH
     </button>
+
+    <div id="result"></div>
 
 </section>
 
 
-<!-- Main Dashboard -->
+<!-- ==============================
+     MAIN DASHBOARD
+================================ -->
 
 <section class="dashboard">
+
 
     <a href="ba-details.html">
 
@@ -102,14 +151,18 @@
 
     </a>
 
+
 </section>
 
 
-<!-- Latest Updates -->
+<!-- ==============================
+     LATEST UPDATES
+================================ -->
 
 <section class="latest-updates">
 
     <h2>Latest Updates</h2>
+
 
     <div class="update-card">
 
@@ -122,37 +175,57 @@
 
     </div>
 
+
 </section>
 
 
-<!-- Quick Links -->
+<!-- ==============================
+     QUICK LINKS
+================================ -->
 
 <section class="quick-links">
 
     <h2>Quick Links</h2>
 
+
     <div class="quick-grid">
 
-        <a href="ba-details.html">BA Details</a>
+        <a href="ba-details.html">
+            BA Details
+        </a>
 
-        <a href="notification.html">Notifications</a>
 
-        <a href="contact.html">Contact Us</a>
+        <a href="notification.html">
+            Notifications
+        </a>
 
-        <a href="about.html">About</a>
+
+        <a href="contact.html">
+            Contact Us
+        </a>
+
+
+        <a href="about.html">
+            About
+        </a>
+
 
     </div>
 
 </section>
 
 
-<!-- Portal Features -->
+<!-- ==============================
+     PORTAL FEATURES
+================================ -->
 
 <section class="portal-features">
 
     <h2>Portal Features</h2>
 
+
     <div class="feature-grid">
+
 
         <div class="feature-card">
 
@@ -186,12 +259,15 @@
 
         </div>
 
+
     </div>
 
 </section>
 
 
-<!-- Footer -->
+<!-- ==============================
+     FOOTER
+================================ -->
 
 <footer class="copyright">
 
@@ -200,9 +276,14 @@
 </footer>
 
 
+<!-- ==============================
+     JAVASCRIPT
+================================ -->
+
 <script src="script.js"></script>
+
 
 </body>
 
 </html>
-alert("script.js loaded successfully");
+```
