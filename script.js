@@ -1,21 +1,11 @@
-```javascript
 document.addEventListener("DOMContentLoaded", function () {
 
     const searchBtn = document.getElementById("searchBtn");
-
-    /* =================================
-       SEARCH BUTTON AVAILABLE?
-    ================================= */
 
     if (!searchBtn) {
         console.log("Search button not found on this page.");
         return;
     }
-
-
-    /* =================================
-       SEARCH FUNCTION
-    ================================= */
 
     searchBtn.onclick = async function () {
 
@@ -25,24 +15,13 @@ document.addEventListener("DOMContentLoaded", function () {
         const result =
             document.getElementById("result");
 
-
-        /* Safety check */
-
         if (!mobileInput || !result) {
-            console.error(
-                "Search elements are missing."
-            );
+            console.error("Search elements are missing.");
             return;
         }
 
-
         const mobile =
             mobileInput.value.trim();
-
-
-        /* =================================
-           MOBILE NUMBER VALIDATION
-        ================================= */
 
         if (!/^[0-9]{10}$/.test(mobile)) {
 
@@ -53,28 +32,15 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-
-        /* =================================
-           SEARCH START
-        ================================= */
-
         this.disabled = true;
-
         this.textContent = "SEARCHING...";
-
         result.innerHTML = "Searching...";
-
-
-        /* =================================
-           SUPABASE
-        ================================= */
 
         const SUPABASE_URL =
             "https://aghizlgvrhunpuxvohep.supabase.co";
 
         const SUPABASE_KEY =
             "sb_publishable_gpc7KUqUIykO3WM1aCzRfg_Myo8AKyx";
-
 
         try {
 
@@ -85,28 +51,21 @@ document.addEventListener("DOMContentLoaded", function () {
                 encodeURIComponent(mobile) +
                 "&select=*";
 
-
             const response =
                 await fetch(url, {
 
                     method: "GET",
 
                     headers: {
-
-                        "apikey":
-                            SUPABASE_KEY,
-
+                        "apikey": SUPABASE_KEY,
                         "Authorization":
                             "Bearer " + SUPABASE_KEY
-
                     }
 
                 });
 
-
             const data =
                 await response.json();
-
 
             console.log(
                 "Supabase Status:",
@@ -118,28 +77,16 @@ document.addEventListener("DOMContentLoaded", function () {
                 data
             );
 
-
-            /* =================================
-               SUPABASE ERROR
-            ================================= */
-
             if (!response.ok) {
 
                 throw new Error(
-
                     data.message ||
                     data.details ||
                     data.hint ||
                     JSON.stringify(data)
-
                 );
 
             }
-
-
-            /* =================================
-               NO RECEIPT
-            ================================= */
 
             if (!data || data.length === 0) {
 
@@ -149,14 +96,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 return;
             }
 
-
-            /* =================================
-               RECEIPTS FOUND
-            ================================= */
-
             let html =
                 "<h3>Receipts Found</h3>";
-
 
             data.forEach(
                 (receipt, index) => {
@@ -166,9 +107,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         "/storage/v1/object/public/receipts/" +
                         receipt.file_path;
 
-
                     html += `
-
                         <div style="
                             margin:15px 0;
                             padding:15px;
@@ -205,7 +144,6 @@ document.addEventListener("DOMContentLoaded", function () {
                                 View PDF
                             </a>
 
-
                             <a
                                 href="${pdfURL}"
                                 download
@@ -222,14 +160,11 @@ document.addEventListener("DOMContentLoaded", function () {
                             </a>
 
                         </div>
-
                     `;
                 }
             );
 
-
             result.innerHTML = html;
-
 
         } catch (error) {
 
@@ -238,16 +173,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 error
             );
 
-
             result.innerHTML =
                 "Search failed: " +
                 error.message;
 
-
         } finally {
 
             this.disabled = false;
-
             this.textContent = "SEARCH";
 
         }
@@ -255,4 +187,3 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
 });
-```
