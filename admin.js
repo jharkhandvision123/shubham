@@ -21,7 +21,79 @@ const uploadBtn = document.getElementById("uploadBtn");
 const paperCode = document.getElementById("paperCode");
 const pdfFile = document.getElementById("pdfFile");
 const uploadMessage = document.getElementById("uploadMessage");
+uploadBtn.addEventListener("click", async () => {
 
+    const code = paperCode.value.trim();
+    const file = pdfFile.files[0];
+
+    if (!code) {
+        uploadMessage.innerHTML = "Paper Code डालिए।";
+        return;
+    }
+
+    if (!file) {
+        uploadMessage.innerHTML = "PDF file चुनिए।";
+        return;
+    }
+
+    if (file.type !== "application/pdf") {
+        uploadMessage.innerHTML = "सिर्फ PDF file upload करें।";
+        return;
+    }
+
+    uploadBtn.disabled = true;
+    uploadBtn.textContent = "UPLOADING...";
+    uploadMessage.innerHTML = "Uploading...";
+
+    try {
+
+        const filePath =
+            code + "/" + Date.now() + "_" + file.name;
+
+        const { error: uploadError } =
+            await supabaseClient.storage
+                .from("receipts")
+                .upload(filePath, file);
+
+        if (uploadError) {
+            throw uploadError;
+        }
+
+        const { error: dbError } =
+            await supabaseClient
+                .from("receipts")
+                .insert({
+                    mobile_number: "0000000000",
+                    file_name: file.name,
+                    file_path: filePath,
+                    paper_code: code
+                });
+
+        if (dbError) {
+            throw dbError;
+        }
+
+        uploadMessage.innerHTML =
+            "PDF successfully uploaded.";
+
+        paperCode.value = "";
+        pdfFile.value = "";
+
+    } catch (error) {
+
+        console.error("Upload Error:", error);
+
+        uploadMessage.innerHTML =
+            "Upload failed: " + error.message;
+
+    } finally {
+
+        uploadBtn.disabled = false;
+        uploadBtn.textContent = "UPLOAD PDF";
+
+    }
+
+});
     // =========================
     // CHECK EXISTING LOGIN
     // =========================
