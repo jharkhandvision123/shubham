@@ -131,7 +131,31 @@
 
 
     <!-- ADMIN PANEL -->
+<!-- PDF UPLOAD -->
 
+<div class="box">
+
+    <h2>Upload PDF</h2>
+
+    <input
+        type="text"
+        id="paperCode"
+        placeholder="Enter Paper Code (e.g. MJ-6)"
+    >
+
+    <input
+        type="file"
+        id="pdfFile"
+        accept="application/pdf"
+    >
+
+    <button id="uploadBtn">
+        UPLOAD PDF
+    </button>
+
+    <div id="uploadMessage"></div>
+
+</div>
     <div class="box" id="adminBox" style="display:none;">
 
         <h2>Delete Receipt</h2>
