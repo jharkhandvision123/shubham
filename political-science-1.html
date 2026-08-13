@@ -42,7 +42,7 @@ display:inline-block;
 
 .container{
 width:95%;
-max-width:1000px;
+max-width:1100px;
 margin:40px auto;
 }
 
@@ -54,13 +54,50 @@ margin-bottom:25px;
 
 .paper{
 background:white;
-margin-bottom:15px;
 padding:18px;
-border-radius:10px;
+margin-bottom:15px;
+border-radius:12px;
 box-shadow:0 4px 12px rgba(0,0,0,0.15);
+
+display:flex;
+align-items:center;
+gap:15px;
+
 font-size:20px;
 font-weight:bold;
 color:#0d47a1;
+
+overflow-x:auto;
+}
+
+.paper-name{
+min-width:70px;
+}
+
+.buttons{
+display:flex;
+gap:10px;
+flex:1;
+}
+
+.buttons button{
+padding:12px 18px;
+min-height:48px;
+border:none;
+border-radius:8px;
+background:#0d47a1;
+color:white;
+font-size:15px;
+font-weight:bold;
+cursor:pointer;
+white-space:nowrap;
+box-shadow:0 3px 7px rgba(0,0,0,0.18);
+transition:0.2s;
+}
+
+.buttons button:hover{
+background:#08306b;
+transform:translateY(-2px);
 }
 
 footer{
@@ -71,6 +108,23 @@ padding:20px;
 margin-top:40px;
 }
 
+@media(max-width:700px){
+
+.paper{
+align-items:center;
+}
+
+.buttons{
+gap:8px;
+}
+
+.buttons button{
+padding:11px 14px;
+font-size:14px;
+}
+
+}
+
 </style>
 
 </head>
@@ -78,35 +132,89 @@ margin-top:40px;
 <body>
 
 <header>
+
 <h1>Political Science</h1>
+
 <p>Semester 1</p>
+
 </header>
 
+
 <nav>
+
 <a href="semester-1.html">Back</a>
+
 <a href="index.html">Home</a>
+
 </nav>
+
 
 <div class="container">
 
-<h2>Select Paper</h2>
+<h2>Political Science Papers</h2>
 
-<div class="paper">      <div>MJ-1</div>      <div class="buttons">          <button>Chapter Notes</button>          <button>PYQ</button>          <button>Online Quiz</button>          <button>Solution Video</button>      </div>  </div>
 
-<div class="paper">VAC-1</div>
+<div class="paper">
 
-<div class="paper">MDC-1</div>
+<div class="paper-name">MJ-1</div>
 
-<div class="paper">AEC-1</div>
+<div class="buttons">
 
-<div class="paper">SEC-1</div>
+<button>Chapter Notes</button>
 
-<div class="paper">MN-1A</div>
+<button>PYQ</button>
+
+<button>Online Quiz</button>
+
+<button>Solution Video</button>
 
 </div>
 
+</div>
+
+
+<div class="paper">
+
+<div class="paper-name">VAC-1</div>
+
+</div>
+
+
+<div class="paper">
+
+<div class="paper-name">MDC-1</div>
+
+</div>
+
+
+<div class="paper">
+
+<div class="paper-name">AEC-1</div>
+
+</div>
+
+
+<div class="paper">
+
+<div class="paper-name">SEC-1</div>
+
+</div>
+
+
+<div class="paper">
+
+<div class="paper-name">MN-1A</div>
+
+</div>
+
+
+</div>
+
+
 <footer>
+
 <p>Student Portal</p>
+
 </footer>
 
 </body>
