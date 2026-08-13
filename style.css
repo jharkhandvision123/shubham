@@ -372,3 +372,22 @@ font-size:15px;
 }
 
 }
+.buttons{
+margin-top:15px;
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+}
+
+.buttons button{
+padding:10px 14px;
+border:none;
+border-radius:6px;
+background:#0d47a1;
+color:white;
+cursor:pointer;
+}
+
+.buttons button:hover{
+background:#08306b;
+}
