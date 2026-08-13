@@ -52,20 +52,26 @@ color:#0d47a1;
 margin-bottom:30px;
 }
 
-.paper-container{
-display:flex;
-flex-direction:column;
-gap:15px;
+.subject-container{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
 }
 
-.paper{
+.subject{
 background:white;
-padding:20px;
+padding:25px;
+text-align:center;
 border-radius:12px;
 box-shadow:0 4px 12px rgba(0,0,0,0.15);
 font-size:20px;
 font-weight:bold;
 color:#0d47a1;
+transition:0.3s;
+}
+
+.subject:hover{
+transform:translateY(-5px);
 }
 
 footer{
@@ -98,21 +104,17 @@ margin-top:40px;
 
 <div class="container">
 
-<h2>Select Paper</h2>
+<h2>Select Honours Subject</h2>
 
-<div class="paper-container">
+<div class="subject-container">
 
-<div class="paper">AEC-2</div>
+<div class="subject">Political Science</div>
 
-<div class="paper">SEC-2</div>
+<div class="subject">History</div>
 
-<div class="paper">MDC-2</div>
+<div class="subject">Geography</div>
 
-<div class="paper">MN-2A</div>
-
-<div class="paper">MJ-2</div>
-
-<div class="paper">MJ-3</div>
+<div class="subject">Hindi</div>
 
 </div>
 
