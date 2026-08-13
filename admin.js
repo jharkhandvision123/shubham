@@ -17,7 +17,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const message = document.getElementById("message");
     const receipts = document.getElementById("receipts");
     const logoutBtn = document.getElementById("logoutBtn");
-
+const uploadBtn = document.getElementById("uploadBtn");
+const paperCode = document.getElementById("paperCode");
+const pdfFile = document.getElementById("pdfFile");
+const uploadMessage = document.getElementById("uploadMessage");
 
     // =========================
     // CHECK EXISTING LOGIN
