@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -134,6 +135,7 @@ margin-top:40px;
 
 <div class="paper">
 <div class="paper-name">AEC-3</div>
+
 <div class="buttons">
 <button>Chapter Notes</button>
 <button>PYQ</button>
@@ -145,6 +147,7 @@ margin-top:40px;
 
 <div class="paper">
 <div class="paper-name">VAC-2</div>
+
 <div class="buttons">
 <button>Chapter Notes</button>
 <button>PYQ</button>
@@ -156,6 +159,7 @@ margin-top:40px;
 
 <div class="paper">
 <div class="paper-name">MN-2B</div>
+
 <div class="buttons">
 <button>Chapter Notes</button>
 <button>PYQ</button>
@@ -167,8 +171,9 @@ margin-top:40px;
 
 <div class="paper">
 <div class="paper-name">MJ-6</div>
+
 <div class="buttons">
-<a href="https://aghizlgvrhunpuxvohep.supabase.co/storage/v1/object/public/receipts/MJ-6/1786648193640_INCOME%20111.pdf" target="_blank">     <button type="button">Chapter Notes</button> </a>
+<button>Chapter Notes</button>
 <button>PYQ</button>
 <button>Online Quiz</button>
 <button>Solution Video</button>
@@ -178,6 +183,7 @@ margin-top:40px;
 
 <div class="paper">
 <div class="paper-name">MJ-7</div>
+
 <div class="buttons">
 <button>Chapter Notes</button>
 <button>PYQ</button>
@@ -189,6 +195,7 @@ margin-top:40px;
 
 <div class="paper">
 <div class="paper-name">MJ-8</div>
+
 <div class="buttons">
 <button>Chapter Notes</button>
 <button>PYQ</button>
@@ -197,7 +204,6 @@ margin-top:40px;
 </div>
 </div>
 
-
 </div>
 
 <footer>
@@ -205,6 +211,134 @@ margin-top:40px;
 <p>Student Portal</p>
 
 </footer>
+
+
+<script>
+
+const supabaseClient = window.supabase.createClient(
+    "https://aghizlgvrhunpuxvohep.supabase.co",
+    "sb_publishable_gpc7KUqUIykO3WM1aCzRfg_Myo8AKyx"
+);
+
+
+document.querySelectorAll(".paper").forEach(paper => {
+
+    const paperName =
+        paper.querySelector(".paper-name").textContent.trim();
+
+
+    paper.querySelectorAll(".buttons button").forEach(button => {
+
+        button.addEventListener("click", async () => {
+
+            const buttonText =
+                button.textContent.trim();
+
+
+            // SOLUTION VIDEO
+
+            if (buttonText === "Solution Video") {
+
+                const { data, error } =
+                    await supabaseClient
+                        .from("solution_videos")
+                        .select("*")
+                        .eq("semester", "Semester 4")
+                        .eq("honours_subject", "Political Science")
+                        .eq("paper_name", paperName);
+
+
+                if (error) {
+
+                    alert(
+                        "Video Error: " +
+                        error.message
+                    );
+
+                    return;
+                }
+
+
+                if (!data || data.length === 0) {
+
+                    alert(
+                        "इस Paper के लिए Solution Video उपलब्ध नहीं है।"
+                    );
+
+                    return;
+                }
+
+
+                window.open(
+                    data[0].video_url,
+                    "_blank"
+                );
+
+                return;
+            }
+
+
+            // PDF CONTENT
+
+            const contentType = buttonText;
+
+
+            const { data, error } =
+                await supabaseClient
+                    .from("receipts")
+                    .select("*")
+                    .eq("semester", "Semester 4")
+                    .eq("honours_subject", "Political Science")
+                    .eq("paper_name", paperName)
+                    .eq("content_type", contentType);
+
+
+            if (error) {
+
+                alert(
+                    "Error: " +
+                    error.message
+                );
+
+                return;
+            }
+
+
+            if (!data || data.length === 0) {
+
+                alert(
+                    "इस Paper के लिए PDF उपलब्ध नहीं है।"
+                );
+
+                return;
+            }
+
+
+            data.forEach(file => {
+
+                const url =
+                    supabaseClient.storage
+                        .from("receipts")
+                        .getPublicUrl(
+                            file.file_path
+                        )
+                        .data.publicUrl;
+
+
+                window.open(
+                    url,
+                    "_blank"
+                );
+
+            });
+
+        });
+
+    });
+
+});
+
+</script>
 
 </body>
 
