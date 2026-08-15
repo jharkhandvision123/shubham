@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -223,7 +223,12 @@ margin-top:40px;
 <p>Student Portal</p>
 
 </footer>
-
+<script>
+const supabaseClient = window.supabase.createClient(
+    "https://aghizlgvrhunpuxvohep.supabase.co",
+    "sb_publishable_gpc7KUqUIykO3WM1aCzRfg_Myo8AKyx"
+);
+</script>
 </body>
 
 </html>
