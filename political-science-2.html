@@ -229,6 +229,48 @@ const supabaseClient = window.supabase.createClient(
     "sb_publishable_gpc7KUqUIykO3WM1aCzRfg_Myo8AKyx"
 );
 </script>
+    <script>
+document.querySelectorAll(".paper").forEach(paper => {
+    const paperName = paper.querySelector(".paper-name").textContent.trim();
+
+    paper.querySelectorAll(".buttons button").forEach(button => {
+        button.addEventListener("click", async () => {
+
+            let contentType = button.textContent.trim();
+
+            if (contentType === "Solution Video") {
+                contentType = "Video Solution";
+            }
+
+            const { data, error } = await supabaseClient
+                .from("receipts")
+                .select("*")
+                .eq("semester", "Semester 2")
+                .eq("honours_subject", "Political Science")
+                .eq("paper_name", paperName)
+                .eq("content_type", contentType);
+
+            if (error) {
+                alert("Error: " + error.message);
+                return;
+            }
+
+            if (!data || data.length === 0) {
+                alert("इस Paper के लिए PDF उपलब्ध नहीं है।");
+                return;
+            }
+
+            data.forEach(file => {
+                const url = supabaseClient.storage
+                    .from("receipts")
+                    .getPublicUrl(file.file_path).data.publicUrl;
+
+                window.open(url, "_blank");
+            });
+        });
+    });
+});
+</script>
 </body>
 
 </html>
