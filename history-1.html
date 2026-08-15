@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -133,7 +134,6 @@ margin-top:40px;
 
 
 <div class="paper">
-
 <div class="paper-name">MJ-1</div>
 
 <div class="buttons">
@@ -142,12 +142,10 @@ margin-top:40px;
 <button>Online Quiz</button>
 <button>Solution Video</button>
 </div>
-
 </div>
 
 
 <div class="paper">
-
 <div class="paper-name">VAC-1</div>
 
 <div class="buttons">
@@ -156,12 +154,10 @@ margin-top:40px;
 <button>Online Quiz</button>
 <button>Solution Video</button>
 </div>
-
 </div>
 
 
 <div class="paper">
-
 <div class="paper-name">MDC-1</div>
 
 <div class="buttons">
@@ -170,12 +166,10 @@ margin-top:40px;
 <button>Online Quiz</button>
 <button>Solution Video</button>
 </div>
-
 </div>
 
 
 <div class="paper">
-
 <div class="paper-name">AEC-1</div>
 
 <div class="buttons">
@@ -184,12 +178,10 @@ margin-top:40px;
 <button>Online Quiz</button>
 <button>Solution Video</button>
 </div>
-
 </div>
 
 
 <div class="paper">
-
 <div class="paper-name">SEC-1</div>
 
 <div class="buttons">
@@ -198,12 +190,10 @@ margin-top:40px;
 <button>Online Quiz</button>
 <button>Solution Video</button>
 </div>
-
 </div>
 
 
 <div class="paper">
-
 <div class="paper-name">MN-1A</div>
 
 <div class="buttons">
@@ -212,9 +202,7 @@ margin-top:40px;
 <button>Online Quiz</button>
 <button>Solution Video</button>
 </div>
-
 </div>
-
 
 </div>
 
@@ -223,6 +211,134 @@ margin-top:40px;
 <p>Student Portal</p>
 
 </footer>
+
+
+<script>
+
+const supabaseClient = window.supabase.createClient(
+    "https://aghizlgvrhunpuxvohep.supabase.co",
+    "sb_publishable_gpc7KUqUIykO3WM1aCzRfg_Myo8AKyx"
+);
+
+
+document.querySelectorAll(".paper").forEach(paper => {
+
+    const paperName =
+        paper.querySelector(".paper-name").textContent.trim();
+
+
+    paper.querySelectorAll(".buttons button").forEach(button => {
+
+        button.addEventListener("click", async () => {
+
+            const buttonText =
+                button.textContent.trim();
+
+
+            // SOLUTION VIDEO
+
+            if (buttonText === "Solution Video") {
+
+                const { data, error } =
+                    await supabaseClient
+                        .from("solution_videos")
+                        .select("*")
+                        .eq("semester", "Semester 1")
+                        .eq("honours_subject", "History")
+                        .eq("paper_name", paperName);
+
+
+                if (error) {
+
+                    alert(
+                        "Video Error: " +
+                        error.message
+                    );
+
+                    return;
+                }
+
+
+                if (!data || data.length === 0) {
+
+                    alert(
+                        "इस Paper के लिए Solution Video उपलब्ध नहीं है।"
+                    );
+
+                    return;
+                }
+
+
+                window.open(
+                    data[0].video_url,
+                    "_blank"
+                );
+
+                return;
+            }
+
+
+            // PDF CONTENT
+
+            let contentType = buttonText;
+
+
+            const { data, error } =
+                await supabaseClient
+                    .from("receipts")
+                    .select("*")
+                    .eq("semester", "Semester 1")
+                    .eq("honours_subject", "History")
+                    .eq("paper_name", paperName)
+                    .eq("content_type", contentType);
+
+
+            if (error) {
+
+                alert(
+                    "Error: " +
+                    error.message
+                );
+
+                return;
+            }
+
+
+            if (!data || data.length === 0) {
+
+                alert(
+                    "इस Paper के लिए PDF उपलब्ध नहीं है।"
+                );
+
+                return;
+            }
+
+
+            data.forEach(file => {
+
+                const url =
+                    supabaseClient.storage
+                        .from("receipts")
+                        .getPublicUrl(
+                            file.file_path
+                        )
+                        .data.publicUrl;
+
+
+                window.open(
+                    url,
+                    "_blank"
+                );
+
+            });
+
+        });
+
+    });
+
+});
+
+</script>
 
 </body>
 
