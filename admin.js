@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
         SUPABASE_KEY
     );
 
+
     const loginBtn = document.getElementById("loginBtn");
     const loginBox = document.getElementById("loginBox");
     const adminBox = document.getElementById("adminBox");
@@ -17,104 +18,264 @@ document.addEventListener("DOMContentLoaded", () => {
     const message = document.getElementById("message");
     const receipts = document.getElementById("receipts");
     const logoutBtn = document.getElementById("logoutBtn");
-const uploadBtn = document.getElementById("uploadBtn");
-const semester = document.getElementById("semester"); const honoursSubject = document.getElementById("honoursSubject"); const paperName = document.getElementById("paperName"); const contentType = document.getElementById("contentType");
-const pdfFile = document.getElementById("pdfFile");
-const uploadMessage = document.getElementById("uploadMessage");
-uploadBtn.addEventListener("click", async () => {
 
-    const selectedSemester = semester.value.trim(); const selectedSubject = honoursSubject.value.trim(); const selectedPaper = paperName.value.trim(); const selectedContent = contentType.value.trim();
-    const file = pdfFile.files[0];
 
-   if (!selectedSemester) {
-    uploadMessage.innerHTML = "Semester चुनिए।";
-    return;
-}
+    // =========================
+    // PDF UPLOAD
+    // =========================
 
-if (!selectedSubject) {
-    uploadMessage.innerHTML = "Honours / Subject चुनिए।";
-    return;
-}
+    const uploadBtn = document.getElementById("uploadBtn");
+    const semester = document.getElementById("semester");
+    const honoursSubject = document.getElementById("honoursSubject");
+    const paperName = document.getElementById("paperName");
+    const contentType = document.getElementById("contentType");
+    const pdfFile = document.getElementById("pdfFile");
+    const uploadMessage = document.getElementById("uploadMessage");
 
-if (!selectedPaper) {
-    uploadMessage.innerHTML = "Paper Name / Code डालिए।";
-    return;
-}
-if (!selectedContent) {
-    uploadMessage.innerHTML = "Content Type चुनिए।";
-    return;
-}
-    
 
-    if (!file) {
-        uploadMessage.innerHTML = "PDF file चुनिए।";
-        return;
-    }
+    uploadBtn.addEventListener("click", async () => {
 
-    if (file.type !== "application/pdf") {
-        uploadMessage.innerHTML = "सिर्फ PDF file upload करें।";
-        return;
-    }
+        const selectedSemester = semester.value.trim();
+        const selectedSubject = honoursSubject.value.trim();
+        const selectedPaper = paperName.value.trim();
+        const selectedContent = contentType.value.trim();
 
-    uploadBtn.disabled = true;
-    uploadBtn.textContent = "UPLOADING...";
-    uploadMessage.innerHTML = "Uploading...";
+        const file = pdfFile.files[0];
 
-    try {
 
-       const safeFileName = file.name.replace(/[^\w.\- ]/g, "_");
-
-const filePath =
-    selectedSemester + "/" +
-    selectedSubject + "/" +
-    selectedPaper + "/" +
-    selectedContent + "/" +
-    Date.now() + "_" + safeFileName;
-
-        const { error: uploadError } =
-            await supabaseClient.storage
-                .from("receipts")
-                .upload(filePath, file);
-
-        if (uploadError) {
-            throw uploadError;
+        if (!selectedSemester) {
+            uploadMessage.innerHTML = "Semester चुनिए।";
+            return;
         }
 
-        const { error: dbError } =
-            await supabaseClient
-                .from("receipts")
-                .insert({
-                    mobile_number: "0000000000",
-                    file_name: file.name,
-                    file_path: filePath,
-                    paper_code: selectedPaper, semester: selectedSemester, honours_subject: selectedSubject, paper_name: selectedPaper, content_type: selectedContent
-                });
-
-        if (dbError) {
-            throw dbError;
+        if (!selectedSubject) {
+            uploadMessage.innerHTML = "Honours / Subject चुनिए।";
+            return;
         }
 
-        uploadMessage.innerHTML =
-            "PDF successfully uploaded.";
+        if (!selectedPaper) {
+            uploadMessage.innerHTML = "Paper Name / Code डालिए।";
+            return;
+        }
 
-        semester.value = ""; honoursSubject.value = ""; paperName.value = ""; contentType.value = "";
-        pdfFile.value = "";
+        if (!selectedContent) {
+            uploadMessage.innerHTML = "Content Type चुनिए।";
+            return;
+        }
 
-    } catch (error) {
 
-        console.error("Upload Error:", error);
+        if (!file) {
+            uploadMessage.innerHTML = "PDF file चुनिए।";
+            return;
+        }
 
-        uploadMessage.innerHTML =
-            "Upload failed: " + error.message;
 
-    } finally {
+        if (file.type !== "application/pdf") {
+            uploadMessage.innerHTML = "सिर्फ PDF file upload करें।";
+            return;
+        }
 
-        uploadBtn.disabled = false;
-        uploadBtn.textContent = "UPLOAD PDF";
 
-    }
+        uploadBtn.disabled = true;
+        uploadBtn.textContent = "UPLOADING...";
+        uploadMessage.innerHTML = "Uploading...";
 
-});
+
+        try {
+
+            const safeFileName =
+                file.name.replace(/[^\w.\- ]/g, "_");
+
+
+            const filePath =
+                selectedSemester + "/" +
+                selectedSubject + "/" +
+                selectedPaper + "/" +
+                selectedContent + "/" +
+                Date.now() + "_" + safeFileName;
+
+
+            const { error: uploadError } =
+                await supabaseClient.storage
+                    .from("receipts")
+                    .upload(filePath, file);
+
+
+            if (uploadError) {
+                throw uploadError;
+            }
+
+
+            const { error: dbError } =
+                await supabaseClient
+                    .from("receipts")
+                    .insert({
+                        mobile_number: "0000000000",
+                        file_name: file.name,
+                        file_path: filePath,
+                        paper_code: selectedPaper,
+                        semester: selectedSemester,
+                        honours_subject: selectedSubject,
+                        paper_name: selectedPaper,
+                        content_type: selectedContent
+                    });
+
+
+            if (dbError) {
+                throw dbError;
+            }
+
+
+            uploadMessage.innerHTML =
+                "PDF successfully uploaded.";
+
+
+            semester.value = "";
+            honoursSubject.value = "";
+            paperName.value = "";
+            contentType.value = "";
+            pdfFile.value = "";
+
+
+        } catch (error) {
+
+            console.error("Upload Error:", error);
+
+            uploadMessage.innerHTML =
+                "Upload failed: " + error.message;
+
+        } finally {
+
+            uploadBtn.disabled = false;
+            uploadBtn.textContent = "UPLOAD PDF";
+
+        }
+
+    });
+
+
+    // =========================
+    // SOLUTION VIDEO
+    // =========================
+
+    const addVideoBtn = document.getElementById("addVideoBtn");
+    const videoSemester = document.getElementById("videoSemester");
+    const videoHonoursSubject = document.getElementById("videoHonoursSubject");
+    const videoPaperName = document.getElementById("videoPaperName");
+    const videoTitle = document.getElementById("videoTitle");
+    const videoUrl = document.getElementById("videoUrl");
+    const videoMessage = document.getElementById("videoMessage");
+
+
+    addVideoBtn.addEventListener("click", async () => {
+
+        const selectedSemester =
+            videoSemester.value.trim();
+
+        const selectedSubject =
+            videoHonoursSubject.value.trim();
+
+        const selectedPaper =
+            videoPaperName.value.trim();
+
+        const selectedTitle =
+            videoTitle.value.trim();
+
+        const selectedUrl =
+            videoUrl.value.trim();
+
+
+        if (!selectedSemester) {
+            videoMessage.innerHTML =
+                "Semester चुनिए।";
+            return;
+        }
+
+
+        if (!selectedSubject) {
+            videoMessage.innerHTML =
+                "Honours / Subject चुनिए।";
+            return;
+        }
+
+
+        if (!selectedPaper) {
+            videoMessage.innerHTML =
+                "Paper Name / Code डालिए।";
+            return;
+        }
+
+
+        if (!selectedUrl) {
+            videoMessage.innerHTML =
+                "YouTube Video Link डालिए।";
+            return;
+        }
+
+
+        if (
+            !selectedUrl.includes("youtube.com") &&
+            !selectedUrl.includes("youtu.be")
+        ) {
+            videoMessage.innerHTML =
+                "सिर्फ YouTube Video Link डालिए।";
+            return;
+        }
+
+
+        addVideoBtn.disabled = true;
+        addVideoBtn.textContent = "ADDING...";
+        videoMessage.innerHTML = "Saving...";
+
+
+        try {
+
+            const { error } =
+                await supabaseClient
+                    .from("solution_videos")
+                    .insert({
+                        semester: selectedSemester,
+                        honours_subject: selectedSubject,
+                        paper_name: selectedPaper,
+                        video_title: selectedTitle,
+                        video_url: selectedUrl
+                    });
+
+
+            if (error) {
+                throw error;
+            }
+
+
+            videoMessage.innerHTML =
+                "Solution Video successfully added.";
+
+
+            videoSemester.value = "";
+            videoHonoursSubject.value = "";
+            videoPaperName.value = "";
+            videoTitle.value = "";
+            videoUrl.value = "";
+
+
+        } catch (error) {
+
+            console.error("Video Error:", error);
+
+            videoMessage.innerHTML =
+                "Video add failed: " + error.message;
+
+        } finally {
+
+            addVideoBtn.disabled = false;
+            addVideoBtn.textContent =
+                "ADD SOLUTION VIDEO";
+
+        }
+
+    });
+
+
     // =========================
     // CHECK EXISTING LOGIN
     // =========================
@@ -124,13 +285,16 @@ const filePath =
 
     async function checkLogin() {
 
-        const { data } = await supabaseClient.auth.getSession();
+        const { data } =
+            await supabaseClient.auth.getSession();
+
 
         if (data.session) {
             showAdminPanel();
         } else {
             showLogin();
         }
+
     }
 
 
@@ -140,16 +304,26 @@ const filePath =
 
     loginBtn.addEventListener("click", async () => {
 
-        const email = document.getElementById("email").value.trim();
-        const password = document.getElementById("password").value;
+        const email =
+            document.getElementById("email").value.trim();
+
+        const password =
+            document.getElementById("password").value;
+
 
         if (!email || !password) {
-            alert("Email और Password दोनों भरिए।");
+
+            alert(
+                "Email और Password दोनों भरिए।"
+            );
+
             return;
         }
 
+
         loginBtn.disabled = true;
         loginBtn.textContent = "LOGGING IN...";
+
 
         try {
 
@@ -159,21 +333,31 @@ const filePath =
                     password: password
                 });
 
+
             if (error) {
                 throw error;
             }
 
+
             if (!data.session) {
-                throw new Error("Login session नहीं बनी।");
+                throw new Error(
+                    "Login session नहीं बनी।"
+                );
             }
 
+
             showAdminPanel();
+
 
         } catch (error) {
 
             console.error("Login Error:", error);
 
-            alert("Login failed: " + error.message);
+            alert(
+                "Login failed: " +
+                error.message
+            );
+
 
         } finally {
 
@@ -181,6 +365,7 @@ const filePath =
             loginBtn.textContent = "LOGIN";
 
         }
+
     });
 
 
@@ -195,6 +380,7 @@ const filePath =
 
         message.innerHTML = "";
         receipts.innerHTML = "";
+
     }
 
 
@@ -206,6 +392,7 @@ const filePath =
 
         loginBox.style.display = "block";
         adminBox.style.display = "none";
+
     }
 
 
@@ -215,7 +402,9 @@ const filePath =
 
     searchBtn.addEventListener("click", async () => {
 
-        const mobile = adminMobile.value.trim();
+        const mobile =
+            adminMobile.value.trim();
+
 
         if (!/^[0-9]{10}$/.test(mobile)) {
 
@@ -225,11 +414,13 @@ const filePath =
             return;
         }
 
+
         searchBtn.disabled = true;
         searchBtn.textContent = "SEARCHING...";
 
         message.innerHTML = "Searching...";
         receipts.innerHTML = "";
+
 
         try {
 
@@ -239,9 +430,11 @@ const filePath =
                     .select("*")
                     .eq("mobile_number", mobile);
 
+
             if (error) {
                 throw error;
             }
+
 
             if (!data || data.length === 0) {
 
@@ -251,10 +444,14 @@ const filePath =
                 return;
             }
 
+
             message.innerHTML =
-                data.length + " receipt(s) found.";
+                data.length +
+                " receipt(s) found.";
+
 
             let html = "";
+
 
             data.forEach((receipt, index) => {
 
@@ -281,38 +478,52 @@ const filePath =
 
                     </div>
                 `;
+
             });
+
 
             receipts.innerHTML = html;
 
-            // Delete buttons
-            document.querySelectorAll(".deleteBtn")
+
+            document
+                .querySelectorAll(".deleteBtn")
                 .forEach(button => {
 
-                    button.addEventListener("click", () => {
+                    button.addEventListener(
+                        "click",
+                        () => {
 
-                        deleteReceipt(
-                            button.dataset.id,
-                            button.dataset.path
-                        );
+                            deleteReceipt(
+                                button.dataset.id,
+                                button.dataset.path
+                            );
 
-                    });
+                        }
+                    );
 
                 });
 
+
         } catch (error) {
 
-            console.error("Search Error:", error);
+            console.error(
+                "Search Error:",
+                error
+            );
 
             message.innerHTML =
-                "Search failed: " + error.message;
+                "Search failed: " +
+                error.message;
+
 
         } finally {
 
             searchBtn.disabled = false;
-            searchBtn.textContent = "SEARCH RECEIPTS";
+            searchBtn.textContent =
+                "SEARCH RECEIPTS";
 
         }
+
     });
 
 
@@ -322,17 +533,19 @@ const filePath =
 
     async function deleteReceipt(id, filePath) {
 
-        const confirmDelete = confirm(
-            "क्या आप इस receipt को permanently delete करना चाहते हैं?"
-        );
+        const confirmDelete =
+            confirm(
+                "क्या आप इस receipt को permanently delete करना चाहते हैं?"
+            );
+
 
         if (!confirmDelete) {
             return;
         }
 
+
         try {
 
-            // Delete PDF from Storage
             if (filePath) {
 
                 const { error: storageError } =
@@ -340,37 +553,49 @@ const filePath =
                         .from("receipts")
                         .remove([filePath]);
 
+
                 if (storageError) {
                     throw storageError;
                 }
+
             }
 
 
-            // Delete database row
             const { error: dbError } =
                 await supabaseClient
                     .from("receipts")
                     .delete()
                     .eq("id", id);
 
+
             if (dbError) {
                 throw dbError;
             }
 
-            alert("Receipt successfully deleted.");
 
-            // Refresh search
+            alert(
+                "Receipt successfully deleted."
+            );
+
+
             searchBtn.click();
+
 
         } catch (error) {
 
-            console.error("Delete Error:", error);
+            console.error(
+                "Delete Error:",
+                error
+            );
+
 
             alert(
                 "Delete failed: " +
                 error.message
             );
+
         }
+
     }
 
 
@@ -378,29 +603,36 @@ const filePath =
     // LOGOUT
     // =========================
 
-    logoutBtn.addEventListener("click", async () => {
+    logoutBtn.addEventListener(
+        "click",
+        async () => {
 
-        const { error } =
-            await supabaseClient.auth.signOut();
+            const { error } =
+                await supabaseClient.auth.signOut();
 
-        if (error) {
 
-            alert(
-                "Logout failed: " +
-                error.message
-            );
+            if (error) {
 
-            return;
+                alert(
+                    "Logout failed: " +
+                    error.message
+                );
+
+                return;
+            }
+
+
+            showLogin();
+
+
+            document.getElementById("email").value = "";
+            document.getElementById("password").value = "";
+            adminMobile.value = "";
+
+            message.innerHTML = "";
+            receipts.innerHTML = "";
+
         }
-
-        showLogin();
-
-        document.getElementById("email").value = "";
-        document.getElementById("password").value = "";
-        adminMobile.value = "";
-
-        message.innerHTML = "";
-        receipts.innerHTML = "";
-    });
+    );
 
 });
