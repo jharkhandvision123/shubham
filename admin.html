@@ -68,7 +68,8 @@
         #loginBtn,
         #searchBtn,
         #uploadBtn,
-        #addVideoBtn {
+        #addVideoBtn,
+        #searchDeleteBtn {
             background: #0d47a1;
             color: white;
         }
@@ -92,7 +93,8 @@
 
         #message,
         #uploadMessage,
-        #videoMessage {
+        #videoMessage,
+        #deleteMessage {
             text-align: center;
             margin-top: 15px;
             font-weight: bold;
@@ -110,6 +112,7 @@
 
     <!-- LOGIN -->
     <div class="box" id="loginBox">
+
         <h2>Admin Login</h2>
 
         <input type="email" id="email" placeholder="Admin Email">
@@ -117,7 +120,9 @@
         <input type="password" id="password" placeholder="Admin Password">
 
         <button id="loginBtn">LOGIN</button>
+
     </div>
+
 
     <!-- PDF UPLOAD -->
     <div class="box">
@@ -172,6 +177,7 @@
 
     </div>
 
+
     <!-- SOLUTION VIDEO -->
     <div class="box">
 
@@ -223,6 +229,124 @@
 
     </div>
 
+
+    <!-- DELETE CONTENT -->
+    <div class="box">
+
+        <h2>Delete Content</h2>
+
+        <select id="deleteType">
+
+            <option value="">
+                Select Content to Delete
+            </option>
+
+            <option value="PDF">
+                PDF
+            </option>
+
+            <option value="VIDEO">
+                Solution Video
+            </option>
+
+        </select>
+
+
+        <select id="deleteSemester">
+
+            <option value="">
+                Select Semester
+            </option>
+
+            <option value="Semester 1">Semester 1</option>
+            <option value="Semester 2">Semester 2</option>
+            <option value="Semester 3">Semester 3</option>
+            <option value="Semester 4">Semester 4</option>
+            <option value="Semester 5">Semester 5</option>
+            <option value="Semester 6">Semester 6</option>
+            <option value="Semester 7">Semester 7</option>
+            <option value="Semester 8">Semester 8</option>
+
+        </select>
+
+
+        <select id="deleteSubject">
+
+            <option value="">
+                Select Honours / Subject
+            </option>
+
+            <option value="Political Science">
+                Political Science
+            </option>
+
+            <option value="History">
+                History
+            </option>
+
+            <option value="Geography">
+                Geography
+            </option>
+
+            <option value="Hindi">
+                Hindi
+            </option>
+
+            <option value="English">
+                English
+            </option>
+
+            <option value="Economics">
+                Economics
+            </option>
+
+        </select>
+
+
+        <input
+            type="text"
+            id="deletePaper"
+            placeholder="Enter Paper Name / Code (e.g. MJ-2)"
+        >
+
+
+        <select id="deleteContentType">
+
+            <option value="">
+                Select PDF Type
+            </option>
+
+            <option value="Chapter Notes">
+                Chapter Notes
+            </option>
+
+            <option value="PYQ">
+                PYQ
+            </option>
+
+            <option value="Online Quiz">
+                Online Quiz
+            </option>
+
+            <option value="Video Solution">
+                Video Solution
+            </option>
+
+        </select>
+
+
+        <button id="searchDeleteBtn">
+            SEARCH CONTENT
+        </button>
+
+
+        <div id="deleteMessage"></div>
+
+        <div id="deleteResults"></div>
+
+    </div>
+
+
     <!-- DELETE RECEIPT -->
     <div class="box" id="adminBox" style="display:none;">
 
@@ -236,7 +360,9 @@
             inputmode="numeric"
         >
 
-        <button id="searchBtn">SEARCH RECEIPTS</button>
+        <button id="searchBtn">
+            SEARCH RECEIPTS
+        </button>
 
         <div id="message"></div>
 
@@ -253,7 +379,9 @@
 
 </div>
 
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script src="admin.js"></script>
 
 </body>
