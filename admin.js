@@ -9,6 +9,10 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
 
+    // =========================
+    // LOGIN ELEMENTS
+    // =========================
+
     const loginBtn = document.getElementById("loginBtn");
     const loginBox = document.getElementById("loginBox");
     const adminBox = document.getElementById("adminBox");
@@ -63,12 +67,10 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-
         if (!file) {
             uploadMessage.innerHTML = "PDF file चुनिए।";
             return;
         }
-
 
         if (file.type !== "application/pdf") {
             uploadMessage.innerHTML = "सिर्फ PDF file upload करें।";
@@ -191,20 +193,17 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-
         if (!selectedSubject) {
             videoMessage.innerHTML =
                 "Honours / Subject चुनिए।";
             return;
         }
 
-
         if (!selectedPaper) {
             videoMessage.innerHTML =
                 "Paper Name / Code डालिए।";
             return;
         }
-
 
         if (!selectedUrl) {
             videoMessage.innerHTML =
@@ -277,6 +276,416 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // =========================
+    // DELETE CONTENT ELEMENTS
+    // =========================
+
+    const deleteType =
+        document.getElementById("deleteType");
+
+    const deleteSemester =
+        document.getElementById("deleteSemester");
+
+    const deleteSubject =
+        document.getElementById("deleteSubject");
+
+    const deletePaper =
+        document.getElementById("deletePaper");
+
+    const deleteContentType =
+        document.getElementById("deleteContentType");
+
+    const searchDeleteBtn =
+        document.getElementById("searchDeleteBtn");
+
+    const deleteMessage =
+        document.getElementById("deleteMessage");
+
+    const deleteResults =
+        document.getElementById("deleteResults");
+
+
+    // =========================
+    // SEARCH CONTENT
+    // =========================
+
+    searchDeleteBtn.addEventListener("click", async () => {
+
+        const type =
+            deleteType.value.trim();
+
+        const selectedSemester =
+            deleteSemester.value.trim();
+
+        const selectedSubject =
+            deleteSubject.value.trim();
+
+        const selectedPaper =
+            deletePaper.value.trim();
+
+        const selectedContent =
+            deleteContentType.value.trim();
+
+
+        if (!type) {
+            deleteMessage.innerHTML =
+                "Content Type चुनिए।";
+            return;
+        }
+
+
+        if (!selectedSemester) {
+            deleteMessage.innerHTML =
+                "Semester चुनिए।";
+            return;
+        }
+
+
+        if (!selectedSubject) {
+            deleteMessage.innerHTML =
+                "Honours / Subject चुनिए।";
+            return;
+        }
+
+
+        if (!selectedPaper) {
+            deleteMessage.innerHTML =
+                "Paper Name / Code डालिए।";
+            return;
+        }
+
+
+        if (type === "PDF" && !selectedContent) {
+            deleteMessage.innerHTML =
+                "PDF Type चुनिए।";
+            return;
+        }
+
+
+        searchDeleteBtn.disabled = true;
+        searchDeleteBtn.textContent =
+            "SEARCHING...";
+
+        deleteMessage.innerHTML =
+            "Searching...";
+
+        deleteResults.innerHTML = "";
+
+
+        try {
+
+            // =========================
+            // SEARCH PDF
+            // =========================
+
+            if (type === "PDF") {
+
+                const { data, error } =
+                    await supabaseClient
+                        .from("receipts")
+                        .select("*")
+                        .eq("semester", selectedSemester)
+                        .eq("honours_subject", selectedSubject)
+                        .eq("paper_name", selectedPaper)
+                        .eq("content_type", selectedContent);
+
+
+                if (error) {
+                    throw error;
+                }
+
+
+                if (!data || data.length === 0) {
+
+                    deleteMessage.innerHTML =
+                        "इस जानकारी के लिए कोई PDF नहीं मिली।";
+
+                    return;
+                }
+
+
+                deleteMessage.innerHTML =
+                    data.length + " PDF मिली।";
+
+
+                let html = "";
+
+
+                data.forEach((file, index) => {
+
+                    html += `
+                        <div class="receipt">
+
+                            <strong>
+                                PDF ${index + 1}
+                            </strong>
+
+                            <br><br>
+
+                            ${file.file_name || "PDF File"}
+
+                            <br><br>
+
+                            <button
+                                class="deleteContentBtn"
+                                data-type="PDF"
+                                data-id="${file.id}"
+                                data-path="${file.file_path}"
+                            >
+                                DELETE PDF
+                            </button>
+
+                        </div>
+                    `;
+
+                });
+
+
+                deleteResults.innerHTML = html;
+
+            }
+
+
+            // =========================
+            // SEARCH VIDEO
+            // =========================
+
+            if (type === "VIDEO") {
+
+                const { data, error } =
+                    await supabaseClient
+                        .from("solution_videos")
+                        .select("*")
+                        .eq("semester", selectedSemester)
+                        .eq("honours_subject", selectedSubject)
+                        .eq("paper_name", selectedPaper);
+
+
+                if (error) {
+                    throw error;
+                }
+
+
+                if (!data || data.length === 0) {
+
+                    deleteMessage.innerHTML =
+                        "इस Paper के लिए कोई Solution Video नहीं मिला।";
+
+                    return;
+                }
+
+
+                deleteMessage.innerHTML =
+                    data.length +
+                    " Solution Video मिली।";
+
+
+                let html = "";
+
+
+                data.forEach((video, index) => {
+
+                    html += `
+                        <div class="receipt">
+
+                            <strong>
+                                Video ${index + 1}
+                            </strong>
+
+                            <br><br>
+
+                            ${video.video_title || "Solution Video"}
+
+                            <br><br>
+
+                            <button
+                                class="deleteContentBtn"
+                                data-type="VIDEO"
+                                data-id="${video.id}"
+                            >
+                                DELETE VIDEO
+                            </button>
+
+                        </div>
+                    `;
+
+                });
+
+
+                deleteResults.innerHTML = html;
+
+            }
+
+
+            // =========================
+            // DELETE BUTTON EVENTS
+            // =========================
+
+            document
+                .querySelectorAll(".deleteContentBtn")
+                .forEach(button => {
+
+                    button.addEventListener(
+                        "click",
+                        () => {
+
+                            const itemType =
+                                button.dataset.type;
+
+                            const id =
+                                button.dataset.id;
+
+                            const path =
+                                button.dataset.path || "";
+
+
+                            deleteContent(
+                                itemType,
+                                id,
+                                path
+                            );
+
+                        }
+                    );
+
+                });
+
+
+        } catch (error) {
+
+            console.error(
+                "Content Search Error:",
+                error
+            );
+
+            deleteMessage.innerHTML =
+                "Search failed: " +
+                error.message;
+
+        } finally {
+
+            searchDeleteBtn.disabled = false;
+
+            searchDeleteBtn.textContent =
+                "SEARCH CONTENT";
+
+        }
+
+    });
+
+
+    // =========================
+    // DELETE CONTENT
+    // =========================
+
+    async function deleteContent(
+        type,
+        id,
+        filePath
+    ) {
+
+        const confirmDelete =
+            confirm(
+                type === "PDF"
+                    ? "क्या आप इस PDF को permanently delete करना चाहते हैं?"
+                    : "क्या आप इस Solution Video को permanently delete करना चाहते हैं?"
+            );
+
+
+        if (!confirmDelete) {
+            return;
+        }
+
+
+        try {
+
+            // =========================
+            // DELETE PDF
+            // =========================
+
+            if (type === "PDF") {
+
+                if (filePath) {
+
+                    const { error: storageError } =
+                        await supabaseClient.storage
+                            .from("receipts")
+                            .remove([filePath]);
+
+
+                    if (storageError) {
+                        throw storageError;
+                    }
+
+                }
+
+
+                const { error: dbError } =
+                    await supabaseClient
+                        .from("receipts")
+                        .delete()
+                        .eq("id", id);
+
+
+                if (dbError) {
+                    throw dbError;
+                }
+
+
+                alert(
+                    "PDF successfully deleted."
+                );
+
+            }
+
+
+            // =========================
+            // DELETE VIDEO
+            // =========================
+
+            if (type === "VIDEO") {
+
+                const { error } =
+                    await supabaseClient
+                        .from("solution_videos")
+                        .delete()
+                        .eq("id", id);
+
+
+                if (error) {
+                    throw error;
+                }
+
+
+                alert(
+                    "Solution Video successfully deleted."
+                );
+
+            }
+
+
+            // Search again
+            searchDeleteBtn.click();
+
+
+        } catch (error) {
+
+            console.error(
+                "Delete Content Error:",
+                error
+            );
+
+
+            alert(
+                "Delete failed: " +
+                error.message
+            );
+
+        }
+
+    }
+
+
+    // =========================
     // CHECK EXISTING LOGIN
     // =========================
 
@@ -322,7 +731,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
         loginBtn.disabled = true;
-        loginBtn.textContent = "LOGGING IN...";
+        loginBtn.textContent =
+            "LOGGING IN...";
 
 
         try {
@@ -351,7 +761,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
         } catch (error) {
 
-            console.error("Login Error:", error);
+            console.error(
+                "Login Error:",
+                error
+            );
+
 
             alert(
                 "Login failed: " +
@@ -362,7 +776,8 @@ document.addEventListener("DOMContentLoaded", () => {
         } finally {
 
             loginBtn.disabled = false;
-            loginBtn.textContent = "LOGIN";
+            loginBtn.textContent =
+                "LOGIN";
 
         }
 
@@ -416,9 +831,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
         searchBtn.disabled = true;
-        searchBtn.textContent = "SEARCHING...";
+        searchBtn.textContent =
+            "SEARCHING...";
 
-        message.innerHTML = "Searching...";
+        message.innerHTML =
+            "Searching...";
+
         receipts.innerHTML = "";
 
 
@@ -511,6 +929,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 error
             );
 
+
             message.innerHTML =
                 "Search failed: " +
                 error.message;
@@ -519,6 +938,7 @@ document.addEventListener("DOMContentLoaded", () => {
         } finally {
 
             searchBtn.disabled = false;
+
             searchBtn.textContent =
                 "SEARCH RECEIPTS";
 
@@ -531,7 +951,10 @@ document.addEventListener("DOMContentLoaded", () => {
     // DELETE RECEIPT
     // =========================
 
-    async function deleteReceipt(id, filePath) {
+    async function deleteReceipt(
+        id,
+        filePath
+    ) {
 
         const confirmDelete =
             confirm(
@@ -627,6 +1050,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             document.getElementById("email").value = "";
             document.getElementById("password").value = "";
+
             adminMobile.value = "";
 
             message.innerHTML = "";
