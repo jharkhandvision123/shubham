@@ -69,7 +69,8 @@
         #searchBtn,
         #uploadBtn,
         #addVideoBtn,
-        #searchDeleteBtn {
+        #searchDeleteBtn,
+        #uploadReceiptBtn {
             background: #0d47a1;
             color: white;
         }
@@ -94,7 +95,8 @@
         #message,
         #uploadMessage,
         #videoMessage,
-        #deleteMessage {
+        #deleteMessage,
+        #receiptUploadMessage {
             text-align: center;
             margin-top: 15px;
             font-weight: bold;
@@ -251,7 +253,6 @@
 
         </select>
 
-
         <select id="deleteSemester">
 
             <option value="">
@@ -268,7 +269,6 @@
             <option value="Semester 8">Semester 8</option>
 
         </select>
-
 
         <select id="deleteSubject">
 
@@ -302,13 +302,11 @@
 
         </select>
 
-
         <input
             type="text"
             id="deletePaper"
             placeholder="Enter Paper Name / Code (e.g. MJ-2)"
         >
-
 
         <select id="deleteContentType">
 
@@ -334,11 +332,9 @@
 
         </select>
 
-
         <button id="searchDeleteBtn">
             SEARCH CONTENT
         </button>
-
 
         <div id="deleteMessage"></div>
 
@@ -367,6 +363,40 @@
         <div id="message"></div>
 
         <div id="receipts"></div>
+
+    </div>
+
+
+    <!-- UPLOAD RECEIPT -->
+    <div class="box">
+
+        <h2>Upload Receipt</h2>
+
+        <input
+            type="tel"
+            id="receiptMobile"
+            placeholder="Enter 10 digit mobile number"
+            maxlength="10"
+            inputmode="numeric"
+        >
+
+        <input
+            type="file"
+            id="receiptFile"
+            accept="application/pdf"
+        >
+
+        <button id="uploadReceiptBtn">
+            UPLOAD RECEIPT
+        </button>
+
+        <div id="receiptUploadMessage"></div>
+
+    </div>
+
+
+    <!-- LOGOUT -->
+    <div class="box" id="logoutBox">
 
         <button
             id="logoutBtn"
