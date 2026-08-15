@@ -1,11 +1,9 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Admin Receipt Management</title>
 
     <style>
@@ -46,7 +44,8 @@
             text-align: center;
         }
 
-        input {
+        input,
+        select {
             width: 100%;
             padding: 13px;
             border: 2px solid #0d47a1;
@@ -67,7 +66,9 @@
         }
 
         #loginBtn,
-        #searchBtn {
+        #searchBtn,
+        #uploadBtn,
+        #addVideoBtn {
             background: #0d47a1;
             color: white;
         }
@@ -89,7 +90,9 @@
             color: white;
         }
 
-        #message {
+        #message,
+        #uploadMessage,
+        #videoMessage {
             text-align: center;
             margin-top: 15px;
             font-weight: bold;
@@ -106,86 +109,121 @@
 <div class="container">
 
     <!-- LOGIN -->
-
     <div class="box" id="loginBox">
-
         <h2>Admin Login</h2>
 
-        <input
-            type="email"
-            id="email"
-            placeholder="Admin Email"
-        >
+        <input type="email" id="email" placeholder="Admin Email">
+
+        <input type="password" id="password" placeholder="Admin Password">
+
+        <button id="loginBtn">LOGIN</button>
+    </div>
+
+    <!-- PDF UPLOAD -->
+    <div class="box">
+
+        <h2>Upload PDF</h2>
+
+        <select id="semester">
+            <option value="">Select Semester</option>
+            <option value="Semester 1">Semester 1</option>
+            <option value="Semester 2">Semester 2</option>
+            <option value="Semester 3">Semester 3</option>
+            <option value="Semester 4">Semester 4</option>
+            <option value="Semester 5">Semester 5</option>
+            <option value="Semester 6">Semester 6</option>
+            <option value="Semester 7">Semester 7</option>
+            <option value="Semester 8">Semester 8</option>
+        </select>
+
+        <select id="honoursSubject">
+            <option value="">Select Honours / Subject</option>
+            <option value="Political Science">Political Science</option>
+            <option value="History">History</option>
+            <option value="Geography">Geography</option>
+            <option value="Hindi">Hindi</option>
+            <option value="English">English</option>
+            <option value="Economics">Economics</option>
+        </select>
 
         <input
-            type="password"
-            id="password"
-            placeholder="Admin Password"
+            type="text"
+            id="paperName"
+            placeholder="Enter Paper Name / Code (e.g. MJ-2)"
         >
 
-        <button id="loginBtn">
-            LOGIN
-        </button>
+        <select id="contentType">
+            <option value="">Select Content Type</option>
+            <option value="Chapter Notes">Chapter Notes</option>
+            <option value="PYQ">PYQ</option>
+            <option value="Online Quiz">Online Quiz</option>
+            <option value="Video Solution">Video Solution</option>
+        </select>
+
+        <input
+            type="file"
+            id="pdfFile"
+            accept="application/pdf"
+        >
+
+        <button id="uploadBtn">UPLOAD PDF</button>
+
+        <div id="uploadMessage"></div>
 
     </div>
 
+    <!-- SOLUTION VIDEO -->
+    <div class="box">
 
-    <!-- ADMIN PANEL -->
-<!-- PDF UPLOAD -->
+        <h2>Add Solution Video</h2>
 
-<div class="box">
+        <select id="videoSemester">
+            <option value="">Select Semester</option>
+            <option value="Semester 1">Semester 1</option>
+            <option value="Semester 2">Semester 2</option>
+            <option value="Semester 3">Semester 3</option>
+            <option value="Semester 4">Semester 4</option>
+            <option value="Semester 5">Semester 5</option>
+            <option value="Semester 6">Semester 6</option>
+            <option value="Semester 7">Semester 7</option>
+            <option value="Semester 8">Semester 8</option>
+        </select>
 
-    <h2>Upload PDF</h2>
+        <select id="videoHonoursSubject">
+            <option value="">Select Honours / Subject</option>
+            <option value="Political Science">Political Science</option>
+            <option value="History">History</option>
+            <option value="Geography">Geography</option>
+            <option value="Hindi">Hindi</option>
+            <option value="English">English</option>
+            <option value="Economics">Economics</option>
+        </select>
 
-    <select id="semester">
-        <option value="">Select Semester</option>
-        <option value="Semester 1">Semester 1</option>
-        <option value="Semester 2">Semester 2</option>
-        <option value="Semester 3">Semester 3</option>
-        <option value="Semester 4">Semester 4</option>
-        <option value="Semester 5">Semester 5</option>
-        <option value="Semester 6">Semester 6</option>
-        <option value="Semester 7">Semester 7</option>
-        <option value="Semester 8">Semester 8</option>
-    </select>
+        <input
+            type="text"
+            id="videoPaperName"
+            placeholder="Enter Paper Name / Code (e.g. MJ-2)"
+        >
 
-    <select id="honoursSubject">
-        <option value="">Select Honours / Subject</option>
-        <option value="Political Science">Political Science</option>
-        <option value="History">History</option>
-        <option value="Geography">Geography</option>
-        <option value="Hindi">Hindi</option>
-        <option value="English">English</option>
-        <option value="Economics">Economics</option>
-    </select>
+        <input
+            type="text"
+            id="videoTitle"
+            placeholder="Enter Video Title"
+        >
 
-    <input
-        type="text"
-        id="paperName"
-        placeholder="Enter Paper Name / Code (e.g. MJ-6)"
-    >
+        <input
+            type="url"
+            id="videoUrl"
+            placeholder="Paste YouTube Video Link"
+        >
 
-    <select id="contentType">
-        <option value="">Select Content Type</option>
-        <option value="Chapter Notes">Chapter Notes</option>
-        <option value="PYQ">PYQ</option>
-        <option value="Online Quiz">Online Quiz</option>
-        <option value="Video Solution">Video Solution</option>
-    </select>
+        <button id="addVideoBtn">ADD SOLUTION VIDEO</button>
 
-    <input
-        type="file"
-        id="pdfFile"
-        accept="application/pdf"
-    >
+        <div id="videoMessage"></div>
 
-    <button id="uploadBtn">
-        UPLOAD PDF
-    </button>
+    </div>
 
-    <div id="uploadMessage"></div>
-
-</div>
+    <!-- DELETE RECEIPT -->
     <div class="box" id="adminBox" style="display:none;">
 
         <h2>Delete Receipt</h2>
@@ -198,9 +236,7 @@
             inputmode="numeric"
         >
 
-        <button id="searchBtn">
-            SEARCH RECEIPTS
-        </button>
+        <button id="searchBtn">SEARCH RECEIPTS</button>
 
         <div id="message"></div>
 
@@ -217,9 +253,8 @@
 
 </div>
 
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script> <script src="admin.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="admin.js"></script>
 
 </body>
 </html>
-```
