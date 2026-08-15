@@ -40,12 +40,11 @@ if (!selectedPaper) {
     uploadMessage.innerHTML = "Paper Name / Code डालिए।";
     return;
 }
-
 if (!selectedContent) {
     uploadMessage.innerHTML = "Content Type चुनिए।";
     return;
 }
-    }
+    
 
     if (!file) {
         uploadMessage.innerHTML = "PDF file चुनिए।";
