@@ -18,17 +18,33 @@ document.addEventListener("DOMContentLoaded", () => {
     const receipts = document.getElementById("receipts");
     const logoutBtn = document.getElementById("logoutBtn");
 const uploadBtn = document.getElementById("uploadBtn");
-const paperCode = document.getElementById("paperCode");
+const semester = document.getElementById("semester"); const honoursSubject = document.getElementById("honoursSubject"); const paperName = document.getElementById("paperName"); const contentType = document.getElementById("contentType");
 const pdfFile = document.getElementById("pdfFile");
 const uploadMessage = document.getElementById("uploadMessage");
 uploadBtn.addEventListener("click", async () => {
 
-    const code = paperCode.value.trim();
+    const selectedSemester = semester.value.trim(); const selectedSubject = honoursSubject.value.trim(); const selectedPaper = paperName.value.trim(); const selectedContent = contentType.value.trim();
     const file = pdfFile.files[0];
 
-    if (!code) {
-        uploadMessage.innerHTML = "Paper Code डालिए।";
-        return;
+   if (!selectedSemester) {
+    uploadMessage.innerHTML = "Semester चुनिए।";
+    return;
+}
+
+if (!selectedSubject) {
+    uploadMessage.innerHTML = "Honours / Subject चुनिए।";
+    return;
+}
+
+if (!selectedPaper) {
+    uploadMessage.innerHTML = "Paper Name / Code डालिए।";
+    return;
+}
+
+if (!selectedContent) {
+    uploadMessage.innerHTML = "Content Type चुनिए।";
+    return;
+}
     }
 
     if (!file) {
@@ -47,8 +63,14 @@ uploadBtn.addEventListener("click", async () => {
 
     try {
 
-        const filePath =
-            code + "/" + Date.now() + "_" + file.name;
+       const safeFileName = file.name.replace(/[^\w.\- ]/g, "_");
+
+const filePath =
+    selectedSemester + "/" +
+    selectedSubject + "/" +
+    selectedPaper + "/" +
+    selectedContent + "/" +
+    Date.now() + "_" + safeFileName;
 
         const { error: uploadError } =
             await supabaseClient.storage
@@ -66,7 +88,7 @@ uploadBtn.addEventListener("click", async () => {
                     mobile_number: "0000000000",
                     file_name: file.name,
                     file_path: filePath,
-                    paper_code: code
+                    paper_code: selectedPaper, semester: selectedSemester, honours_subject: selectedSubject, paper_name: selectedPaper, content_type: selectedContent
                 });
 
         if (dbError) {
@@ -76,7 +98,7 @@ uploadBtn.addEventListener("click", async () => {
         uploadMessage.innerHTML =
             "PDF successfully uploaded.";
 
-        paperCode.value = "";
+        semester.value = ""; honoursSubject.value = ""; paperName.value = ""; contentType.value = "";
         pdfFile.value = "";
 
     } catch (error) {
