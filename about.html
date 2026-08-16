@@ -11,196 +11,332 @@
 <style>
 
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial,sans-serif;
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
 }
 
 body{
-    background:#f4f7fc;
-    color:#222;
+background:#f7f8fa;
+color:#222;
 }
 
-/* HEADER */
+/* =========================
+   HEADER
+========================= */
 
 header{
-    background:#0d47a1;
-    color:white;
-    text-align:center;
-    padding:30px 15px;
+position:relative;
+overflow:hidden;
+background:linear-gradient(
+180deg,
+#ff9933 0%,
+#ff9933 33%,
+#ffffff 33%,
+#ffffff 66%,
+#138808 66%,
+#138808 100%
+);
+padding:45px 15px;
+text-align:center;
+border-bottom:5px solid #0d47a1;
 }
 
 header h1{
-    font-size:32px;
-    margin-bottom:8px;
+font-size:34px;
+color:#08306b;
+margin-bottom:10px;
+position:relative;
+z-index:2;
 }
 
 header p{
-    font-size:17px;
+font-size:17px;
+font-weight:bold;
+color:#222;
+position:relative;
+z-index:2;
 }
 
-/* NAVIGATION */
+/* =========================
+   NAVIGATION
+========================= */
 
 nav{
-    background:#1565c0;
-    display:flex;
-    justify-content:center;
-    flex-wrap:wrap;
+background:#0d47a1;
+display:flex;
+justify-content:center;
+flex-wrap:wrap;
+box-shadow:0 3px 10px rgba(0,0,0,.18);
 }
 
 nav a{
-    color:white;
-    text-decoration:none;
-    padding:15px 25px;
-    font-weight:bold;
+color:white;
+text-decoration:none;
+padding:15px 28px;
+font-weight:bold;
+transition:.2s;
 }
 
 nav a:hover{
-    background:#0d47a1;
+background:#08306b;
 }
 
-/* CONTAINER */
+/* =========================
+   MAIN
+========================= */
 
 .container{
-    width:92%;
-    max-width:1000px;
-    margin:35px auto;
+width:92%;
+max-width:1050px;
+margin:35px auto;
 }
 
-/* COMMON BOX */
+/* =========================
+   INTRO
+========================= */
 
-.box{
-    background:white;
-    padding:28px;
-    margin-bottom:22px;
-    border-radius:14px;
-    box-shadow:0 4px 14px rgba(0,0,0,.10);
+.intro{
+background:white;
+border-radius:18px;
+padding:32px;
+margin-bottom:25px;
+text-align:center;
+box-shadow:0 5px 18px rgba(0,0,0,.12);
+border-top:6px solid #ff9933;
+border-bottom:6px solid #138808;
 }
 
-.box h2{
-    color:#0d47a1;
-    margin-bottom:15px;
-    font-size:24px;
+.intro h2{
+color:#0d47a1;
+font-size:27px;
+margin-bottom:15px;
 }
 
-.box p{
-    font-size:17px;
-    line-height:1.7;
-    margin-bottom:10px;
+.intro p{
+font-size:17px;
+line-height:1.8;
 }
 
-/* FEATURE GRID */
-
-.features{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:20px;
+.mission{
+margin-top:20px;
+padding:18px;
+border-radius:12px;
+background:linear-gradient(
+90deg,
+#fff1e0,
+#ffffff,
+#e9f7e6
+);
+font-weight:bold;
+color:#08306b;
 }
 
-.feature{
-    background:white;
-    padding:24px;
-    border-radius:14px;
-    box-shadow:0 4px 14px rgba(0,0,0,.10);
-    border-left:5px solid #0d47a1;
+/* =========================
+   CARDS
+========================= */
+
+.cards{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:22px;
 }
 
-.feature h3{
-    color:#0d47a1;
-    margin-bottom:10px;
-    font-size:20px;
+.card{
+background:white;
+padding:26px;
+border-radius:16px;
+box-shadow:0 5px 16px rgba(0,0,0,.10);
+transition:.25s;
+position:relative;
+overflow:hidden;
 }
 
-.feature p{
-    line-height:1.6;
-    font-size:16px;
+.card:hover{
+transform:translateY(-5px);
+box-shadow:0 9px 22px rgba(0,0,0,.16);
 }
 
-/* HIGHLIGHT */
-
-.highlight{
-    background:#e3f2fd;
-    border-left:6px solid #0d47a1;
-    padding:22px;
-    border-radius:12px;
-    margin-top:20px;
+.card:nth-child(1){
+border-top:6px solid #ff9933;
 }
 
-.highlight p{
-    margin:0;
-    font-size:18px;
-    font-weight:bold;
-    color:#08306b;
+.card:nth-child(2){
+border-top:6px solid #138808;
 }
 
-/* AWARD */
+.card:nth-child(3){
+border-top:6px solid #0d47a1;
+}
+
+.card:nth-child(4){
+border-top:6px solid #ff9933;
+}
+
+.card h3{
+font-size:21px;
+color:#0d47a1;
+margin-bottom:12px;
+}
+
+.card p{
+font-size:16px;
+line-height:1.7;
+margin-bottom:8px;
+}
+
+/* =========================
+   INFORMATION
+========================= */
+
+.info{
+background:white;
+margin-top:25px;
+padding:30px;
+border-radius:16px;
+box-shadow:0 5px 16px rgba(0,0,0,.10);
+border-left:6px solid #138808;
+}
+
+.info h2{
+color:#0d47a1;
+margin-bottom:15px;
+}
+
+.info p{
+font-size:17px;
+line-height:1.8;
+}
+
+/* =========================
+   AWARD
+========================= */
 
 .award{
-    text-align:center;
-    background:white;
-    padding:28px;
-    border-radius:14px;
-    box-shadow:0 4px 14px rgba(0,0,0,.10);
-    margin-top:22px;
+margin-top:25px;
+padding:32px;
+border-radius:18px;
+text-align:center;
+background:linear-gradient(
+135deg,
+#fff4e8,
+#ffffff,
+#eaf7e8
+);
+box-shadow:0 5px 18px rgba(0,0,0,.12);
+border-top:5px solid #ff9933;
+border-bottom:5px solid #138808;
 }
 
 .award h2{
-    color:#0d47a1;
-    margin-bottom:12px;
+color:#0d47a1;
+margin-bottom:15px;
 }
 
 .award p{
-    font-size:17px;
-    line-height:1.7;
+font-size:17px;
+line-height:1.8;
 }
 
-/* FOOTER */
+/* =========================
+   FINAL MESSAGE
+========================= */
+
+.final-message{
+margin-top:25px;
+padding:25px;
+text-align:center;
+background:#0d47a1;
+color:white;
+border-radius:16px;
+box-shadow:0 5px 16px rgba(0,0,0,.15);
+}
+
+.final-message h2{
+margin-bottom:10px;
+}
+
+.final-message p{
+font-size:17px;
+line-height:1.7;
+}
+
+/* =========================
+   FOOTER
+========================= */
 
 footer{
-    background:#0d47a1;
-    color:white;
-    text-align:center;
-    padding:22px;
-    margin-top:40px;
+margin-top:40px;
+background:linear-gradient(
+90deg,
+#ff9933,
+#ffffff,
+#138808
+);
+color:#08306b;
+text-align:center;
+padding:22px;
+font-weight:bold;
 }
 
 footer p{
-    margin:5px 0;
+margin:5px 0;
 }
 
-/* MOBILE */
+/* =========================
+   MOBILE
+========================= */
 
 @media(max-width:700px){
 
-    header h1{
-        font-size:26px;
-    }
+header{
+padding:35px 12px;
+}
 
-    nav{
-        flex-direction:column;
-    }
+header h1{
+font-size:27px;
+}
 
-    nav a{
-        width:100%;
-        text-align:center;
-    }
+header p{
+font-size:15px;
+}
 
-    .container{
-        width:94%;
-    }
+nav{
+flex-direction:column;
+}
 
-    .box{
-        padding:22px;
-    }
+nav a{
+width:100%;
+text-align:center;
+}
 
-    .features{
-        grid-template-columns:1fr;
-    }
+.container{
+width:94%;
+margin:25px auto;
+}
 
-    .feature{
-        padding:20px;
-    }
+.intro,
+.info,
+.award{
+padding:22px;
+}
+
+.cards{
+grid-template-columns:1fr;
+}
+
+.card{
+padding:22px;
+}
+
+.intro h2{
+font-size:23px;
+}
+
+.card h3{
+font-size:19px;
+}
 
 }
 
@@ -210,15 +346,16 @@ footer p{
 
 <body>
 
+
 <!-- HEADER -->
 
 <header>
 
-    <h1>📚 About Our Platform</h1>
+<h1>🇮🇳 📚 About Our Platform</h1>
 
-    <p>
-        Education • Information • Student Support
-    </p>
+<p>
+Education • Information • Student Support
+</p>
 
 </header>
 
@@ -227,198 +364,197 @@ footer p{
 
 <nav>
 
-    <a href="index.html">Home</a>
+<a href="index.html">Home</a>
 
-    <a href="about.html">About</a>
+<a href="about.html">About</a>
 
 </nav>
 
 
-<!-- MAIN CONTENT -->
+<!-- MAIN -->
 
 <div class="container">
 
 
-    <!-- INTRODUCTION -->
+<!-- INTRODUCTION -->
 
-    <div class="box">
+<div class="intro">
 
-        <h2>🎓 About Us</h2>
+<h2>🎓 हमारे प्लेटफॉर्म के बारे में</h2>
 
-        <p>
-            यह प्लेटफॉर्म विशेष रूप से
-            <strong>SPDD College</strong> के विद्यार्थियों
-            की सुविधा को ध्यान में रखकर तैयार किया गया है।
-        </p>
+<p>
+यह प्लेटफॉर्म विशेष रूप से
+<strong>SPDD College</strong> के विद्यार्थियों की
+सुविधा को ध्यान में रखकर तैयार किया गया है।
+</p>
 
-        <p>
-            हमारा उद्देश्य विद्यार्थियों को पढ़ाई से जुड़ी
-            आवश्यक जानकारी, अध्ययन सामग्री और ऑनलाइन
-            सुविधाएँ एक ही स्थान पर उपलब्ध कराना है,
-            ताकि उन्हें अलग-अलग जगहों पर भटकना न पड़े।
-        </p>
+<p>
+हमारा उद्देश्य विद्यार्थियों को शिक्षा,
+अध्ययन सामग्री और आवश्यक ऑनलाइन सुविधाएँ
+एक ही स्थान पर उपलब्ध कराना है, ताकि उन्हें
+जानकारी और जरूरी सेवाओं के लिए अलग-अलग
+जगहों पर भटकना न पड़े।
+</p>
 
-        <div class="highlight">
+<div class="mission">
 
-            <p>
-                💡 हमारा उद्देश्य — विद्यार्थियों को सही
-                जानकारी, सही समय पर और एक ही स्थान पर
-                उपलब्ध कराना।
-            </p>
+🇮🇳 <strong>हमारा उद्देश्य:</strong>
+विद्यार्थियों को सही जानकारी, सही समय पर
+और एक ही स्थान पर उपलब्ध कराना।
 
-        </div>
+</div>
 
-    </div>
-
-
-    <!-- EDUCATION FEATURES -->
-
-    <div class="features">
+</div>
 
 
-        <div class="feature">
+<!-- EDUCATION CARDS -->
 
-            <h3>🎓 BA Details</h3>
-
-            <p>
-                BA विद्यार्थियों के लिए Semester-wise
-                Paper Details, Chapter Notes, PYQ,
-                Online Quiz और Solution Videos जैसी
-                शैक्षणिक सुविधाएँ उपलब्ध कराने का
-                प्रयास किया जाता है।
-            </p>
-
-        </div>
+<div class="cards">
 
 
-        <div class="feature">
+<div class="card">
 
-            <h3>📖 Intermediate Education</h3>
+<h3>🎓 BA Details</h3>
 
-            <p>
-                Intermediate स्तर पर
-                <strong>Arts और Science</strong>
-                विद्यार्थियों के लिए उपयोगी शैक्षणिक
-                जानकारी एवं अध्ययन सामग्री उपलब्ध
-                कराने का प्रयास किया जाता है।
-            </p>
+<p>
+BA विद्यार्थियों के लिए Semester-wise
+Paper Details, Chapter Notes, PYQ,
+Online Quiz और Solution Videos जैसी
+शैक्षणिक सुविधाएँ उपलब्ध कराई जाती हैं।
+</p>
 
-        </div>
-
-
-        <div class="feature">
-
-            <h3>🧾 Student CSC</h3>
-
-            <p>
-                Student CSC के माध्यम से Admission,
-                Registration और Form Filling जैसी
-                ऑनलाइन सुविधाओं में सहायता प्राप्त
-                की जा सकती है।
-            </p>
-
-            <p>
-                विद्यार्थियों को अपनी CSC Receipt भी
-                मोबाइल नंबर के माध्यम से ऑनलाइन
-                प्राप्त करने की सुविधा दी गई है।
-            </p>
-
-        </div>
+</div>
 
 
-        <div class="feature">
+<div class="card">
 
-            <h3>🔮 Upcoming Courses</h3>
+<h3>📖 Intermediate Education</h3>
 
-            <p>
-                भविष्य में विद्यार्थियों की आवश्यकता
-                के अनुसार अन्य Courses और नई
-                शैक्षणिक सुविधाएँ भी इस प्लेटफॉर्म
-                पर जोड़ी जा सकती हैं।
-            </p>
+<p>
+Intermediate स्तर पर
+<strong>Arts और Science</strong> विद्यार्थियों
+के लिए उपयोगी शैक्षणिक जानकारी और
+अध्ययन सामग्री उपलब्ध कराने का प्रयास
+किया जाता है।
+</p>
 
-        </div>
-
-
-    </div>
+</div>
 
 
-    <!-- INFORMATION -->
+<div class="card">
 
-    <div class="box" style="margin-top:22px;">
+<h3>🧾 Student CSC</h3>
 
-        <h2>✅ सही जानकारी हमारा उद्देश्य</h2>
+<p>
+Student CSC के माध्यम से Admission,
+Registration और Form Filling जैसी
+ऑनलाइन सुविधाओं में सहायता प्राप्त
+की जा सकती है।
+</p>
 
-        <p>
-            इस प्लेटफॉर्म पर उपलब्ध जानकारी को
-            विद्यार्थियों के लिए सही, उपयोगी और
-            विश्वसनीय रखने का पूरा प्रयास किया जाता है।
-        </p>
+<p>
+विद्यार्थी अपने CSC Receipt को भी
+मोबाइल नंबर के माध्यम से ऑनलाइन
+प्राप्त कर सकते हैं।
+</p>
 
-        <p>
-            हमारा उद्देश्य केवल जानकारी उपलब्ध कराना
-            नहीं है, बल्कि विद्यार्थियों की पढ़ाई और
-            आवश्यक ऑनलाइन कार्यों को आसान बनाना भी है।
-        </p>
-
-    </div>
-
-
-    <!-- AWARD -->
-
-    <div class="award">
-
-        <h2>🏆 विद्यार्थियों और Group Members का सम्मान</h2>
-
-        <p>
-            अच्छा प्रदर्शन करने वाले विद्यार्थियों और
-            Group Members को उनकी मेहनत, उपलब्धियों
-            और योगदान के लिए <strong>Group Admin द्वारा
-            पुरस्कार देकर सम्मानित</strong> किया जाता है।
-        </p>
-
-        <p>
-            इसका उद्देश्य विद्यार्थियों और सदस्यों को
-            आगे और बेहतर प्रदर्शन करने के लिए
-            प्रोत्साहित करना है।
-        </p>
-
-    </div>
+</div>
 
 
-    <!-- FUTURE -->
+<div class="card">
 
-    <div class="box" style="margin-top:22px;">
+<h3>🚀 Upcoming Courses</h3>
 
-        <h2>🚀 हमारा प्रयास</h2>
+<p>
+भविष्य में विद्यार्थियों की आवश्यकता
+के अनुसार अन्य Courses, अध्ययन सामग्री
+और नई शैक्षणिक सुविधाएँ भी इस प्लेटफॉर्म
+पर जोड़ी जा सकती हैं।
+</p>
 
-        <p>
-            इस प्लेटफॉर्म को विद्यार्थियों की जरूरतों
-            के अनुसार लगातार बेहतर बनाने का प्रयास
-            किया जाता रहेगा।
-        </p>
-
-        <p>
-            आने वाले समय में शिक्षा, अध्ययन सामग्री,
-            ऑनलाइन सुविधाओं और विद्यार्थियों के लिए
-            उपयोगी अन्य सेवाओं को भी इसमें जोड़ा जा
-            सकता है।
-        </p>
-
-    </div>
+</div>
 
 
-    <!-- FINAL MESSAGE -->
+</div>
 
-    <div class="highlight">
 
-        <p style="text-align:center;">
+<!-- INFORMATION -->
 
-            ❤️ विद्यार्थियों की सुविधा ही हमारी प्राथमिकता है।
+<div class="info">
 
-        </p>
+<h2>✅ सही और उपयोगी जानकारी</h2>
 
-    </div>
+<p>
+इस प्लेटफॉर्म पर उपलब्ध जानकारी को
+विद्यार्थियों के लिए सही, उपयोगी और
+विश्वसनीय रखने का पूरा प्रयास किया जाता है।
+</p>
+
+<p>
+हमारा उद्देश्य केवल जानकारी उपलब्ध कराना
+नहीं, बल्कि विद्यार्थियों की पढ़ाई और
+आवश्यक ऑनलाइन कार्यों को आसान बनाना भी है।
+</p>
+
+</div>
+
+
+<!-- AWARD -->
+
+<div class="award">
+
+<h2>🏆 विद्यार्थियों और Group Members का सम्मान</h2>
+
+<p>
+अच्छा प्रदर्शन करने वाले विद्यार्थियों और
+Group Members को उनकी मेहनत, उपलब्धियों
+और योगदान के लिए <strong>Group Admin द्वारा
+पुरस्कार देकर सम्मानित</strong> किया जाता है।
+</p>
+
+<p>
+इसका उद्देश्य विद्यार्थियों और सदस्यों को
+आगे और बेहतर प्रदर्शन करने के लिए
+प्रोत्साहित करना है।
+</p>
+
+</div>
+
+
+<!-- FUTURE -->
+
+<div class="info">
+
+<h2>🌱 हमारा निरंतर प्रयास</h2>
+
+<p>
+इस प्लेटफॉर्म को विद्यार्थियों की जरूरतों
+के अनुसार लगातार बेहतर बनाने का प्रयास
+किया जाता रहेगा।
+</p>
+
+<p>
+आने वाले समय में शिक्षा, अध्ययन सामग्री,
+ऑनलाइन सुविधाओं और विद्यार्थियों के लिए
+उपयोगी अन्य सेवाओं को भी इसमें जोड़ा जाएगा।
+</p>
+
+</div>
+
+
+<!-- FINAL -->
+
+<div class="final-message">
+
+<h2>❤️ विद्यार्थियों की सुविधा हमारी प्राथमिकता है</h2>
+
+<p>
+आपकी पढ़ाई, आपकी सुविधा और आपका बेहतर
+भविष्य — इसी उद्देश्य के साथ यह प्लेटफॉर्म
+आगे बढ़ रहा है।
+</p>
+
+</div>
 
 
 </div>
@@ -428,11 +564,11 @@ footer p{
 
 <footer>
 
-    <p>Student Education Portal</p>
+<p>🇮🇳 Student Education Portal</p>
 
-    <p>
-        विशेष रूप से SPDD College के विद्यार्थियों की सुविधा के लिए
-    </p>
+<p>
+विशेष रूप से SPDD College के विद्यार्थियों की सुविधा के लिए
+</p>
 
 </footer>
 
