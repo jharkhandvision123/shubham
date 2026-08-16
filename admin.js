@@ -10,18 +10,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // =========================
-    // LOGIN ELEMENTS
+    // LOGIN / ADMIN ELEMENTS
     // =========================
 
     const loginBtn = document.getElementById("loginBtn");
     const loginBox = document.getElementById("loginBox");
-    const adminBox = document.getElementById("adminBox");
-
-    const searchBtn = document.getElementById("searchBtn");
-    const adminMobile = document.getElementById("adminMobile");
-    const message = document.getElementById("message");
-    const receipts = document.getElementById("receipts");
+    const adminPanel = document.getElementById("adminPanel");
     const logoutBtn = document.getElementById("logoutBtn");
+    const loginMessage = document.getElementById("loginMessage");
 
 
     // =========================
@@ -332,13 +328,11 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-
         if (!selectedSemester) {
             deleteMessage.innerHTML =
                 "Semester चुनिए।";
             return;
         }
-
 
         if (!selectedSubject) {
             deleteMessage.innerHTML =
@@ -346,13 +340,11 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-
         if (!selectedPaper) {
             deleteMessage.innerHTML =
                 "Paper Name / Code डालिए।";
             return;
         }
-
 
         if (type === "PDF" && !selectedContent) {
             deleteMessage.innerHTML =
@@ -557,6 +549,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 error
             );
 
+
             deleteMessage.innerHTML =
                 "Search failed: " +
                 error.message;
@@ -663,7 +656,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
 
-            // Search again
             searchDeleteBtn.click();
 
 
@@ -686,22 +678,41 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // =========================
-    // CHECK EXISTING LOGIN
+    // CHECK ADMIN SESSION
     // =========================
-
-    checkLogin();
-
 
     async function checkLogin() {
 
-        const { data } =
-            await supabaseClient.auth.getSession();
+        try {
+
+            const { data, error } =
+                await supabaseClient.auth.getSession();
 
 
-        if (data.session) {
-            showAdminPanel();
-        } else {
+            if (error) {
+                throw error;
+            }
+
+
+            if (data.session) {
+
+                showAdminPanel();
+
+            } else {
+
+                showLogin();
+
+            }
+
+        } catch (error) {
+
+            console.error(
+                "Session Error:",
+                error
+            );
+
             showLogin();
+
         }
 
     }
@@ -720,11 +731,13 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById("password").value;
 
 
+        loginMessage.innerHTML = "";
+
+
         if (!email || !password) {
 
-            alert(
-                "Email और Password दोनों भरिए।"
-            );
+            loginMessage.innerHTML =
+                "Email और Password दोनों भरिए।";
 
             return;
         }
@@ -767,10 +780,9 @@ document.addEventListener("DOMContentLoaded", () => {
             );
 
 
-            alert(
+            loginMessage.innerHTML =
                 "Login failed: " +
-                error.message
-            );
+                error.message;
 
 
         } finally {
@@ -791,10 +803,19 @@ document.addEventListener("DOMContentLoaded", () => {
     function showAdminPanel() {
 
         loginBox.style.display = "none";
-        adminBox.style.display = "block";
 
-        message.innerHTML = "";
-        receipts.innerHTML = "";
+        if (adminPanel) {
+            adminPanel.style.display = "block";
+        }
+
+        const adminBox =
+            document.getElementById("adminBox");
+
+        if (adminBox) {
+            adminBox.style.display = "block";
+        }
+
+        loginMessage.innerHTML = "";
 
     }
 
@@ -806,14 +827,51 @@ document.addEventListener("DOMContentLoaded", () => {
     function showLogin() {
 
         loginBox.style.display = "block";
-        adminBox.style.display = "none";
+
+        if (adminPanel) {
+            adminPanel.style.display = "none";
+        }
 
     }
 
 
     // =========================
+    // AUTH STATE CHANGE
+    // =========================
+
+    supabaseClient.auth.onAuthStateChange(
+        (event, session) => {
+
+            if (session) {
+
+                showAdminPanel();
+
+            } else {
+
+                showLogin();
+
+            }
+
+        }
+    );
+
+
+    // =========================
     // SEARCH RECEIPTS
     // =========================
+
+    const searchBtn =
+        document.getElementById("searchBtn");
+
+    const adminMobile =
+        document.getElementById("adminMobile");
+
+    const message =
+        document.getElementById("message");
+
+    const receipts =
+        document.getElementById("receipts");
+
 
     searchBtn.addEventListener("click", async () => {
 
@@ -1058,5 +1116,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
         }
     );
+
+
+    // =========================
+    // START SECURITY CHECK
+    // =========================
+
+    checkLogin();
 
 });
