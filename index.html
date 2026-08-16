@@ -119,7 +119,90 @@
             }
 
         }
+/* ==============================
+   JOIN GROUP TRICOLOR SECTION
+============================== */
 
+.join-group-hero{
+    padding:12px;
+    border-radius:18px;
+    background:linear-gradient(
+        90deg,
+        #ff9933 0%,
+        #ffffff 50%,
+        #138808 100%
+    );
+    box-shadow:0 5px 16px rgba(0,0,0,.15);
+}
+
+.join-group-link{
+    display:flex;
+    align-items:center;
+    gap:20px;
+    padding:18px 22px;
+    text-decoration:none;
+    color:#08306b;
+    background:white;
+    border-radius:14px;
+}
+
+.join-group-logo{
+    width:90px;
+    height:90px;
+    min-width:90px;
+    border-radius:50%;
+    object-fit:cover;
+    border:5px solid white;
+    box-shadow:
+        0 0 0 3px #ff9933,
+        0 0 0 6px #ffffff,
+        0 0 0 9px #138808;
+}
+
+.join-group-text{
+    flex:1;
+}
+
+.join-group-text h2{
+    margin:0 0 7px;
+    font-size:30px;
+    font-weight:800;
+    color:#0d47a1;
+}
+
+.join-group-text p{
+    margin:0;
+    font-size:16px;
+    line-height:1.5;
+    color:#333;
+}
+
+.join-group-link:hover{
+    transform:translateY(-2px);
+}
+
+@media(max-width:600px){
+
+    .join-group-link{
+        gap:15px;
+        padding:15px;
+    }
+
+    .join-group-logo{
+        width:72px;
+        height:72px;
+        min-width:72px;
+    }
+
+    .join-group-text h2{
+        font-size:22px;
+    }
+
+    .join-group-text p{
+        font-size:14px;
+    }
+
+}
     </style>
 
 </head>
@@ -212,12 +295,34 @@
 
 <section class="hero">
 
-    <h2>--- </h2>
+   <section class="hero join-group-hero">
 
-    <p>
-        Access student information, courses, notifications
-        and other useful services from one place.
-    </p>
+    <a
+        href="https://chat.whatsapp.com/J7gvIzaqjxz9WwknoOIdtu"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="join-group-link"
+    >
+
+        <img
+            src="images/group-logo.png"
+            alt="Join Student Group"
+            class="join-group-logo"
+        >
+
+        <div class="join-group-text">
+
+            <h2>JOIN GROUP NOW</h2>
+
+            <p>
+                Access student information, courses,
+                notifications and other useful services
+                from one place.
+            </p>
+
+        </div>
+
+    </a>
 
 </section>
 
