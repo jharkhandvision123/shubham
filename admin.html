@@ -2,106 +2,121 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Receipt Management</title>
 
-    <style>
-        * {
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        body {
-            margin: 0;
-            background: #f4f7fc;
-            color: #222;
-        }
+<title>Admin Receipt Management</title>
 
-        header {
-            background: #0d47a1;
-            color: white;
-            text-align: center;
-            padding: 25px 15px;
-        }
+<style>
 
-        .container {
-            width: 92%;
-            max-width: 750px;
-            margin: 30px auto;
-        }
+*{
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
 
-        .box {
-            background: white;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,.1);
-            margin-bottom: 20px;
-        }
+body{
+    margin:0;
+    background:#f4f7fc;
+    color:#222;
+}
 
-        h2 {
-            color: #0d47a1;
-            text-align: center;
-        }
+header{
+    background:#0d47a1;
+    color:white;
+    text-align:center;
+    padding:25px 15px;
+}
 
-        input,
-        select {
-            width: 100%;
-            padding: 13px;
-            border: 2px solid #0d47a1;
-            border-radius: 8px;
-            font-size: 16px;
-            margin-top: 10px;
-        }
+.container{
+    width:92%;
+    max-width:750px;
+    margin:30px auto;
+}
 
-        button {
-            width: 100%;
-            padding: 13px;
-            margin-top: 12px;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-        }
+.box{
+    background:white;
+    padding:25px;
+    border-radius:12px;
+    box-shadow:0 4px 12px rgba(0,0,0,.1);
+    margin-bottom:20px;
+}
 
-        #loginBtn,
-        #searchBtn,
-        #uploadBtn,
-        #addVideoBtn,
-        #searchDeleteBtn,
-        #uploadReceiptBtn {
-            background: #0d47a1;
-            color: white;
-        }
+h2{
+    color:#0d47a1;
+    text-align:center;
+}
 
-        .deleteBtn {
-            background: #d32f2f;
-            color: white;
-        }
+input,
+select{
+    width:100%;
+    padding:13px;
+    border:2px solid #0d47a1;
+    border-radius:8px;
+    font-size:16px;
+    margin-top:10px;
+}
 
-        .receipt {
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 15px;
-            margin-top: 15px;
-        }
+button{
+    width:100%;
+    padding:13px;
+    margin-top:12px;
+    border:none;
+    border-radius:8px;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
 
-        .logoutBtn {
-            background: #555;
-            color: white;
-        }
+#loginBtn,
+#searchBtn,
+#uploadBtn,
+#addVideoBtn,
+#searchDeleteBtn,
+#uploadReceiptBtn{
+    background:#0d47a1;
+    color:white;
+}
 
-        #message,
-        #uploadMessage,
-        #videoMessage,
-        #deleteMessage,
-        #receiptUploadMessage {
-            text-align: center;
-            margin-top: 15px;
-            font-weight: bold;
-        }
-    </style>
+.deleteBtn{
+    background:#d32f2f;
+    color:white;
+}
+
+.receipt{
+    border:1px solid #ddd;
+    border-radius:8px;
+    padding:15px;
+    margin-top:15px;
+}
+
+.logoutBtn{
+    background:#555;
+    color:white;
+}
+
+#message,
+#uploadMessage,
+#videoMessage,
+#deleteMessage,
+#receiptUploadMessage{
+    text-align:center;
+    margin-top:15px;
+    font-weight:bold;
+}
+
+#adminPanel{
+    display:none;
+}
+
+#loginMessage{
+    text-align:center;
+    margin-top:15px;
+    font-weight:bold;
+}
+
+</style>
+
 </head>
 
 <body>
@@ -112,298 +127,322 @@
 
 <div class="container">
 
-    <!-- LOGIN -->
+    <!-- ADMIN LOGIN -->
     <div class="box" id="loginBox">
 
         <h2>Admin Login</h2>
 
-        <input type="email" id="email" placeholder="Admin Email">
-
-        <input type="password" id="password" placeholder="Admin Password">
-
-        <button id="loginBtn">LOGIN</button>
-
-    </div>
-
-
-    <!-- PDF UPLOAD -->
-    <div class="box">
-
-        <h2>Upload PDF</h2>
-
-        <select id="semester">
-            <option value="">Select Semester</option>
-            <option value="Semester 1">Semester 1</option>
-            <option value="Semester 2">Semester 2</option>
-            <option value="Semester 3">Semester 3</option>
-            <option value="Semester 4">Semester 4</option>
-            <option value="Semester 5">Semester 5</option>
-            <option value="Semester 6">Semester 6</option>
-            <option value="Semester 7">Semester 7</option>
-            <option value="Semester 8">Semester 8</option>
-        </select>
-
-        <select id="honoursSubject">
-            <option value="">Select Honours / Subject</option>
-            <option value="Political Science">Political Science</option>
-            <option value="History">History</option>
-            <option value="Geography">Geography</option>
-            <option value="Hindi">Hindi</option>
-            <option value="English">English</option>
-            <option value="Economics">Economics</option>
-        </select>
-
         <input
-            type="text"
-            id="paperName"
-            placeholder="Enter Paper Name / Code (e.g. MJ-2)"
-        >
-
-        <select id="contentType">
-            <option value="">Select Content Type</option>
-            <option value="Chapter Notes">Chapter Notes</option>
-            <option value="PYQ">PYQ</option>
-            <option value="Online Quiz">Online Quiz</option>
-            <option value="Video Solution">Video Solution</option>
-        </select>
-
-        <input
-            type="file"
-            id="pdfFile"
-            accept="application/pdf"
-        >
-
-        <button id="uploadBtn">UPLOAD PDF</button>
-
-        <div id="uploadMessage"></div>
-
-    </div>
-
-
-    <!-- SOLUTION VIDEO -->
-    <div class="box">
-
-        <h2>Add Solution Video</h2>
-
-        <select id="videoSemester">
-            <option value="">Select Semester</option>
-            <option value="Semester 1">Semester 1</option>
-            <option value="Semester 2">Semester 2</option>
-            <option value="Semester 3">Semester 3</option>
-            <option value="Semester 4">Semester 4</option>
-            <option value="Semester 5">Semester 5</option>
-            <option value="Semester 6">Semester 6</option>
-            <option value="Semester 7">Semester 7</option>
-            <option value="Semester 8">Semester 8</option>
-        </select>
-
-        <select id="videoHonoursSubject">
-            <option value="">Select Honours / Subject</option>
-            <option value="Political Science">Political Science</option>
-            <option value="History">History</option>
-            <option value="Geography">Geography</option>
-            <option value="Hindi">Hindi</option>
-            <option value="English">English</option>
-            <option value="Economics">Economics</option>
-        </select>
-
-        <input
-            type="text"
-            id="videoPaperName"
-            placeholder="Enter Paper Name / Code (e.g. MJ-2)"
+            type="email"
+            id="email"
+            placeholder="Admin Email"
+            autocomplete="username"
         >
 
         <input
-            type="text"
-            id="videoTitle"
-            placeholder="Enter Video Title"
+            type="password"
+            id="password"
+            placeholder="Admin Password"
+            autocomplete="current-password"
         >
 
-        <input
-            type="url"
-            id="videoUrl"
-            placeholder="Paste YouTube Video Link"
-        >
-
-        <button id="addVideoBtn">ADD SOLUTION VIDEO</button>
-
-        <div id="videoMessage"></div>
-
-    </div>
-
-
-    <!-- DELETE CONTENT -->
-    <div class="box">
-
-        <h2>Delete Content</h2>
-
-        <select id="deleteType">
-
-            <option value="">
-                Select Content to Delete
-            </option>
-
-            <option value="PDF">
-                PDF
-            </option>
-
-            <option value="VIDEO">
-                Solution Video
-            </option>
-
-        </select>
-
-        <select id="deleteSemester">
-
-            <option value="">
-                Select Semester
-            </option>
-
-            <option value="Semester 1">Semester 1</option>
-            <option value="Semester 2">Semester 2</option>
-            <option value="Semester 3">Semester 3</option>
-            <option value="Semester 4">Semester 4</option>
-            <option value="Semester 5">Semester 5</option>
-            <option value="Semester 6">Semester 6</option>
-            <option value="Semester 7">Semester 7</option>
-            <option value="Semester 8">Semester 8</option>
-
-        </select>
-
-        <select id="deleteSubject">
-
-            <option value="">
-                Select Honours / Subject
-            </option>
-
-            <option value="Political Science">
-                Political Science
-            </option>
-
-            <option value="History">
-                History
-            </option>
-
-            <option value="Geography">
-                Geography
-            </option>
-
-            <option value="Hindi">
-                Hindi
-            </option>
-
-            <option value="English">
-                English
-            </option>
-
-            <option value="Economics">
-                Economics
-            </option>
-
-        </select>
-
-        <input
-            type="text"
-            id="deletePaper"
-            placeholder="Enter Paper Name / Code (e.g. MJ-2)"
-        >
-
-        <select id="deleteContentType">
-
-            <option value="">
-                Select PDF Type
-            </option>
-
-            <option value="Chapter Notes">
-                Chapter Notes
-            </option>
-
-            <option value="PYQ">
-                PYQ
-            </option>
-
-            <option value="Online Quiz">
-                Online Quiz
-            </option>
-
-            <option value="Video Solution">
-                Video Solution
-            </option>
-
-        </select>
-
-        <button id="searchDeleteBtn">
-            SEARCH CONTENT
+        <button id="loginBtn">
+            LOGIN
         </button>
 
-        <div id="deleteMessage"></div>
-
-        <div id="deleteResults"></div>
+        <div id="loginMessage"></div>
 
     </div>
 
 
-    <!-- DELETE RECEIPT -->
-    <div class="box" id="adminBox" style="display:none;">
-
-        <h2>Delete Receipt</h2>
-
-        <input
-            type="tel"
-            id="adminMobile"
-            placeholder="Enter 10 digit mobile number"
-            maxlength="10"
-            inputmode="numeric"
-        >
-
-        <button id="searchBtn">
-            SEARCH RECEIPTS
-        </button>
-
-        <div id="message"></div>
-
-        <div id="receipts"></div>
-
-    </div>
+    <!-- ALL ADMIN FUNCTIONS -->
+    <div id="adminPanel">
 
 
-    <!-- UPLOAD RECEIPT -->
-    <div class="box">
+        <!-- PDF UPLOAD -->
+        <div class="box">
 
-        <h2>Upload Receipt</h2>
+            <h2>Upload PDF</h2>
 
-        <input
-            type="tel"
-            id="receiptMobile"
-            placeholder="Enter 10 digit mobile number"
-            maxlength="10"
-            inputmode="numeric"
-        >
+            <select id="semester">
+                <option value="">Select Semester</option>
+                <option value="Semester 1">Semester 1</option>
+                <option value="Semester 2">Semester 2</option>
+                <option value="Semester 3">Semester 3</option>
+                <option value="Semester 4">Semester 4</option>
+                <option value="Semester 5">Semester 5</option>
+                <option value="Semester 6">Semester 6</option>
+                <option value="Semester 7">Semester 7</option>
+                <option value="Semester 8">Semester 8</option>
+            </select>
 
-        <input
-            type="file"
-            id="receiptFile"
-            accept="application/pdf"
-        >
+            <select id="honoursSubject">
+                <option value="">Select Honours / Subject</option>
+                <option value="Political Science">Political Science</option>
+                <option value="History">History</option>
+                <option value="Geography">Geography</option>
+                <option value="Hindi">Hindi</option>
+                <option value="English">English</option>
+                <option value="Economics">Economics</option>
+            </select>
 
-        <button id="uploadReceiptBtn">
-            UPLOAD RECEIPT
-        </button>
+            <input
+                type="text"
+                id="paperName"
+                placeholder="Enter Paper Name / Code (e.g. MJ-2)"
+            >
 
-        <div id="receiptUploadMessage"></div>
+            <select id="contentType">
+                <option value="">Select Content Type</option>
+                <option value="Chapter Notes">Chapter Notes</option>
+                <option value="PYQ">PYQ</option>
+                <option value="Online Quiz">Online Quiz</option>
+                <option value="Video Solution">Video Solution</option>
+            </select>
 
-    </div>
+            <input
+                type="file"
+                id="pdfFile"
+                accept="application/pdf"
+            >
+
+            <button id="uploadBtn">
+                UPLOAD PDF
+            </button>
+
+            <div id="uploadMessage"></div>
+
+        </div>
 
 
-    <!-- LOGOUT -->
-    <div class="box" id="logoutBox">
+        <!-- SOLUTION VIDEO -->
+        <div class="box">
 
-        <button
-            id="logoutBtn"
-            class="logoutBtn"
-        >
-            LOGOUT
-        </button>
+            <h2>Add Solution Video</h2>
+
+            <select id="videoSemester">
+                <option value="">Select Semester</option>
+                <option value="Semester 1">Semester 1</option>
+                <option value="Semester 2">Semester 2</option>
+                <option value="Semester 3">Semester 3</option>
+                <option value="Semester 4">Semester 4</option>
+                <option value="Semester 5">Semester 5</option>
+                <option value="Semester 6">Semester 6</option>
+                <option value="Semester 7">Semester 7</option>
+                <option value="Semester 8">Semester 8</option>
+            </select>
+
+            <select id="videoHonoursSubject">
+                <option value="">Select Honours / Subject</option>
+                <option value="Political Science">Political Science</option>
+                <option value="History">History</option>
+                <option value="Geography">Geography</option>
+                <option value="Hindi">Hindi</option>
+                <option value="English">English</option>
+                <option value="Economics">Economics</option>
+            </select>
+
+            <input
+                type="text"
+                id="videoPaperName"
+                placeholder="Enter Paper Name / Code (e.g. MJ-2)"
+            >
+
+            <input
+                type="text"
+                id="videoTitle"
+                placeholder="Enter Video Title"
+            >
+
+            <input
+                type="url"
+                id="videoUrl"
+                placeholder="Paste YouTube Video Link"
+            >
+
+            <button id="addVideoBtn">
+                ADD SOLUTION VIDEO
+            </button>
+
+            <div id="videoMessage"></div>
+
+        </div>
+
+
+        <!-- DELETE CONTENT -->
+        <div class="box">
+
+            <h2>Delete Content</h2>
+
+            <select id="deleteType">
+
+                <option value="">
+                    Select Content to Delete
+                </option>
+
+                <option value="PDF">
+                    PDF
+                </option>
+
+                <option value="VIDEO">
+                    Solution Video
+                </option>
+
+            </select>
+
+            <select id="deleteSemester">
+
+                <option value="">
+                    Select Semester
+                </option>
+
+                <option value="Semester 1">Semester 1</option>
+                <option value="Semester 2">Semester 2</option>
+                <option value="Semester 3">Semester 3</option>
+                <option value="Semester 4">Semester 4</option>
+                <option value="Semester 5">Semester 5</option>
+                <option value="Semester 6">Semester 6</option>
+                <option value="Semester 7">Semester 7</option>
+                <option value="Semester 8">Semester 8</option>
+
+            </select>
+
+            <select id="deleteSubject">
+
+                <option value="">
+                    Select Honours / Subject
+                </option>
+
+                <option value="Political Science">
+                    Political Science
+                </option>
+
+                <option value="History">
+                    History
+                </option>
+
+                <option value="Geography">
+                    Geography
+                </option>
+
+                <option value="Hindi">
+                    Hindi
+                </option>
+
+                <option value="English">
+                    English
+                </option>
+
+                <option value="Economics">
+                    Economics
+                </option>
+
+            </select>
+
+            <input
+                type="text"
+                id="deletePaper"
+                placeholder="Enter Paper Name / Code (e.g. MJ-2)"
+            >
+
+            <select id="deleteContentType">
+
+                <option value="">
+                    Select PDF Type
+                </option>
+
+                <option value="Chapter Notes">
+                    Chapter Notes
+                </option>
+
+                <option value="PYQ">
+                    PYQ
+                </option>
+
+                <option value="Online Quiz">
+                    Online Quiz
+                </option>
+
+                <option value="Video Solution">
+                    Video Solution
+                </option>
+
+            </select>
+
+            <button id="searchDeleteBtn">
+                SEARCH CONTENT
+            </button>
+
+            <div id="deleteMessage"></div>
+
+            <div id="deleteResults"></div>
+
+        </div>
+
+
+        <!-- DELETE RECEIPT -->
+        <div class="box" id="adminBox">
+
+            <h2>Delete Receipt</h2>
+
+            <input
+                type="tel"
+                id="adminMobile"
+                placeholder="Enter 10 digit mobile number"
+                maxlength="10"
+                inputmode="numeric"
+            >
+
+            <button id="searchBtn">
+                SEARCH RECEIPTS
+            </button>
+
+            <div id="message"></div>
+
+            <div id="receipts"></div>
+
+        </div>
+
+
+        <!-- UPLOAD RECEIPT -->
+        <div class="box">
+
+            <h2>Upload Receipt</h2>
+
+            <input
+                type="tel"
+                id="receiptMobile"
+                placeholder="Enter 10 digit mobile number"
+                maxlength="10"
+                inputmode="numeric"
+            >
+
+            <input
+                type="file"
+                id="receiptFile"
+                accept="application/pdf"
+            >
+
+            <button id="uploadReceiptBtn">
+                UPLOAD RECEIPT
+            </button>
+
+            <div id="receiptUploadMessage"></div>
+
+        </div>
+
+
+        <!-- LOGOUT -->
+        <div class="box" id="logoutBox">
+
+            <button
+                id="logoutBtn"
+                class="logoutBtn"
+            >
+                LOGOUT
+            </button>
+
+        </div>
 
     </div>
 
@@ -412,6 +451,207 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+<script>
+
+/* =========================================
+   ADMIN SECURITY SYSTEM
+   ========================================= */
+
+const SUPABASE_URL =
+    "https://aghizlgvrhunpuxvohep.supabase.co";
+
+const SUPABASE_KEY =
+    "sb_publishable_gpc7KUqUIykO3WM1aCzRfg_Myo8AKyx";
+
+const securityClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+const loginBox =
+    document.getElementById("loginBox");
+
+const adminPanel =
+    document.getElementById("adminPanel");
+
+const loginBtn =
+    document.getElementById("loginBtn");
+
+const logoutBtn =
+    document.getElementById("logoutBtn");
+
+const loginMessage =
+    document.getElementById("loginMessage");
+
+
+function showAdminPanel(){
+
+    loginBox.style.display = "none";
+    adminPanel.style.display = "block";
+
+}
+
+
+function showLogin(){
+
+    loginBox.style.display = "block";
+    adminPanel.style.display = "none";
+
+}
+
+
+async function checkAdminSession(){
+
+    try{
+
+        const {
+            data,
+            error
+        } = await securityClient.auth.getSession();
+
+        if(error){
+
+            console.error(error);
+            showLogin();
+            return;
+
+        }
+
+        if(data.session){
+
+            showAdminPanel();
+
+        }else{
+
+            showLogin();
+
+        }
+
+    }catch(error){
+
+        console.error(error);
+        showLogin();
+
+    }
+
+}
+
+
+/* LOGIN */
+
+loginBtn.addEventListener("click", async function(){
+
+    const email =
+        document.getElementById("email").value.trim();
+
+    const password =
+        document.getElementById("password").value;
+
+    loginMessage.textContent = "";
+
+    if(!email || !password){
+
+        loginMessage.textContent =
+            "Email और Password डालें।";
+
+        return;
+
+    }
+
+    loginBtn.disabled = true;
+    loginBtn.textContent = "LOGIN...";
+
+    try{
+
+        const {
+            data,
+            error
+        } = await securityClient.auth.signInWithPassword({
+
+            email: email,
+            password: password
+
+        });
+
+        if(error){
+
+            loginMessage.textContent =
+                "Invalid Email या Password.";
+
+            loginBtn.disabled = false;
+            loginBtn.textContent = "LOGIN";
+
+            return;
+
+        }
+
+        if(data.session){
+
+            document.getElementById("password").value = "";
+
+            loginMessage.textContent = "";
+
+            showAdminPanel();
+
+        }
+
+    }catch(error){
+
+        console.error(error);
+
+        loginMessage.textContent =
+            "Login failed. फिर से प्रयास करें।";
+
+    }
+
+    loginBtn.disabled = false;
+    loginBtn.textContent = "LOGIN";
+
+});
+
+
+/* LOGOUT */
+
+logoutBtn.addEventListener("click", async function(){
+
+    await securityClient.auth.signOut();
+
+    showLogin();
+
+    document.getElementById("email").value = "";
+    document.getElementById("password").value = "";
+
+});
+
+
+/* SESSION CHANGE */
+
+securityClient.auth.onAuthStateChange(
+    function(event, session){
+
+        if(session){
+
+            showAdminPanel();
+
+        }else{
+
+            showLogin();
+
+        }
+
+    }
+);
+
+
+/* INITIAL SECURITY CHECK */
+
+checkAdminSession();
+
+</script>
+
+
+<!-- YOUR EXISTING ADMIN FUNCTIONALITY -->
 <script src="admin.js"></script>
 
 </body>
