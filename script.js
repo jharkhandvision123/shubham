@@ -107,6 +107,10 @@ document.addEventListener("DOMContentLoaded", function () {
                         "/storage/v1/object/public/receipts/" +
                         receipt.file_path;
 
+                    const fileName =
+                        receipt.file_name ||
+                        "Receipt.pdf";
+
                     html += `
                         <div style="
                             margin:15px 0;
@@ -121,16 +125,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
                             <br><br>
 
-                            ${
-                                receipt.file_name ||
-                                "Receipt PDF"
-                            }
+                            ${fileName}
 
                             <br><br>
 
                             <a
                                 href="${pdfURL}"
                                 target="_blank"
+                                rel="noopener noreferrer"
                                 style="
                                     display:inline-block;
                                     padding:10px 15px;
@@ -144,20 +146,24 @@ document.addEventListener("DOMContentLoaded", function () {
                                 View PDF
                             </a>
 
-                            <a
-                                href="${pdfURL}"
-                                download
+                            <button
+                                type="button"
+                                class="downloadReceiptBtn"
+                                data-url="${pdfURL}"
+                                data-filename="${fileName}"
                                 style="
                                     display:inline-block;
                                     padding:10px 15px;
                                     background:#28a745;
                                     color:white;
-                                    text-decoration:none;
+                                    border:none;
                                     border-radius:5px;
+                                    cursor:pointer;
+                                    font-size:15px;
                                 "
                             >
                                 Download
-                            </a>
+                            </button>
 
                         </div>
                     `;
@@ -165,6 +171,99 @@ document.addEventListener("DOMContentLoaded", function () {
             );
 
             result.innerHTML = html;
+
+
+            /* ==============================
+               DOWNLOAD PDF
+            ============================== */
+
+            document
+                .querySelectorAll(".downloadReceiptBtn")
+                .forEach(button => {
+
+                    button.addEventListener(
+                        "click",
+                        async function () {
+
+                            const pdfURL =
+                                this.dataset.url;
+
+                            const fileName =
+                                this.dataset.filename ||
+                                "Receipt.pdf";
+
+                            const originalText =
+                                this.textContent;
+
+                            this.disabled = true;
+                            this.textContent =
+                                "DOWNLOADING...";
+
+                            try {
+
+                                const pdfResponse =
+                                    await fetch(pdfURL);
+
+                                if (!pdfResponse.ok) {
+                                    throw new Error(
+                                        "PDF could not be downloaded."
+                                    );
+                                }
+
+                                const blob =
+                                    await pdfResponse.blob();
+
+                                const blobURL =
+                                    window.URL.createObjectURL(
+                                        blob
+                                    );
+
+                                const downloadLink =
+                                    document.createElement("a");
+
+                                downloadLink.href =
+                                    blobURL;
+
+                                downloadLink.download =
+                                    fileName;
+
+                                document.body.appendChild(
+                                    downloadLink
+                                );
+
+                                downloadLink.click();
+
+                                downloadLink.remove();
+
+                                window.URL.revokeObjectURL(
+                                    blobURL
+                                );
+
+                            } catch (error) {
+
+                                console.error(
+                                    "Download Error:",
+                                    error
+                                );
+
+                                alert(
+                                    "Download failed. Please try again."
+                                );
+
+                            } finally {
+
+                                this.disabled = false;
+
+                                this.textContent =
+                                    originalText;
+
+                            }
+
+                        }
+                    );
+
+                });
+
 
         } catch (error) {
 
