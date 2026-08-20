@@ -209,7 +209,34 @@ transition:.3s;
 transform:translateY(-5px);
 filter:brightness(.95);
 }
+/* BUTTON 5 - TRICOLOR */
 
+.dashboard a:nth-child(5) button{
+width:100%;
+min-height:130px;
+background:linear-gradient(
+    to bottom,
+    #ff9933 0%,
+    #ff9933 33%,
+    #ffffff 33%,
+    #ffffff 66%,
+    #138808 66%,
+    #138808 100%
+);
+color:#111;
+border:none;
+padding:20px;
+font-size:18px;
+font-weight:bold;
+border-radius:12px;
+cursor:pointer;
+transition:.3s;
+}
+
+.dashboard a:nth-child(5) button:hover{
+transform:translateY(-5px);
+filter:brightness(.95);
+}
 /* LATEST UPDATES */
 
 .latest-updates{
