@@ -74,51 +74,59 @@
             border-radius: 12px;
         }
 
-        .slides {
-            display: flex;
-            width: 300%;
-            height: 100%;
-            animation: slide 12s infinite;
-        }
+       .slides {
+    display: flex;
+    width: 400%;
+    height: 100%;
+    animation: slide 16s infinite;
+}
 
-        .slides img {
-            width: 33.3333%;
-            height: 100%;
-            display: block;
-            object-fit: cover;
-        }
+.slides img {
+    width: 25%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+}
 
-        @keyframes slide {
+@keyframes slide {
 
-            0% {
-                transform: translateX(0);
-            }
+    0% {
+        transform: translateX(0);
+    }
 
-            30% {
-                transform: translateX(0);
-            }
+    20% {
+        transform: translateX(0);
+    }
 
-            35% {
-                transform: translateX(-33.3333%);
-            }
+    25% {
+        transform: translateX(-25%);
+    }
 
-            65% {
-                transform: translateX(-33.3333%);
-            }
+    45% {
+        transform: translateX(-25%);
+    }
 
-            70% {
-                transform: translateX(-66.6666%);
-            }
+    50% {
+        transform: translateX(-50%);
+    }
 
-            95% {
-                transform: translateX(-66.6666%);
-            }
+    70% {
+        transform: translateX(-50%);
+    }
 
-            100% {
-                transform: translateX(0);
-            }
+    75% {
+        transform: translateX(-75%);
+    }
 
-        }
+    95% {
+        transform: translateX(-75%);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+
+}
 /* ==============================
    JOIN GROUP TRICOLOR SECTION
 ============================== */
