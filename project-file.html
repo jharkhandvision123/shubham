@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
 
 <meta
@@ -11,298 +10,168 @@
 
 <title>Project File</title>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-
 <style>
-
-/* =========================================================
-   BASIC RESET
-========================================================= */
-
 *{
     box-sizing:border-box;
     margin:0;
     padding:0;
-    font-family:Arial,Helvetica,sans-serif;
 }
 
 html,
 body{
     width:100%;
-    min-width:0;
     height:100%;
-}
-
-body{
-    background:#e5ddd5;
     overflow:hidden;
 }
 
+body{
+    font-family:Arial, sans-serif;
+    background:#e5ddd5;
+}
 
-/* =========================================================
+/* =========================
    MAIN CHAT CONTAINER
-========================================================= */
+========================= */
 
 .chat-container{
-
     width:100%;
     max-width:600px;
-
-    height:100vh;
     height:100dvh;
-
-    min-height:100vh;
     min-height:100dvh;
-
-    margin:0 auto;
-
-    background:#efeae2;
+    margin:auto;
 
     display:flex;
     flex-direction:column;
 
+    background:#efe7de;
+
     overflow:hidden;
 }
 
-
-/* =========================================================
+/* =========================
    HEADER
-========================================================= */
+========================= */
 
-.header{
-
-    width:100%;
-
-    height:65px;
-    min-height:65px;
+.chat-header{
+    flex:0 0 auto;
 
     background:#075e54;
-
     color:white;
 
-    display:flex;
-    align-items:center;
+    padding:
+        calc(12px + env(safe-area-inset-top))
+        15px
+        12px
+        15px;
 
-    padding:10px 15px;
-
-    gap:12px;
-
-    flex-shrink:0;
-}
-
-.profile{
-
-    width:45px;
-    height:45px;
-
-    min-width:45px;
-    min-height:45px;
-
-    border-radius:50%;
-
-    background:white;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    color:#075e54;
-
+    font-size:18px;
     font-weight:bold;
-    font-size:20px;
 
-    flex-shrink:0;
+    display:flex;
+    align-items:center;
 }
 
-.header-info{
-
-    min-width:0;
-
-    overflow:hidden;
-}
-
-.header-info h3{
-
-    font-size:17px;
-
-    margin-bottom:3px;
-
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
-}
-
-.header-info p{
-
-    font-size:12px;
-
-    opacity:.85;
-}
-
-
-/* =========================================================
+/* =========================
    CHAT AREA
-========================================================= */
+========================= */
 
-.chat{
-
-    width:100%;
-
-    flex:1;
+.chat-area{
+    flex:1 1 auto;
 
     min-height:0;
 
     overflow-y:auto;
     overflow-x:hidden;
 
-    padding:15px 10px;
+    padding:15px;
 
-    background:
-        radial-gradient(
-            #ddd 1px,
-            transparent 1px
-        );
+    display:flex;
+    flex-direction:column;
 
-    background-size:12px 12px;
+    gap:10px;
 
     -webkit-overflow-scrolling:touch;
-
-    overscroll-behavior:contain;
 }
 
-
-/* =========================================================
+/* =========================
    MESSAGE
-========================================================= */
+========================= */
 
 .message{
+    max-width:88%;
 
-    width:auto;
+    padding:11px 13px;
 
-    max-width:85%;
-
-    padding:10px 12px;
-
-    border-radius:8px;
-
-    margin-bottom:10px;
+    border-radius:9px;
 
     font-size:15px;
-
-    line-height:1.4;
+    line-height:1.45;
 
     word-wrap:break-word;
-
     overflow-wrap:anywhere;
 
+    box-shadow:0 1px 1px rgba(0,0,0,0.08);
 }
 
-.bot{
+.bot-message{
+    align-self:flex-start;
 
     background:white;
 
-    align-self:flex-start;
-
-    border-top-left-radius:2px;
+    border-top-left-radius:3px;
 }
 
-.user{
+.user-message{
+    align-self:flex-end;
 
-    background:#d9fdd3;
+    background:#d9ffc7;
 
-    margin-left:auto;
-
-    border-top-right-radius:2px;
+    border-top-right-radius:3px;
 }
 
-
-/* =========================================================
-   OPTION BUTTON
-========================================================= */
+/* =========================
+   BUTTON
+========================= */
 
 .option-btn{
-
-    display:block;
-
     width:100%;
-
-    margin-top:8px;
-
-    padding:11px;
 
     border:none;
 
-    border-radius:7px;
-
     background:#128c7e;
-
     color:white;
 
-    font-size:14px;
+    padding:11px 12px;
+
+    margin-top:8px;
+
+    border-radius:7px;
+
+    font-size:15px;
+    font-weight:bold;
 
     cursor:pointer;
 
-    touch-action:manipulation;
+    min-height:44px;
 }
 
 .option-btn:hover{
-
-    background:#0b7b70;
+    background:#0d7d70;
 }
 
-
-/* =========================================================
-   SUCCESS / ERROR
-========================================================= */
-
-.success{
-
-    color:#087f23;
-
-    font-weight:bold;
+.option-btn:disabled{
+    opacity:.6;
+    cursor:not-allowed;
 }
 
-.error{
-
-    color:#c62828;
-
-    font-weight:bold;
-}
-
-
-/* =========================================================
-   QR CODE
-========================================================= */
-
-.qr{
-
-    width:220px;
-
-    max-width:100%;
-
-    max-height:38vh;
-
-    object-fit:contain;
-
-    display:block;
-
-    margin:10px auto;
-
-    border-radius:8px;
-}
-
-
-/* =========================================================
+/* =========================
    DOWNLOAD BUTTON
-========================================================= */
+========================= */
 
 .download-btn{
-
     display:block;
 
     width:100%;
-
     min-height:45px;
 
     border:none;
@@ -311,10 +180,7 @@ body{
 
     text-align:center;
 
-    text-decoration:none;
-
     background:#25d366;
-
     color:white;
 
     padding:12px;
@@ -322,1374 +188,688 @@ body{
     border-radius:7px;
 
     font-weight:bold;
-
     font-size:15px;
 
     margin-top:10px;
-
-    touch-action:manipulation;
 }
 
 .download-btn:hover{
-
     background:#20bd5a;
 }
 
-
-/* =========================================================
+/* =========================
    FILE NAME
-========================================================= */
+========================= */
 
 .file-name{
-
-    width:100%;
-
-    background:white;
-
-    padding:7px 10px;
-
-    font-size:12px;
+    flex:0 0 auto;
 
     display:none;
 
-    flex-shrink:0;
+    background:white;
+
+    padding:7px 12px;
+
+    font-size:13px;
+
+    border-top:1px solid #ddd;
+
+    color:#333;
 
     white-space:nowrap;
 
     overflow:hidden;
 
     text-overflow:ellipsis;
-
-    border-top:1px solid #ddd;
 }
 
-
-/* =========================================================
+/* =========================
    INPUT AREA
-========================================================= */
+========================= */
 
 .input-area{
-
-    width:100%;
+    flex:0 0 auto;
 
     min-height:62px;
 
-    background:#f0f2f5;
+    padding:
+        8px
+        10px
+        calc(8px + env(safe-area-inset-bottom))
+        10px;
+
+    background:#f0f0f0;
+
+    border-top:1px solid #ddd;
 
     display:flex;
-
     align-items:center;
 
-    padding:8px;
-
-    padding-bottom:
-        calc(
-            8px + env(safe-area-inset-bottom)
-        );
-
     gap:7px;
-
-    flex-shrink:0;
 }
 
-.text-input{
+/* =========================
+   INPUT
+========================= */
 
+.text-input{
     flex:1;
 
     min-width:0;
 
-    width:100%;
-
-    height:45px;
+    height:44px;
 
     border:none;
 
     outline:none;
 
-    border-radius:23px;
+    border-radius:22px;
 
-    padding:0 16px;
+    padding:0 15px;
 
     font-size:15px;
 
     background:white;
 }
 
-.text-input:focus{
-
-    outline:none;
-}
-
-.attach-btn{
-
-    width:45px;
-
-    min-width:45px;
-
-    height:45px;
-
-    border:none;
-
-    border-radius:50%;
-
-    background:white;
-
-    font-size:22px;
-
-    cursor:pointer;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    flex-shrink:0;
-
-    touch-action:manipulation;
-}
+/* =========================
+   SEND BUTTON
+========================= */
 
 .send-btn{
+    flex:0 0 44px;
 
-    width:45px;
-
-    min-width:45px;
-
-    height:45px;
+    width:44px;
+    height:44px;
 
     border:none;
 
     border-radius:50%;
 
     background:#128c7e;
-
     color:white;
-
-    font-size:18px;
 
     cursor:pointer;
 
-    display:flex;
+    font-size:18px;
+}
 
-    align-items:center;
-
-    justify-content:center;
-
-    flex-shrink:0;
-
-    touch-action:manipulation;
+.send-btn:hover{
+    background:#0d7d70;
 }
 
 .send-btn:disabled{
-
     opacity:.5;
-
     cursor:not-allowed;
 }
 
+/* =========================
+   FILE INPUT
+========================= */
 
-/* =========================================================
-   LOADING
-========================================================= */
-
-.loading{
-
-    opacity:.7;
+.file-input{
+    display:none;
 }
 
+/* =========================
+   FILE BUTTON
+========================= */
 
-/* =========================================================
-   NORMAL DESKTOP
-========================================================= */
+.file-btn{
+    flex:0 0 44px;
 
-@media (min-width:601px){
+    width:44px;
+    height:44px;
 
-    body{
+    border:none;
 
-        display:flex;
+    border-radius:50%;
 
-        align-items:center;
+    background:#ddd;
 
-        justify-content:center;
-    }
+    cursor:pointer;
 
-    .chat-container{
+    font-size:18px;
 
-        max-height:900px;
-
-        box-shadow:
-            0 0 25px rgba(0,0,0,.18);
-    }
+    display:flex;
+    align-items:center;
+    justify-content:center;
 }
 
+/* =========================
+   QR IMAGE
+========================= */
 
-/* =========================================================
-   NORMAL MOBILE
-========================================================= */
+.qr-image{
+    width:220px;
+    max-width:100%;
 
-@media (max-width:600px){
+    display:block;
 
-    body{
+    margin:10px auto;
 
-        background:#efeae2;
-    }
-
-    .chat-container{
-
-        width:100%;
-
-        max-width:none;
-
-        height:100vh;
-        height:100dvh;
-
-        min-height:100vh;
-        min-height:100dvh;
-
-        margin:0;
-
-        box-shadow:none;
-    }
-
-    .header{
-
-        height:60px;
-        min-height:60px;
-
-        padding:8px 12px;
-
-        gap:10px;
-    }
-
-    .profile{
-
-        width:42px;
-        height:42px;
-
-        min-width:42px;
-        min-height:42px;
-
-        font-size:18px;
-    }
-
-    .header-info h3{
-
-        font-size:16px;
-    }
-
-    .header-info p{
-
-        font-size:11px;
-    }
-
-    .chat{
-
-        padding:12px 8px;
-    }
-
-    .message{
-
-        max-width:88%;
-
-        font-size:14px;
-
-        padding:9px 11px;
-
-        margin-bottom:8px;
-    }
-
-    .qr{
-
-        width:200px;
-
-        max-width:90%;
-
-        max-height:32vh;
-    }
-
-    .input-area{
-
-        min-height:60px;
-
-        padding:7px;
-
-        padding-bottom:
-            calc(
-                7px + env(safe-area-inset-bottom)
-            );
-
-        gap:6px;
-    }
-
-    .text-input{
-
-        height:44px;
-
-        font-size:15px;
-
-        padding:0 14px;
-    }
-
-    .attach-btn,
-    .send-btn{
-
-        width:44px;
-
-        min-width:44px;
-
-        height:44px;
-    }
+    border-radius:5px;
 }
 
-
-/* =========================================================
-   VERY SMALL NORMAL MOBILE
-========================================================= */
-
-@media (max-width:380px){
-
-    .header{
-
-        height:56px;
-
-        min-height:56px;
-
-        padding:7px 9px;
-    }
-
-    .profile{
-
-        width:39px;
-        height:39px;
-
-        min-width:39px;
-        min-height:39px;
-
-        font-size:17px;
-    }
-
-    .header-info h3{
-
-        font-size:15px;
-    }
-
-    .chat{
-
-        padding:10px 6px;
-    }
-
-    .message{
-
-        max-width:92%;
-
-        font-size:13.5px;
-
-        padding:8px 10px;
-    }
-
-    .qr{
-
-        width:175px;
-    }
-
-    .input-area{
-
-        gap:5px;
-
-        padding:6px;
-
-        padding-bottom:
-            calc(
-                6px + env(safe-area-inset-bottom)
-            );
-    }
-
-    .text-input{
-
-        height:42px;
-
-        font-size:14px;
-
-        padding:0 12px;
-    }
-
-    .attach-btn,
-    .send-btn{
-
-        width:42px;
-
-        min-width:42px;
-
-        height:42px;
-    }
-
-    .attach-btn{
-
-        font-size:20px;
-    }
-
-    .send-btn{
-
-        font-size:17px;
-    }
-}
-
-
-/* =========================================================
-   IMPORTANT:
-   MOBILE DEVICE + DESKTOP SITE MODE
-
-   यह हिस्सा सबसे महत्वपूर्ण है।
-   अगर मोबाइल browser में "Desktop Site" ON है,
-   तो viewport 600px से बड़ा दिख सकता है।
-
-   इसलिए JavaScript body में .mobile-device class
-   लगाएगा और नीचे का CSS media query के बिना भी
-   mobile layout force करेगा।
-========================================================= */
+/* =========================
+   MOBILE DEVICE MODE
+========================= */
 
 body.mobile-device{
+    width:100%;
+    height:100%;
 
-    display:block !important;
+    overflow:hidden;
 
-    width:100% !important;
-
-    min-width:0 !important;
-
-    background:#efeae2 !important;
-
-    overflow:hidden !important;
+    background:#efe7de;
 }
 
 body.mobile-device .chat-container{
+    position:fixed;
 
-    width:100% !important;
+    top:0;
+    left:0;
 
-    max-width:none !important;
+    width:var(--app-width, 100vw);
+    height:var(--app-height, 100vh);
 
-    min-width:0 !important;
+    min-height:0;
+    max-height:none;
 
-    height:100vh !important;
+    max-width:none;
 
-    height:100dvh !important;
+    margin:0;
 
-    min-height:100vh !important;
-
-    min-height:100dvh !important;
-
-    margin:0 !important;
-
-    box-shadow:none !important;
-
-    border-radius:0 !important;
+    overflow:hidden;
 }
 
-body.mobile-device .header{
+/* =========================
+   SMALL MOBILE
+========================= */
 
-    width:100% !important;
+@media(max-width:420px){
 
-    height:60px !important;
+    .chat-header{
+        font-size:17px;
+        padding-left:12px;
+        padding-right:12px;
+    }
 
-    min-height:60px !important;
+    .chat-area{
+        padding:10px;
+    }
 
-    padding:8px 12px !important;
+    .message{
+        max-width:92%;
+        font-size:14px;
+    }
 
-    gap:10px !important;
+    .input-area{
+        padding-left:7px;
+        padding-right:7px;
+    }
+
+    .qr-image{
+        width:190px;
+    }
 }
 
-body.mobile-device .profile{
+/* =========================
+   LANDSCAPE MOBILE
+========================= */
 
-    width:42px !important;
+@media(max-height:520px){
 
-    height:42px !important;
+    .chat-header{
+        padding-top:7px;
+        padding-bottom:7px;
+        font-size:16px;
+    }
 
-    min-width:42px !important;
+    .chat-area{
+        padding:8px;
+        gap:7px;
+    }
 
-    min-height:42px !important;
+    .message{
+        padding:8px 10px;
+        font-size:13px;
+    }
 
-    font-size:18px !important;
+    .input-area{
+        min-height:52px;
+        padding-top:5px;
+        padding-bottom:5px;
+    }
 
-    flex-shrink:0 !important;
+    .text-input,
+    .send-btn,
+    .file-btn{
+        height:38px;
+    }
+
+    .send-btn,
+    .file-btn{
+        width:38px;
+        flex-basis:38px;
+    }
+
+    .option-btn{
+        min-height:38px;
+        padding:8px;
+        margin-top:5px;
+    }
 }
 
-body.mobile-device .header-info{
+/* =========================
+   MOBILE DEVICE OVERRIDES
+========================= */
 
-    min-width:0 !important;
-
-    max-width:calc(100% - 55px) !important;
-}
-
-body.mobile-device .header-info h3{
-
-    font-size:16px !important;
-
-    white-space:nowrap !important;
-
-    overflow:hidden !important;
-
-    text-overflow:ellipsis !important;
-}
-
-body.mobile-device .header-info p{
-
-    font-size:11px !important;
-}
-
-body.mobile-device .chat{
-
-    width:100% !important;
-
-    min-width:0 !important;
-
-    min-height:0 !important;
-
-    padding:12px 8px !important;
-
-    overflow-y:auto !important;
-
-    overflow-x:hidden !important;
-}
-
-body.mobile-device .message{
-
-    max-width:88% !important;
-
-    font-size:14px !important;
-
-    padding:9px 11px !important;
-
-    overflow-wrap:anywhere !important;
-
-    word-break:break-word !important;
-}
-
-body.mobile-device .qr{
-
-    width:200px !important;
-
-    max-width:90% !important;
-
-    max-height:32vh !important;
-
-    object-fit:contain !important;
-}
-
-body.mobile-device .file-name{
-
-    width:100% !important;
-
-    max-width:100% !important;
-
-    overflow:hidden !important;
-
-    white-space:nowrap !important;
-
-    text-overflow:ellipsis !important;
+body.mobile-device .chat-area{
+    min-height:0;
 }
 
 body.mobile-device .input-area{
-
-    width:100% !important;
-
-    min-width:0 !important;
-
-    min-height:60px !important;
-
-    padding:7px !important;
-
-    padding-bottom:
-        calc(
-            7px + env(safe-area-inset-bottom)
-        ) !important;
-
-    gap:6px !important;
-
-    flex-shrink:0 !important;
+    flex-shrink:0;
 }
 
-body.mobile-device .text-input{
-
-    flex:1 !important;
-
-    min-width:0 !important;
-
-    width:100% !important;
-
-    height:44px !important;
-
-    font-size:15px !important;
-
-    padding:0 14px !important;
+body.mobile-device .file-name{
+    flex-shrink:0;
 }
 
-body.mobile-device .attach-btn{
+/* =========================
+   LOADING
+========================= */
 
-    width:44px !important;
-
-    min-width:44px !important;
-
-    height:44px !important;
-
-    flex-shrink:0 !important;
+.loading{
+    opacity:.7;
+    font-style:italic;
 }
 
-body.mobile-device .send-btn{
+/* =========================
+   ERROR
+========================= */
 
-    width:44px !important;
-
-    min-width:44px !important;
-
-    height:44px !important;
-
-    flex-shrink:0 !important;
+.error-message{
+    color:#b00020;
+    background:#ffe5e5;
 }
-
-body.mobile-device .download-btn{
-
-    width:100% !important;
-
-    max-width:100% !important;
-
-    font-size:14px !important;
-
-    padding:11px !important;
-}
-
-
-/* =========================================================
-   MOBILE DEVICE - SMALL SCREEN FORCE
-========================================================= */
-
-body.mobile-device.mobile-small .header{
-
-    height:56px !important;
-
-    min-height:56px !important;
-
-    padding:7px 9px !important;
-}
-
-body.mobile-device.mobile-small .profile{
-
-    width:39px !important;
-
-    height:39px !important;
-
-    min-width:39px !important;
-
-    min-height:39px !important;
-
-    font-size:17px !important;
-}
-
-body.mobile-device.mobile-small .header-info h3{
-
-    font-size:15px !important;
-}
-
-body.mobile-device.mobile-small .chat{
-
-    padding:10px 6px !important;
-}
-
-body.mobile-device.mobile-small .message{
-
-    max-width:92% !important;
-
-    font-size:13.5px !important;
-
-    padding:8px 10px !important;
-}
-
-body.mobile-device.mobile-small .qr{
-
-    width:175px !important;
-}
-
-body.mobile-device.mobile-small .input-area{
-
-    gap:5px !important;
-
-    padding:6px !important;
-
-    padding-bottom:
-        calc(
-            6px + env(safe-area-inset-bottom)
-        ) !important;
-}
-
-body.mobile-device.mobile-small .text-input{
-
-    height:42px !important;
-
-    font-size:14px !important;
-
-    padding:0 12px !important;
-}
-
-body.mobile-device.mobile-small .attach-btn,
-body.mobile-device.mobile-small .send-btn{
-
-    width:42px !important;
-
-    min-width:42px !important;
-
-    height:42px !important;
-}
-
-
-/* =========================================================
-   LANDSCAPE MOBILE DEVICE
-========================================================= */
-
-body.mobile-device.mobile-landscape .header{
-
-    height:54px !important;
-
-    min-height:54px !important;
-
-    padding:6px 10px !important;
-}
-
-body.mobile-device.mobile-landscape .profile{
-
-    width:38px !important;
-
-    height:38px !important;
-
-    min-width:38px !important;
-
-    min-height:38px !important;
-
-    font-size:16px !important;
-}
-
-body.mobile-device.mobile-landscape .chat{
-
-    padding:8px 8px !important;
-}
-
-body.mobile-device.mobile-landscape .message{
-
-    font-size:13px !important;
-
-    padding:7px 10px !important;
-
-    margin-bottom:6px !important;
-}
-
-body.mobile-device.mobile-landscape .qr{
-
-    width:150px !important;
-
-    max-height:25vh !important;
-}
-
-body.mobile-device.mobile-landscape .input-area{
-
-    min-height:52px !important;
-
-    padding:5px !important;
-}
-
-body.mobile-device.mobile-landscape .text-input{
-
-    height:40px !important;
-}
-
-body.mobile-device.mobile-landscape .attach-btn,
-body.mobile-device.mobile-landscape .send-btn{
-
-    width:40px !important;
-
-    min-width:40px !important;
-
-    height:40px !important;
-}
-
 </style>
-
-
-<script>
-
-/*
-=========================================================
-MOBILE DEVICE DETECTION
-
-यह code "Desktop Site" ON होने पर भी मोबाइल पहचानने
-की कोशिश करता है।
-
-Chrome/Android/iPhone के mobile User-Agent में
-Mobile / Android / iPhone आदि मौजूद रहते हैं।
-
-इसलिए viewport 980px होने पर भी mobile layout
-force किया जा सकेगा।
-=========================================================
-*/
-
-(function(){
-
-    try{
-
-        const userAgent =
-            navigator.userAgent ||
-            navigator.vendor ||
-            window.opera ||
-            "";
-
-        const isMobileUserAgent =
-            /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile/i
-            .test(userAgent);
-
-        const isTouchDevice =
-            (
-                "ontouchstart" in window
-            )
-            ||
-            (
-                navigator.maxTouchPoints &&
-                navigator.maxTouchPoints > 0
-            );
-
-        /*
-          Mobile User-Agent सबसे reliable signal है।
-        */
-
-        if(isMobileUserAgent){
-
-            document.body.classList.add(
-                "mobile-device"
-            );
-
-        }
-
-        /*
-          कुछ browsers में User-Agent बदल सकता है।
-          Touch + छोटा physical screen होने पर भी
-          mobile layout लागू करें।
-        */
-
-        else if(
-            isTouchDevice &&
-            Math.min(
-                window.screen.width,
-                window.screen.height
-            ) <= 600
-        ){
-
-            document.body.classList.add(
-                "mobile-device"
-            );
-
-        }
-
-
-        /*
-          Small mobile screen
-        */
-
-        if(
-            document.body.classList.contains(
-                "mobile-device"
-            )
-        ){
-
-            const smallestScreen =
-                Math.min(
-                    window.screen.width,
-                    window.screen.height
-                );
-
-            if(smallestScreen <= 380){
-
-                document.body.classList.add(
-                    "mobile-small"
-                );
-
-            }
-
-        }
-
-        /*
-          Landscape detection
-        */
-
-        function updateOrientation(){
-
-            if(
-                !document.body.classList.contains(
-                    "mobile-device"
-                )
-            ){
-
-                return;
-
-            }
-
-            const width =
-                window.innerWidth;
-
-            const height =
-                window.innerHeight;
-
-            if(width > height){
-
-                document.body.classList.add(
-                    "mobile-landscape"
-                );
-
-            }
-            else{
-
-                document.body.classList.remove(
-                    "mobile-landscape"
-                );
-
-            }
-
-        }
-
-        updateOrientation();
-
-        window.addEventListener(
-            "resize",
-            updateOrientation
-        );
-
-        window.addEventListener(
-            "orientationchange",
-            function(){
-
-                setTimeout(
-                    updateOrientation,
-                    100
-                );
-
-            }
-        );
-
-    }
-    catch(error){
-
-        console.error(
-            "Responsive detection error:",
-            error
-        );
-
-    }
-
-})();
-
-</script>
-
 </head>
-
 
 <body>
 
-
 <div class="chat-container">
 
-
-    <!-- =================================================
-         HEADER
-    ================================================== -->
-
-    <div class="header">
-
-        <div class="profile">
-            JV
-        </div>
-
-        <div class="header-info">
-
-            <h3>
-                Project File
-            </h3>
-
-            <p>
-                Online
-            </p>
-
-        </div>
-
+    <div class="chat-header">
+        📄 Project File
     </div>
 
+    <div class="chat-area" id="chatArea">
+    </div>
 
-    <!-- =================================================
-         CHAT
-    ================================================== -->
-
-    <div
-        class="chat"
-        id="chat"
-    ></div>
-
-
-    <!-- =================================================
-         SELECTED FILE
-    ================================================== -->
-
-    <div
-        id="fileName"
-        class="file-name"
-    ></div>
-
-
-    <!-- =================================================
-         INPUT AREA
-    ================================================== -->
+    <div class="file-name" id="fileName"></div>
 
     <div class="input-area">
 
+        <label class="file-btn" id="fileButton" title="Upload File">
+            📎
+            <input
+                type="file"
+                id="fileInput"
+                class="file-input"
+                accept="image/*,.pdf"
+            >
+        </label>
 
         <input
             type="text"
-            id="messageInput"
+            id="textInput"
             class="text-input"
-            placeholder="Type a message..."
+            placeholder="Type your mobile number..."
             autocomplete="off"
         >
 
-
-        <input
-            type="file"
-            id="fileInput"
-            accept="image/*"
-            hidden
-        >
-
-
         <button
             type="button"
-            class="attach-btn"
-            id="attachBtn"
-            title="Attach image"
-        >
-            📎
-        </button>
-
-
-        <button
-            type="button"
+            id="sendButton"
             class="send-btn"
-            id="sendBtn"
-            title="Send"
         >
             ➤
         </button>
-
 
     </div>
 
 </div>
 
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
 
+/* =========================================================
+   MOBILE / DESKTOP-SITE VIEWPORT FIX
+========================================================= */
+
 (function(){
 
-"use strict";
+    function detectMobileDevice(){
+
+        const ua = navigator.userAgent || "";
+
+        const normalMobile =
+            /Android|iPhone|iPad|iPod|Mobile/i.test(ua);
+
+        const touchDevice =
+            navigator.maxTouchPoints &&
+            navigator.maxTouchPoints > 0;
+
+        const coarsePointer =
+            window.matchMedia &&
+            window.matchMedia("(pointer: coarse)").matches;
+
+        const screenSmall =
+            Math.min(
+                window.screen.width || 9999,
+                window.screen.height || 9999
+            ) <= 1200;
+
+        /*
+         Desktop Site mode में Android browser
+         कभी-कभी Android/Mobile वाला User-Agent हटा देता है।
+
+         इसलिए touch + screen size को भी check किया गया है।
+        */
+
+        return (
+            normalMobile ||
+            (touchDevice && coarsePointer && screenSmall)
+        );
+    }
+
+
+    function updateViewport(){
+
+        const visual =
+            window.visualViewport;
+
+        let width;
+        let height;
+
+        if(visual){
+
+            width = visual.width;
+            height = visual.height;
+
+        }else{
+
+            width = window.innerWidth;
+            height = window.innerHeight;
+
+        }
+
+        if(!width || width < 1){
+            width = window.innerWidth;
+        }
+
+        if(!height || height < 1){
+            height = window.innerHeight;
+        }
+
+        document.documentElement.style.setProperty(
+            "--app-width",
+            width + "px"
+        );
+
+        document.documentElement.style.setProperty(
+            "--app-height",
+            height + "px"
+        );
+    }
+
+
+    if(detectMobileDevice()){
+        document.body.classList.add("mobile-device");
+    }
+
+
+    updateViewport();
+
+
+    window.addEventListener(
+        "resize",
+        updateViewport,
+        {passive:true}
+    );
+
+    window.addEventListener(
+        "orientationchange",
+        function(){
+            setTimeout(updateViewport,100);
+            setTimeout(updateViewport,500);
+        },
+        {passive:true}
+    );
+
+
+    if(window.visualViewport){
+
+        window.visualViewport.addEventListener(
+            "resize",
+            updateViewport,
+            {passive:true}
+        );
+
+        window.visualViewport.addEventListener(
+            "scroll",
+            updateViewport,
+            {passive:true}
+        );
+    }
+
+})();
 
 
 /* =========================================================
-   SUPABASE CONFIG
+   SUPABASE
 ========================================================= */
 
 const SUPABASE_URL =
 "https://aghizlgvrhunpuxvohep.supabase.co";
 
-
-const SUPABASE_ANON_KEY =
+const SUPABASE_KEY =
 "sb_publishable_gpc7KUqUIykO3WM1aCzRfg_Myo8AKyx";
+
+const securityClient =
+supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
 
 
 /* =========================================================
-   SETTINGS
+   CONSTANTS
 ========================================================= */
 
-const QR_CODE_URL =
-"https://aghizlgvrhunpuxvohep.supabase.co/storage/v1/object/public/project-qr/WhatsApp%20Image%202026-09-12%20at%204.27.06%20PM.jpeg";
+const PROJECT_BUCKET =
+"project-files";
 
+const QR_URL =
+"https://aghizlgvrhunpuxvohep.supabase.co/storage/v1/object/public/project-qr/WhatsApp%20Image%202026-09-12%20at%204.27.06%20PM.jpeg";
 
 const DOWNLOAD_LINK =
 "https://jharkhandvision123.github.io/shubham/student-csc.html";
 
 
 /* =========================================================
-   CHECK SUPABASE
+   VARIABLES
 ========================================================= */
 
-if(!window.supabase){
+let currentStep = "admit-card";
 
-    document.getElementById(
-        "chat"
-    ).innerHTML = `
+let admitCardFile = null;
 
-        <div class="message bot">
+let paymentScreenshotFile = null;
 
-            <span class="error">
-                System loading failed.
-            </span>
+let admitCardPath = "";
 
-            <br><br>
+let paymentScreenshotPath = "";
 
-            Please refresh the page.
+let currentMobileNumber = "";
 
-        </div>
-
-    `;
-
-    return;
-}
-
-
-let supabaseClient;
-
-
-try{
-
-    supabaseClient =
-        window.supabase.createClient(
-            SUPABASE_URL,
-            SUPABASE_ANON_KEY
-        );
-
-}
-catch(error){
-
-    console.error(error);
-
-    document.getElementById(
-        "chat"
-    ).innerHTML = `
-
-        <div class="message bot">
-
-            <span class="error">
-                Supabase connection failed.
-            </span>
-
-            <br><br>
-
-            Please check the Supabase configuration.
-
-        </div>
-
-    `;
-
-    return;
-}
+let verificationTimer = null;
 
 
 /* =========================================================
    ELEMENTS
 ========================================================= */
 
-const chat =
-document.getElementById(
-    "chat"
-);
+const chatArea =
+document.getElementById("chatArea");
 
-const messageInput =
-document.getElementById(
-    "messageInput"
-);
+const textInput =
+document.getElementById("textInput");
 
-const sendBtn =
-document.getElementById(
-    "sendBtn"
-);
-
-const attachBtn =
-document.getElementById(
-    "attachBtn"
-);
+const sendButton =
+document.getElementById("sendButton");
 
 const fileInput =
-document.getElementById(
-    "fileInput"
-);
+document.getElementById("fileInput");
 
 const fileName =
-document.getElementById(
-    "fileName"
-);
+document.getElementById("fileName");
+
+const fileButton =
+document.getElementById("fileButton");
 
 
 /* =========================================================
-   VARIABLES
+   MESSAGE FUNCTION
 ========================================================= */
 
-let currentStep =
-    "start";
+function addMessage(html, type="bot"){
 
-let admitCardFile =
-    null;
+    const message =
+    document.createElement("div");
 
-let paymentScreenshotFile =
-    null;
+    message.className =
+    "message " +
+    (type === "user"
+        ? "user-message"
+        : "bot-message");
 
-let admitCardPath =
-    "";
+    message.innerHTML = html;
 
-let paymentScreenshotPath =
-    "";
+    chatArea.appendChild(message);
 
-let submissionId =
-    null;
+    setTimeout(function(){
 
-let verificationTimer =
-    null;
+        chatArea.scrollTop =
+        chatArea.scrollHeight;
+
+    },50);
+
+    return message;
+}
 
 
 /* =========================================================
-   CHAT FUNCTIONS
+   DISABLE / ENABLE INPUT
 ========================================================= */
 
-function scrollChat(){
+function setInputEnabled(enabled){
 
-    requestAnimationFrame(
-        function(){
+    textInput.disabled = !enabled;
+    sendButton.disabled = !enabled;
+    fileInput.disabled = !enabled;
 
-            chat.scrollTop =
-                chat.scrollHeight;
+}
+
+
+/* =========================================================
+   INITIAL MESSAGE
+========================================================= */
+
+window.addEventListener("load",function(){
+
+    addMessage(
+        "👋 <b>Welcome!</b><br><br>" +
+        "Project File बनाने के लिए सबसे पहले अपना " +
+        "<b>Admit Card</b> upload करें।"
+    );
+
+    textInput.placeholder =
+    "Admit Card upload करें...";
+
+});
+
+
+/* =========================================================
+   FILE INPUT CHANGE
+========================================================= */
+
+fileInput.addEventListener(
+    "change",
+    function(){
+
+        if(!fileInput.files || !fileInput.files[0]){
+            return;
+        }
+
+        const file =
+        fileInput.files[0];
+
+
+        if(currentStep === "admit-card"){
+
+            admitCardFile = file;
+
+            fileName.style.display = "block";
+
+            fileName.textContent =
+            "📎 " + file.name;
+
+            textInput.placeholder =
+            "Send दबाकर Admit Card भेजें...";
+
+            addMessage(
+                "📎 <b>" +
+                escapeHtml(file.name) +
+                "</b><br>अब Send बटन दबाएँ।"
+            );
 
         }
-    );
 
-}
+        else if(currentStep === "payment"){
 
+            paymentScreenshotFile = file;
 
-function addMessage(
-    text,
-    type="bot"
-){
+            fileName.style.display = "block";
 
-    const div =
-        document.createElement(
-            "div"
-        );
+            fileName.textContent =
+            "📎 " + file.name;
 
-    div.className =
-        "message " + type;
+            textInput.placeholder =
+            "Send दबाकर Payment Screenshot भेजें...";
 
-    div.innerHTML =
-        text;
-
-    chat.appendChild(
-        div
-    );
-
-    scrollChat();
-
-    return div;
-
-}
-
-
-function addButton(
-    text,
-    callback
-){
-
-    const btn =
-        document.createElement(
-            "button"
-        );
-
-    btn.type =
-        "button";
-
-    btn.className =
-        "option-btn";
-
-    btn.textContent =
-        text;
-
-    btn.addEventListener(
-        "click",
-        callback
-    );
-
-    chat.appendChild(
-        btn
-    );
-
-    scrollChat();
-
-}
-
-
-function showTyping(){
-
-    const div =
-        document.createElement(
-            "div"
-        );
-
-    div.className =
-        "message bot loading";
-
-    div.id =
-        "typing";
-
-    div.textContent =
-        "Typing...";
-
-    chat.appendChild(
-        div
-    );
-
-    scrollChat();
-
-}
-
-
-function removeTyping(){
-
-    const typing =
-        document.getElementById(
-            "typing"
-        );
-
-    if(typing){
-
-        typing.remove();
+            addMessage(
+                "📎 <b>" +
+                escapeHtml(file.name) +
+                "</b><br>अब Send बटन दबाएँ।"
+            );
+        }
 
     }
-
-}
-
-
-/* =========================================================
-   START MESSAGE
-========================================================= */
-
-addMessage(`
-
-    Hi 👋
-
-    <br><br>
-
-    Welcome to <b>Project File Service</b>.
-
-    <br><br>
-
-    इस सेवा का उपयोग करने के लिए नीचे दिए गए
-    संदेश में <b>Hi</b> लिखकर Send करें।
-
-`);
+);
 
 
 /* =========================================================
    SEND BUTTON
 ========================================================= */
 
-sendBtn.addEventListener(
+sendButton.addEventListener(
     "click",
-    sendMessage
+    sendCurrentStep
 );
 
 
@@ -1697,16 +877,15 @@ sendBtn.addEventListener(
    ENTER KEY
 ========================================================= */
 
-messageInput.addEventListener(
+textInput.addEventListener(
     "keydown",
-    function(e){
+    function(event){
 
-        if(e.key === "Enter"){
+        if(event.key === "Enter"){
 
-            e.preventDefault();
+            event.preventDefault();
 
-            sendMessage();
-
+            sendCurrentStep();
         }
 
     }
@@ -1714,448 +893,258 @@ messageInput.addEventListener(
 
 
 /* =========================================================
-   SEND MESSAGE
+   MAIN SEND FUNCTION
 ========================================================= */
 
-function sendMessage(){
+async function sendCurrentStep(){
 
-    const text =
-        messageInput.value.trim();
+    try{
+
+        if(currentStep === "admit-card"){
+
+            await handleAdmitCard();
+
+        }
+
+        else if(currentStep === "payment"){
+
+            await handlePaymentScreenshot();
+
+        }
+
+        else if(currentStep === "mobile"){
+
+            await handleMobileNumber();
+
+        }
+
+    }
+    catch(error){
+
+        console.error(error);
+
+        addMessage(
+            '<span class="error-message">' +
+            '❌ कुछ समस्या हुई। कृपया फिर से प्रयास करें।' +
+            '</span>'
+        );
+
+        setInputEnabled(true);
+    }
+
+}
 
 
-    if(!text){
+/* =========================================================
+   ADMIT CARD
+========================================================= */
+
+async function handleAdmitCard(){
+
+    if(!admitCardFile){
+
+        addMessage(
+            "⚠️ कृपया पहले Admit Card upload करें।"
+        );
 
         return;
-
     }
 
 
+    setInputEnabled(false);
+
     addMessage(
-        text,
+        "📤 Admit Card upload हो रहा है...",
         "user"
     );
 
 
-    messageInput.value =
-        "";
-
-
-    /* START */
-
-    if(
-        currentStep === "start"
-    ){
-
-        currentStep =
-            "admit-card";
-
-
-        setTimeout(
-            function(){
-
-                addMessage(`
-
-                    कृपया अपना
-                    <b>Admit Card</b>
-                    फोटो भेजें।
-
-                    <br><br>
-
-                    नीचे 📎 बटन से फोटो select करें।
-
-                `);
-
-            },
-            300
-        );
-
-
-        return;
-
-    }
-
-
-    /* MOBILE */
-
-    if(
-        currentStep === "mobile"
-    ){
-
-        handleMobileNumber(
-            text
-        );
-
-        return;
-
-    }
-
-
-    addMessage(`
-
-        कृपया ऊपर दिए गए निर्देश के अनुसार
-        आवश्यक जानकारी भेजें।
-
-    `);
-
-}
-
-
-/* =========================================================
-   ATTACH BUTTON
-========================================================= */
-
-attachBtn.addEventListener(
-    "click",
-    function(){
-
-        fileInput.click();
-
-    }
-);
-
-
-/* =========================================================
-   FILE SELECT
-========================================================= */
-
-fileInput.addEventListener(
-    "change",
-    function(){
-
-        if(
-            !fileInput.files.length
-        ){
-
-            return;
-
-        }
-
-
-        const file =
-            fileInput.files[0];
-
-
-        fileName.style.display =
-            "block";
-
-
-        fileName.textContent =
-            "Selected: " + file.name;
-
-
-        /* ADMIT CARD */
-
-        if(
-            currentStep === "admit-card"
-        ){
-
-            admitCardFile =
-                file;
-
-
-            addMessage(
-                "📎 " + file.name,
-                "user"
-            );
-
-
-            uploadAdmitCard();
-
-        }
-
-
-        /* PAYMENT */
-
-        else if(
-            currentStep === "payment"
-        ){
-
-            paymentScreenshotFile =
-                file;
-
-
-            addMessage(
-                "📎 " + file.name,
-                "user"
-            );
-
-
-            uploadPaymentScreenshot();
-
-        }
-
-
-        else{
-
-            addMessage(`
-
-                अभी इस समय file upload की जरूरत नहीं है।
-
-            `);
-
-        }
-
-    }
-);
-
-
-/* =========================================================
-   UNIQUE FILE NAME
-========================================================= */
-
-function createFileName(
-    file
-){
-
     const extension =
-        file.name.includes(".")
-        ? file.name.split(".").pop()
-        : "jpg";
+    getFileExtension(admitCardFile.name);
+
+    const uniqueName =
+    "admit-" +
+    Date.now() +
+    "-" +
+    Math.random()
+        .toString(36)
+        .substring(2,8) +
+    "." +
+    extension;
+
+    admitCardPath =
+    "admit-cards/" +
+    uniqueName;
 
 
-    return Date.now()
-        + "_"
-        + Math.random()
-            .toString(36)
-            .substring(2,10)
-        + "."
-        + extension;
-
-}
-
-
-/* =========================================================
-   UPLOAD ADMIT CARD
-========================================================= */
-
-async function uploadAdmitCard(){
-
-    if(!admitCardFile){
-
-        return;
-
-    }
-
-
-    showTyping();
-
-
-    try{
-
-        const fileNameNew =
-            createFileName(
-                admitCardFile
-            );
-
-
-        const filePath =
-            "admit-cards/" +
-            fileNameNew;
-
-
-        const {error} =
-            await supabaseClient
-            .storage
-            .from("project-files")
-            .upload(
-                filePath,
-                admitCardFile,
-                {
-                    cacheControl:"3600",
-                    upsert:false
-                }
-            );
-
-
-        if(error){
-
-            throw error;
-
-        }
-
-
-        admitCardPath =
-            filePath;
-
-
-        removeTyping();
-
-
-        fileName.style.display =
-            "none";
-
-
-        currentStep =
-            "payment";
-
-
-        addMessage(`
-
-            <span class="success">
-                ✅ Admit Card received successfully.
-            </span>
-
-            <br><br>
-
-            अब ₹50 का payment करें।
-
-            <br><br>
-
-            नीचे दिए गए QR Code को scan करके
-            <b>₹50</b> payment करें।
-
-            <img
-                src="${QR_CODE_URL}"
-                class="qr"
-                alt="Payment QR Code"
-            >
-
-            Payment करने के बाद
-            उसका <b>Screenshot</b> भेजें।
-
-        `);
-
-    }
-    catch(error){
-
-        removeTyping();
-
-
-        console.error(
-            "Admit Card Upload Error:",
-            error
+    const {error} =
+    await securityClient
+        .storage
+        .from(PROJECT_BUCKET)
+        .upload(
+            admitCardPath,
+            admitCardFile,
+            {
+                cacheControl:"3600",
+                upsert:false
+            }
         );
 
 
-        fileName.style.display =
-            "none";
+    if(error){
 
+        console.error(error);
 
-        addMessage(`
+        addMessage(
+            "❌ Admit Card upload नहीं हो पाया।"
+        );
 
-            <span class="error">
-                ❌ Admit Card upload नहीं हो पाया।
-            </span>
+        setInputEnabled(true);
 
-            <br><br>
-
-            कृपया दोबारा photo select करें।
-
-        `);
-
+        return;
     }
+
+
+    addMessage(
+        "✅ Admit Card successfully received."
+    );
+
+
+    currentStep = "payment";
+
+    admitCardFile = null;
+
+    fileInput.value = "";
+
+    fileName.style.display = "none";
+
+    textInput.value = "";
+
+    setInputEnabled(true);
+
+    showPaymentInstruction();
+}
+
+
+/* =========================================================
+   PAYMENT INSTRUCTION
+========================================================= */
+
+function showPaymentInstruction(){
+
+    addMessage(
+        "💳 <b>Project File Charge: ₹50</b><br><br>" +
+
+        "नीचे दिए गए QR Code पर ₹50 payment करें।" +
+
+        '<img src="' +
+        QR_URL +
+        '" class="qr-image" alt="Payment QR">' +
+
+        "Payment करने के बाद उसका " +
+        "<b>Screenshot</b> upload करें।"
+    );
+
+    textInput.placeholder =
+    "Payment Screenshot upload करें...";
 
 }
 
 
 /* =========================================================
-   UPLOAD PAYMENT SCREENSHOT
+   PAYMENT SCREENSHOT
 ========================================================= */
 
-async function uploadPaymentScreenshot(){
+async function handlePaymentScreenshot(){
 
     if(!paymentScreenshotFile){
 
+        addMessage(
+            "⚠️ कृपया पहले Payment Screenshot upload करें।"
+        );
+
         return;
-
     }
 
 
-    showTyping();
+    setInputEnabled(false);
+
+    addMessage(
+        "📤 Payment Screenshot upload हो रहा है...",
+        "user"
+    );
 
 
-    try{
+    const extension =
+    getFileExtension(paymentScreenshotFile.name);
 
-        const fileNameNew =
-            createFileName(
-                paymentScreenshotFile
-            );
+    const uniqueName =
+    "payment-" +
+    Date.now() +
+    "-" +
+    Math.random()
+        .toString(36)
+        .substring(2,8) +
+    "." +
+    extension;
 
-
-        const filePath =
-            "payment-screenshots/" +
-            fileNameNew;
-
-
-        const {error} =
-            await supabaseClient
-            .storage
-            .from("project-files")
-            .upload(
-                filePath,
-                paymentScreenshotFile,
-                {
-                    cacheControl:"3600",
-                    upsert:false
-                }
-            );
+    paymentScreenshotPath =
+    "payment-screenshots/" +
+    uniqueName;
 
 
-        if(error){
-
-            throw error;
-
-        }
-
-
-        paymentScreenshotPath =
-            filePath;
-
-
-        removeTyping();
-
-
-        fileName.style.display =
-            "none";
-
-
-        currentStep =
-            "mobile";
-
-
-        addMessage(`
-
-            <span class="success">
-                ✅ Payment Screenshot received.
-            </span>
-
-            <br><br>
-
-            अब अपना
-            <b>Mobile Number</b>
-            भेजें।
-
-        `);
-
-    }
-    catch(error){
-
-        removeTyping();
-
-
-        console.error(
-            "Payment Screenshot Upload Error:",
-            error
+    const {error} =
+    await securityClient
+        .storage
+        .from(PROJECT_BUCKET)
+        .upload(
+            paymentScreenshotPath,
+            paymentScreenshotFile,
+            {
+                cacheControl:"3600",
+                upsert:false
+            }
         );
 
 
-        fileName.style.display =
-            "none";
+    if(error){
 
+        console.error(error);
 
-        addMessage(`
+        addMessage(
+            "❌ Payment Screenshot upload नहीं हो पाया।"
+        );
 
-            <span class="error">
-                ❌ Payment Screenshot upload नहीं हो पाया।
-            </span>
+        setInputEnabled(true);
 
-            <br><br>
-
-            कृपया screenshot दोबारा select करें।
-
-        `);
-
+        return;
     }
+
+
+    addMessage(
+        "✅ Payment Screenshot received."
+    );
+
+
+    currentStep = "mobile";
+
+    paymentScreenshotFile = null;
+
+    fileInput.value = "";
+
+    fileName.style.display = "none";
+
+    textInput.value = "";
+
+    textInput.placeholder =
+    "अपना Mobile Number लिखें...";
+
+    setInputEnabled(true);
+
+
+    addMessage(
+        "📱 अब अपना <b>10 digit Mobile Number</b> लिखकर Send करें।"
+    );
 
 }
 
@@ -2164,381 +1153,328 @@ async function uploadPaymentScreenshot(){
    MOBILE NUMBER
 ========================================================= */
 
-async function handleMobileNumber(
-    number
-){
+async function handleMobileNumber(){
 
     const mobile =
-        number.replace(
-            /\D/g,
-            ""
+    textInput.value.trim();
+
+
+    if(!/^[0-9]{10}$/.test(mobile)){
+
+        addMessage(
+            "⚠️ कृपया सही 10 digit Mobile Number दर्ज करें।"
         );
-
-
-    if(
-        mobile.length !== 10
-    ){
-
-        addMessage(`
-
-            <span class="error">
-                ❌ कृपया 10 अंकों का सही Mobile Number भेजें।
-            </span>
-
-        `);
 
         return;
-
     }
 
 
-    showTyping();
+    setInputEnabled(false);
 
 
-    try{
-
-        const admitPath =
-            admitCardPath || "";
-
-
-        const paymentPath =
-            paymentScreenshotPath || "";
+    addMessage(
+        mobile,
+        "user"
+    );
 
 
-        const {data,error} =
-            await supabaseClient
-            .from(
-                "project_file_submissions"
-            )
-            .insert({
-
-                mobile_number:
-                    mobile,
-
-                admit_card_url:
-                    admitPath,
-
-                payment_screenshot_url:
-                    paymentPath,
-
-                verification_status:
-                    "pending",
-
-                download_link:
-                    DOWNLOAD_LINK
-
-            })
-            .select("id")
-            .single();
+    addMessage(
+        "⏳ आपका Project File request submit हो रहा है..."
+    );
 
 
-        if(error){
+    const {data,error} =
+    await securityClient
+        .from("project_file_submissions")
+        .insert({
 
-            throw error;
+            mobile_number:mobile,
 
-        }
+            admit_card_url:
+            admitCardPath,
 
+            payment_screenshot_url:
+            paymentScreenshotPath,
 
-        submissionId =
-            data.id;
+            verification_status:
+            "pending",
 
+            download_link:
+            DOWNLOAD_LINK
 
-        removeTyping();
-
-
-        currentStep =
-            "waiting";
-
-
-        addMessage(`
-
-            <span class="success">
-                ✅ आपकी submission successfully भेज दी गई है।
-            </span>
-
-            <br><br>
-
-            📱 Mobile Number:
-            <b>${mobile}</b>
-
-            <br><br>
-
-            अब आपके documents की verification की जाएगी।
-
-            <br><br>
-
-            कृपया प्रतीक्षा करें...
-
-        `);
+        })
+        .select()
+        .single();
 
 
-        startVerificationCheck();
+    if(error){
 
-    }
-    catch(error){
+        console.error(error);
 
-        removeTyping();
-
-
-        console.error(
-            "Database Error:",
-            error
+        addMessage(
+            "❌ Submission नहीं हो पाया। कृपया फिर से प्रयास करें।"
         );
 
+        setInputEnabled(true);
 
-        addMessage(`
-
-            <span class="error">
-                ❌ Submission भेजने में समस्या हुई।
-            </span>
-
-            <br><br>
-
-            कृपया कुछ देर बाद दोबारा प्रयास करें।
-
-        `);
-
+        return;
     }
+
+
+    currentMobileNumber =
+    mobile;
+
+
+    addMessage(
+        "✅ <b>Submission Complete</b><br><br>" +
+        "आपका Admit Card और Payment Screenshot " +
+        "verification के लिए भेज दिया गया है।<br><br>" +
+        "कृपया verification complete होने तक प्रतीक्षा करें।"
+    );
+
+
+    textInput.value = "";
+
+    fileInput.value = "";
+
+    fileName.style.display = "none";
+
+    currentStep = "waiting";
+
+    setInputEnabled(false);
+
+
+    startVerificationCheck();
 
 }
 
 
 /* =========================================================
-   START VERIFICATION CHECK
+   VERIFICATION CHECK
 ========================================================= */
 
 function startVerificationCheck(){
 
-    if(!submissionId){
-
-        return;
-
-    }
-
-
     if(verificationTimer){
-
-        clearInterval(
-            verificationTimer
-        );
-
+        clearInterval(verificationTimer);
     }
-
-
-    verificationTimer =
-        setInterval(
-            checkVerification,
-            5000
-        );
 
 
     checkVerification();
 
-}
 
-
-/* =========================================================
-   CHECK VERIFICATION
-========================================================= */
-
-async function checkVerification(){
-
-    if(!submissionId){
-
-        return;
-
-    }
-
-
-    try{
-
-        const {data,error} =
-            await supabaseClient
-            .from(
-                "project_file_submissions"
-            )
-            .select(
-                "verification_status,download_link"
-            )
-            .eq(
-                "id",
-                submissionId
-            )
-            .single();
-
-
-        if(error){
-
-            console.error(
-                "Verification Check Error:",
-                error
-            );
-
-            return;
-
-        }
-
-
-        /* =================================================
-           DONE
-        ================================================= */
-
-        if(
-            data.verification_status === "done"
-        ){
-
-            clearInterval(
-                verificationTimer
-            );
-
-
-            currentStep =
-                "completed";
-
-
-            const message =
-                addMessage(`
-
-                    <span class="success">
-                        ✅ Document Verification Done
-                    </span>
-
-                    <br><br>
-
-                    आपका Project File तैयार है।
-
-                    <br><br>
-
-                    <button
-                        type="button"
-                        class="download-btn"
-                        id="downloadProjectFileBtn"
-                    >
-                        📥 Download Project File
-                    </button>
-
-                `);
-
-
-            const downloadUrl =
-                data.download_link ||
-                DOWNLOAD_LINK;
-
-
-            const downloadButton =
-                message.querySelector(
-                    "#downloadProjectFileBtn"
-                );
-
-
-            if(downloadButton){
-
-                downloadButton.addEventListener(
-                    "click",
-                    function(){
-
-                        if(!downloadUrl){
-
-                            alert(
-                                "Download link उपलब्ध नहीं है।"
-                            );
-
-                            return;
-
-                        }
-
-
-                        window.open(
-                            downloadUrl,
-                            "_blank"
-                        );
-
-                    }
-                );
-
-            }
-
-        }
-
-
-        /* =================================================
-           FAILED
-        ================================================= */
-
-        else if(
-            data.verification_status === "failed"
-        ){
-
-            clearInterval(
-                verificationTimer
-            );
-
-
-            currentStep =
-                "failed";
-
-
-            addMessage(`
-
-                <span class="error">
-                    ❌ Your document verification failed
-                </span>
-
-            `);
-
-        }
-
-    }
-    catch(error){
-
-        console.error(
-            error
-        );
-
-    }
-
-}
-
-
-/* =========================================================
-   RESET FILE INPUT
-========================================================= */
-
-fileInput.addEventListener(
-    "click",
-    function(){
-
-        fileInput.value =
-            "";
-
-    }
-);
-
-
-/* =========================================================
-   MOBILE KEYBOARD SUPPORT
-========================================================= */
-
-if(window.visualViewport){
-
-    window.visualViewport.addEventListener(
-        "resize",
-        function(){
-
-            setTimeout(
-                scrollChat,
-                100
-            );
-
-        }
+    verificationTimer =
+    setInterval(
+        checkVerification,
+        5000
     );
 
 }
 
 
-})();
-</script>
+/* =========================================================
+   CHECK STATUS
+========================================================= */
 
+async function checkVerification(){
+
+    if(!currentMobileNumber){
+        return;
+    }
+
+
+    const {data,error} =
+    await securityClient
+        .from("project_file_submissions")
+        .select(
+            "verification_status,download_link"
+        )
+        .eq(
+            "mobile_number",
+            currentMobileNumber
+        )
+        .order(
+            "created_at",
+            {ascending:false}
+        )
+        .limit(1)
+        .maybeSingle();
+
+
+    if(error){
+
+        console.error(error);
+
+        return;
+    }
+
+
+    if(!data){
+        return;
+    }
+
+
+    if(data.verification_status === "done"){
+
+        clearInterval(verificationTimer);
+
+        showVerificationSuccess(
+            data.download_link ||
+            DOWNLOAD_LINK
+        );
+
+    }
+
+
+    else if(
+        data.verification_status === "failed"
+    ){
+
+        clearInterval(verificationTimer);
+
+        showVerificationFailed();
+
+    }
+
+}
+
+
+/* =========================================================
+   VERIFICATION SUCCESS
+========================================================= */
+
+function showVerificationSuccess(downloadUrl){
+
+    addMessage(
+        "🎉 <b>Verification Done!</b><br><br>" +
+        "आपका document verification successfully complete हो गया है।"
+    );
+
+
+    const message =
+    addMessage(
+        '<b>Project File तैयार है।</b><br>' +
+        'नीचे दिए गए button पर click करके download करें।' +
+
+        '<button type="button" ' +
+        'class="download-btn" ' +
+        'id="downloadProjectFileBtn">' +
+        '📥 Download Project File' +
+        '</button>'
+    );
+
+
+    const downloadButton =
+    message.querySelector(
+        "#downloadProjectFileBtn"
+    );
+
+
+    if(downloadButton){
+
+        downloadButton.addEventListener(
+            "click",
+            function(){
+
+                if(!downloadUrl){
+
+                    alert(
+                        "Download link उपलब्ध नहीं है।"
+                    );
+
+                    return;
+                }
+
+
+                window.open(
+                    downloadUrl,
+                    "_blank",
+                    "noopener,noreferrer"
+                );
+
+            }
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   VERIFICATION FAILED
+========================================================= */
+
+function showVerificationFailed(){
+
+    addMessage(
+        "❌ <b>Your document verification failed.</b><br><br>" +
+        "कृपया सही document/payment screenshot के साथ फिर से प्रयास करें।"
+    );
+
+}
+
+
+/* =========================================================
+   FILE EXTENSION
+========================================================= */
+
+function getFileExtension(filename){
+
+    const parts =
+    filename.split(".");
+
+    if(parts.length < 2){
+        return "jpg";
+    }
+
+    return parts
+        .pop()
+        .toLowerCase()
+        .replace(/[^a-z0-9]/g,"") || "jpg";
+
+}
+
+
+/* =========================================================
+   HTML ESCAPE
+========================================================= */
+
+function escapeHtml(text){
+
+    return String(text)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* =========================================================
+   PREVENT ACCIDENTAL PAGE SCROLL
+========================================================= */
+
+document.addEventListener(
+    "touchmove",
+    function(event){
+
+        /*
+        Chat area के अंदर normal scrolling allowed है।
+        बाकी page को scroll होने से रोका जाता है।
+        */
+
+        if(
+            !event.target.closest(".chat-area")
+        ){
+            event.preventDefault();
+        }
+
+    },
+    {passive:false}
+);
+
+</script>
 
 </body>
 </html>
