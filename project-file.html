@@ -1,186 +1,677 @@
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
-    
-```
 <meta charset="UTF-8">
-
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
->
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Project File</title>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
-    * {
-        box-sizing: border-box;
-    }
+body {
+    font-family: Arial, sans-serif;
+    background: #e5ddd5;
+    height: 100vh;
+    overflow: hidden;
+}
 
-    body {
-        margin: 0;
-        min-height: 100vh;
+.chat-container {
+    max-width: 600px;
+    height: 100vh;
+    margin: auto;
+    background: #efeae2;
+    display: flex;
+    flex-direction: column;
+}
 
-        font-family: Arial, sans-serif;
+.header {
+    background: #075e54;
+    color: white;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
 
-        background: #f5f5f5;
+.header-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: white;
+    color: #075e54;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: bold;
+}
 
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+.header h2 {
+    font-size: 18px;
+}
 
-    .project-container {
-        width: 90%;
-        max-width: 500px;
+.header p {
+    font-size: 12px;
+    opacity: 0.9;
+    margin-top: 3px;
+}
 
-        padding: 30px 20px;
+.chat-box {
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px;
+    background:
+        radial-gradient(#d8d0c8 1px, transparent 1px);
+    background-size: 18px 18px;
+}
 
-        background: linear-gradient(
-            135deg,
-            #ff9933 0%,
-            #ffffff 50%,
-            #138808 100%
-        );
+.message {
+    max-width: 82%;
+    padding: 10px 12px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    font-size: 14px;
+    line-height: 1.45;
+    word-wrap: break-word;
+}
 
-        border-radius: 20px;
+.bot {
+    background: white;
+    margin-right: auto;
+    border-top-left-radius: 2px;
+}
 
-        box-shadow:
-            0 8px 25px rgba(0, 0, 0, 0.18);
+.user {
+    background: #d9fdd3;
+    margin-left: auto;
+    border-top-right-radius: 2px;
+}
 
-        text-align: center;
-    }
+.file-message {
+    background: white;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    max-width: 82%;
+}
 
-    .project-container h1 {
-        margin: 0 0 25px;
+.file-message img {
+    max-width: 100%;
+    border-radius: 5px;
+    margin-top: 6px;
+}
 
-        font-size: 28px;
-        font-weight: 800;
+.qr-box {
+    text-align: center;
+}
 
-        color: #0d47a1;
-    }
+.qr-box img {
+    width: 220px;
+    max-width: 100%;
+    border-radius: 8px;
+    margin-top: 10px;
+}
 
-    .project-buttons {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-    }
+.download-btn {
+    display: inline-block;
+    background: #128c7e;
+    color: white;
+    text-decoration: none;
+    padding: 12px 18px;
+    border-radius: 7px;
+    font-weight: bold;
+    margin-top: 8px;
+}
 
-    .project-button {
-        display: block;
+.input-area {
+    background: #f0f0f0;
+    padding: 8px;
+    display: flex;
+    gap: 7px;
+    align-items: center;
+}
 
-        width: 100%;
+.input-area input[type="text"],
+.input-area input[type="tel"] {
+    flex: 1;
+    border: none;
+    outline: none;
+    border-radius: 22px;
+    padding: 12px 15px;
+    font-size: 14px;
+}
 
-        padding: 15px 20px;
+.send-btn,
+.upload-btn {
+    border: none;
+    cursor: pointer;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #128c7e;
+    color: white;
+    font-size: 18px;
+}
 
-        background: #ffffff;
+.upload-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
-        border-radius: 12px;
+input[type="file"] {
+    display: none;
+}
 
-        font-size: 18px;
-        font-weight: 700;
+.hidden {
+    display: none !important;
+}
 
-        text-decoration: none;
+.mobile-input-box {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+}
 
-        color: #222;
+.mobile-input-box input {
+    flex: 1;
+    padding: 11px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
 
-        cursor: pointer;
+.mobile-input-box button {
+    background: #128c7e;
+    color: white;
+    border: none;
+    padding: 0 16px;
+    border-radius: 6px;
+    cursor: pointer;
+}
 
-        transition: 0.2s ease;
-    }
-
-    .project-button:hover {
-        transform: translateY(-2px);
-
-        box-shadow:
-            0 5px 12px rgba(0, 0, 0, 0.15);
-    }
-
-    .download-button {
-        border: 3px solid #ff9933;
-    }
-
-    .upload-button {
-        border: 3px solid #138808;
-    }
-
-    @media (max-width: 600px) {
-
-        .project-container {
-            width: 92%;
-            padding: 25px 15px;
-        }
-
-        .project-container h1 {
-            font-size: 24px;
-        }
-
-        .project-button {
-            font-size: 16px;
-            padding: 14px 15px;
-        }
-
-    }
-
+.status {
+    text-align: center;
+    font-size: 12px;
+    color: #666;
+    margin: 5px 0;
+}
 </style>
-```
-
 </head>
 
 <body>
 
-```
-<main class="project-container">
+<div class="chat-container">
 
-    <h1>Project File</h1>
-<p class="project-instruction">
-   
+    <div class="header">
+        <div class="header-icon">P</div>
+        <div>
+            <h2>Project File</h2>
+            <p>Online Assistance</p>
+        </div>
+    </div>
 
-1️⃣ 
-अपनी Project File PDF किसी अन्य विद्यार्थी को साझा न करें। File मैच होने पर आपके अंक (marks) कम किए जा सकते हैं।
-                                                                        .
+    <div class="chat-box" id="chatBox"></div>
 
-2️⃣ 
-नीचे Upload Docs पर क्लिक करके अपना document अपलोड करें। कुछ समय बाद Download Project File पर क्लिक करके अपनी PDF प्राप्त करें।
+    <div class="input-area">
 
-</p>
+        <label class="upload-btn" id="uploadLabel">
+            📎
+            <input type="file" id="fileInput" accept="image/*">
+        </label>
 
-
-    <div class="project-buttons">
-
-
-        <!-- DOWNLOAD PROJECT FILE -->
-
-        <a
-            href="https://jharkhandvision123.github.io/shubham/student-csc.html"
-            class="project-button download-button"
-            target="_blank"
-            rel="noopener noreferrer"
+        <input
+            type="text"
+            id="messageInput"
+            placeholder="Type a message..."
+            autocomplete="off"
         >
-            Download Project File
-        </a>
 
-
-        <!-- UPLOAD DOCS -->
-
-        <a
-            href="https://docs.google.com/forms/d/e/1FAIpQLSeNcT5WX2iT4mMbW_aKL0kbm_pU6shS9x9OJ1mGxAX65Uk9Zg/viewform?usp=header"
-            class="project-button upload-button"
-            target="_blank"
-            rel="noopener noreferrer"
-        >
-            Upload Docs
-        </a>
-
+        <button class="send-btn" id="sendBtn">➤</button>
 
     </div>
 
-</main>
-```
+</div>
+
+<script>
+
+/* ==============================
+   SUPABASE CONFIGURATION
+================================ */
+
+const SUPABASE_URL = "YOUR_SUPABASE_URL";
+const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
+
+const supabaseClient = supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+);
+
+
+/* ==============================
+   PROJECT SETTINGS
+================================ */
+
+// बाद में यहाँ अपना QR image URL डालें
+const QR_CODE_URL = "YOUR_QR_CODE_IMAGE_URL";
+
+// Verification के बाद यहाँ अपना Project File/PDF link डालें
+const PROJECT_FILE_DOWNLOAD_LINK = "YOUR_PROJECT_FILE_DOWNLOAD_LINK";
+
+
+/* ==============================
+   VARIABLES
+================================ */
+
+const chatBox = document.getElementById("chatBox");
+const messageInput = document.getElementById("messageInput");
+const sendBtn = document.getElementById("sendBtn");
+const fileInput = document.getElementById("fileInput");
+const uploadLabel = document.getElementById("uploadLabel");
+
+let currentStep = "start";
+let admitCardUrl = "";
+let paymentScreenshotUrl = "";
+let mobileNumber = "";
+let submissionId = null;
+
+
+/* ==============================
+   CHAT FUNCTIONS
+================================ */
+
+function addBotMessage(text) {
+    const div = document.createElement("div");
+    div.className = "message bot";
+    div.innerHTML = text;
+    chatBox.appendChild(div);
+    scrollChat();
+}
+
+function addUserMessage(text) {
+    const div = document.createElement("div");
+    div.className = "message user";
+    div.textContent = text;
+    chatBox.appendChild(div);
+    scrollChat();
+}
+
+function addImageMessage(url, label) {
+    const div = document.createElement("div");
+    div.className = "file-message bot";
+
+    div.innerHTML = `
+        <strong>${label}</strong>
+        <img src="${url}" alt="${label}">
+    `;
+
+    chatBox.appendChild(div);
+    scrollChat();
+}
+
+function scrollChat() {
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+
+/* ==============================
+   START MESSAGE
+================================ */
+
+addBotMessage(
+    "Namaste! 👋<br><br>" +
+    "Project File Service में आपका स्वागत है।<br><br>" +
+    "कृपया <b>Hi</b> लिखकर भेजें।"
+);
+
+
+/* ==============================
+   SEND MESSAGE
+================================ */
+
+sendBtn.addEventListener("click", sendMessage);
+
+messageInput.addEventListener("keypress", function(e) {
+    if (e.key === "Enter") {
+        sendMessage();
+    }
+});
+
+function sendMessage() {
+
+    const message = messageInput.value.trim();
+
+    if (!message) return;
+
+    addUserMessage(message);
+
+    messageInput.value = "";
+
+    if (currentStep === "start") {
+
+        currentStep = "admit_card";
+
+        setTimeout(() => {
+            addBotMessage(
+                "कृपया अपना <b>Admit Card का फोटो</b> भेजें। 📄"
+            );
+        }, 500);
+
+        return;
+    }
+
+    if (currentStep === "mobile") {
+
+        processMobileNumber(message);
+
+        return;
+    }
+}
+
+
+/* ==============================
+   FILE UPLOAD
+================================ */
+
+fileInput.addEventListener("change", async function() {
+
+    const file = this.files[0];
+
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+        addBotMessage("कृपया केवल Admit Card या Payment Screenshot की image भेजें।");
+        return;
+    }
+
+    if (currentStep === "admit_card") {
+
+        addUserMessage("📄 Admit Card");
+
+        await uploadAdmitCard(file);
+
+    } else if (currentStep === "payment") {
+
+        addUserMessage("💳 Payment Screenshot");
+
+        await uploadPaymentScreenshot(file);
+    }
+
+    fileInput.value = "";
+});
+
+
+/* ==============================
+   ADMIT CARD UPLOAD
+================================ */
+
+async function uploadAdmitCard(file) {
+
+    addBotMessage("Admit Card प्राप्त हो रहा है...");
+
+    const fileName =
+        Date.now() + "_" +
+        Math.random().toString(36).substring(2) +
+        "_" +
+        file.name;
+
+    const path = "admit-cards/" + fileName;
+
+    const { error } = await supabaseClient
+        .storage
+        .from("project-files")
+        .upload(path, file);
+
+    if (error) {
+
+        console.error(error);
+
+        addBotMessage(
+            "Admit Card upload नहीं हो पाया। कृपया दोबारा प्रयास करें।"
+        );
+
+        return;
+    }
+
+    const { data } = supabaseClient
+        .storage
+        .from("project-files")
+        .getPublicUrl(path);
+
+    admitCardUrl = data.publicUrl;
+
+    addImageMessage(
+        admitCardUrl,
+        "Admit Card सफलतापूर्वक प्राप्त हुआ"
+    );
+
+    setTimeout(() => {
+
+        currentStep = "payment";
+
+        addBotMessage(
+            "Admit Card सफलतापूर्वक प्राप्त हुआ। ✅<br><br>" +
+            "अब नीचे दिए गए QR Code पर <b>₹50 Payment</b> करें " +
+            "और Payment का Screenshot भेजें।"
+        );
+
+        showQR();
+
+    }, 700);
+}
+
+
+/* ==============================
+   QR CODE
+================================ */
+
+function showQR() {
+
+    const div = document.createElement("div");
+
+    div.className = "message bot qr-box";
+
+    div.innerHTML = `
+        <b>₹50 Payment करें</b><br>
+        <img src="${QR_CODE_URL}" alt="Payment QR Code">
+        <br>
+        Payment करने के बाद<br>
+        <b>Screenshot भेजें।</b>
+    `;
+
+    chatBox.appendChild(div);
+
+    scrollChat();
+}
+
+
+/* ==============================
+   PAYMENT SCREENSHOT
+================================ */
+
+async function uploadPaymentScreenshot(file) {
+
+    addBotMessage("Payment Screenshot प्राप्त हो रहा है...");
+
+    const fileName =
+        Date.now() + "_" +
+        Math.random().toString(36).substring(2) +
+        "_" +
+        file.name;
+
+    const path = "payment-screenshots/" + fileName;
+
+    const { error } = await supabaseClient
+        .storage
+        .from("project-files")
+        .upload(path, file);
+
+    if (error) {
+
+        console.error(error);
+
+        addBotMessage(
+            "Payment Screenshot upload नहीं हो पाया। कृपया दोबारा प्रयास करें।"
+        );
+
+        return;
+    }
+
+    const { data } = supabaseClient
+        .storage
+        .from("project-files")
+        .getPublicUrl(path);
+
+    paymentScreenshotUrl = data.publicUrl;
+
+    addImageMessage(
+        paymentScreenshotUrl,
+        "Payment Screenshot सफलतापूर्वक प्राप्त हुआ"
+    );
+
+    setTimeout(() => {
+
+        currentStep = "mobile";
+
+        addBotMessage(
+            "Payment Screenshot प्राप्त हो गया। ✅<br><br>" +
+            "अब अपना <b>10 अंकों का Mobile Number</b> भेजें।"
+        );
+
+    }, 700);
+}
+
+
+/* ==============================
+   MOBILE NUMBER
+================================ */
+
+async function processMobileNumber(number) {
+
+    const cleanNumber = number.replace(/\D/g, "");
+
+    if (!/^[6-9]\d{9}$/.test(cleanNumber)) {
+
+        addBotMessage(
+            "कृपया सही 10 अंकों का Mobile Number दर्ज करें।"
+        );
+
+        return;
+    }
+
+    mobileNumber = cleanNumber;
+
+    addBotMessage("जानकारी सुरक्षित की जा रही है...");
+
+    const { data, error } = await supabaseClient
+        .from("project_file_submissions")
+        .insert([
+            {
+                mobile_number: mobileNumber,
+                admit_card_url: admitCardUrl,
+                payment_screenshot_url: paymentScreenshotUrl,
+                verification_status: "pending",
+                download_link: PROJECT_FILE_DOWNLOAD_LINK
+            }
+        ])
+        .select()
+        .single();
+
+    if (error) {
+
+        console.error(error);
+
+        addBotMessage(
+            "Submission में समस्या आई है। कृपया दोबारा प्रयास करें।"
+        );
+
+        return;
+    }
+
+    submissionId = data.id;
+
+    addBotMessage(
+        "आपकी पूरी जानकारी सफलतापूर्वक प्राप्त हो गई है। ✅<br><br>" +
+        "अब आपकी जानकारी Verification के लिए भेज दी गई है।<br><br>" +
+        "Verification Complete होने के बाद आपको इसी system में " +
+        "Project File Download करने का विकल्प मिलेगा।"
+    );
+
+    currentStep = "waiting";
+
+    disableInputs();
+
+    startVerificationCheck();
+}
+
+
+/* ==============================
+   VERIFICATION CHECK
+================================ */
+
+function startVerificationCheck() {
+
+    if (!submissionId) return;
+
+    const interval = setInterval(async () => {
+
+        const { data, error } = await supabaseClient
+            .from("project_file_submissions")
+            .select("verification_status, download_link")
+            .eq("id", submissionId)
+            .single();
+
+        if (error) {
+            console.error(error);
+            return;
+        }
+
+        if (data.verification_status === "done") {
+
+            clearInterval(interval);
+
+            addBotMessage(
+                "आपका Document Verification सफल रहा। ✅<br><br>" +
+                `<a class="download-btn"
+                    href="${data.download_link || PROJECT_FILE_DOWNLOAD_LINK}"
+                    target="_blank">
+                    📥 Download Project File
+                </a>`
+            );
+
+        }
+
+        if (data.verification_status === "failed") {
+
+            clearInterval(interval);
+
+            addBotMessage(
+                "Your document verification failed"
+            );
+        }
+
+    }, 5000);
+}
+
+
+/* ==============================
+   DISABLE INPUTS
+================================ */
+
+function disableInputs() {
+
+    messageInput.disabled = true;
+    sendBtn.disabled = true;
+    fileInput.disabled = true;
+    uploadLabel.style.opacity = "0.5";
+}
+
+</script>
 
 </body>
-
 </html>
