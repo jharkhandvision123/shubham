@@ -133,8 +133,12 @@ body{
     border-radius:8px;
 }
 
+/* DOWNLOAD BUTTON */
 .download-btn{
     display:block;
+    width:100%;
+    border:none;
+    cursor:pointer;
     text-align:center;
     text-decoration:none;
     background:#25d366;
@@ -142,7 +146,12 @@ body{
     padding:12px;
     border-radius:7px;
     font-weight:bold;
+    font-size:15px;
     margin-top:10px;
+}
+
+.download-btn:hover{
+    background:#20bd5a;
 }
 
 /* INPUT */
@@ -216,6 +225,7 @@ body{
 
     <div class="header">
         <div class="profile">JV</div>
+
         <div class="header-info">
             <h3>Project File</h3>
             <p>Online</p>
@@ -267,6 +277,7 @@ body{
 
 "use strict";
 
+
 /* =========================================
    SUPABASE CONFIG
 ========================================= */
@@ -274,9 +285,7 @@ body{
 const SUPABASE_URL =
 "https://aghizlgvrhunpuxvohep.supabase.co";
 
-/*
-   यहां अपना Supabase Publishable Key रखें।
-*/
+
 const SUPABASE_ANON_KEY =
 "sb_publishable_gpc7KUqUIykO3WM1aCzRfg_Myo8AKyx";
 
@@ -287,6 +296,7 @@ const SUPABASE_ANON_KEY =
 
 const QR_CODE_URL =
 "https://aghizlgvrhunpuxvohep.supabase.co/storage/v1/object/public/project-qr/WhatsApp%20Image%202026-09-12%20at%204.27.06%20PM.jpeg";
+
 
 const DOWNLOAD_LINK =
 "https://jharkhandvision123.github.io/shubham/student-csc.html";
@@ -302,7 +312,8 @@ if(!window.supabase){
         <div class="message bot">
             <span class="error">
             System loading failed.
-            </span><br><br>
+            </span>
+            <br><br>
             Please refresh the page.
         </div>
     `;
@@ -313,6 +324,7 @@ if(!window.supabase){
 
 let supabaseClient;
 
+
 try{
 
     supabaseClient =
@@ -321,7 +333,8 @@ try{
             SUPABASE_ANON_KEY
         );
 
-}catch(error){
+}
+catch(error){
 
     console.error(error);
 
@@ -329,7 +342,8 @@ try{
         <div class="message bot">
             <span class="error">
             Supabase connection failed.
-            </span><br><br>
+            </span>
+            <br><br>
             Please check the Supabase configuration.
         </div>
     `;
@@ -371,7 +385,14 @@ let admitCardFile = null;
 
 let paymentScreenshotFile = null;
 
+/* वास्तविक uploaded storage paths */
+let admitCardPath = "";
+
+let paymentScreenshotPath = "";
+
 let submissionId = null;
+
+let verificationTimer = null;
 
 
 /* =========================================
@@ -400,6 +421,7 @@ function addMessage(text,type="bot"){
     scrollChat();
 
     return div;
+
 }
 
 
@@ -461,8 +483,12 @@ function removeTyping(){
 ========================================= */
 
 addMessage(`
-    Hi 👋<br><br>
-    Welcome to <b>Project File Service</b>.<br><br>
+    Hi 👋
+    <br><br>
+
+    Welcome to <b>Project File Service</b>.
+    <br><br>
+
     इस सेवा का उपयोग करने के लिए नीचे दिए गए
     संदेश में <b>Hi</b> लिखकर Send करें।
 `);
@@ -472,23 +498,30 @@ addMessage(`
    SEND BUTTON
 ========================================= */
 
-sendBtn.addEventListener("click",sendMessage);
+sendBtn.addEventListener(
+    "click",
+    sendMessage
+);
 
 
-/* ENTER KEY
+/* =========================================
+   ENTER KEY
 ========================================= */
 
-messageInput.addEventListener("keydown",function(e){
+messageInput.addEventListener(
+    "keydown",
+    function(e){
 
-    if(e.key === "Enter"){
+        if(e.key === "Enter"){
 
-        e.preventDefault();
+            e.preventDefault();
 
-        sendMessage();
+            sendMessage();
+
+        }
 
     }
-
-});
+);
 
 
 /* =========================================
@@ -500,33 +533,51 @@ function sendMessage(){
     const text =
     messageInput.value.trim();
 
+
     if(!text){
 
         return;
 
     }
 
-    addMessage(text,"user");
+
+    addMessage(
+        text,
+        "user"
+    );
+
 
     messageInput.value = "";
+
+
+    /* START */
 
     if(currentStep === "start"){
 
         currentStep = "admit-card";
 
-        setTimeout(function(){
 
-            addMessage(`
-                कृपया अपना <b>Admit Card</b> फोटो भेजें।
-                <br><br>
-                नीचे 📎 बटन से फोटो select करें।
-            `);
+        setTimeout(
+            function(){
 
-        },300);
+                addMessage(`
+                    कृपया अपना <b>Admit Card</b> फोटो भेजें।
+                    <br><br>
+
+                    नीचे 📎 बटन से फोटो select करें।
+                `);
+
+            },
+            300
+        );
+
 
         return;
+
     }
 
+
+    /* MOBILE */
 
     if(currentStep === "mobile"){
 
@@ -549,69 +600,88 @@ function sendMessage(){
    ATTACH BUTTON
 ========================================= */
 
-attachBtn.addEventListener("click",function(){
+attachBtn.addEventListener(
+    "click",
+    function(){
 
-    fileInput.click();
+        fileInput.click();
 
-});
+    }
+);
 
 
 /* =========================================
    FILE SELECT
 ========================================= */
 
-fileInput.addEventListener("change",function(){
+fileInput.addEventListener(
+    "change",
+    function(){
 
-    if(!fileInput.files.length){
+        if(!fileInput.files.length){
 
-        return;
+            return;
+
+        }
+
+
+        const file =
+        fileInput.files[0];
+
+
+        fileName.style.display = "block";
+
+
+        fileName.textContent =
+        "Selected: " + file.name;
+
+
+        /* ADMIT CARD */
+
+        if(currentStep === "admit-card"){
+
+            admitCardFile = file;
+
+
+            addMessage(
+                "📎 " + file.name,
+                "user"
+            );
+
+
+            uploadAdmitCard();
+
+        }
+
+
+        /* PAYMENT */
+
+        else if(currentStep === "payment"){
+
+            paymentScreenshotFile = file;
+
+
+            addMessage(
+                "📎 " + file.name,
+                "user"
+            );
+
+
+            uploadPaymentScreenshot();
+
+        }
+
+
+        else{
+
+            addMessage(`
+                अभी इस समय file upload की जरूरत नहीं है।
+            `);
+
+        }
 
     }
-
-    const file =
-    fileInput.files[0];
-
-    fileName.style.display = "block";
-
-    fileName.textContent =
-    "Selected: " + file.name;
-
-
-    if(currentStep === "admit-card"){
-
-        admitCardFile = file;
-
-        addMessage(
-            "📎 " + file.name,
-            "user"
-        );
-
-        uploadAdmitCard();
-
-    }
-
-    else if(currentStep === "payment"){
-
-        paymentScreenshotFile = file;
-
-        addMessage(
-            "📎 " + file.name,
-            "user"
-        );
-
-        uploadPaymentScreenshot();
-
-    }
-
-    else{
-
-        addMessage(`
-            अभी इस समय file upload की जरूरत नहीं है।
-        `);
-
-    }
-
-});
+);
 
 
 /* =========================================
@@ -625,9 +695,12 @@ function createFileName(file){
     ? file.name.split(".").pop()
     : "jpg";
 
+
     return Date.now() +
     "_" +
-    Math.random().toString(36).substring(2,10) +
+    Math.random()
+        .toString(36)
+        .substring(2,10) +
     "." +
     extension;
 
@@ -646,15 +719,21 @@ async function uploadAdmitCard(){
 
     }
 
+
     showTyping();
+
 
     try{
 
         const fileNameNew =
-        createFileName(admitCardFile);
+        createFileName(
+            admitCardFile
+        );
+
 
         const filePath =
-        "admit-cards/" + fileNameNew;
+        "admit-cards/" +
+        fileNameNew;
 
 
         const {error} =
@@ -678,41 +757,68 @@ async function uploadAdmitCard(){
         }
 
 
+        /*
+          IMPORTANT:
+          जो वास्तविक uploaded path है,
+          वही आगे database में save होगा।
+        */
+
+        admitCardPath =
+        filePath;
+
+
         removeTyping();
 
-        currentStep = "payment";
+
+        currentStep =
+        "payment";
+
 
         addMessage(`
             <span class="success">
             ✅ Admit Card received successfully.
             </span>
+
             <br><br>
+
             अब ₹50 का payment करें।
+
             <br><br>
+
             नीचे दिए गए QR Code को scan करके
             <b>₹50</b> payment करें।
+
             <img
                 src="${QR_CODE_URL}"
                 class="qr"
                 alt="Payment QR Code"
             >
+
             Payment करने के बाद
             उसका <b>Screenshot</b> भेजें।
         `);
 
     }
 
+
     catch(error){
 
         removeTyping();
 
-        console.error("Admit Card Upload Error:",error);
+
+        console.error(
+            "Admit Card Upload Error:",
+            error
+        );
+
 
         addMessage(`
             <span class="error">
             ❌ Admit Card upload नहीं हो पाया।
             </span>
+
             <br><br>
+
             कृपया दोबारा photo select करें।
         `);
 
@@ -733,15 +839,21 @@ async function uploadPaymentScreenshot(){
 
     }
 
+
     showTyping();
+
 
     try{
 
         const fileNameNew =
-        createFileName(paymentScreenshotFile);
+        createFileName(
+            paymentScreenshotFile
+        );
+
 
         const filePath =
-        "payment-screenshots/" + fileNameNew;
+        "payment-screenshots/" +
+        fileNameNew;
 
 
         const {error} =
@@ -765,34 +877,53 @@ async function uploadPaymentScreenshot(){
         }
 
 
+        /*
+          IMPORTANT:
+          वास्तविक uploaded path save होगा।
+        */
+
+        paymentScreenshotPath =
+        filePath;
+
+
         removeTyping();
 
-        currentStep = "mobile";
+
+        currentStep =
+        "mobile";
+
 
         addMessage(`
             <span class="success">
             ✅ Payment Screenshot received.
             </span>
+
             <br><br>
+
             अब अपना <b>Mobile Number</b> भेजें।
         `);
 
     }
 
+
     catch(error){
 
         removeTyping();
+
 
         console.error(
             "Payment Screenshot Upload Error:",
             error
         );
 
+
         addMessage(`
             <span class="error">
             ❌ Payment Screenshot upload नहीं हो पाया।
             </span>
+
             <br><br>
+
             कृपया screenshot दोबारा select करें।
         `);
 
@@ -808,7 +939,10 @@ async function uploadPaymentScreenshot(){
 async function handleMobileNumber(number){
 
     const mobile =
-    number.replace(/\D/g,"");
+    number.replace(
+        /\D/g,
+        ""
+    );
 
 
     if(mobile.length !== 10){
@@ -830,21 +964,17 @@ async function handleMobileNumber(number){
     try{
 
         /*
-          NOTE:
-          अभी file URL की जगह file path database
-          में रखने के लिए temporary values बनाई गई हैं।
+          अब गलत original filename की जगह
+          वास्तविक uploaded storage path
+          database में save होगा।
         */
 
         const admitPath =
-        admitCardFile
-        ? "admit-cards/" + admitCardFile.name
-        : "";
+        admitCardPath || "";
+
 
         const paymentPath =
-        paymentScreenshotFile
-        ? "payment-screenshots/" +
-          paymentScreenshotFile.name
-        : "";
+        paymentScreenshotPath || "";
 
 
         const {data,error} =
@@ -852,15 +982,15 @@ async function handleMobileNumber(number){
         .from("project_file_submissions")
         .insert({
 
-            mobile_number:mobile,
+            mobile_number: mobile,
 
-            admit_card_url:admitPath,
+            admit_card_url: admitPath,
 
-            payment_screenshot_url:paymentPath,
+            payment_screenshot_url: paymentPath,
 
-            verification_status:"pending",
+            verification_status: "pending",
 
-            download_link:DOWNLOAD_LINK
+            download_link: DOWNLOAD_LINK
 
         })
         .select("id")
@@ -880,40 +1010,54 @@ async function handleMobileNumber(number){
 
         removeTyping();
 
-        currentStep = "waiting";
+
+        currentStep =
+        "waiting";
+
 
         addMessage(`
             <span class="success">
             ✅ आपकी submission successfully भेज दी गई है।
             </span>
+
             <br><br>
-            📱 Mobile Number: <b>${mobile}</b>
+
+            📱 Mobile Number:
+            <b>${mobile}</b>
+
             <br><br>
+
             अब आपके documents की verification की जाएगी।
+
             <br><br>
+
             कृपया प्रतीक्षा करें...
         `);
 
 
         startVerificationCheck();
 
-
     }
+
 
     catch(error){
 
         removeTyping();
+
 
         console.error(
             "Database Error:",
             error
         );
 
+
         addMessage(`
             <span class="error">
             ❌ Submission भेजने में समस्या हुई।
             </span>
+
             <br><br>
+
             कृपया कुछ देर बाद दोबारा प्रयास करें।
         `);
 
@@ -926,9 +1070,6 @@ async function handleMobileNumber(number){
    CHECK VERIFICATION
 ========================================= */
 
-let verificationTimer = null;
-
-
 function startVerificationCheck(){
 
     if(!submissionId){
@@ -940,7 +1081,9 @@ function startVerificationCheck(){
 
     if(verificationTimer){
 
-        clearInterval(verificationTimer);
+        clearInterval(
+            verificationTimer
+        );
 
     }
 
@@ -978,7 +1121,10 @@ async function checkVerification(){
         .select(
             "verification_status,download_link"
         )
-        .eq("id",submissionId)
+        .eq(
+            "id",
+            submissionId
+        )
         .single();
 
 
@@ -994,38 +1140,119 @@ async function checkVerification(){
         }
 
 
-        if(data.verification_status === "done"){
+        /* ================================
+           VERIFICATION DONE
+        ================================= */
 
-            clearInterval(verificationTimer);
+        if(
+            data.verification_status === "done"
+        ){
 
-            currentStep = "completed";
+            clearInterval(
+                verificationTimer
+            );
 
+
+            currentStep =
+            "completed";
+
+
+            /*
+              Message create किया गया है
+              और उसके बाद button पर
+              JavaScript event लगाया गया है।
+            */
+
+            const message =
             addMessage(`
                 <span class="success">
                 ✅ Document Verification Done
                 </span>
+
                 <br><br>
+
                 आपका Project File तैयार है।
+
                 <br><br>
-                <a
-                    href="${data.download_link || DOWNLOAD_LINK}"
-                    target="_blank"
+
+                <button
+                    type="button"
                     class="download-btn"
+                    id="downloadProjectFileBtn"
                 >
                     📥 Download Project File
-                </a>
+                </button>
             `);
+
+
+            /*
+              Download URL:
+              पहले database का link,
+              नहीं होने पर fixed link।
+            */
+
+            const downloadUrl =
+            data.download_link ||
+            DOWNLOAD_LINK;
+
+
+            /*
+              Download button को
+              सीधे JavaScript event से connect किया गया है।
+            */
+
+            const downloadButton =
+            message.querySelector(
+                "#downloadProjectFileBtn"
+            );
+
+
+            if(downloadButton){
+
+                downloadButton.addEventListener(
+                    "click",
+                    function(){
+
+                        if(!downloadUrl){
+
+                            alert(
+                                "Download link उपलब्ध नहीं है।"
+                            );
+
+                            return;
+
+                        }
+
+
+                        window.open(
+                            downloadUrl,
+                            "_blank"
+                        );
+
+                    }
+                );
+
+            }
 
         }
 
+
+        /* ================================
+           VERIFICATION FAILED
+        ================================= */
 
         else if(
             data.verification_status === "failed"
         ){
 
-            clearInterval(verificationTimer);
+            clearInterval(
+                verificationTimer
+            );
 
-            currentStep = "failed";
+
+            currentStep =
+            "failed";
+
 
             addMessage(`
                 <span class="error">
@@ -1037,9 +1264,12 @@ async function checkVerification(){
 
     }
 
+
     catch(error){
 
-        console.error(error);
+        console.error(
+            error
+        );
 
     }
 
@@ -1047,14 +1277,17 @@ async function checkVerification(){
 
 
 /* =========================================
-   RESET FILE INPUT AFTER SELECTION
+   RESET FILE INPUT
 ========================================= */
 
-fileInput.addEventListener("click",function(){
+fileInput.addEventListener(
+    "click",
+    function(){
 
-    fileInput.value = "";
+        fileInput.value = "";
 
-});
+    }
+);
 
 
 })();
