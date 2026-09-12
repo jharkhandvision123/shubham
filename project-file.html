@@ -22,11 +22,22 @@ body{
     width:100%;
     height:100%;
     overflow:hidden;
+
+    /* SCREEN LOCK */
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    overscroll-behavior:none;
 }
 
 body{
     font-family:Arial, sans-serif;
     background:#e5ddd5;
+
+    /* SCREEN LOCK */
+    touch-action:none;
 }
 
 /* =========================
@@ -91,6 +102,10 @@ body{
     gap:10px;
 
     -webkit-overflow-scrolling:touch;
+
+    /* CHAT AREA CAN SCROLL */
+    touch-action:pan-y;
+    overscroll-behavior:contain;
 }
 
 /* =========================
@@ -362,6 +377,9 @@ body.mobile-device{
     overflow:hidden;
 
     background:#efe7de;
+
+    /* SCREEN LOCK */
+    position:fixed;
 }
 
 body.mobile-device .chat-container{
@@ -467,6 +485,8 @@ body.mobile-device .chat-container{
 
 body.mobile-device .chat-area{
     min-height:0;
+    touch-action:pan-y;
+    overscroll-behavior:contain;
 }
 
 body.mobile-device .input-area{
@@ -573,13 +593,6 @@ body.mobile-device .file-name{
                 window.screen.width || 9999,
                 window.screen.height || 9999
             ) <= 1200;
-
-        /*
-         Desktop Site mode में Android browser
-         कभी-कभी Android/Mobile वाला User-Agent हटा देता है।
-
-         इसलिए touch + screen size को भी check किया गया है।
-        */
 
         return (
             normalMobile ||
@@ -1458,11 +1471,6 @@ function escapeHtml(text){
 document.addEventListener(
     "touchmove",
     function(event){
-
-        /*
-        Chat area के अंदर normal scrolling allowed है।
-        बाकी page को scroll होने से रोका जाता है।
-        */
 
         if(
             !event.target.closest(".chat-area")
