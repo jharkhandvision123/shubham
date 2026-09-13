@@ -197,6 +197,20 @@ button{
     border-radius:8px;
 }
 
+
+/* =========================================
+   PROJECT FILE DELETE BUTTON
+========================================= */
+
+.project-delete-btn{
+    background:#777;
+    color:white;
+    width:auto;
+    padding:8px 12px;
+    font-size:13px;
+    margin-top:8px;
+}
+
 </style>
 
 </head>
@@ -1229,6 +1243,22 @@ function createProjectSubmissionCard(item){
                 `
             }
 
+            ${
+                status === "failed"
+                ?
+                `
+                <button
+                    type="button"
+                    class="project-delete-btn"
+                    data-id="${item.id}"
+                >
+                    🗑️ DELETE
+                </button>
+                `
+                :
+                ""
+            }
+
         </div>
 
     `;
@@ -1339,6 +1369,30 @@ function createProjectSubmissionCard(item){
             function(){
 
                 changeVerification(
+                    item.id
+                );
+
+            }
+        );
+
+    }
+
+
+    /* DELETE PROJECT FILE */
+
+    const deleteButton =
+        card.querySelector(
+            ".project-delete-btn"
+        );
+
+
+    if(deleteButton){
+
+        deleteButton.addEventListener(
+            "click",
+            function(){
+
+                deleteProjectFile(
                     item.id
                 );
 
@@ -1591,6 +1645,169 @@ async function changeVerification(
         alert(
             "Verification change नहीं हो पाया।"
         );
+
+    }
+
+}
+
+
+/* =========================================
+   DELETE PROJECT FILE SUBMISSION
+========================================= */
+
+async function deleteProjectFile(submissionId){
+
+    if(!confirm(
+        "क्या आप इस Project File का पूरा data delete करना चाहते हैं?\n\nAdmit Card, Payment Screenshot और Database Record सभी delete हो जाएंगे।"
+    )){
+
+        return;
+
+    }
+
+
+    try{
+
+        projectFileMessage.textContent =
+            "Deleting...";
+
+        projectFileMessage.style.color =
+            "#d32f2f";
+
+
+        /* GET SUBMISSION DATA */
+
+        const {
+            data:submission,
+            error:fetchError
+        } =
+        await securityClient
+        .from("project_file_submissions")
+        .select(
+            "id,admit_card_url,payment_screenshot_url"
+        )
+        .eq(
+            "id",
+            submissionId
+        )
+        .single();
+
+
+        if(fetchError){
+
+            throw fetchError;
+
+        }
+
+
+        if(!submission){
+
+            throw new Error(
+                "Submission नहीं मिली।"
+            );
+
+        }
+
+
+        /* DELETE ADMIT CARD */
+
+        if(
+            submission.admit_card_url
+        ){
+
+            const {
+                error:admitError
+            } =
+            await securityClient
+            .storage
+            .from("project-files")
+            .remove([
+                submission.admit_card_url
+            ]);
+
+
+            if(admitError){
+
+                throw admitError;
+
+            }
+
+        }
+
+
+        /* DELETE PAYMENT SCREENSHOT */
+
+        if(
+            submission.payment_screenshot_url
+        ){
+
+            const {
+                error:paymentError
+            } =
+            await securityClient
+            .storage
+            .from("project-files")
+            .remove([
+                submission.payment_screenshot_url
+            ]);
+
+
+            if(paymentError){
+
+                throw paymentError;
+
+            }
+
+        }
+
+
+        /* DELETE DATABASE RECORD */
+
+        const {
+            error:deleteError
+        } =
+        await securityClient
+        .from("project_file_submissions")
+        .delete()
+        .eq(
+            "id",
+            submissionId
+        );
+
+
+        if(deleteError){
+
+            throw deleteError;
+
+        }
+
+
+        projectFileMessage.textContent =
+            "✅ Project File data successfully deleted.";
+
+        projectFileMessage.style.color =
+            "#198754";
+
+
+        /* REFRESH LIST */
+
+        await loadProjectFileSubmissions();
+
+    }
+    catch(error){
+
+        console.error(
+            "Project File Delete Error:",
+            error
+        );
+
+
+        projectFileMessage.textContent =
+            "❌ Project File delete नहीं हो पाया।";
+
+
+        projectFileMessage.style.color =
+            "#d32f2f";
 
     }
 
