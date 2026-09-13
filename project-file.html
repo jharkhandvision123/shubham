@@ -1483,6 +1483,752 @@ document.addEventListener(
 );
 
 </script>
+</script>
 
+<script>
+
+/* =========================================================
+   PROJECT FILE CHAT HISTORY - LOCAL STORAGE
+========================================================= */
+
+(function(){
+
+    const CHAT_HISTORY_KEY =
+    "project_file_chat_history_v1";
+
+    const PROJECT_STATE_KEY =
+    "project_file_state_v1";
+
+    let restoredHistory =
+    false;
+
+    let skipInitialWelcome =
+    false;
+
+    let activeDownloadUrl =
+    "";
+
+
+    /* =====================================================
+       SAVE CHAT
+    ===================================================== */
+
+    function saveProjectChat(){
+
+        try{
+
+            const messages =
+            Array.from(
+                chatArea.querySelectorAll(".message")
+            ).map(function(message){
+
+                const downloadButton =
+                message.querySelector(".download-btn");
+
+                return {
+
+                    html:
+                    message.innerHTML,
+
+                    type:
+                    message.classList.contains(
+                        "user-message"
+                    )
+                    ? "user"
+                    : "bot",
+
+                    downloadUrl:
+                    downloadButton
+                    ? (
+                        downloadButton.dataset.downloadUrl ||
+                        DOWNLOAD_LINK
+                    )
+                    : ""
+
+                };
+
+            });
+
+
+            localStorage.setItem(
+                CHAT_HISTORY_KEY,
+                JSON.stringify(messages)
+            );
+
+        }
+        catch(error){
+
+            console.error(
+                "Project chat save error:",
+                error
+            );
+
+        }
+
+    }
+
+
+    /* =====================================================
+       SAVE CURRENT PROCESS STATE
+    ===================================================== */
+
+    function saveProjectState(){
+
+        try{
+
+            localStorage.setItem(
+                PROJECT_STATE_KEY,
+                JSON.stringify({
+
+                    currentStep:
+                    currentStep,
+
+                    admitCardPath:
+                    admitCardPath,
+
+                    paymentScreenshotPath:
+                    paymentScreenshotPath,
+
+                    currentMobileNumber:
+                    currentMobileNumber
+
+                })
+            );
+
+        }
+        catch(error){
+
+            console.error(
+                "Project state save error:",
+                error
+            );
+
+        }
+
+    }
+
+
+    /* =====================================================
+       LOAD CURRENT PROCESS STATE
+    ===================================================== */
+
+    function loadProjectState(){
+
+        try{
+
+            const saved =
+            localStorage.getItem(
+                PROJECT_STATE_KEY
+            );
+
+            if(!saved){
+                return;
+            }
+
+            const state =
+            JSON.parse(saved);
+
+            if(!state){
+                return;
+            }
+
+
+            if(
+                typeof state.currentStep ===
+                "string"
+            ){
+
+                currentStep =
+                state.currentStep;
+
+            }
+
+
+            if(
+                typeof state.admitCardPath ===
+                "string"
+            ){
+
+                admitCardPath =
+                state.admitCardPath;
+
+            }
+
+
+            if(
+                typeof state.paymentScreenshotPath ===
+                "string"
+            ){
+
+                paymentScreenshotPath =
+                state.paymentScreenshotPath;
+
+            }
+
+
+            if(
+                typeof state.currentMobileNumber ===
+                "string"
+            ){
+
+                currentMobileNumber =
+                state.currentMobileNumber;
+
+            }
+
+        }
+        catch(error){
+
+            console.error(
+                "Project state load error:",
+                error
+            );
+
+        }
+
+    }
+
+
+    /* =====================================================
+       RESTORE CHAT
+    ===================================================== */
+
+    function restoreProjectChat(){
+
+        try{
+
+            const saved =
+            localStorage.getItem(
+                CHAT_HISTORY_KEY
+            );
+
+            if(!saved){
+                return false;
+            }
+
+            const messages =
+            JSON.parse(saved);
+
+            if(
+                !Array.isArray(messages) ||
+                messages.length === 0
+            ){
+                return false;
+            }
+
+
+            chatArea.innerHTML = "";
+
+
+            messages.forEach(function(item){
+
+                if(
+                    !item ||
+                    typeof item.html !==
+                    "string"
+                ){
+                    return;
+                }
+
+
+                const message =
+                document.createElement("div");
+
+
+                message.className =
+                "message " +
+                (
+                    item.type === "user"
+                    ? "user-message"
+                    : "bot-message"
+                );
+
+
+                message.innerHTML =
+                item.html;
+
+
+                const downloadButton =
+                message.querySelector(
+                    ".download-btn"
+                );
+
+
+                if(downloadButton){
+
+                    downloadButton.dataset.downloadUrl =
+                    item.downloadUrl ||
+                    DOWNLOAD_LINK;
+
+                    downloadButton.dataset.restored =
+                    "true";
+
+                }
+
+
+                chatArea.appendChild(
+                    message
+                );
+
+            });
+
+
+            setTimeout(function(){
+
+                chatArea.scrollTop =
+                chatArea.scrollHeight;
+
+            },100);
+
+
+            restoredHistory =
+            true;
+
+            skipInitialWelcome =
+            true;
+
+            return true;
+
+        }
+        catch(error){
+
+            console.error(
+                "Project chat restore error:",
+                error
+            );
+
+            return false;
+
+        }
+
+    }
+
+
+    /* =====================================================
+       ORIGINAL ADD MESSAGE SAVE
+    ===================================================== */
+
+    const originalAddMessage =
+    addMessage;
+
+
+    addMessage = function(
+        html,
+        type="bot"
+    ){
+
+        /*
+           पुरानी Welcome message को
+           refresh पर दोबारा आने से रोकना।
+        */
+
+        if(
+            skipInitialWelcome &&
+            html.indexOf(
+                "Project File बनाने के लिए सबसे पहले अपना"
+            ) !== -1
+        ){
+
+            skipInitialWelcome =
+            false;
+
+            return document.createElement(
+                "div"
+            );
+
+        }
+
+
+        const message =
+        originalAddMessage(
+            html,
+            type
+        );
+
+
+        const downloadButton =
+        message.querySelector(
+            ".download-btn"
+        );
+
+
+        if(downloadButton){
+
+            downloadButton.dataset.downloadUrl =
+            activeDownloadUrl ||
+            DOWNLOAD_LINK;
+
+        }
+
+
+        saveProjectChat();
+
+        saveProjectState();
+
+
+        return message;
+
+    };
+
+
+    /* =====================================================
+       RESTORED DOWNLOAD BUTTON
+    ===================================================== */
+
+    chatArea.addEventListener(
+        "click",
+        function(event){
+
+            const button =
+            event.target.closest(
+                ".download-btn"
+            );
+
+
+            if(
+                !button ||
+                button.dataset.restored !==
+                "true"
+            ){
+                return;
+            }
+
+
+            event.preventDefault();
+
+
+            const downloadUrl =
+            button.dataset.downloadUrl ||
+            DOWNLOAD_LINK;
+
+
+            if(!downloadUrl){
+
+                alert(
+                    "Download link उपलब्ध नहीं है।"
+                );
+
+                return;
+            }
+
+
+            window.open(
+                downloadUrl,
+                "_blank",
+                "noopener,noreferrer"
+            );
+
+        }
+    );
+
+
+    /* =====================================================
+       NEW REQUEST
+    ===================================================== */
+
+    function startNewProjectRequest(){
+
+        currentStep =
+        "admit-card";
+
+        admitCardFile =
+        null;
+
+        paymentScreenshotFile =
+        null;
+
+        admitCardPath =
+        "";
+
+        paymentScreenshotPath =
+        "";
+
+        currentMobileNumber =
+        "";
+
+
+        if(verificationTimer){
+
+            clearInterval(
+                verificationTimer
+            );
+
+            verificationTimer =
+            null;
+
+        }
+
+
+        fileInput.value =
+        "";
+
+        textInput.value =
+        "";
+
+        fileName.style.display =
+        "none";
+
+
+        textInput.placeholder =
+        "Admit Card upload करें...";
+
+
+        setInputEnabled(
+            true
+        );
+
+
+        saveProjectState();
+
+
+        addMessage(
+            "👋 <b>Welcome!</b><br><br>" +
+            "Project File बनाने के लिए सबसे पहले अपना " +
+            "<b>Admit Card</b> upload करें।"
+        );
+
+    }
+
+
+    /* =====================================================
+       VERIFICATION SUCCESS
+    ===================================================== */
+
+    const originalSuccess =
+    showVerificationSuccess;
+
+
+    showVerificationSuccess =
+    function(downloadUrl){
+
+        activeDownloadUrl =
+        downloadUrl ||
+        DOWNLOAD_LINK;
+
+
+        originalSuccess(
+            downloadUrl
+        );
+
+
+        activeDownloadUrl =
+        "";
+
+
+        saveProjectChat();
+
+
+        startNewProjectRequest();
+
+    };
+
+
+    /* =====================================================
+       VERIFICATION FAILED
+    ===================================================== */
+
+    const originalFailed =
+    showVerificationFailed;
+
+
+    showVerificationFailed =
+    function(){
+
+        originalFailed();
+
+
+        saveProjectChat();
+
+
+        startNewProjectRequest();
+
+    };
+
+
+    /* =====================================================
+       SAVE AFTER ADMIT CARD
+    ===================================================== */
+
+    const originalAdmitCard =
+    handleAdmitCard;
+
+
+    handleAdmitCard =
+    async function(){
+
+        const result =
+        await originalAdmitCard();
+
+
+        saveProjectState();
+        saveProjectChat();
+
+
+        return result;
+
+    };
+
+
+    /* =====================================================
+       SAVE AFTER PAYMENT SCREENSHOT
+    ===================================================== */
+
+    const originalPayment =
+    handlePaymentScreenshot;
+
+
+    handlePaymentScreenshot =
+    async function(){
+
+        const result =
+        await originalPayment();
+
+
+        saveProjectState();
+        saveProjectChat();
+
+
+        return result;
+
+    };
+
+
+    /* =====================================================
+       SAVE AFTER MOBILE SUBMISSION
+    ===================================================== */
+
+    const originalMobile =
+    handleMobileNumber;
+
+
+    handleMobileNumber =
+    async function(){
+
+        const result =
+        await originalMobile();
+
+
+        saveProjectState();
+        saveProjectChat();
+
+
+        return result;
+
+    };
+
+
+    /* =====================================================
+       RESTORE NOW
+    ===================================================== */
+
+    loadProjectState();
+
+    restoreProjectChat();
+
+
+    /* =====================================================
+       APPLY RESTORED STATE AFTER PAGE LOAD
+    ===================================================== */
+
+    window.addEventListener(
+        "load",
+        function(){
+
+            if(!restoredHistory){
+                return;
+            }
+
+
+            if(
+                currentStep ===
+                "waiting"
+            ){
+
+                textInput.placeholder =
+                "Verification होने तक प्रतीक्षा करें...";
+
+
+                setInputEnabled(
+                    false
+                );
+
+
+                if(
+                    currentMobileNumber
+                ){
+
+                    startVerificationCheck();
+
+                }
+
+            }
+
+
+            else if(
+                currentStep ===
+                "payment"
+            ){
+
+                textInput.placeholder =
+                "Payment Screenshot upload करें...";
+
+
+                setInputEnabled(
+                    true
+                );
+
+            }
+
+
+            else if(
+                currentStep ===
+                "mobile"
+            ){
+
+                textInput.placeholder =
+                "अपना Mobile Number लिखें...";
+
+
+                setInputEnabled(
+                    true
+                );
+
+            }
+
+
+            else{
+
+                currentStep =
+                "admit-card";
+
+
+                textInput.placeholder =
+                "Admit Card upload करें...";
+
+
+                setInputEnabled(
+                    true
+                );
+
+            }
+
+
+            setTimeout(function(){
+
+                chatArea.scrollTop =
+                chatArea.scrollHeight;
+
+            },150);
+
+        }
+    );
+
+
+})();
+
+</script>
+
+</body>
+</html>
 </body>
 </html>
