@@ -74,8 +74,7 @@ button{
 #addVideoBtn,
 #searchDeleteBtn,
 #uploadReceiptBtn,
-#projectFileRefreshBtn,
-#formFillingRefreshBtn{
+#projectFileRefreshBtn{
     background:#0d47a1;
     color:white;
 }
@@ -102,8 +101,7 @@ button{
 #videoMessage,
 #deleteMessage,
 #receiptUploadMessage,
-#projectFileMessage,
-#formFillingMessage{
+#projectFileMessage{
     text-align:center;
     margin-top:15px;
     font-weight:bold;
@@ -215,10 +213,10 @@ button{
 
 
 /* =========================================
-   FORM FILLING VERIFICATION
+   FORM FILLING MANAGEMENT
 ========================================= */
 
-.form-submission{
+.form-filling-submission{
     border:1px solid #ddd;
     border-radius:10px;
     padding:15px;
@@ -226,20 +224,19 @@ button{
     background:#fafafa;
 }
 
-.form-mobile{
+.form-filling-mobile{
     font-size:17px;
     font-weight:bold;
     color:#0d47a1;
-    margin-bottom:10px;
+    margin-bottom:8px;
 }
 
-.form-detail{
-    margin-top:7px;
+.form-filling-info{
+    line-height:1.7;
     font-size:14px;
-    line-height:1.5;
 }
 
-.form-status{
+.form-filling-status{
     padding:8px;
     border-radius:6px;
     text-align:center;
@@ -262,11 +259,11 @@ button{
     color:#721c24;
 }
 
-.form-buttons{
+.form-filling-buttons{
     margin-top:10px;
 }
 
-.form-buttons button{
+.form-filling-buttons button{
     margin-top:8px;
 }
 
@@ -286,11 +283,11 @@ button{
 }
 
 .form-change-btn{
-    background:#455a64;
+    background:#777;
     color:white;
 }
 
-.no-form-data{
+.form-filling-empty{
     text-align:center;
     padding:20px;
     color:#666;
@@ -306,7 +303,7 @@ button{
 
 <header>
 
-<h1>Admin Receipt Management</h1>
+    <h1>Admin Receipt Management</h1>
 
 </header>
 
@@ -314,500 +311,510 @@ button{
 <div class="container">
 
 
-<!-- =====================================
-     ADMIN LOGIN
-====================================== -->
+    <!-- =====================================
+         ADMIN LOGIN
+    ====================================== -->
 
-<div class="box" id="loginBox">
+    <div class="box" id="loginBox">
 
-<h2>Admin Login</h2>
+        <h2>Admin Login</h2>
 
-<input
-    type="email"
-    id="email"
-    placeholder="Admin Email"
-    autocomplete="username"
->
+        <input
+            type="email"
+            id="email"
+            placeholder="Admin Email"
+            autocomplete="username"
+        >
 
-<input
-    type="password"
-    id="password"
-    placeholder="Admin Password"
-    autocomplete="current-password"
->
+        <input
+            type="password"
+            id="password"
+            placeholder="Admin Password"
+            autocomplete="current-password"
+        >
 
-<button id="loginBtn">
-    LOGIN
-</button>
+        <button id="loginBtn">
+            LOGIN
+        </button>
 
-<div id="loginMessage"></div>
+        <div id="loginMessage"></div>
 
-</div>
+    </div>
 
 
-<!-- =====================================
-     ALL ADMIN FUNCTIONS
-====================================== -->
+    <!-- =====================================
+         ALL ADMIN FUNCTIONS
+    ====================================== -->
 
-<div id="adminPanel">
+    <div id="adminPanel">
 
 
-<!-- =====================================
-     FORM FILLING VERIFICATION
-====================================== -->
 
-<div class="box">
+        <!-- =====================================
+             FORM FILLING MANAGEMENT
+        ====================================== -->
 
-<h2>Form Filling Verification</h2>
+        <div class="box">
 
-<button
-    id="formFillingRefreshBtn"
-    type="button"
->
-    🔄 LOAD FORM FILLING SUBMISSIONS
-</button>
+            <h2>Form Filling Management</h2>
 
-<div id="formFillingMessage"></div>
+            <button
+                id="formFillingRefreshBtn"
+                type="button"
+                style="background:#0d47a1;color:white;"
+            >
+                🔄 LOAD FORM FILLING SUBMISSIONS
+            </button>
 
-<div id="formFillingResults"></div>
+            <div id="formFillingMessage"></div>
 
-</div>
+            <div id="formFillingResults"></div>
 
+        </div>
 
-<!-- =====================================
-     PROJECT FILE VERIFICATION
-====================================== -->
 
-<div class="box">
+        <!-- =====================================
+             PROJECT FILE VERIFICATION
+        ====================================== -->
 
-<h2>Project File Verification</h2>
+        <div class="box">
 
-<button
-    id="projectFileRefreshBtn"
-    type="button"
->
-    🔄 LOAD PROJECT FILE SUBMISSIONS
-</button>
+            <h2>Project File Verification</h2>
 
-<div id="projectFileMessage"></div>
+            <button
+                id="projectFileRefreshBtn"
+                type="button"
+            >
+                🔄 LOAD PROJECT FILE SUBMISSIONS
+            </button>
 
-<div id="projectFileResults"></div>
+            <div id="projectFileMessage"></div>
 
-</div>
+            <div id="projectFileResults"></div>
 
+        </div>
 
-<!-- =====================================
-     PDF UPLOAD
-====================================== -->
 
-<div class="box">
+        <!-- =====================================
+             PDF UPLOAD
+        ====================================== -->
 
-<h2>Upload PDF</h2>
+        <div class="box">
 
-<select id="semester">
+            <h2>Upload PDF</h2>
 
-<option value="">
-    Select Semester
-</option>
+            <select id="semester">
 
-<option value="Semester 1">
-    Semester 1
-</option>
+                <option value="">
+                    Select Semester
+                </option>
 
-<option value="Semester 2">
-    Semester 2
-</option>
+                <option value="Semester 1">
+                    Semester 1
+                </option>
 
-<option value="Semester 3">
-    Semester 3
-</option>
+                <option value="Semester 2">
+                    Semester 2
+                </option>
 
-<option value="Semester 4">
-    Semester 4
-</option>
+                <option value="Semester 3">
+                    Semester 3
+                </option>
 
-<option value="Semester 5">
-    Semester 5
-</option>
+                <option value="Semester 4">
+                    Semester 4
+                </option>
 
-<option value="Semester 6">
-    Semester 6
-</option>
+                <option value="Semester 5">
+                    Semester 5
+                </option>
 
-<option value="Semester 7">
-    Semester 7
-</option>
+                <option value="Semester 6">
+                    Semester 6
+                </option>
 
-<option value="Semester 8">
-    Semester 8
-</option>
+                <option value="Semester 7">
+                    Semester 7
+                </option>
 
-</select>
+                <option value="Semester 8">
+                    Semester 8
+                </option>
 
+            </select>
 
-<select id="honoursSubject">
 
-<option value="">
-    Select Honours / Subject
-</option>
+            <select id="honoursSubject">
 
-<option value="Political Science">
-    Political Science
-</option>
+                <option value="">
+                    Select Honours / Subject
+                </option>
 
-<option value="History">
-    History
-</option>
+                <option value="Political Science">
+                    Political Science
+                </option>
 
-<option value="Geography">
-    Geography
-</option>
+                <option value="History">
+                    History
+                </option>
 
-<option value="Hindi">
-    Hindi
-</option>
+                <option value="Geography">
+                    Geography
+                </option>
 
-<option value="English">
-    English
-</option>
+                <option value="Hindi">
+                    Hindi
+                </option>
 
-<option value="Economics">
-    Economics
-</option>
+                <option value="English">
+                    English
+                </option>
 
-</select>
+                <option value="Economics">
+                    Economics
+                </option>
 
+            </select>
 
-<input
-    type="text"
-    id="paperName"
-    placeholder="Enter Paper Name / Code (e.g. MJ-2)"
->
 
+            <input
+                type="text"
+                id="paperName"
+                placeholder="Enter Paper Name / Code (e.g. MJ-2)"
+            >
 
-<select id="contentType">
 
-<option value="">
-    Select Content Type
-</option>
+            <select id="contentType">
 
-<option value="Chapter Notes">
-    Chapter Notes
-</option>
+                <option value="">
+                    Select Content Type
+                </option>
 
-<option value="PYQ">
-    PYQ
-</option>
+                <option value="Chapter Notes">
+                    Chapter Notes
+                </option>
 
-<option value="Online Quiz">
-    Online Quiz
-</option>
+                <option value="PYQ">
+                    PYQ
+                </option>
 
-<option value="Video Solution">
-    Video Solution
-</option>
+                <option value="Online Quiz">
+                    Online Quiz
+                </option>
 
-</select>
+                <option value="Video Solution">
+                    Video Solution
+                </option>
 
+            </select>
 
-<input
-    type="file"
-    id="pdfFile"
-    accept="application/pdf"
->
 
+            <input
+                type="file"
+                id="pdfFile"
+                accept="application/pdf"
+            >
 
-<button id="uploadBtn">
-    UPLOAD PDF
-</button>
 
-<div id="uploadMessage"></div>
+            <button id="uploadBtn">
+                UPLOAD PDF
+            </button>
 
-</div>
 
+            <div id="uploadMessage"></div>
 
-<!-- =====================================
-     SOLUTION VIDEO
-====================================== -->
+        </div>
 
-<div class="box">
 
-<h2>Add Solution Video</h2>
+        <!-- =====================================
+             SOLUTION VIDEO
+        ====================================== -->
 
-<select id="videoSemester">
+        <div class="box">
 
-<option value="">
-    Select Semester
-</option>
+            <h2>Add Solution Video</h2>
 
-<option value="Semester 1">Semester 1</option>
-<option value="Semester 2">Semester 2</option>
-<option value="Semester 3">Semester 3</option>
-<option value="Semester 4">Semester 4</option>
-<option value="Semester 5">Semester 5</option>
-<option value="Semester 6">Semester 6</option>
-<option value="Semester 7">Semester 7</option>
-<option value="Semester 8">Semester 8</option>
+            <select id="videoSemester">
 
-</select>
+                <option value="">
+                    Select Semester
+                </option>
 
+                <option value="Semester 1">Semester 1</option>
+                <option value="Semester 2">Semester 2</option>
+                <option value="Semester 3">Semester 3</option>
+                <option value="Semester 4">Semester 4</option>
+                <option value="Semester 5">Semester 5</option>
+                <option value="Semester 6">Semester 6</option>
+                <option value="Semester 7">Semester 7</option>
+                <option value="Semester 8">Semester 8</option>
 
-<select id="videoHonoursSubject">
+            </select>
 
-<option value="">
-    Select Honours / Subject
-</option>
 
-<option value="Political Science">
-    Political Science
-</option>
+            <select id="videoHonoursSubject">
 
-<option value="History">
-    History
-</option>
+                <option value="">
+                    Select Honours / Subject
+                </option>
 
-<option value="Geography">
-    Geography
-</option>
+                <option value="Political Science">
+                    Political Science
+                </option>
 
-<option value="Hindi">
-    Hindi
-</option>
+                <option value="History">
+                    History
+                </option>
 
-<option value="English">
-    English
-</option>
+                <option value="Geography">
+                    Geography
+                </option>
 
-<option value="Economics">
-    Economics
-</option>
+                <option value="Hindi">
+                    Hindi
+                </option>
 
-</select>
+                <option value="English">
+                    English
+                </option>
 
+                <option value="Economics">
+                    Economics
+                </option>
 
-<input
-    type="text"
-    id="videoPaperName"
-    placeholder="Enter Paper Name / Code (e.g. MJ-2)"
->
+            </select>
 
 
-<input
-    type="text"
-    id="videoTitle"
-    placeholder="Enter Video Title"
->
+            <input
+                type="text"
+                id="videoPaperName"
+                placeholder="Enter Paper Name / Code (e.g. MJ-2)"
+            >
 
 
-<input
-    type="url"
-    id="videoUrl"
-    placeholder="Paste YouTube Video Link"
->
+            <input
+                type="text"
+                id="videoTitle"
+                placeholder="Enter Video Title"
+            >
 
 
-<button id="addVideoBtn">
-    ADD SOLUTION VIDEO
-</button>
+            <input
+                type="url"
+                id="videoUrl"
+                placeholder="Paste YouTube Video Link"
+            >
 
-<div id="videoMessage"></div>
 
-</div>
+            <button id="addVideoBtn">
+                ADD SOLUTION VIDEO
+            </button>
 
 
-<!-- =====================================
-     DELETE CONTENT
-====================================== -->
+            <div id="videoMessage"></div>
 
-<div class="box">
+        </div>
 
-<h2>Delete Content</h2>
 
-<select id="deleteType">
+        <!-- =====================================
+             DELETE CONTENT
+        ====================================== -->
 
-<option value="">
-    Select Content to Delete
-</option>
+        <div class="box">
 
-<option value="PDF">
-    PDF
-</option>
+            <h2>Delete Content</h2>
 
-<option value="VIDEO">
-    Solution Video
-</option>
+            <select id="deleteType">
 
-</select>
+                <option value="">
+                    Select Content to Delete
+                </option>
 
+                <option value="PDF">
+                    PDF
+                </option>
 
-<select id="deleteSemester">
+                <option value="VIDEO">
+                    Solution Video
+                </option>
 
-<option value="">
-    Select Semester
-</option>
+            </select>
 
-<option value="Semester 1">Semester 1</option>
-<option value="Semester 2">Semester 2</option>
-<option value="Semester 3">Semester 3</option>
-<option value="Semester 4">Semester 4</option>
-<option value="Semester 5">Semester 5</option>
-<option value="Semester 6">Semester 6</option>
-<option value="Semester 7">Semester 7</option>
-<option value="Semester 8">Semester 8</option>
 
-</select>
+            <select id="deleteSemester">
 
+                <option value="">
+                    Select Semester
+                </option>
 
-<select id="deleteSubject">
+                <option value="Semester 1">Semester 1</option>
+                <option value="Semester 2">Semester 2</option>
+                <option value="Semester 3">Semester 3</option>
+                <option value="Semester 4">Semester 4</option>
+                <option value="Semester 5">Semester 5</option>
+                <option value="Semester 6">Semester 6</option>
+                <option value="Semester 7">Semester 7</option>
+                <option value="Semester 8">Semester 8</option>
 
-<option value="">
-    Select Honours / Subject
-</option>
+            </select>
 
-<option value="Political Science">
-    Political Science
-</option>
 
-<option value="History">
-    History
-</option>
+            <select id="deleteSubject">
 
-<option value="Geography">
-    Geography
-</option>
+                <option value="">
+                    Select Honours / Subject
+                </option>
 
-<option value="Hindi">
-    Hindi
-</option>
+                <option value="Political Science">
+                    Political Science
+                </option>
 
-<option value="English">
-    English
-</option>
+                <option value="History">
+                    History
+                </option>
 
-<option value="Economics">
-    Economics
-</option>
+                <option value="Geography">
+                    Geography
+                </option>
 
-</select>
+                <option value="Hindi">
+                    Hindi
+                </option>
 
+                <option value="English">
+                    English
+                </option>
 
-<input
-    type="text"
-    id="deletePaper"
-    placeholder="Enter Paper Name / Code (e.g. MJ-2)"
->
+                <option value="Economics">
+                    Economics
+                </option>
 
+            </select>
 
-<select id="deleteContentType">
 
-<option value="">
-    Select PDF Type
-</option>
+            <input
+                type="text"
+                id="deletePaper"
+                placeholder="Enter Paper Name / Code (e.g. MJ-2)"
+            >
 
-<option value="Chapter Notes">
-    Chapter Notes
-</option>
 
-<option value="PYQ">
-    PYQ
-</option>
+            <select id="deleteContentType">
 
-<option value="Online Quiz">
-    Online Quiz
-</option>
+                <option value="">
+                    Select PDF Type
+                </option>
 
-<option value="Video Solution">
-    Video Solution
-</option>
+                <option value="Chapter Notes">
+                    Chapter Notes
+                </option>
 
-</select>
+                <option value="PYQ">
+                    PYQ
+                </option>
 
+                <option value="Online Quiz">
+                    Online Quiz
+                </option>
 
-<button id="searchDeleteBtn">
-    SEARCH CONTENT
-</button>
+                <option value="Video Solution">
+                    Video Solution
+                </option>
 
-<div id="deleteMessage"></div>
+            </select>
 
-<div id="deleteResults"></div>
 
-</div>
+            <button id="searchDeleteBtn">
+                SEARCH CONTENT
+            </button>
 
 
-<!-- =====================================
-     DELETE RECEIPT
-====================================== -->
+            <div id="deleteMessage"></div>
 
-<div class="box" id="adminBox">
+            <div id="deleteResults"></div>
 
-<h2>Delete Receipt</h2>
+        </div>
 
-<input
-    type="tel"
-    id="adminMobile"
-    placeholder="Enter 10 digit mobile number"
-    maxlength="10"
-    inputmode="numeric"
->
 
-<button id="searchBtn">
-    SEARCH RECEIPTS
-</button>
+        <!-- =====================================
+             DELETE RECEIPT
+        ====================================== -->
 
-<div id="message"></div>
+        <div class="box" id="adminBox">
 
-<div id="receipts"></div>
+            <h2>Delete Receipt</h2>
 
-</div>
+            <input
+                type="tel"
+                id="adminMobile"
+                placeholder="Enter 10 digit mobile number"
+                maxlength="10"
+                inputmode="numeric"
+            >
 
 
-<!-- =====================================
-     UPLOAD RECEIPT
-====================================== -->
+            <button id="searchBtn">
+                SEARCH RECEIPTS
+            </button>
 
-<div class="box">
 
-<h2>Upload Receipt</h2>
+            <div id="message"></div>
 
-<input
-    type="tel"
-    id="receiptMobile"
-    placeholder="Enter 10 digit mobile number"
-    maxlength="10"
-    inputmode="numeric"
->
+            <div id="receipts"></div>
 
-<input
-    type="file"
-    id="receiptFile"
-    accept="application/pdf"
->
+        </div>
 
-<button id="uploadReceiptBtn">
-    UPLOAD RECEIPT
-</button>
 
-<div id="receiptUploadMessage"></div>
+        <!-- =====================================
+             UPLOAD RECEIPT
+        ====================================== -->
 
-</div>
+        <div class="box">
 
+            <h2>Upload Receipt</h2>
 
-<!-- =====================================
-     LOGOUT
-====================================== -->
+            <input
+                type="tel"
+                id="receiptMobile"
+                placeholder="Enter 10 digit mobile number"
+                maxlength="10"
+                inputmode="numeric"
+            >
 
-<div class="box" id="logoutBox">
 
-<button
-    id="logoutBtn"
-    class="logoutBtn"
->
-    LOGOUT
-</button>
+            <input
+                type="file"
+                id="receiptFile"
+                accept="application/pdf"
+            >
 
-</div>
 
-</div>
+            <button id="uploadReceiptBtn">
+                UPLOAD RECEIPT
+            </button>
+
+
+            <div id="receiptUploadMessage"></div>
+
+        </div>
+
+
+        <!-- =====================================
+             LOGOUT
+        ====================================== -->
+
+        <div class="box" id="logoutBox">
+
+            <button
+                id="logoutBtn"
+                class="logoutBtn"
+            >
+                LOGOUT
+            </button>
+
+        </div>
+
+    </div>
 
 </div>
 
@@ -818,13 +825,20 @@ button{
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+
 <script>
+
+/* =========================================
+   SUPABASE CONFIG
+========================================= */
 
 const SUPABASE_URL =
     "https://aghizlgvrhunpuxvohep.supabase.co";
 
+
 const SUPABASE_KEY =
     "sb_publishable_gpc7KUqUIykO3WM1aCzRfg_Myo8AKyx";
+
 
 const securityClient =
     window.supabase.createClient(
@@ -833,31 +847,45 @@ const securityClient =
     );
 
 
+/* =========================================
+   LOGIN ELEMENTS
+========================================= */
+
 const loginBox =
     document.getElementById("loginBox");
+
 
 const adminPanel =
     document.getElementById("adminPanel");
 
+
 const loginBtn =
     document.getElementById("loginBtn");
+
 
 const logoutBtn =
     document.getElementById("logoutBtn");
 
+
 const loginMessage =
     document.getElementById("loginMessage");
 
+
+/* =========================================
+   PROJECT FILE ELEMENTS
+========================================= */
 
 const projectFileRefreshBtn =
     document.getElementById(
         "projectFileRefreshBtn"
     );
 
+
 const projectFileMessage =
     document.getElementById(
         "projectFileMessage"
     );
+
 
 const projectFileResults =
     document.getElementById(
@@ -865,21 +893,9 @@ const projectFileResults =
     );
 
 
-const formFillingRefreshBtn =
-    document.getElementById(
-        "formFillingRefreshBtn"
-    );
-
-const formFillingMessage =
-    document.getElementById(
-        "formFillingMessage"
-    );
-
-const formFillingResults =
-    document.getElementById(
-        "formFillingResults"
-    );
-
+/* =========================================
+   SHOW / HIDE ADMIN
+========================================= */
 
 function showAdminPanel(){
 
@@ -888,7 +904,6 @@ function showAdminPanel(){
     adminPanel.style.display = "block";
 
     loadProjectFileSubmissions();
-
     loadFormFillingSubmissions();
 
 }
@@ -902,6 +917,10 @@ function showLogin(){
 
 }
 
+
+/* =========================================
+   ADMIN SESSION
+========================================= */
 
 async function checkAdminSession(){
 
@@ -948,6 +967,10 @@ async function checkAdminSession(){
 }
 
 
+/* =========================================
+   LOGIN
+========================================= */
+
 loginBtn.addEventListener(
     "click",
     async function(){
@@ -957,6 +980,7 @@ loginBtn.addEventListener(
             .getElementById("email")
             .value
             .trim();
+
 
         const password =
             document
@@ -992,6 +1016,7 @@ loginBtn.addEventListener(
             .signInWithPassword({
 
                 email:email,
+
                 password:password
 
             });
@@ -1016,6 +1041,7 @@ loginBtn.addEventListener(
                 document
                 .getElementById("password")
                 .value = "";
+
 
                 loginMessage.textContent = "";
 
@@ -1042,6 +1068,10 @@ loginBtn.addEventListener(
 );
 
 
+/* =========================================
+   LOGOUT
+========================================= */
+
 logoutBtn.addEventListener(
     "click",
     async function(){
@@ -1054,6 +1084,7 @@ logoutBtn.addEventListener(
         .getElementById("email")
         .value = "";
 
+
         document
         .getElementById("password")
         .value = "";
@@ -1061,6 +1092,10 @@ logoutBtn.addEventListener(
     }
 );
 
+
+/* =========================================
+   AUTH STATE
+========================================= */
 
 securityClient.auth.onAuthStateChange(
     function(event,session){
@@ -1080,9 +1115,20 @@ securityClient.auth.onAuthStateChange(
 );
 
 
+
 /* =========================================
-   FORM FILLING LOAD
+   FORM FILLING MANAGEMENT
 ========================================= */
+
+const formFillingRefreshBtn =
+    document.getElementById("formFillingRefreshBtn");
+
+const formFillingMessage =
+    document.getElementById("formFillingMessage");
+
+const formFillingResults =
+    document.getElementById("formFillingResults");
+
 
 formFillingRefreshBtn.addEventListener(
     "click",
@@ -1092,14 +1138,9 @@ formFillingRefreshBtn.addEventListener(
 
 async function loadFormFillingSubmissions(){
 
-    formFillingMessage.textContent =
-        "Loading...";
-
-    formFillingMessage.style.color =
-        "#222";
-
+    formFillingMessage.textContent = "Loading...";
+    formFillingMessage.style.color = "#222";
     formFillingResults.innerHTML = "";
-
 
     try{
 
@@ -1119,34 +1160,25 @@ async function loadFormFillingSubmissions(){
             }
         );
 
-
         if(error){
-
             throw error;
-
         }
 
-
         formFillingMessage.textContent = "";
-
 
         if(!data || data.length === 0){
 
             formFillingResults.innerHTML = `
-                <div class="no-form-data">
+                <div class="form-filling-empty">
                     कोई Form Filling submission नहीं मिली।
                 </div>
             `;
 
             return;
-
         }
 
-
         data.forEach(function(item){
-
-            createFormFillingSubmissionCard(item);
-
+            createFormFillingCard(item);
         });
 
     }
@@ -1162,44 +1194,21 @@ async function loadFormFillingSubmissions(){
 
         formFillingMessage.style.color =
             "#d32f2f";
-
     }
 
 }
 
 
-function createFormFillingSubmissionCard(item){
+function createFormFillingCard(item){
 
     const card =
         document.createElement("div");
 
     card.className =
-        "form-submission";
+        "form-filling-submission";
 
-
-    const mobile =
-        item.mobile_number ||
-        "Not available";
-
-    const formType =
-        item.form_type ||
-        "Not available";
-
-    const semester =
-        item.semester ||
-        "Not available";
-
-    const category =
-        item.category ||
-        "Not available";
-
-
-    const rawStatus =
-        String(
-            item.status ||
-            "Pending"
-        ).toLowerCase();
-
+    const status =
+        item.status || "Pending";
 
     let statusClass =
         "form-status-pending";
@@ -1207,11 +1216,506 @@ function createFormFillingSubmissionCard(item){
     let statusText =
         "⏳ PENDING";
 
-
-    if(rawStatus === "done"){
-
+    if(
+        String(status).toLowerCase() === "done"
+    ){
         statusClass =
             "form-status-done";
+
+        statusText =
+            "✅ VERIFICATION DONE";
+    }
+
+    if(
+        String(status).toLowerCase() === "failed"
+    ){
+        statusClass =
+            "form-status-failed";
+
+        statusText =
+            "❌ VERIFICATION FAILED";
+    }
+
+    let dateText = "";
+
+    if(item.created_at){
+
+        try{
+
+            dateText =
+                new Date(
+                    item.created_at
+                ).toLocaleString("en-IN");
+
+        }
+        catch(e){
+
+            dateText = "";
+        }
+    }
+
+    card.innerHTML = `
+
+        <div class="form-filling-mobile">
+            📱 Mobile Number:
+            ${escapeHtml(item.mobile_number || "Not available")}
+        </div>
+
+        <div class="form-filling-info">
+
+            <b>Form Type:</b>
+            ${escapeHtml(item.form_type || "-")}
+            <br>
+
+            <b>Category:</b>
+            ${escapeHtml(item.category || "-")}
+            <br>
+
+            <b>Semester:</b>
+            ${escapeHtml(item.semester || "-")}
+
+            ${
+                dateText
+                ?
+                `
+                <br>
+                <b>Submitted:</b>
+                ${escapeHtml(dateText)}
+                `
+                :
+                ""
+            }
+
+        </div>
+
+        <div class="form-filling-status ${statusClass}">
+            ${statusText}
+        </div>
+
+        <div class="form-filling-buttons">
+
+            ${
+                item.admit_card_url
+                ?
+                `
+                <button
+                    type="button"
+                    class="form-view-btn"
+                    data-action="admit"
+                >
+                    🪪 VIEW ADMIT CARD
+                </button>
+                `
+                :
+                ""
+            }
+
+            ${
+                item.payment_screenshot_url
+                ?
+                `
+                <button
+                    type="button"
+                    class="form-view-btn"
+                    data-action="payment"
+                >
+                    💳 VIEW PAYMENT SCREENSHOT
+                </button>
+                `
+                :
+                ""
+            }
+
+            ${
+                String(status).toLowerCase() === "pending"
+                ?
+                `
+                <button
+                    type="button"
+                    class="form-done-btn"
+                    data-action="done"
+                >
+                    ✅ VERIFICATION DONE
+                </button>
+
+                <button
+                    type="button"
+                    class="form-failed-btn"
+                    data-action="failed"
+                >
+                    ❌ VERIFICATION FAILED
+                </button>
+                `
+                :
+                `
+                <button
+                    type="button"
+                    class="form-change-btn"
+                    data-action="pending"
+                >
+                    🔄 CHANGE VERIFICATION
+                </button>
+                `
+            }
+
+        </div>
+
+    `;
+
+    formFillingResults.appendChild(card);
+
+
+    const admitButton =
+        card.querySelector(
+            '[data-action="admit"]'
+        );
+
+    if(admitButton){
+
+        admitButton.addEventListener(
+            "click",
+            function(){
+
+                viewFormFillingFile(
+                    item.admit_card_url
+                );
+
+            }
+        );
+
+    }
+
+
+    const paymentButton =
+        card.querySelector(
+            '[data-action="payment"]'
+        );
+
+    if(paymentButton){
+
+        paymentButton.addEventListener(
+            "click",
+            function(){
+
+                viewFormFillingFile(
+                    item.payment_screenshot_url
+                );
+
+            }
+        );
+
+    }
+
+
+    const doneButton =
+        card.querySelector(
+            '[data-action="done"]'
+        );
+
+    if(doneButton){
+
+        doneButton.addEventListener(
+            "click",
+            function(){
+
+                updateFormFillingStatus(
+                    item.id,
+                    "Done"
+                );
+
+            }
+        );
+
+    }
+
+
+    const failedButton =
+        card.querySelector(
+            '[data-action="failed"]'
+        );
+
+    if(failedButton){
+
+        failedButton.addEventListener(
+            "click",
+            function(){
+
+                updateFormFillingStatus(
+                    item.id,
+                    "Failed"
+                );
+
+            }
+        );
+
+    }
+
+
+    const pendingButton =
+        card.querySelector(
+            '[data-action="pending"]'
+        );
+
+    if(pendingButton){
+
+        pendingButton.addEventListener(
+            "click",
+            function(){
+
+                updateFormFillingStatus(
+                    item.id,
+                    "Pending"
+                );
+
+            }
+        );
+
+    }
+
+}
+
+
+function viewFormFillingFile(filePath){
+
+    if(!filePath){
+
+        alert(
+            "इस document की file उपलब्ध नहीं है।"
+        );
+
+        return;
+    }
+
+    let fileUrl = filePath;
+
+    if(
+        !filePath.startsWith("http://") &&
+        !filePath.startsWith("https://")
+    ){
+
+        fileUrl =
+            SUPABASE_URL +
+            "/storage/v1/object/public/form-filling-files/" +
+            filePath;
+    }
+
+    window.open(
+        fileUrl,
+        "_blank"
+    );
+
+}
+
+
+async function updateFormFillingStatus(
+    submissionId,
+    status
+){
+
+    let confirmText = "";
+
+    if(status === "Done"){
+
+        confirmText =
+            "क्या आप इस Form Filling को VERIFICATION DONE करना चाहते हैं?";
+
+    }
+    else if(status === "Failed"){
+
+        confirmText =
+            "क्या आप इस Form Filling को VERIFICATION FAILED करना चाहते हैं?";
+
+    }
+    else{
+
+        confirmText =
+            "क्या आप इस submission का verification फिर से PENDING करना चाहते हैं?";
+
+    }
+
+
+    if(!confirm(confirmText)){
+        return;
+    }
+
+
+    try{
+
+        formFillingMessage.textContent =
+            "Verification update हो रहा है...";
+
+        formFillingMessage.style.color =
+            "#222";
+
+
+        const {
+            error
+        } =
+        await securityClient
+        .from("form_filling_submissions")
+        .update({
+            status:status
+        })
+        .eq(
+            "id",
+            submissionId
+        );
+
+
+        if(error){
+            throw error;
+        }
+
+
+        formFillingMessage.textContent =
+            "✅ Verification successfully update हो गया।";
+
+        formFillingMessage.style.color =
+            "#198754";
+
+
+        await loadFormFillingSubmissions();
+
+    }
+    catch(error){
+
+        console.error(
+            "Form Filling Verification Error:",
+            error
+        );
+
+        formFillingMessage.textContent =
+            "❌ Verification update नहीं हो पाया।";
+
+        formFillingMessage.style.color =
+            "#d32f2f";
+    }
+
+}
+
+
+/* =========================================
+   PROJECT FILE LOAD
+========================================= */
+
+projectFileRefreshBtn.addEventListener(
+    "click",
+    loadProjectFileSubmissions
+);
+
+
+async function loadProjectFileSubmissions(){
+
+    projectFileMessage.textContent =
+        "Loading...";
+
+
+    projectFileResults.innerHTML = "";
+
+
+    try{
+
+        const {
+            data,
+            error
+        } =
+        await securityClient
+        .from("project_file_submissions")
+        .select(
+            "id,mobile_number,admit_card_url,payment_screenshot_url,verification_status,download_link,created_at"
+        )
+        .order(
+            "created_at",
+            {
+                ascending:false
+            }
+        );
+
+
+        if(error){
+
+            throw error;
+
+        }
+
+
+        projectFileMessage.textContent = "";
+
+
+        if(!data || data.length === 0){
+
+            projectFileResults.innerHTML = `
+                <div class="no-project-data">
+                    कोई Project File submission नहीं मिली।
+                </div>
+            `;
+
+            return;
+
+        }
+
+
+        data.forEach(function(item){
+
+            createProjectSubmissionCard(item);
+
+        });
+
+    }
+    catch(error){
+
+        console.error(
+            "Project File Load Error:",
+            error
+        );
+
+
+        projectFileMessage.textContent =
+            "Project File data load नहीं हो पाया।";
+
+
+        projectFileMessage.style.color =
+            "#d32f2f";
+
+    }
+
+}
+
+
+/* =========================================
+   CREATE SUBMISSION CARD
+========================================= */
+
+function createProjectSubmissionCard(item){
+
+    const card =
+        document.createElement("div");
+
+
+    card.className =
+        "project-submission";
+
+
+    const mobile =
+        item.mobile_number || "Not available";
+
+
+    const status =
+        item.verification_status || "pending";
+
+
+    let statusClass =
+        "status-pending";
+
+
+    let statusText =
+        "⏳ PENDING";
+
+
+    if(status === "done"){
+
+        statusClass =
+            "status-done";
 
         statusText =
             "✅ VERIFICATION DONE";
@@ -1219,10 +1723,10 @@ function createFormFillingSubmissionCard(item){
     }
 
 
-    if(rawStatus === "failed"){
+    if(status === "failed"){
 
         statusClass =
-            "form-status-failed";
+            "status-failed";
 
         statusText =
             "❌ VERIFICATION FAILED";
@@ -1254,48 +1758,30 @@ function createFormFillingSubmissionCard(item){
 
     card.innerHTML = `
 
-        <div class="form-mobile">
-            📱 Mobile Number:
-            ${escapeHtml(mobile)}
-        </div>
-
-        <div class="form-detail">
-            <strong>Form Type:</strong>
-            ${escapeHtml(formType)}
-        </div>
-
-        <div class="form-detail">
-            <strong>Semester:</strong>
-            ${escapeHtml(semester)}
-        </div>
-
-        <div class="form-detail">
-            <strong>Honours Category:</strong>
-            ${escapeHtml(category)}
+        <div class="project-mobile">
+            📱 Mobile Number: ${escapeHtml(mobile)}
         </div>
 
         ${
             dateText
             ?
-            `
-            <div class="project-date">
-                Submitted:
-                ${escapeHtml(dateText)}
-            </div>
-            `
+            `<div class="project-date">
+                Submitted: ${escapeHtml(dateText)}
+            </div>`
             :
             ""
         }
 
-        <div class="form-status ${statusClass}">
+        <div class="project-status ${statusClass}">
             ${statusText}
         </div>
 
-        <div class="form-buttons">
+        <div class="project-buttons">
 
             <button
                 type="button"
-                class="form-view-btn"
+                class="view-document-btn"
+                data-id="${item.id}"
                 data-type="admit"
             >
                 🪪 VIEW ADMIT CARD
@@ -1303,19 +1789,21 @@ function createFormFillingSubmissionCard(item){
 
             <button
                 type="button"
-                class="form-view-btn"
+                class="view-document-btn"
+                data-id="${item.id}"
                 data-type="payment"
             >
                 💳 VIEW PAYMENT SCREENSHOT
             </button>
 
             ${
-                rawStatus === "pending"
+                status === "pending"
                 ?
                 `
                 <button
                     type="button"
-                    class="form-done-btn"
+                    class="verify-done-btn"
+                    data-id="${item.id}"
                     data-action="done"
                 >
                     ✅ VERIFICATION DONE
@@ -1323,7 +1811,8 @@ function createFormFillingSubmissionCard(item){
 
                 <button
                     type="button"
-                    class="form-failed-btn"
+                    class="verify-failed-btn"
+                    data-id="${item.id}"
                     data-action="failed"
                 >
                     ❌ VERIFICATION FAILED
@@ -1333,7 +1822,8 @@ function createFormFillingSubmissionCard(item){
                 `
                 <button
                     type="button"
-                    class="form-change-btn"
+                    class="view-document-btn"
+                    data-id="${item.id}"
                     data-action="reset"
                 >
                     🔄 CHANGE VERIFICATION
@@ -1341,43 +1831,68 @@ function createFormFillingSubmissionCard(item){
                 `
             }
 
+            ${
+                status === "failed"
+                ?
+                `
+                <button
+                    type="button"
+                    class="project-delete-btn"
+                    data-id="${item.id}"
+                >
+                    🗑️ DELETE
+                </button>
+                `
+                :
+                ""
+            }
+
         </div>
 
     `;
 
 
-    formFillingResults.appendChild(card);
+    projectFileResults.appendChild(card);
 
+
+    /* VIEW BUTTONS */
 
     const viewButtons =
         card.querySelectorAll(
-            ".form-view-btn"
+            ".view-document-btn"
         );
 
 
     viewButtons.forEach(
         function(button){
 
-            button.addEventListener(
-                "click",
-                function(){
+            const type =
+                button.getAttribute(
+                    "data-type"
+                );
 
-                    const type =
-                        button.getAttribute(
-                            "data-type"
+
+            if(type){
+
+                button.addEventListener(
+                    "click",
+                    function(){
+
+                        viewProjectDocument(
+                            item,
+                            type
                         );
 
-                    viewFormFillingDocument(
-                        item,
-                        type
-                    );
+                    }
+                );
 
-                }
-            );
+            }
 
         }
     );
 
+
+    /* VERIFY DONE */
 
     const doneButton =
         card.querySelector(
@@ -1391,9 +1906,9 @@ function createFormFillingSubmissionCard(item){
             "click",
             function(){
 
-                verifyFormFilling(
+                verifyProjectFile(
                     item.id,
-                    "Done"
+                    "done"
                 );
 
             }
@@ -1401,6 +1916,8 @@ function createFormFillingSubmissionCard(item){
 
     }
 
+
+    /* VERIFY FAILED */
 
     const failedButton =
         card.querySelector(
@@ -1414,9 +1931,9 @@ function createFormFillingSubmissionCard(item){
             "click",
             function(){
 
-                verifyFormFilling(
+                verifyProjectFile(
                     item.id,
-                    "Failed"
+                    "failed"
                 );
 
             }
@@ -1424,6 +1941,8 @@ function createFormFillingSubmissionCard(item){
 
     }
 
+
+    /* CHANGE VERIFICATION */
 
     const resetButton =
         card.querySelector(
@@ -1437,7 +1956,7 @@ function createFormFillingSubmissionCard(item){
             "click",
             function(){
 
-                changeFormFillingVerification(
+                changeVerification(
                     item.id
                 );
 
@@ -1446,338 +1965,22 @@ function createFormFillingSubmissionCard(item){
 
     }
 
-}
 
+    /* DELETE PROJECT FILE */
 
-function viewFormFillingDocument(
-    item,
-    type
-){
-
-    let fileUrl = "";
-
-
-    if(type === "admit"){
-
-        fileUrl =
-            item.admit_card_url ||
-            "";
-
-    }
-
-
-    if(type === "payment"){
-
-        fileUrl =
-            item.payment_screenshot_url ||
-            "";
-
-    }
-
-
-    if(!fileUrl){
-
-        alert(
-            "इस document की file उपलब्ध नहीं है।"
-        );
-
-        return;
-
-    }
-
-
-    try{
-
-        window.open(
-            fileUrl,
-            "_blank"
-        );
-
-    }
-    catch(error){
-
-        console.error(
-            "Form Filling Document View Error:",
-            error
-        );
-
-        alert(
-            "Document open नहीं हो पाया। कृपया फिर से प्रयास करें।"
-        );
-
-    }
-
-}
-
-
-async function verifyFormFilling(
-    submissionId,
-    status
-){
-
-    let confirmText = "";
-
-
-    if(status === "Done"){
-
-        confirmText =
-            "क्या आप इस Form Filling को VERIFICATION DONE करना चाहते हैं?";
-
-    }
-    else{
-
-        confirmText =
-            "क्या आप इस Form Filling को VERIFICATION FAILED करना चाहते हैं?";
-
-    }
-
-
-    if(!confirm(confirmText)){
-
-        return;
-
-    }
-
-
-    try{
-
-        formFillingMessage.textContent =
-            "Verification update हो रहा है...";
-
-
-        const {
-            error
-        } =
-        await securityClient
-        .from("form_filling_submissions")
-        .update({
-            status:status
-        })
-        .eq(
-            "id",
-            submissionId
-        );
-
-
-        if(error){
-
-            throw error;
-
-        }
-
-
-        formFillingMessage.textContent =
-            "✅ Verification successfully update हो गया।";
-
-        formFillingMessage.style.color =
-            "#198754";
-
-
-        await loadFormFillingSubmissions();
-
-    }
-    catch(error){
-
-        console.error(
-            "Form Filling Verification Update Error:",
-            error
-        );
-
-
-        formFillingMessage.textContent =
-            "❌ Verification update नहीं हो पाया।";
-
-        formFillingMessage.style.color =
-            "#d32f2f";
-
-    }
-
-}
-
-
-async function changeFormFillingVerification(
-    submissionId
-){
-
-    if(!confirm(
-        "क्या आप इस Form Filling submission का verification फिर से बदलना चाहते हैं?"
-    )){
-
-        return;
-
-    }
-
-
-    try{
-
-        formFillingMessage.textContent =
-            "Verification change हो रहा है...";
-
-
-        const {
-            error
-        } =
-        await securityClient
-        .from("form_filling_submissions")
-        .update({
-            status:"Pending"
-        })
-        .eq(
-            "id",
-            submissionId
-        );
-
-
-        if(error){
-
-            throw error;
-
-        }
-
-
-        formFillingMessage.textContent =
-            "✅ Verification फिर से Pending हो गया।";
-
-        formFillingMessage.style.color =
-            "#198754";
-
-
-        await loadFormFillingSubmissions();
-
-    }
-    catch(error){
-
-        console.error(
-            "Form Filling Verification Change Error:",
-            error
-        );
-
-
-        formFillingMessage.textContent =
-            "❌ Verification change नहीं हो पाया।";
-
-        formFillingMessage.style.color =
-            "#d32f2f";
-
-    }
-
-}                <button
-                    type="button"
-                    class="form-failed-btn"
-                    data-action="failed"
-                >
-                    ❌ VERIFICATION FAILED
-                </button>
-                `
-                :
-                `
-                <button
-                    type="button"
-                    class="form-change-btn"
-                    data-action="reset"
-                >
-                    🔄 CHANGE VERIFICATION
-                </button>
-                `
-            }
-
-        </div>
-
-    `;
-
-
-    formFillingResults.appendChild(card);
-
-
-    const viewButtons =
-        card.querySelectorAll(
-            ".form-view-btn"
-        );
-
-
-    viewButtons.forEach(
-        function(button){
-
-            button.addEventListener(
-                "click",
-                function(){
-
-                    const type =
-                        button.getAttribute(
-                            "data-type"
-                        );
-
-                    viewFormFillingDocument(
-                        item,
-                        type
-                    );
-
-                }
-            );
-
-        }
-    );
-
-
-    const doneButton =
+    const deleteButton =
         card.querySelector(
-            '[data-action="done"]'
+            ".project-delete-btn"
         );
 
 
-    if(doneButton){
+    if(deleteButton){
 
-        doneButton.addEventListener(
+        deleteButton.addEventListener(
             "click",
             function(){
 
-                verifyFormFilling(
-                    item.id,
-                    "Done"
-                );
-
-            }
-        );
-
-    }
-
-
-    const failedButton =
-        card.querySelector(
-            '[data-action="failed"]'
-        );
-
-
-    if(failedButton){
-
-        failedButton.addEventListener(
-            "click",
-            function(){
-
-                verifyFormFilling(
-                    item.id,
-                    "Failed"
-                );
-
-            }
-        );
-
-    }
-
-
-    const resetButton =
-        card.querySelector(
-            '[data-action="reset"]'
-        );
-
-
-    if(resetButton){
-
-        resetButton.addEventListener(
-            "click",
-            function(){
-
-                changeFormFillingVerification(
+                deleteProjectFile(
                     item.id
                 );
 
@@ -1790,257 +1993,42 @@ async function changeFormFillingVerification(
 
 
 /* =========================================
-   VIEW FORM FILLING DOCUMENT
+   VIEW PRIVATE DOCUMENT
 ========================================= */
 
-function viewFormFillingDocument(
+async function viewProjectDocument(
     item,
     type
 ){
 
-    let fileUrl = "";
+    let filePath = "";
 
 
     if(type === "admit"){
 
-        fileUrl =
-            item.admit_card_url ||
-            "";
+        filePath =
+            item.admit_card_url || "";
 
     }
 
 
     if(type === "payment"){
 
-        fileUrl =
-            item.payment_screenshot_url ||
-            "";
+        filePath =
+            item.payment_screenshot_url || "";
 
     }
 
 
-    if(!fileUrl){
+    if(!filePath){
 
         alert(
             "इस document की file उपलब्ध नहीं है।"
         );
 
         return;
-    }
-
-
-    try{
-
-        window.open(
-            fileUrl,
-            "_blank"
-        );
 
     }
-    catch(error){
-
-        console.error(
-            "Form Filling Document View Error:",
-            error
-        );
-
-        alert(
-            "Document open नहीं हो पाया। कृपया फिर से प्रयास करें।"
-        );
-
-    }
-
-}
-
-
-/* =========================================
-   FORM FILLING VERIFICATION
-========================================= */
-
-async function verifyFormFilling(
-    submissionId,
-    status
-){
-
-    let confirmText =
-        "";
-
-
-    if(status === "Done"){
-
-        confirmText =
-            "क्या आप इस Form Filling को VERIFICATION DONE करना चाहते हैं?";
-
-    }
-    else{
-
-        confirmText =
-            "क्या आप इस Form Filling को VERIFICATION FAILED करना चाहते हैं?";
-
-    }
-
-
-    if(!confirm(confirmText)){
-
-        return;
-
-    }
-
-
-    try{
-
-        formFillingMessage.textContent =
-            "Verification update हो रहा है...";
-
-        formFillingMessage.style.color =
-            "#222";
-
-
-        const {
-            error
-        } =
-        await securityClient
-        .from("form_filling_submissions")
-        .update({
-            status:status
-        })
-        .eq(
-            "id",
-            submissionId
-        );
-
-
-        if(error){
-
-            throw error;
-
-        }
-
-
-        formFillingMessage.textContent =
-            "✅ Verification successfully update हो गया।";
-
-        formFillingMessage.style.color =
-            "#198754";
-
-
-        await loadFormFillingSubmissions();
-
-    }
-    catch(error){
-
-        console.error(
-            "Form Filling Verification Update Error:",
-            error
-        );
-
-
-        formFillingMessage.textContent =
-            "❌ Verification update नहीं हो पाया।";
-
-        formFillingMessage.style.color =
-            "#d32f2f";
-
-    }
-
-}
-
-
-/* =========================================
-   CHANGE FORM FILLING VERIFICATION
-========================================= */
-
-async function changeFormFillingVerification(
-    submissionId
-){
-
-    if(!confirm(
-        "क्या आप इस Form Filling submission का verification फिर से बदलना चाहते हैं?"
-    )){
-
-        return;
-
-    }
-
-
-    try{
-
-        formFillingMessage.textContent =
-            "Verification change हो रहा है...";
-
-        formFillingMessage.style.color =
-            "#222";
-
-
-        const {
-            error
-        } =
-        await securityClient
-        .from("form_filling_submissions")
-        .update({
-            status:"Pending"
-        })
-        .eq(
-            "id",
-            submissionId
-        );
-
-
-        if(error){
-
-            throw error;
-
-        }
-
-
-        formFillingMessage.textContent =
-            "✅ Verification फिर से Pending हो गया।";
-
-        formFillingMessage.style.color =
-            "#198754";
-
-
-        await loadFormFillingSubmissions();
-
-    }
-    catch(error){
-
-        console.error(
-            "Form Filling Verification Change Error:",
-            error
-        );
-
-
-        formFillingMessage.textContent =
-            "❌ Verification change नहीं हो पाया।";
-
-        formFillingMessage.style.color =
-            "#d32f2f";
-
-    }
-
-}
-
-
-/* =========================================
-   FORM FILLING LOAD
-========================================= */
-
-formFillingRefreshBtn.addEventListener(
-    "click",
-    loadFormFillingSubmissions
-);
-
-
-async function loadFormFillingSubmissions(){
-
-    formFillingMessage.textContent =
-        "Loading...";
-
-    formFillingMessage.style.color =
-        "#222";
-
-    formFillingResults.innerHTML = "";
 
 
     try{
@@ -2050,15 +2038,11 @@ async function loadFormFillingSubmissions(){
             error
         } =
         await securityClient
-        .from("form_filling_submissions")
-        .select(
-            "id,form_type,semester,category,mobile_number,admit_card_url,payment_screenshot_url,status,created_at"
-        )
-        .order(
-            "created_at",
-            {
-                ascending:false
-            }
+        .storage
+        .from("project-files")
+        .createSignedUrl(
+            filePath,
+            300
         );
 
 
@@ -2069,38 +2053,126 @@ async function loadFormFillingSubmissions(){
         }
 
 
-        formFillingMessage.textContent = "";
+        if(!data || !data.signedUrl){
 
-
-        if(!data || data.length === 0){
-
-            formFillingResults.innerHTML = `
-                <div class="no-form-filling-data">
-                    कोई Form Filling submission नहीं मिली।
-                </div>
-            `;
-
-            return;
+            throw new Error(
+                "Signed URL नहीं मिला।"
+            );
 
         }
 
 
-        data.forEach(
-            createFormFillingSubmissionCard
+        window.open(
+            data.signedUrl,
+            "_blank"
         );
 
     }
     catch(error){
 
         console.error(
-            "Form Filling Load Error:",
+            "Document View Error:",
             error
         );
 
-        formFillingMessage.textContent =
-            "❌ Form Filling data load नहीं हो पाया।";
 
-        formFillingMessage.style.color =
+        alert(
+            "Document open नहीं हो पाया। कृपया फिर से प्रयास करें।"
+        );
+
+    }
+
+}
+
+
+/* =========================================
+   VERIFICATION
+========================================= */
+
+async function verifyProjectFile(
+    submissionId,
+    status
+){
+
+    let confirmText =
+        "";
+
+
+    if(status === "done"){
+
+        confirmText =
+            "क्या आप इस Project File को VERIFICATION DONE करना चाहते हैं?";
+
+    }
+    else{
+
+        confirmText =
+            "क्या आप इस Project File को VERIFICATION FAILED करना चाहते हैं?";
+
+    }
+
+
+    if(!confirm(confirmText)){
+
+        return;
+
+    }
+
+
+    try{
+
+        projectFileMessage.textContent =
+            "Verification update हो रहा है...";
+
+
+        const {
+            error
+        } =
+        await securityClient
+        .from("project_file_submissions")
+        .update({
+
+            verification_status:
+                status
+
+        })
+        .eq(
+            "id",
+            submissionId
+        );
+
+
+        if(error){
+
+            throw error;
+
+        }
+
+
+        projectFileMessage.textContent =
+            "✅ Verification successfully update हो गया।";
+
+
+        projectFileMessage.style.color =
+            "#198754";
+
+
+        await loadProjectFileSubmissions();
+
+    }
+    catch(error){
+
+        console.error(
+            "Verification Update Error:",
+            error
+        );
+
+
+        projectFileMessage.textContent =
+            "❌ Verification update नहीं हो पाया।";
+
+
+        projectFileMessage.style.color =
             "#d32f2f";
 
     }
@@ -2108,332 +2180,58 @@ async function loadFormFillingSubmissions(){
 }
 
 
-function createFormFillingSubmissionCard(item){
-
-    const card =
-        document.createElement("div");
-
-
-    card.className =
-        "form-filling-submission";
-
-
-    const mobile =
-        item.mobile_number ||
-        "Not available";
-
-
-    const formType =
-        item.form_type ||
-        "Not available";
-
-
-    const semester =
-        item.semester ||
-        "Not available";
-
-
-    const category =
-        item.category ||
-        "Not available";
-
-
-    const rawStatus =
-        String(
-            item.status ||
-            "Pending"
-        ).toLowerCase();
-
-
-    let statusClass =
-        "status-pending";
-
-
-    let statusText =
-        "⏳ PENDING";
-
-
-    if(rawStatus === "done"){
-
-        statusClass =
-            "status-done";
-
-        statusText =
-            "✅ VERIFICATION DONE";
-
-    }
-
-
-    if(rawStatus === "failed"){
-
-        statusClass =
-            "status-failed";
-
-        statusText =
-            "❌ VERIFICATION FAILED";
-
-    }
-
-
-    let dateText = "";
-
-
-    if(item.created_at){
-
-        try{
-
-            dateText =
-                new Date(
-                    item.created_at
-                ).toLocaleString(
-                    "en-IN"
-                );
-
-        }
-        catch(e){
-
-        }
-
-    }
-
-
-    card.innerHTML = `
-
-        <div class="form-filling-title">
-            📱 Mobile Number:
-            ${escapeHtml(mobile)}
-        </div>
-
-
-        <div class="form-filling-info">
-
-            <b>Form Type:</b>
-            ${escapeHtml(formType)}
-            <br>
-
-            <b>Semester:</b>
-            ${escapeHtml(semester)}
-            <br>
-
-            <b>Honours Category:</b>
-            ${escapeHtml(category)}
-
-        </div>
-
-
-        ${
-            dateText
-            ?
-            `
-            <div class="project-date">
-                Submitted:
-                ${escapeHtml(dateText)}
-            </div>
-            `
-            :
-            ""
-        }
-
-
-        <div class="form-status ${statusClass}">
-            ${statusText}
-        </div>
-
-
-        <div class="form-filling-buttons">
-
-            <button
-                type="button"
-                class="form-view-btn"
-                data-type="admit"
-            >
-                🪪 VIEW ADMIT CARD
-            </button>
-
-
-            <button
-                type="button"
-                class="form-view-btn"
-                data-type="payment"
-            >
-                💳 VIEW PAYMENT SCREENSHOT
-            </button>
-
-
-            ${
-                rawStatus === "pending"
-                ?
-                `
-                <button
-                    type="button"
-                    class="form-done-btn"
-                    data-action="done"
-                >
-                    ✅ VERIFICATION DONE
-                </button>
-
-
-                <button
-                    type="button"
-                    class="form-failed-btn"
-                    data-action="failed"
-                >
-                    ❌ VERIFICATION FAILED
-                </button>
-                `
-                :
-                `
-                <button
-                    type="button"
-                    class="form-change-btn"
-                    data-action="reset"
-                >
-                    🔄 CHANGE VERIFICATION
-                </button>
-                `
-            }
-
-        </div>
-
-    `;
-
-
-    formFillingResults.appendChild(card);
-
-
-    const viewButtons =
-        card.querySelectorAll(
-            ".form-view-btn"
-        );
-
-
-    viewButtons.forEach(
-        function(button){
-
-            button.addEventListener(
-                "click",
-                function(){
-
-                    const type =
-                        button.getAttribute(
-                            "data-type"
-                        );
-
-                    viewFormFillingDocument(
-                        item,
-                        type
-                    );
-
-                }
-            );
-
-        }
-    );
-
-
-    const doneButton =
-        card.querySelector(
-            '[data-action="done"]'
-        );
-
-
-    if(doneButton){
-
-        doneButton.addEventListener(
-            "click",
-            function(){
-
-                verifyFormFilling(
-                    item.id,
-                    "Done"
-                );
-
-            }
-        );
-
-    }
-
-
-    const failedButton =
-        card.querySelector(
-            '[data-action="failed"]'
-        );
-
-
-    if(failedButton){
-
-        failedButton.addEventListener(
-            "click",
-            function(){
-
-                verifyFormFilling(
-                    item.id,
-                    "Failed"
-                );
-
-            }
-        );
-
-    }
-
-
-    const resetButton =
-        card.querySelector(
-            '[data-action="reset"]'
-        );
-
-
-    if(resetButton){
-
-        resetButton.addEventListener(
-            "click",
-            function(){
-
-                changeFormFillingVerification(
-                    item.id
-                );
-
-            }
-        );
-
-    }
-
-}/* =========================================
-   INITIAL SESSION CHECK
-========================================= */
-
-checkAdminSession();
-
-
 /* =========================================
-   FORM FILLING AUTO LOAD
+   CHANGE VERIFICATION
 ========================================= */
 
-async function loadFormFillingAfterLogin(){
+async function changeVerification(
+    submissionId
+){
+
+    if(!confirm(
+        "क्या आप इस submission का verification फिर से बदलना चाहते हैं?"
+    )){
+
+        return;
+
+    }
+
 
     try{
 
         const {
-            data
+            error
         } =
-        await securityClient.auth.getSession();
+        await securityClient
+        .from("project_file_submissions")
+        .update({
+
+            verification_status:
+                "pending"
+
+        })
+        .eq(
+            "id",
+            submissionId
+        );
 
 
-        if(
-            data &&
-            data.session
-        ){
+        if(error){
 
-            loadFormFillingSubmissions();
+            throw error;
 
         }
+
+
+        await loadProjectFileSubmissions();
 
     }
     catch(error){
 
-        console.error(
-            "Form Filling Session Error:",
-            error
+        console.error(error);
+
+        alert(
+            "Verification change नहीं हो पाया।"
         );
 
     }
@@ -2442,23 +2240,199 @@ async function loadFormFillingAfterLogin(){
 
 
 /* =========================================
-   EXISTING ADMIN FUNCTIONS
+   DELETE PROJECT FILE SUBMISSION
 ========================================= */
 
-/*
-   नीचे का हिस्सा आपके पुराने admin.html
-   के existing code को 그대로 रखता है।
-*/
+async function deleteProjectFile(submissionId){
 
+    if(!confirm(
+        "क्या आप इस Project File का पूरा data delete करना चाहते हैं?\n\nAdmit Card, Payment Screenshot और Database Record सभी delete हो जाएंगे।"
+    )){
+
+        return;
+
+    }
+
+
+    try{
+
+        projectFileMessage.textContent =
+            "Deleting...";
+
+        projectFileMessage.style.color =
+            "#d32f2f";
+
+
+        /* GET SUBMISSION DATA */
+
+        const {
+            data:submission,
+            error:fetchError
+        } =
+        await securityClient
+        .from("project_file_submissions")
+        .select(
+            "id,admit_card_url,payment_screenshot_url"
+        )
+        .eq(
+            "id",
+            submissionId
+        )
+        .single();
+
+
+        if(fetchError){
+
+            throw fetchError;
+
+        }
+
+
+        if(!submission){
+
+            throw new Error(
+                "Submission नहीं मिली।"
+            );
+
+        }
+
+
+        /* DELETE ADMIT CARD */
+
+        if(
+            submission.admit_card_url
+        ){
+
+            const {
+                error:admitError
+            } =
+            await securityClient
+            .storage
+            .from("project-files")
+            .remove([
+                submission.admit_card_url
+            ]);
+
+
+            if(admitError){
+
+                throw admitError;
+
+            }
+
+        }
+
+
+        /* DELETE PAYMENT SCREENSHOT */
+
+        if(
+            submission.payment_screenshot_url
+        ){
+
+            const {
+                error:paymentError
+            } =
+            await securityClient
+            .storage
+            .from("project-files")
+            .remove([
+                submission.payment_screenshot_url
+            ]);
+
+
+            if(paymentError){
+
+                throw paymentError;
+
+            }
+
+        }
+
+
+        /* DELETE DATABASE RECORD */
+
+        const {
+            error:deleteError
+        } =
+        await securityClient
+        .from("project_file_submissions")
+        .delete()
+        .eq(
+            "id",
+            submissionId
+        );
+
+
+        if(deleteError){
+
+            throw deleteError;
+
+        }
+
+
+        projectFileMessage.textContent =
+            "✅ Project File data successfully deleted.";
+
+        projectFileMessage.style.color =
+            "#198754";
+
+
+        /* REFRESH LIST */
+
+        await loadProjectFileSubmissions();
+
+    }
+    catch(error){
+
+        console.error(
+            "Project File Delete Error:",
+            error
+        );
+
+
+        projectFileMessage.textContent =
+            "❌ Project File delete नहीं हो पाया।";
+
+
+        projectFileMessage.style.color =
+            "#d32f2f";
+
+    }
+
+}
+
+
+/* =========================================
+   HTML ESCAPE
+========================================= */
+
+function escapeHtml(value){
+
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* =========================================
+   INITIAL SECURITY CHECK
+========================================= */
+
+checkAdminSession();
 
 </script>
 
 
 <!-- =========================================
-     EXISTING ADMIN JS
+     YOUR EXISTING ADMIN FUNCTIONALITY
 ========================================= -->
 
 <script src="admin.js"></script>
+
 
 </body>
 </html>
