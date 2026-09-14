@@ -200,10 +200,6 @@ const SUPABASE_KEY =
 "sb_publishable_gpc7KUqUIykO3WM1aCzRfg_Myo8AKyx";
 
 
-/*
-  जब आपका असली Receipt Download Link मिल जाए,
-  केवल नीचे "" के अंदर link डालना है।
-*/
 const RECEIPT_LINK = "";
 
 
@@ -241,6 +237,118 @@ let data = {
 
 
 
+/* =========================================
+   LOCAL STORAGE
+========================================= */
+
+const STORAGE_KEY =
+"formFillingChatData";
+
+
+function saveChat(){
+
+  const savedData = {
+
+    step:step,
+
+    currentSubmissionId:
+    currentSubmissionId,
+
+    data:data,
+
+    messages:
+    messages.innerHTML
+
+  };
+
+
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(savedData)
+  );
+
+}
+
+
+
+function restoreChat(){
+
+  const saved =
+  localStorage.getItem(STORAGE_KEY);
+
+
+  if(!saved){
+
+    start();
+
+    return;
+
+  }
+
+
+  try{
+
+    const savedData =
+    JSON.parse(saved);
+
+
+    step =
+    savedData.step || 1;
+
+
+    currentSubmissionId =
+    savedData.currentSubmissionId || null;
+
+
+    if(savedData.data){
+
+      data =
+      savedData.data;
+
+    }
+
+
+    if(savedData.messages){
+
+      messages.innerHTML =
+      savedData.messages;
+
+    }
+
+
+    messages.scrollTop =
+    messages.scrollHeight;
+
+
+    restoreCurrentStep();
+
+
+  }
+  catch(error){
+
+    console.error(
+      "Chat Restore Error:",
+      error
+    );
+
+
+    localStorage.removeItem(
+      STORAGE_KEY
+    );
+
+
+    start();
+
+  }
+
+}
+
+
+
+/* =========================================
+   BOT MESSAGE
+========================================= */
+
 function bot(text){
 
   const div =
@@ -257,9 +365,16 @@ function bot(text){
   messages.scrollTop =
   messages.scrollHeight;
 
+
+  saveChat();
+
 }
 
 
+
+/* =========================================
+   USER MESSAGE
+========================================= */
 
 function user(text){
 
@@ -277,9 +392,16 @@ function user(text){
   messages.scrollTop =
   messages.scrollHeight;
 
+
+  saveChat();
+
 }
 
 
+
+/* =========================================
+   BUTTONS
+========================================= */
 
 function buttons(items){
 
@@ -304,9 +426,16 @@ function buttons(items){
 
   });
 
+
+  saveChat();
+
 }
 
 
+
+/* =========================================
+   TEXT MODE
+========================================= */
 
 function textMode(placeholder){
 
@@ -321,11 +450,15 @@ function textMode(placeholder){
   textInput.value =
   "";
 
-  textInput.focus();
+  saveChat();
 
 }
 
 
+
+/* =========================================
+   SEND TEXT
+========================================= */
 
 function sendText(){
 
@@ -348,6 +481,7 @@ function sendText(){
       );
 
       return;
+
     }
 
 
@@ -355,6 +489,7 @@ function sendText(){
     n;
 
     user(n);
+
 
     payment();
 
@@ -364,7 +499,13 @@ function sendText(){
 
 
 
+/* =========================================
+   START
+========================================= */
+
 function start(){
+
+  step = 1;
 
   bot(
     "Backlog Form भरने के लिए 1 दबाएँ और Regular Form भरने के लिए 2 दबाएँ।"
@@ -389,12 +530,19 @@ function start(){
 
 
 
+/* =========================================
+   CHOOSE TYPE
+========================================= */
+
 function chooseType(type){
 
   data.form_type =
   type;
 
   user(type);
+
+
+  step = 2;
 
 
   bot(
@@ -420,12 +568,19 @@ function chooseType(type){
 
 
 
+/* =========================================
+   CHOOSE CATEGORY
+========================================= */
+
 function chooseCategory(category){
 
   data.category =
   category;
 
   user(category);
+
+
+  step = 2;
 
 
   bot(
@@ -481,6 +636,10 @@ function chooseCategory(category){
 
 
 
+/* =========================================
+   CHOOSE SEMESTER
+========================================= */
+
 function chooseSemester(s){
 
   data.semester =
@@ -489,13 +648,31 @@ function chooseSemester(s){
   user(data.semester);
 
 
+  step = 4;
+
+
   bot(
     "कृपया अपना Admit Card भेजें।"
   );
 
 
+  showAdmitUpload();
+
+}
+
+
+
+/* =========================================
+   ADMIT CARD UPLOAD UI
+========================================= */
+
+function showAdmitUpload(){
+
   options.innerHTML =
   "";
+
+  textArea.style.display =
+  "none";
 
 
   const label =
@@ -537,9 +714,16 @@ function chooseSemester(s){
 
   options.appendChild(label);
 
+
+  saveChat();
+
 }
 
 
+
+/* =========================================
+   FILE UPLOAD
+========================================= */
 
 async function uploadFile(file,type){
 
@@ -568,6 +752,7 @@ async function uploadFile(file,type){
       path,
 
       {
+
         method:"POST",
 
         headers:{
@@ -599,11 +784,13 @@ async function uploadFile(file,type){
         errorText
       );
 
+
       bot(
         "File upload नहीं हो पाया। कृपया दोबारा कोशिश करें।"
       );
 
       return;
+
     }
 
 
@@ -659,6 +846,7 @@ async function uploadFile(file,type){
       error
     );
 
+
     bot(
       "File upload नहीं हो पाया। कृपया दोबारा कोशिश करें।"
     );
@@ -668,6 +856,10 @@ async function uploadFile(file,type){
 }
 
 
+
+/* =========================================
+   PAYMENT
+========================================= */
 
 function payment(){
 
@@ -681,6 +873,9 @@ function payment(){
   data.category==="Practical"
   ? "qr775.png"
   : "qr625.png";
+
+
+  step = 5;
 
 
   bot(
@@ -807,13 +1002,15 @@ function payment(){
   textArea.style.display =
   "none";
 
+
+  saveChat();
+
 }
 
 
 
 /* =========================================
    FORM SUBMISSION
-   SECURITY DEFINER RPC
 ========================================= */
 
 async function submitForm(){
@@ -928,6 +1125,12 @@ async function submitForm(){
       "none";
 
 
+      step = 6;
+
+
+      saveChat();
+
+
       startStatusChecking();
 
       return;
@@ -958,6 +1161,10 @@ async function submitForm(){
 
 
 
+/* =========================================
+   STATUS CHECKING
+========================================= */
+
 function startStatusChecking(){
 
   if(statusCheckTimer){
@@ -982,6 +1189,10 @@ function startStatusChecking(){
 
 
 
+/* =========================================
+   CHECK SUBMISSION STATUS
+========================================= */
+
 async function checkSubmissionStatus(){
 
   if(!currentSubmissionId){
@@ -1001,11 +1212,6 @@ async function checkSubmissionStatus(){
 
 
   try{
-
-    /*
-      Supabase RPC function:
-      get_form_filling_status(bigint)
-    */
 
     const response =
     await fetch(
@@ -1074,6 +1280,10 @@ async function checkSubmissionStatus(){
     result[0].status;
 
 
+    data.status =
+    status;
+
+
     if(status==="Done"){
 
       if(
@@ -1105,6 +1315,9 @@ async function checkSubmissionStatus(){
         );
 
       }
+
+
+      saveChat();
 
     }
 
@@ -1138,6 +1351,9 @@ async function checkSubmissionStatus(){
 
       }
 
+
+      saveChat();
+
     }
 
   }
@@ -1154,6 +1370,10 @@ async function checkSubmissionStatus(){
 
 
 
+/* =========================================
+   RECEIPT BUTTON
+========================================= */
+
 function showReceiptButton(){
 
   options.innerHTML =
@@ -1164,11 +1384,6 @@ function showReceiptButton(){
 
 
   if(!RECEIPT_LINK){
-
-    /*
-      Receipt link अभी नहीं मिला है।
-      इसलिए खाली/गलत button नहीं दिखाएँगे।
-    */
 
     return;
 
@@ -1195,11 +1410,228 @@ function showReceiptButton(){
 
   options.appendChild(link);
 
+
+  saveChat();
+
 }
 
 
 
-start();
+/* =========================================
+   RESTORE CURRENT STEP
+========================================= */
+
+function restoreCurrentStep(){
+
+  /*
+    Form अभी शुरुआती चरण में था
+  */
+
+  if(step===1){
+
+    buttons([
+
+      {
+        text:"1 - Backlog Form",
+        action:()=>chooseType("Backlog")
+      },
+
+      {
+        text:"2 - Regular Form",
+        action:()=>chooseType("Regular")
+      }
+
+    ]);
+
+    return;
+
+  }
+
+
+  /*
+    Type select हो चुका था,
+    Category select करना बाकी था
+  */
+
+  if(
+    step===2 &&
+    data.form_type &&
+    !data.category
+  ){
+
+    buttons([
+
+      {
+        text:"1 - Practical Honours",
+        action:()=>chooseCategory("Practical")
+      },
+
+      {
+        text:"2 - Non-Practical Honours",
+        action:()=>chooseCategory("Non-Practical")
+      }
+
+    ]);
+
+    return;
+
+  }
+
+
+  /*
+    Category select हो चुकी थी,
+    Semester select करना बाकी था
+  */
+
+  if(
+    step===2 &&
+    data.form_type &&
+    data.category &&
+    !data.semester
+  ){
+
+    buttons([
+
+      {
+        text:"Semester 1",
+        action:()=>chooseSemester(1)
+      },
+
+      {
+        text:"Semester 2",
+        action:()=>chooseSemester(2)
+      },
+
+      {
+        text:"Semester 3",
+        action:()=>chooseSemester(3)
+      },
+
+      {
+        text:"Semester 4",
+        action:()=>chooseSemester(4)
+      },
+
+      {
+        text:"Semester 5",
+        action:()=>chooseSemester(5)
+      },
+
+      {
+        text:"Semester 6",
+        action:()=>chooseSemester(6)
+      },
+
+      {
+        text:"Semester 7",
+        action:()=>chooseSemester(7)
+      },
+
+      {
+        text:"Semester 8",
+        action:()=>chooseSemester(8)
+      }
+
+    ]);
+
+    return;
+
+  }
+
+
+  /*
+    Mobile Number डालना बाकी था
+  */
+
+  if(step===3){
+
+    textMode(
+      "10 digit mobile number"
+    );
+
+    return;
+
+  }
+
+
+  /*
+    Admit Card upload करना बाकी था
+  */
+
+  if(
+    step===4 &&
+    !data.admit_card_url
+  ){
+
+    showAdmitUpload();
+
+    return;
+
+  }
+
+
+  /*
+    Payment Screenshot upload करना बाकी था
+  */
+
+  if(
+    step===5 &&
+    data.admit_card_url &&
+    data.mobile_number &&
+    !data.payment_screenshot_url
+  ){
+
+    payment();
+
+    return;
+
+  }
+
+
+  /*
+    Submission हो चुका है।
+    Refresh के बाद फिर से status check होगा।
+  */
+
+  if(
+    step===6 &&
+    currentSubmissionId
+  ){
+
+    options.innerHTML =
+    "";
+
+    textArea.style.display =
+    "none";
+
+
+    if(
+      data.status==="Done" ||
+      localStorage.getItem(
+        "formFillingStatusShown"
+      )==="Done"
+    ){
+
+      showReceiptButton();
+
+    }
+
+
+    startStatusChecking();
+
+    return;
+
+  }
+
+}
+
+
+
+/* =========================================
+   PAGE LOAD
+========================================= */
+
+restoreChat();
 
 </script>
 
