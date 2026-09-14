@@ -74,10 +74,6 @@ button{
   cursor:pointer;
 }
 
-button:hover{
-  opacity:.95;
-}
-
 .input-area{
   display:flex;
   gap:6px;
@@ -110,10 +106,6 @@ input[type=text]{
 }
 
 input[type=file]{
-  display:none;
-}
-
-.hidden{
   display:none;
 }
 
@@ -150,7 +142,7 @@ input[type=file]{
   display:block;
   width:100%;
   padding:13px;
-  margin-top:10px;
+  margin:5px 0;
   border-radius:8px;
   background:#128c7e;
   color:white;
@@ -181,6 +173,7 @@ input[type=file]{
   <div class="options" id="options"></div>
 
   <div class="input-area" id="textArea">
+
     <input
       type="text"
       id="textInput"
@@ -193,6 +186,7 @@ input[type=file]{
     >
       Send
     </button>
+
   </div>
 
 </div>
@@ -207,8 +201,8 @@ const SUPABASE_KEY =
 
 
 /*
-  जब आपका Receipt Download Link तैयार हो जाए,
-  केवल नीचे की value में वह link डालना होगा।
+  जब आपका असली Receipt Download Link मिल जाए,
+  केवल नीचे "" के अंदर link डालना है।
 */
 const RECEIPT_LINK = "";
 
@@ -291,7 +285,8 @@ function buttons(items){
 
   options.innerHTML = "";
 
-  textArea.style.display = "none";
+  textArea.style.display =
+  "none";
 
 
   items.forEach(item=>{
@@ -323,7 +318,8 @@ function textMode(placeholder){
   textInput.placeholder =
   placeholder;
 
-  textInput.value = "";
+  textInput.value =
+  "";
 
   textInput.focus();
 
@@ -498,7 +494,8 @@ function chooseSemester(s){
   );
 
 
-  options.innerHTML = "";
+  options.innerHTML =
+  "";
 
 
   const label =
@@ -649,6 +646,7 @@ async function uploadFile(file,type){
         "Payment Screenshot भेज दिया गया"
       );
 
+
       await submitForm();
 
     }
@@ -738,7 +736,8 @@ function payment(){
   qrImage.onerror =
   ()=>{
 
-    qrBox.innerHTML = "";
+    qrBox.innerHTML =
+    "";
 
     const error =
     document.createElement("div");
@@ -762,7 +761,8 @@ function payment(){
   messages.scrollHeight;
 
 
-  options.innerHTML = "";
+  options.innerHTML =
+  "";
 
 
   const label =
@@ -814,9 +814,9 @@ function payment(){
 async function submitForm(){
 
   /*
-    यह message केवल submission process शुरू होने पर
-    दिखेगा। अगर Supabase में submission सफल होता है,
-    तो कोई failure message नहीं दिखाया जाएगा।
+    यह message submission शुरू होने पर दिखेगा।
+    Successful submission के बाद कोई failure message
+    नहीं दिखाया जाएगा।
   */
 
   bot(
@@ -868,11 +868,6 @@ async function submitForm(){
         errorText
       );
 
-      /*
-        केवल वास्तविक database submission failure
-        होने पर यह message दिखेगा।
-      */
-
       bot(
         "जानकारी जमा करने में समस्या हुई। कृपया दोबारा प्रयास करें।"
       );
@@ -892,61 +887,56 @@ async function submitForm(){
     );
 
 
+    /*
+      Submission सफल हो गया है।
+      ID मिल जाए तो status tracking शुरू करेंगे।
+    */
+
     if(
-      !result ||
-      !result[0] ||
-      !result[0].id
+      result &&
+      result[0] &&
+      result[0].id
     ){
 
-      console.error(
-        "Submission ID नहीं मिला:",
-        result
+      currentSubmissionId =
+      result[0].id;
+
+
+      localStorage.setItem(
+        "formFillingSubmissionId",
+        currentSubmissionId
       );
 
-      /*
-        Submission सफल हो चुकी हो सकती है,
-        इसलिए user को failure message नहीं दिखाएँगे।
-        Status tracking उपलब्ध न होने की स्थिति में
-        केवल console में error रहेगा।
-      */
 
-      options.innerHTML = "";
+      localStorage.removeItem(
+        "formFillingStatusShown"
+      );
+
+
+      options.innerHTML =
+      "";
 
       textArea.style.display =
       "none";
+
+
+      startStatusChecking();
 
       return;
 
     }
 
 
-    currentSubmissionId =
-    result[0].id;
-
-
-    localStorage.setItem(
-      "formFillingSubmissionId",
-      currentSubmissionId
-    );
-
-
     /*
-      नया submission शुरू होने पर पुराने status
-      notification को reset करें।
+      अगर Supabase ने ID वापस नहीं दी,
+      तब भी successful submission को failure नहीं बताएँगे।
     */
 
-    localStorage.removeItem(
-      "formFillingStatusShown"
-    );
-
-
-    options.innerHTML = "";
+    options.innerHTML =
+    "";
 
     textArea.style.display =
     "none";
-
-
-    startStatusChecking();
 
   }
   catch(error){
@@ -957,8 +947,8 @@ async function submitForm(){
     );
 
     /*
-      Network/technical error होने पर ही
-      failure message दिखेगा।
+      केवल वास्तविक network/database error में
+      failure message आएगा।
     */
 
     bot(
@@ -1018,8 +1008,6 @@ async function checkSubmissionStatus(){
     /*
       Supabase RPC function:
       get_form_filling_status(bigint)
-
-      इसमें केवल id और status वापस आता है।
     */
 
     const response =
@@ -1171,40 +1159,44 @@ async function checkSubmissionStatus(){
 
 function showReceiptButton(){
 
-  options.innerHTML = "";
+  options.innerHTML =
+  "";
 
   textArea.style.display =
   "none";
 
 
-  /*
-    Receipt link अभी खाली है।
-    Link मिलने के बाद RECEIPT_LINK में डालना होगा।
-  */
+  if(!RECEIPT_LINK){
 
-  if(RECEIPT_LINK){
+    /*
+      Receipt link अभी नहीं मिला है।
+      इसलिए खाली/गलत button नहीं दिखाएँगे।
+    */
 
-    const link =
-    document.createElement("a");
-
-    link.className =
-    "receipt-button";
-
-    link.href =
-    RECEIPT_LINK;
-
-    link.target =
-    "_blank";
-
-    link.rel =
-    "noopener noreferrer";
-
-    link.textContent =
-    "📄 Download Receipt";
-
-    options.appendChild(link);
+    return;
 
   }
+
+
+  const link =
+  document.createElement("a");
+
+  link.className =
+  "receipt-button";
+
+  link.href =
+  RECEIPT_LINK;
+
+  link.target =
+  "_blank";
+
+  link.rel =
+  "noopener noreferrer";
+
+  link.textContent =
+  "📄 Download Receipt";
+
+  options.appendChild(link);
 
 }
 
