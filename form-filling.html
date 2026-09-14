@@ -6,7 +6,9 @@
 <title>Form Filling</title>
 
 <style>
-*{box-sizing:border-box}
+*{
+  box-sizing:border-box;
+}
 
 body{
   margin:0;
@@ -70,6 +72,10 @@ button{
   color:white;
   font-size:16px;
   cursor:pointer;
+}
+
+button:hover{
+  opacity:.95;
 }
 
 .input-area{
@@ -140,6 +146,20 @@ input[type=file]{
   border-radius:6px;
 }
 
+.receipt-button{
+  display:block;
+  width:100%;
+  padding:13px;
+  margin-top:10px;
+  border-radius:8px;
+  background:#128c7e;
+  color:white;
+  text-align:center;
+  text-decoration:none;
+  font-size:16px;
+  font-weight:bold;
+}
+
 .status-message{
   background:white;
   padding:14px;
@@ -161,8 +181,18 @@ input[type=file]{
   <div class="options" id="options"></div>
 
   <div class="input-area" id="textArea">
-    <input type="text" id="textInput" placeholder="Type here...">
-    <button class="send" onclick="sendText()">Send</button>
+    <input
+      type="text"
+      id="textInput"
+      placeholder="Type here..."
+    >
+
+    <button
+      class="send"
+      onclick="sendText()"
+    >
+      Send
+    </button>
   </div>
 
 </div>
@@ -174,6 +204,13 @@ const SUPABASE_URL =
 
 const SUPABASE_KEY =
 "sb_publishable_gpc7KUqUIykO3WM1aCzRfg_Myo8AKyx";
+
+
+/*
+  जब आपका Receipt Download Link तैयार हो जाए,
+  केवल नीचे की value में वह link डालना होगा।
+*/
+const RECEIPT_LINK = "";
 
 
 const messages =
@@ -541,9 +578,6 @@ async function uploadFile(file,type){
           "apikey":
           SUPABASE_KEY,
 
-          "Authorization":
-          "Bearer "+SUPABASE_KEY,
-
           "Content-Type":
           file.type ||
           "application/octet-stream"
@@ -558,6 +592,15 @@ async function uploadFile(file,type){
 
 
     if(!response.ok){
+
+      const errorText =
+      await response.text();
+
+      console.error(
+        "File Upload Error:",
+        response.status,
+        errorText
+      );
 
       bot(
         "File upload नहीं हो पाया। कृपया दोबारा कोशिश करें।"
@@ -606,7 +649,7 @@ async function uploadFile(file,type){
         "Payment Screenshot भेज दिया गया"
       );
 
-      submitForm();
+      await submitForm();
 
     }
 
@@ -770,6 +813,12 @@ function payment(){
 
 async function submitForm(){
 
+  /*
+    यह message केवल submission process शुरू होने पर
+    दिखेगा। अगर Supabase में submission सफल होता है,
+    तो कोई failure message नहीं दिखाया जाएगा।
+  */
+
   bot(
     "आपकी सारी जानकारी सफलतापूर्वक प्राप्त कर ली गई है। Verification एवं Form Filling तक कृपया प्रतीक्षा करें।"
   );
@@ -792,9 +841,6 @@ async function submitForm(){
           "apikey":
           SUPABASE_KEY,
 
-          "Authorization":
-          "Bearer "+SUPABASE_KEY,
-
           "Content-Type":
           "application/json",
 
@@ -813,9 +859,25 @@ async function submitForm(){
 
     if(!response.ok){
 
-      throw new Error(
-        "Submission failed"
+      const errorText =
+      await response.text();
+
+      console.error(
+        "Form Submission Error:",
+        response.status,
+        errorText
       );
+
+      /*
+        केवल वास्तविक database submission failure
+        होने पर यह message दिखेगा।
+      */
+
+      bot(
+        "जानकारी जमा करने में समस्या हुई। कृपया दोबारा प्रयास करें।"
+      );
+
+      return;
 
     }
 
@@ -824,15 +886,36 @@ async function submitForm(){
     await response.json();
 
 
+    console.log(
+      "Submission Result:",
+      result
+    );
+
+
     if(
       !result ||
       !result[0] ||
       !result[0].id
     ){
 
-      throw new Error(
-        "Submission ID नहीं मिला।"
+      console.error(
+        "Submission ID नहीं मिला:",
+        result
       );
+
+      /*
+        Submission सफल हो चुकी हो सकती है,
+        इसलिए user को failure message नहीं दिखाएँगे।
+        Status tracking उपलब्ध न होने की स्थिति में
+        केवल console में error रहेगा।
+      */
+
+      options.innerHTML = "";
+
+      textArea.style.display =
+      "none";
+
+      return;
 
     }
 
@@ -844,6 +927,16 @@ async function submitForm(){
     localStorage.setItem(
       "formFillingSubmissionId",
       currentSubmissionId
+    );
+
+
+    /*
+      नया submission शुरू होने पर पुराने status
+      notification को reset करें।
+    */
+
+    localStorage.removeItem(
+      "formFillingStatusShown"
     );
 
 
@@ -862,6 +955,11 @@ async function submitForm(){
       "Form Submission Error:",
       error
     );
+
+    /*
+      Network/technical error होने पर ही
+      failure message दिखेगा।
+    */
 
     bot(
       "जानकारी जमा करने में समस्या हुई। कृपया दोबारा प्रयास करें।"
@@ -917,30 +1015,40 @@ async function checkSubmissionStatus(){
 
   try{
 
+    /*
+      Supabase RPC function:
+      get_form_filling_status(bigint)
+
+      इसमें केवल id और status वापस आता है।
+    */
+
     const response =
     await fetch(
 
       SUPABASE_URL+
-      "/rest/v1/form_filling_submissions"+
-      "?select=id,status"+
-      "&id=eq."+
-      encodeURIComponent(
-        currentSubmissionId
-      ),
+      "/rest/v1/rpc/get_form_filling_status",
 
       {
 
-        method:"GET",
+        method:"POST",
 
         headers:{
 
           "apikey":
           SUPABASE_KEY,
 
-          "Authorization":
-          "Bearer "+SUPABASE_KEY
+          "Content-Type":
+          "application/json"
 
-        }
+        },
+
+        body:
+        JSON.stringify({
+
+          submission_id:
+          Number(currentSubmissionId)
+
+        })
 
       }
 
@@ -948,6 +1056,15 @@ async function checkSubmissionStatus(){
 
 
     if(!response.ok){
+
+      const errorText =
+      await response.text();
+
+      console.error(
+        "Status Check Error:",
+        response.status,
+        errorText
+      );
 
       return;
 
@@ -989,6 +1106,9 @@ async function checkSubmissionStatus(){
           "formFillingStatusShown",
           "Done"
         );
+
+
+        showReceiptButton();
 
       }
 
@@ -1042,6 +1162,47 @@ async function checkSubmissionStatus(){
       "Status Check Error:",
       error
     );
+
+  }
+
+}
+
+
+
+function showReceiptButton(){
+
+  options.innerHTML = "";
+
+  textArea.style.display =
+  "none";
+
+
+  /*
+    Receipt link अभी खाली है।
+    Link मिलने के बाद RECEIPT_LINK में डालना होगा।
+  */
+
+  if(RECEIPT_LINK){
+
+    const link =
+    document.createElement("a");
+
+    link.className =
+    "receipt-button";
+
+    link.href =
+    RECEIPT_LINK;
+
+    link.target =
+    "_blank";
+
+    link.rel =
+    "noopener noreferrer";
+
+    link.textContent =
+    "📄 Download Receipt";
+
+    options.appendChild(link);
 
   }
 
