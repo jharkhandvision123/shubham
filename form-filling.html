@@ -7,11 +7,13 @@
 
 <style>
 *{box-sizing:border-box}
+
 body{
   margin:0;
   font-family:Arial,sans-serif;
   background:#e5ddd5;
 }
+
 .chat{
   max-width:700px;
   margin:auto;
@@ -20,6 +22,7 @@ body{
   display:flex;
   flex-direction:column;
 }
+
 .header{
   background:#075e54;
   color:white;
@@ -27,11 +30,13 @@ body{
   font-size:20px;
   font-weight:bold;
 }
+
 .messages{
   flex:1;
   padding:15px;
   overflow-y:auto;
 }
+
 .msg{
   max-width:85%;
   padding:11px 14px;
@@ -40,17 +45,21 @@ body{
   line-height:1.4;
   word-wrap:break-word;
 }
+
 .bot{
   background:white;
   margin-right:auto;
 }
+
 .user{
   background:#dcf8c6;
   margin-left:auto;
 }
+
 .options{
   padding:10px;
 }
+
 button{
   width:100%;
   padding:13px;
@@ -62,12 +71,14 @@ button{
   font-size:16px;
   cursor:pointer;
 }
+
 .input-area{
   display:flex;
   gap:6px;
   padding:8px;
   background:#f0f0f0;
 }
+
 input[type=text]{
   flex:1;
   padding:13px;
@@ -75,10 +86,12 @@ input[type=text]{
   border-radius:8px;
   font-size:16px;
 }
+
 .send{
   width:auto;
   padding:0 18px;
 }
+
 .file-label{
   display:block;
   background:#128c7e;
@@ -89,8 +102,44 @@ input[type=text]{
   cursor:pointer;
   margin-top:8px;
 }
-input[type=file]{display:none}
-.hidden{display:none}
+
+input[type=file]{
+  display:none;
+}
+
+.hidden{
+  display:none;
+}
+
+.qr-box{
+  background:white;
+  margin:10px 0;
+  padding:15px;
+  border-radius:10px;
+  text-align:center;
+}
+
+.qr-title{
+  font-size:18px;
+  font-weight:bold;
+  margin-bottom:10px;
+}
+
+.qr-amount{
+  font-size:20px;
+  font-weight:bold;
+  margin-bottom:12px;
+}
+
+.qr-image{
+  width:100%;
+  max-width:300px;
+  height:auto;
+  display:block;
+  margin:0 auto;
+  border-radius:6px;
+}
+
 </style>
 </head>
 
@@ -112,7 +161,9 @@ input[type=file]{display:none}
 </div>
 
 <script>
+
 const SUPABASE_URL = "https://aghizlgvrhunpuxvohep.supabase.co";
+
 const SUPABASE_KEY = "sb_publishable_gpc7KUqUIykO3WM1aCzRfg_Myo8AKyx";
 
 const messages = document.getElementById("messages");
@@ -121,6 +172,7 @@ const textArea = document.getElementById("textArea");
 const textInput = document.getElementById("textInput");
 
 let step = 1;
+
 let data = {
   form_type:"",
   category:"",
@@ -131,134 +183,230 @@ let data = {
   status:"Pending"
 };
 
+
 function bot(text){
+
   const div=document.createElement("div");
+
   div.className="msg bot";
+
   div.textContent=text;
+
   messages.appendChild(div);
+
   messages.scrollTop=messages.scrollHeight;
 }
+
 
 function user(text){
+
   const div=document.createElement("div");
+
   div.className="msg user";
+
   div.textContent=text;
+
   messages.appendChild(div);
+
   messages.scrollTop=messages.scrollHeight;
 }
 
+
 function buttons(items){
+
   options.innerHTML="";
+
   textArea.style.display="none";
 
   items.forEach(item=>{
+
     const b=document.createElement("button");
+
     b.textContent=item.text;
+
     b.onclick=()=>item.action();
+
     options.appendChild(b);
+
   });
 }
 
+
 function textMode(placeholder){
+
   options.innerHTML="";
+
   textArea.style.display="flex";
+
   textInput.placeholder=placeholder;
+
   textInput.value="";
+
   textInput.focus();
 }
 
+
 function sendText(){
+
   const value=textInput.value.trim();
+
   if(!value)return;
 
   if(step===3){
+
     const n=value.replace(/\D/g,"");
+
     if(n.length!==10){
+
       bot("कृपया केवल 10 अंकों का मोबाइल नंबर दर्ज करें।");
+
       return;
     }
+
     data.mobile_number=n;
+
     user(n);
+
     payment();
   }
 }
+
 
 function start(){
 
   bot("Backlog Form भरने के लिए 1 दबाएँ और Regular Form भरने के लिए 2 दबाएँ।");
 
   buttons([
+
     {
       text:"1 - Backlog Form",
       action:()=>chooseType("Backlog")
     },
+
     {
       text:"2 - Regular Form",
       action:()=>chooseType("Regular")
     }
+
   ]);
 }
 
+
 function chooseType(type){
+
   data.form_type=type;
+
   user(type);
 
   bot("Practical Honours के लिए 1 दबाएँ, Non-Practical Honours के लिए 2 दबाएँ।");
 
   buttons([
+
     {
       text:"1 - Practical Honours",
       action:()=>chooseCategory("Practical")
     },
+
     {
       text:"2 - Non-Practical Honours",
       action:()=>chooseCategory("Non-Practical")
     }
+
   ]);
 }
 
+
 function chooseCategory(category){
+
   data.category=category;
+
   user(category);
 
   bot("आपको जिस Semester का Form Fill करना है, उसे Select करें।");
 
   buttons([
-    {text:"Semester 1",action:()=>chooseSemester(1)},
-    {text:"Semester 2",action:()=>chooseSemester(2)},
-    {text:"Semester 3",action:()=>chooseSemester(3)},
-    {text:"Semester 4",action:()=>chooseSemester(4)},
-    {text:"Semester 5",action:()=>chooseSemester(5)},
-    {text:"Semester 6",action:()=>chooseSemester(6)},
-    {text:"Semester 7",action:()=>chooseSemester(7)},
-    {text:"Semester 8",action:()=>chooseSemester(8)}
+
+    {
+      text:"Semester 1",
+      action:()=>chooseSemester(1)
+    },
+
+    {
+      text:"Semester 2",
+      action:()=>chooseSemester(2)
+    },
+
+    {
+      text:"Semester 3",
+      action:()=>chooseSemester(3)
+    },
+
+    {
+      text:"Semester 4",
+      action:()=>chooseSemester(4)
+    },
+
+    {
+      text:"Semester 5",
+      action:()=>chooseSemester(5)
+    },
+
+    {
+      text:"Semester 6",
+      action:()=>chooseSemester(6)
+    },
+
+    {
+      text:"Semester 7",
+      action:()=>chooseSemester(7)
+    },
+
+    {
+      text:"Semester 8",
+      action:()=>chooseSemester(8)
+    }
+
   ]);
 }
 
+
 function chooseSemester(s){
+
   data.semester="Semester "+s;
+
   user(data.semester);
 
   bot("कृपया अपना Admit Card भेजें।");
 
   options.innerHTML="";
+
   const label=document.createElement("label");
+
   label.className="file-label";
+
   label.textContent="📎 Admit Card Upload";
 
   const input=document.createElement("input");
+
   input.type="file";
+
   input.accept="image/*,.pdf";
 
   input.onchange=()=>{
+
     if(input.files.length){
+
       uploadFile(input.files[0],"admit");
+
     }
+
   };
 
   label.appendChild(input);
+
   options.appendChild(label);
 }
+
 
 async function uploadFile(file,type){
 
@@ -268,111 +416,218 @@ async function uploadFile(file,type){
     Date.now()+"_"+Math.random().toString(36).substring(2)+"_"+file.name;
 
   const response=await fetch(
-    SUPABASE_URL+"/storage/v1/object/form-filling-files/"+path,
+
+    SUPABASE_URL+
+    "/storage/v1/object/form-filling-files/"+
+    path,
+
     {
       method:"POST",
+
       headers:{
         "apikey":SUPABASE_KEY,
         "Authorization":"Bearer "+SUPABASE_KEY,
         "Content-Type":file.type || "application/octet-stream"
       },
+
       body:file
     }
+
   );
 
   if(!response.ok){
+
     bot("File upload नहीं हो पाया। कृपया दोबारा कोशिश करें।");
+
     return;
   }
 
   const url=
-    SUPABASE_URL+"/storage/v1/object/public/form-filling-files/"+path;
+    SUPABASE_URL+
+    "/storage/v1/object/public/form-filling-files/"+
+    path;
+
 
   if(type==="admit"){
+
     data.admit_card_url=url;
+
     user("Admit Card भेज दिया गया");
 
     bot("अब अपना NPU Registered Mobile Number दर्ज करें।");
 
     step=3;
+
     textMode("10 digit mobile number");
   }
 
+
   if(type==="payment"){
+
     data.payment_screenshot_url=url;
+
     user("Payment Screenshot भेज दिया गया");
+
     submitForm();
   }
 }
 
+
 function payment(){
 
-  const amount=data.category==="Practical" ? "₹775" : "₹625";
+  const amount=
+    data.category==="Practical"
+    ? "₹775"
+    : "₹625";
+
+  const qrFile=
+    data.category==="Practical"
+    ? "qr775.png"
+    : "qr625.png";
+
 
   bot(
-    "आपको "+amount+" का Payment करना है। नीचे दिए गए QR को Scan करके Payment करें और Payment Screenshot Upload करें।"
+    "आपको "+amount+
+    " का Payment करना है। नीचे दिए गए QR को Scan करके Payment करें और Payment Screenshot Upload करें।"
   );
 
-  /*
-    IMPORTANT:
-    यहाँ बाद में आपका असली UPI QR image लगाया जाएगा।
-  */
 
-  const qr=document.createElement("div");
-  qr.className="msg bot";
-  qr.textContent="💳 PAYMENT QR\n\n"+amount+"\n\nयहाँ आपका Payment QR दिखाई देगा।";
-  messages.appendChild(qr);
+  const qrBox=document.createElement("div");
+
+  qrBox.className="qr-box";
+
+
+  const title=document.createElement("div");
+
+  title.className="qr-title";
+
+  title.textContent="💳 PAYMENT QR";
+
+  qrBox.appendChild(title);
+
+
+  const amountText=document.createElement("div");
+
+  amountText.className="qr-amount";
+
+  amountText.textContent=amount;
+
+  qrBox.appendChild(amountText);
+
+
+  const qrImage=document.createElement("img");
+
+  qrImage.className="qr-image";
+
+  qrImage.src=qrFile;
+
+  qrImage.alt="Payment QR Code";
+
+
+  qrImage.onerror=()=>{
+
+    qrBox.innerHTML="";
+
+    const error=document.createElement("div");
+
+    error.className="qr-title";
+
+    error.textContent=
+      "QR Code दिखाई नहीं दे रहा है। कृपया बाद में पुनः प्रयास करें।";
+
+    qrBox.appendChild(error);
+  };
+
+
+  qrBox.appendChild(qrImage);
+
+  messages.appendChild(qrBox);
+
+  messages.scrollTop=messages.scrollHeight;
+
 
   options.innerHTML="";
 
+
   const label=document.createElement("label");
+
   label.className="file-label";
+
   label.textContent="📷 Payment Screenshot Upload";
 
+
   const input=document.createElement("input");
+
   input.type="file";
+
   input.accept="image/*,.pdf";
 
+
   input.onchange=()=>{
+
     if(input.files.length){
+
       uploadFile(input.files[0],"payment");
+
     }
+
   };
 
+
   label.appendChild(input);
+
   options.appendChild(label);
 
   textArea.style.display="none";
 }
 
+
 async function submitForm(){
 
-  bot("आपकी सारी जानकारी सफलतापूर्वक प्राप्त कर ली गई है। Verification एवं Form Filling तक कृपया प्रतीक्षा करें।");
+  bot(
+    "आपकी सारी जानकारी सफलतापूर्वक प्राप्त कर ली गई है। Verification एवं Form Filling तक कृपया प्रतीक्षा करें।"
+  );
+
 
   const response=await fetch(
-    SUPABASE_URL+"/rest/v1/form_filling_submissions",
+
+    SUPABASE_URL+
+    "/rest/v1/form_filling_submissions",
+
     {
       method:"POST",
+
       headers:{
         "apikey":SUPABASE_KEY,
         "Authorization":"Bearer "+SUPABASE_KEY,
         "Content-Type":"application/json",
         "Prefer":"return=minimal"
       },
+
       body:JSON.stringify(data)
     }
+
   );
 
+
   if(!response.ok){
-    bot("जानकारी जमा करने में समस्या हुई। कृपया दोबारा प्रयास करें।");
+
+    bot(
+      "जानकारी जमा करने में समस्या हुई। कृपया दोबारा प्रयास करें।"
+    );
+
     return;
   }
 
+
   options.innerHTML="";
+
   textArea.style.display="none";
 }
 
+
 start();
+
 </script>
 
 </body>
