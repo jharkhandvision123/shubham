@@ -1010,6 +1010,68 @@ function payment(){
 
 
 /* =========================================
+   PAYMENT UPLOAD UI - RESTORE ONLY
+   IMPORTANT:
+   यहाँ कोई नया Payment message या QR
+   messages में add नहीं किया जाएगा।
+========================================= */
+
+function restorePaymentUpload(){
+
+  options.innerHTML =
+  "";
+
+  textArea.style.display =
+  "none";
+
+
+  const label =
+  document.createElement("label");
+
+  label.className =
+  "file-label";
+
+  label.textContent =
+  "📷 Payment Screenshot Upload";
+
+
+  const input =
+  document.createElement("input");
+
+  input.type =
+  "file";
+
+  input.accept =
+  "image/*,.pdf";
+
+
+  input.onchange =
+  ()=>{
+
+    if(input.files.length){
+
+      uploadFile(
+        input.files[0],
+        "payment"
+      );
+
+    }
+
+  };
+
+
+  label.appendChild(input);
+
+  options.appendChild(label);
+
+
+  saveChat();
+
+}
+
+
+
+/* =========================================
    FORM SUBMISSION
 ========================================= */
 
@@ -1491,7 +1553,7 @@ function startNewForm(){
 
   /*
      पुरानी Chat/History को नहीं हटाया जाएगा।
-     केवल नई Form Filling के लिए Current Data Reset होगा।
+     केवल Current Form का Data Reset होगा।
   */
 
   currentSubmissionId =
@@ -1546,12 +1608,6 @@ function restoreCurrentStep(){
   */
 
   if(step===1){
-
-    /*
-      अगर यह Completed/Failed के बाद
-      New Form शुरू किया गया है,
-      तो Start के पुराने options ही दिखेंगे।
-    */
 
     buttons([
 
@@ -1696,6 +1752,14 @@ function restoreCurrentStep(){
 
   /*
     Payment Screenshot upload करना बाकी था
+
+    IMPORTANT:
+    यहाँ payment() नहीं चलाया जाएगा।
+    क्योंकि payment() नया message और QR
+    messages में जोड़ता है।
+
+    QR पहले से localStorage में मौजूद
+    messages.innerHTML के अंदर है।
   */
 
   if(
@@ -1705,7 +1769,7 @@ function restoreCurrentStep(){
     !data.payment_screenshot_url
   ){
 
-    payment();
+    restorePaymentUpload();
 
     return;
 
