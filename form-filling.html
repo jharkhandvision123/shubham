@@ -811,13 +811,12 @@ function payment(){
 
 
 
-async function submitForm(){
+/* =========================================
+   FORM SUBMISSION
+   SECURITY DEFINER RPC
+========================================= */
 
-  /*
-    यह message submission शुरू होने पर दिखेगा।
-    Successful submission के बाद कोई failure message
-    नहीं दिखाया जाएगा।
-  */
+async function submitForm(){
 
   bot(
     "आपकी सारी जानकारी सफलतापूर्वक प्राप्त कर ली गई है। Verification एवं Form Filling तक कृपया प्रतीक्षा करें।"
@@ -830,7 +829,7 @@ async function submitForm(){
     await fetch(
 
       SUPABASE_URL+
-      "/rest/v1/form_filling_submissions",
+      "/rest/v1/rpc/create_form_filling_submission",
 
       {
 
@@ -842,15 +841,32 @@ async function submitForm(){
           SUPABASE_KEY,
 
           "Content-Type":
-          "application/json",
-
-          "Prefer":
-          "return=representation"
+          "application/json"
 
         },
 
         body:
-        JSON.stringify(data)
+        JSON.stringify({
+
+          p_form_type:
+          data.form_type,
+
+          p_semester:
+          data.semester,
+
+          p_category:
+          data.category,
+
+          p_mobile_number:
+          data.mobile_number,
+
+          p_admit_card_url:
+          data.admit_card_url,
+
+          p_payment_screenshot_url:
+          data.payment_screenshot_url
+
+        })
 
       }
 
@@ -868,6 +884,7 @@ async function submitForm(){
         errorText
       );
 
+
       bot(
         "जानकारी जमा करने में समस्या हुई। कृपया दोबारा प्रयास करें।"
       );
@@ -882,24 +899,15 @@ async function submitForm(){
 
 
     console.log(
-      "Submission Result:",
+      "Submission ID:",
       result
     );
 
 
-    /*
-      Submission सफल हो गया है।
-      ID मिल जाए तो status tracking शुरू करेंगे।
-    */
-
-    if(
-      result &&
-      result[0] &&
-      result[0].id
-    ){
+    if(result){
 
       currentSubmissionId =
-      result[0].id;
+      result;
 
 
       localStorage.setItem(
@@ -927,16 +935,9 @@ async function submitForm(){
     }
 
 
-    /*
-      अगर Supabase ने ID वापस नहीं दी,
-      तब भी successful submission को failure नहीं बताएँगे।
-    */
-
-    options.innerHTML =
-    "";
-
-    textArea.style.display =
-    "none";
+    bot(
+      "जानकारी जमा करने में समस्या हुई। कृपया दोबारा प्रयास करें।"
+    );
 
   }
   catch(error){
@@ -946,10 +947,6 @@ async function submitForm(){
       error
     );
 
-    /*
-      केवल वास्तविक network/database error में
-      failure message आएगा।
-    */
 
     bot(
       "जानकारी जमा करने में समस्या हुई। कृपया दोबारा प्रयास करें।"
