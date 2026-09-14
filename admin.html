@@ -14,7 +14,2471 @@
     box-sizing:border-box;
     font-family:Arial,sans-serif;
 }
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Admin Receipt Management</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    margin:0;
+    background:#f4f7fc;
+    color:#222;
+}
+
+header{
+    background:#0d47a1;
+    color:white;
+    text-align:center;
+    padding:25px 15px;
+}
+
+.container{
+    width:92%;
+    max-width:750px;
+    margin:30px auto;
+}
+
+.box{
+    background:white;
+    padding:25px;
+    border-radius:12px;
+    box-shadow:0 4px 12px rgba(0,0,0,.1);
+    margin-bottom:20px;
+}
+
+h2{
+    color:#0d47a1;
+    text-align:center;
+}
+
+input,
+select{
+    width:100%;
+    padding:13px;
+    border:2px solid #0d47a1;
+    border-radius:8px;
+    font-size:16px;
+    margin-top:10px;
+}
+
+button{
+    width:100%;
+    padding:13px;
+    margin-top:12px;
+    border:none;
+    border-radius:8px;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+#loginBtn,
+#searchBtn,
+#uploadBtn,
+#addVideoBtn,
+#searchDeleteBtn,
+#uploadReceiptBtn,
+#projectFileRefreshBtn{
+    background:#0d47a1;
+    color:white;
+}
+
+.deleteBtn{
+    background:#d32f2f;
+    color:white;
+}
+
+.receipt{
+    border:1px solid #ddd;
+    border-radius:8px;
+    padding:15px;
+    margin-top:15px;
+}
+
+.logoutBtn{
+    background:#555;
+    color:white;
+}
+
+#message,
+#uploadMessage,
+#videoMessage,
+#deleteMessage,
+#receiptUploadMessage,
+#projectFileMessage{
+    text-align:center;
+    margin-top:15px;
+    font-weight:bold;
+}
+
+#adminPanel{
+    display:none;
+}
+
+#loginMessage{
+    text-align:center;
+    margin-top:15px;
+    font-weight:bold;
+}
+
+
+/* =========================================
+   PROJECT FILE VERIFICATION
+========================================= */
+
+.project-submission{
+    border:1px solid #ddd;
+    border-radius:10px;
+    padding:15px;
+    margin-top:15px;
+    background:#fafafa;
+}
+
+.project-mobile{
+    font-size:17px;
+    font-weight:bold;
+    color:#0d47a1;
+    margin-bottom:10px;
+}
+
+.project-date{
+    font-size:12px;
+    color:#777;
+    margin-bottom:10px;
+}
+
+.project-status{
+    padding:8px;
+    border-radius:6px;
+    text-align:center;
+    font-weight:bold;
+    margin-top:10px;
+}
+
+.status-pending{
+    background:#fff3cd;
+    color:#856404;
+}
+
+.status-done{
+    background:#d4edda;
+    color:#155724;
+}
+
+.status-failed{
+    background:#f8d7da;
+    color:#721c24;
+}
+
+.view-document-btn{
+    background:#455a64;
+    color:white;
+}
+
+.verify-done-btn{
+    background:#198754;
+    color:white;
+}
+
+.verify-failed-btn{
+    background:#d32f2f;
+    color:white;
+}
+
+.project-buttons{
+    margin-top:10px;
+}
+
+.project-buttons button{
+    margin-top:8px;
+}
+
+.no-project-data{
+    text-align:center;
+    padding:20px;
+    color:#666;
+    background:#f5f5f5;
+    border-radius:8px;
+}
+
+
+/* =========================================
+   PROJECT FILE DELETE BUTTON
+========================================= */
+
+.project-delete-btn{
+    background:#777;
+    color:white;
+    width:auto;
+    padding:8px 12px;
+    font-size:13px;
+    margin-top:8px;
+}
+
+
+/* =========================================
+   FORM FILLING MANAGEMENT
+========================================= */
+
+.form-filling-submission{
+    border:1px solid #ddd;
+    border-radius:10px;
+    padding:15px;
+    margin-top:15px;
+    background:#fafafa;
+}
+
+.form-filling-mobile{
+    font-size:17px;
+    font-weight:bold;
+    color:#0d47a1;
+    margin-bottom:8px;
+}
+
+.form-filling-info{
+    line-height:1.7;
+    font-size:14px;
+}
+
+.form-filling-status{
+    padding:8px;
+    border-radius:6px;
+    text-align:center;
+    font-weight:bold;
+    margin-top:10px;
+}
+
+.form-status-pending{
+    background:#fff3cd;
+    color:#856404;
+}
+
+.form-status-done{
+    background:#d4edda;
+    color:#155724;
+}
+
+.form-status-failed{
+    background:#f8d7da;
+    color:#721c24;
+}
+
+.form-filling-buttons{
+    margin-top:10px;
+}
+
+.form-filling-buttons button{
+    margin-top:8px;
+}
+
+.form-view-btn{
+    background:#455a64;
+    color:white;
+}
+
+.form-done-btn{
+    background:#198754;
+    color:white;
+}
+
+.form-failed-btn{
+    background:#d32f2f;
+    color:white;
+}
+
+.form-change-btn{
+    background:#777;
+    color:white;
+}
+
+.form-filling-empty{
+    text-align:center;
+    padding:20px;
+    color:#666;
+    background:#f5f5f5;
+    border-radius:8px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+    <h1>Admin Receipt Management</h1>
+
+</header>
+
+
+<div class="container">
+
+
+    <!-- =====================================
+         ADMIN LOGIN
+    ====================================== -->
+
+    <div class="box" id="loginBox">
+
+        <h2>Admin Login</h2>
+
+        <input
+            type="email"
+            id="email"
+            placeholder="Admin Email"
+            autocomplete="username"
+        >
+
+        <input
+            type="password"
+            id="password"
+            placeholder="Admin Password"
+            autocomplete="current-password"
+        >
+
+        <button id="loginBtn">
+            LOGIN
+        </button>
+
+        <div id="loginMessage"></div>
+
+    </div>
+
+
+    <!-- =====================================
+         ALL ADMIN FUNCTIONS
+    ====================================== -->
+
+    <div id="adminPanel">
+
+
+
+        <!-- =====================================
+             FORM FILLING MANAGEMENT
+        ====================================== -->
+
+        <div class="box">
+
+            <h2>Form Filling Management</h2>
+
+            <button
+                id="formFillingRefreshBtn"
+                type="button"
+                style="background:#0d47a1;color:white;"
+            >
+                🔄 LOAD FORM FILLING SUBMISSIONS
+            </button>
+
+            <div id="formFillingMessage"></div>
+
+            <div id="formFillingResults"></div>
+
+        </div>
+
+
+        <!-- =====================================
+             PROJECT FILE VERIFICATION
+        ====================================== -->
+
+        <div class="box">
+
+            <h2>Project File Verification</h2>
+
+            <button
+                id="projectFileRefreshBtn"
+                type="button"
+            >
+                🔄 LOAD PROJECT FILE SUBMISSIONS
+            </button>
+
+            <div id="projectFileMessage"></div>
+
+            <div id="projectFileResults"></div>
+
+        </div>
+
+
+        <!-- =====================================
+             PDF UPLOAD
+        ====================================== -->
+
+        <div class="box">
+
+            <h2>Upload PDF</h2>
+
+            <select id="semester">
+
+                <option value="">
+                    Select Semester
+                </option>
+
+                <option value="Semester 1">
+                    Semester 1
+                </option>
+
+                <option value="Semester 2">
+                    Semester 2
+                </option>
+
+                <option value="Semester 3">
+                    Semester 3
+                </option>
+
+                <option value="Semester 4">
+                    Semester 4
+                </option>
+
+                <option value="Semester 5">
+                    Semester 5
+                </option>
+
+                <option value="Semester 6">
+                    Semester 6
+                </option>
+
+                <option value="Semester 7">
+                    Semester 7
+                </option>
+
+                <option value="Semester 8">
+                    Semester 8
+                </option>
+
+            </select>
+
+
+            <select id="honoursSubject">
+
+                <option value="">
+                    Select Honours / Subject
+                </option>
+
+                <option value="Political Science">
+                    Political Science
+                </option>
+
+                <option value="History">
+                    History
+                </option>
+
+                <option value="Geography">
+                    Geography
+                </option>
+
+                <option value="Hindi">
+                    Hindi
+                </option>
+
+                <option value="English">
+                    English
+                </option>
+
+                <option value="Economics">
+                    Economics
+                </option>
+
+            </select>
+
+
+            <input
+                type="text"
+                id="paperName"
+                placeholder="Enter Paper Name / Code (e.g. MJ-2)"
+            >
+
+
+            <select id="contentType">
+
+                <option value="">
+                    Select Content Type
+                </option>
+
+                <option value="Chapter Notes">
+                    Chapter Notes
+                </option>
+
+                <option value="PYQ">
+                    PYQ
+                </option>
+
+                <option value="Online Quiz">
+                    Online Quiz
+                </option>
+
+                <option value="Video Solution">
+                    Video Solution
+                </option>
+
+            </select>
+
+
+            <input
+                type="file"
+                id="pdfFile"
+                accept="application/pdf"
+            >
+
+
+            <button id="uploadBtn">
+                UPLOAD PDF
+            </button>
+
+
+            <div id="uploadMessage"></div>
+
+        </div>
+
+
+        <!-- =====================================
+             SOLUTION VIDEO
+        ====================================== -->
+
+        <div class="box">
+
+            <h2>Add Solution Video</h2>
+
+            <select id="videoSemester">
+
+                <option value="">
+                    Select Semester
+                </option>
+
+                <option value="Semester 1">Semester 1</option>
+                <option value="Semester 2">Semester 2</option>
+                <option value="Semester 3">Semester 3</option>
+                <option value="Semester 4">Semester 4</option>
+                <option value="Semester 5">Semester 5</option>
+                <option value="Semester 6">Semester 6</option>
+                <option value="Semester 7">Semester 7</option>
+                <option value="Semester 8">Semester 8</option>
+
+            </select>
+
+
+            <select id="videoHonoursSubject">
+
+                <option value="">
+                    Select Honours / Subject
+                </option>
+
+                <option value="Political Science">
+                    Political Science
+                </option>
+
+                <option value="History">
+                    History
+                </option>
+
+                <option value="Geography">
+                    Geography
+                </option>
+
+                <option value="Hindi">
+                    Hindi
+                </option>
+
+                <option value="English">
+                    English
+                </option>
+
+                <option value="Economics">
+                    Economics
+                </option>
+
+            </select>
+
+
+            <input
+                type="text"
+                id="videoPaperName"
+                placeholder="Enter Paper Name / Code (e.g. MJ-2)"
+            >
+
+
+            <input
+                type="text"
+                id="videoTitle"
+                placeholder="Enter Video Title"
+            >
+
+
+            <input
+                type="url"
+                id="videoUrl"
+                placeholder="Paste YouTube Video Link"
+            >
+
+
+            <button id="addVideoBtn">
+                ADD SOLUTION VIDEO
+            </button>
+
+
+            <div id="videoMessage"></div>
+
+        </div>
+
+
+        <!-- =====================================
+             DELETE CONTENT
+        ====================================== -->
+
+        <div class="box">
+
+            <h2>Delete Content</h2>
+
+            <select id="deleteType">
+
+                <option value="">
+                    Select Content to Delete
+                </option>
+
+                <option value="PDF">
+                    PDF
+                </option>
+
+                <option value="VIDEO">
+                    Solution Video
+                </option>
+
+            </select>
+
+
+            <select id="deleteSemester">
+
+                <option value="">
+                    Select Semester
+                </option>
+
+                <option value="Semester 1">Semester 1</option>
+                <option value="Semester 2">Semester 2</option>
+                <option value="Semester 3">Semester 3</option>
+                <option value="Semester 4">Semester 4</option>
+                <option value="Semester 5">Semester 5</option>
+                <option value="Semester 6">Semester 6</option>
+                <option value="Semester 7">Semester 7</option>
+                <option value="Semester 8">Semester 8</option>
+
+            </select>
+
+
+            <select id="deleteSubject">
+
+                <option value="">
+                    Select Honours / Subject
+                </option>
+
+                <option value="Political Science">
+                    Political Science
+                </option>
+
+                <option value="History">
+                    History
+                </option>
+
+                <option value="Geography">
+                    Geography
+                </option>
+
+                <option value="Hindi">
+                    Hindi
+                </option>
+
+                <option value="English">
+                    English
+                </option>
+
+                <option value="Economics">
+                    Economics
+                </option>
+
+            </select>
+
+
+            <input
+                type="text"
+                id="deletePaper"
+                placeholder="Enter Paper Name / Code (e.g. MJ-2)"
+            >
+
+
+            <select id="deleteContentType">
+
+                <option value="">
+                    Select PDF Type
+                </option>
+
+                <option value="Chapter Notes">
+                    Chapter Notes
+                </option>
+
+                <option value="PYQ">
+                    PYQ
+                </option>
+
+                <option value="Online Quiz">
+                    Online Quiz
+                </option>
+
+                <option value="Video Solution">
+                    Video Solution
+                </option>
+
+            </select>
+
+
+            <button id="searchDeleteBtn">
+                SEARCH CONTENT
+            </button>
+
+
+            <div id="deleteMessage"></div>
+
+            <div id="deleteResults"></div>
+
+        </div>
+
+
+        <!-- =====================================
+             DELETE RECEIPT
+        ====================================== -->
+
+        <div class="box" id="adminBox">
+
+            <h2>Delete Receipt</h2>
+
+            <input
+                type="tel"
+                id="adminMobile"
+                placeholder="Enter 10 digit mobile number"
+                maxlength="10"
+                inputmode="numeric"
+            >
+
+
+            <button id="searchBtn">
+                SEARCH RECEIPTS
+            </button>
+
+
+            <div id="message"></div>
+
+            <div id="receipts"></div>
+
+        </div>
+
+
+        <!-- =====================================
+             UPLOAD RECEIPT
+        ====================================== -->
+
+        <div class="box">
+
+            <h2>Upload Receipt</h2>
+
+            <input
+                type="tel"
+                id="receiptMobile"
+                placeholder="Enter 10 digit mobile number"
+                maxlength="10"
+                inputmode="numeric"
+            >
+
+
+            <input
+                type="file"
+                id="receiptFile"
+                accept="application/pdf"
+            >
+
+
+            <button id="uploadReceiptBtn">
+                UPLOAD RECEIPT
+            </button>
+
+
+            <div id="receiptUploadMessage"></div>
+
+        </div>
+
+
+        <!-- =====================================
+             LOGOUT
+        ====================================== -->
+
+        <div class="box" id="logoutBox">
+
+            <button
+                id="logoutBtn"
+                class="logoutBtn"
+            >
+                LOGOUT
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================
+     SUPABASE
+========================================= -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+<script>
+
+/* =========================================
+   SUPABASE CONFIG
+========================================= */
+
+const SUPABASE_URL =
+    "https://aghizlgvrhunpuxvohep.supabase.co";
+
+
+const SUPABASE_KEY =
+    "sb_publishable_gpc7KUqUIykO3WM1aCzRfg_Myo8AKyx";
+
+
+const securityClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+
+/* =========================================
+   LOGIN ELEMENTS
+========================================= */
+
+const loginBox =
+    document.getElementById("loginBox");
+
+
+const adminPanel =
+    document.getElementById("adminPanel");
+
+
+const loginBtn =
+    document.getElementById("loginBtn");
+
+
+const logoutBtn =
+    document.getElementById("logoutBtn");
+
+
+const loginMessage =
+    document.getElementById("loginMessage");
+
+
+/* =========================================
+   PROJECT FILE ELEMENTS
+========================================= */
+
+const projectFileRefreshBtn =
+    document.getElementById(
+        "projectFileRefreshBtn"
+    );
+
+
+const projectFileMessage =
+    document.getElementById(
+        "projectFileMessage"
+    );
+
+
+const projectFileResults =
+    document.getElementById(
+        "projectFileResults"
+    );
+
+
+/* =========================================
+   SHOW / HIDE ADMIN
+========================================= */
+
+function showAdminPanel(){
+
+    loginBox.style.display = "none";
+
+    adminPanel.style.display = "block";
+
+    loadProjectFileSubmissions();
+    loadFormFillingSubmissions();
+
+}
+
+
+function showLogin(){
+
+    loginBox.style.display = "block";
+
+    adminPanel.style.display = "none";
+
+}
+
+
+/* =========================================
+   ADMIN SESSION
+========================================= */
+
+async function checkAdminSession(){
+
+    try{
+
+        const {
+            data,
+            error
+        } =
+        await securityClient.auth.getSession();
+
+
+        if(error){
+
+            console.error(error);
+
+            showLogin();
+
+            return;
+
+        }
+
+
+        if(data.session){
+
+            showAdminPanel();
+
+        }
+        else{
+
+            showLogin();
+
+        }
+
+    }
+    catch(error){
+
+        console.error(error);
+
+        showLogin();
+
+    }
+
+}
+
+
+/* =========================================
+   LOGIN
+========================================= */
+
+loginBtn.addEventListener(
+    "click",
+    async function(){
+
+        const email =
+            document
+            .getElementById("email")
+            .value
+            .trim();
+
+
+        const password =
+            document
+            .getElementById("password")
+            .value;
+
+
+        loginMessage.textContent = "";
+
+
+        if(!email || !password){
+
+            loginMessage.textContent =
+                "Email और Password डालें।";
+
+            return;
+
+        }
+
+
+        loginBtn.disabled = true;
+
+        loginBtn.textContent = "LOGIN...";
+
+
+        try{
+
+            const {
+                data,
+                error
+            } =
+            await securityClient.auth
+            .signInWithPassword({
+
+                email:email,
+
+                password:password
+
+            });
+
+
+            if(error){
+
+                loginMessage.textContent =
+                    "Invalid Email या Password.";
+
+                loginBtn.disabled = false;
+
+                loginBtn.textContent = "LOGIN";
+
+                return;
+
+            }
+
+
+            if(data.session){
+
+                document
+                .getElementById("password")
+                .value = "";
+
+
+                loginMessage.textContent = "";
+
+                showAdminPanel();
+
+            }
+
+        }
+        catch(error){
+
+            console.error(error);
+
+            loginMessage.textContent =
+                "Login failed. फिर से प्रयास करें।";
+
+        }
+
+
+        loginBtn.disabled = false;
+
+        loginBtn.textContent = "LOGIN";
+
+    }
+);
+
+
+/* =========================================
+   LOGOUT
+========================================= */
+
+logoutBtn.addEventListener(
+    "click",
+    async function(){
+
+        await securityClient.auth.signOut();
+
+        showLogin();
+
+        document
+        .getElementById("email")
+        .value = "";
+
+
+        document
+        .getElementById("password")
+        .value = "";
+
+    }
+);
+
+
+/* =========================================
+   AUTH STATE
+========================================= */
+
+securityClient.auth.onAuthStateChange(
+    function(event,session){
+
+        if(session){
+
+            showAdminPanel();
+
+        }
+        else{
+
+            showLogin();
+
+        }
+
+    }
+);
+
+
+
+/* =========================================
+   FORM FILLING MANAGEMENT
+========================================= */
+
+const formFillingRefreshBtn =
+    document.getElementById("formFillingRefreshBtn");
+
+const formFillingMessage =
+    document.getElementById("formFillingMessage");
+
+const formFillingResults =
+    document.getElementById("formFillingResults");
+
+
+formFillingRefreshBtn.addEventListener(
+    "click",
+    loadFormFillingSubmissions
+);
+
+
+async function loadFormFillingSubmissions(){
+
+    const currentLoadToken = ++formFillingLoadToken;
+
+    formFillingMessage.textContent = "Loading...";
+    formFillingMessage.style.color = "#222";
+    formFillingResults.innerHTML = "";
+
+    try{
+
+        const {
+            data,
+            error
+        } =
+        await securityClient
+        .from("form_filling_submissions")
+        .select(
+            "id,serial_number,form_type,semester,category,mobile_number,admit_card_url,payment_screenshot_url,status,created_at"
+        )
+        .order(
+            "serial_number",
+            {
+                ascending:false
+            }
+        );
+
+        if(error){
+            throw error;
+        }
+
+        if(currentLoadToken !== formFillingLoadToken){
+            return;
+        }
+
+        formFillingMessage.textContent = "";
+
+        if(!data || data.length === 0){
+
+            formFillingResults.innerHTML = `
+                <div class="form-filling-empty">
+                    कोई Form Filling submission नहीं मिली।
+                </div>
+            `;
+
+            return;
+        }
+
+        /*
+           एक ही database submission (id) को एक ही box में दिखाएं।
+           Mobile number को duplicate पहचानने के लिए इस्तेमाल नहीं किया गया है।
+        */
+        const uniqueSubmissions = new Map();
+
+        data.forEach(function(item){
+            if(item && item.id != null && !uniqueSubmissions.has(String(item.id))){
+                uniqueSubmissions.set(String(item.id), item);
+            }
+        });
+
+        Array.from(uniqueSubmissions.values()).forEach(function(item){
+            createFormFillingCard(item);
+        });
+
+    }
+    catch(error){
+
+        if(currentLoadToken !== formFillingLoadToken){
+            return;
+        }
+
+        console.error(
+            "Form Filling Load Error:",
+            error
+        );
+
+        formFillingMessage.textContent =
+            "❌ Form Filling data load नहीं हो पाया।";
+
+        formFillingMessage.style.color =
+            "#d32f2f";
+    }
+
+}
+
+
+
+function createFormFillingCard(item){
+
+    const card =
+        document.createElement("div");
+
+    card.className =
+        "form-filling-submission";
+
+    const status =
+        item.status || "Pending";
+
+    let statusClass =
+        "form-status-pending";
+
+    let statusText =
+        "⏳ PENDING";
+
+    if(
+        String(status).toLowerCase() === "done"
+    ){
+        statusClass =
+            "form-status-done";
+
+        statusText =
+            "✅ VERIFICATION DONE";
+    }
+
+    if(
+        String(status).toLowerCase() === "failed"
+    ){
+        statusClass =
+            "form-status-failed";
+
+        statusText =
+            "❌ VERIFICATION FAILED";
+    }
+
+    let dateText = "";
+
+    if(item.created_at){
+
+        try{
+
+            dateText =
+                new Date(
+                    item.created_at
+                ).toLocaleString("en-IN");
+
+        }
+        catch(e){
+
+            dateText = "";
+        }
+    }
+
+    card.innerHTML = `
+
+        <div class="form-filling-mobile">
+            🔢 Serial Number: ${escapeHtml(item.serial_number ?? "-")}
+        </div>
+
+        <div class="form-filling-mobile">
+            📱 Mobile Number:
+            ${escapeHtml(item.mobile_number || "Not available")}
+        </div>
+
+        <div class="form-filling-info">
+
+            <b>Form Type:</b>
+            ${escapeHtml(item.form_type || "-")}
+            <br>
+
+            <b>Category:</b>
+            ${escapeHtml(item.category || "-")}
+            <br>
+
+            <b>Semester:</b>
+            ${escapeHtml(item.semester || "-")}
+
+            ${
+                dateText
+                ?
+                `
+                <br>
+                <b>Submitted:</b>
+                ${escapeHtml(dateText)}
+                `
+                :
+                ""
+            }
+
+        </div>
+
+        <div class="form-filling-status ${statusClass}">
+            ${statusText}
+        </div>
+
+        <div class="form-filling-buttons">
+
+            ${
+                item.admit_card_url
+                ?
+                `
+                <button
+                    type="button"
+                    class="form-view-btn"
+                    data-action="admit"
+                >
+                    🪪 VIEW ADMIT CARD
+                </button>
+                `
+                :
+                ""
+            }
+
+            ${
+                item.payment_screenshot_url
+                ?
+                `
+                <button
+                    type="button"
+                    class="form-view-btn"
+                    data-action="payment"
+                >
+                    💳 VIEW PAYMENT SCREENSHOT
+                </button>
+                `
+                :
+                ""
+            }
+
+            ${
+                String(status).toLowerCase() === "pending"
+                ?
+                `
+                <button
+                    type="button"
+                    class="form-done-btn"
+                    data-action="done"
+                >
+                    ✅ VERIFICATION DONE
+                </button>
+
+                <button
+                    type="button"
+                    class="form-failed-btn"
+                    data-action="failed"
+                >
+                    ❌ VERIFICATION FAILED
+                </button>
+                `
+                :
+                `
+                <button
+                    type="button"
+                    class="form-change-btn"
+                    data-action="pending"
+                >
+                    🔄 CHANGE VERIFICATION
+                </button>
+                `
+            }
+
+        </div>
+
+    `;
+
+    formFillingResults.appendChild(card);
+
+
+    const admitButton =
+        card.querySelector(
+            '[data-action="admit"]'
+        );
+
+    if(admitButton){
+
+        admitButton.addEventListener(
+            "click",
+            function(){
+
+                viewFormFillingFile(
+                    item.admit_card_url
+                );
+
+            }
+        );
+
+    }
+
+
+    const paymentButton =
+        card.querySelector(
+            '[data-action="payment"]'
+        );
+
+    if(paymentButton){
+
+        paymentButton.addEventListener(
+            "click",
+            function(){
+
+                viewFormFillingFile(
+                    item.payment_screenshot_url
+                );
+
+            }
+        );
+
+    }
+
+
+    const doneButton =
+        card.querySelector(
+            '[data-action="done"]'
+        );
+
+    if(doneButton){
+
+        doneButton.addEventListener(
+            "click",
+            function(){
+
+                updateFormFillingStatus(
+                    item.id,
+                    "Done"
+                );
+
+            }
+        );
+
+    }
+
+
+    const failedButton =
+        card.querySelector(
+            '[data-action="failed"]'
+        );
+
+    if(failedButton){
+
+        failedButton.addEventListener(
+            "click",
+            function(){
+
+                updateFormFillingStatus(
+                    item.id,
+                    "Failed"
+                );
+
+            }
+        );
+
+    }
+
+
+    const pendingButton =
+        card.querySelector(
+            '[data-action="pending"]'
+        );
+
+    if(pendingButton){
+
+        pendingButton.addEventListener(
+            "click",
+            function(){
+
+                updateFormFillingStatus(
+                    item.id,
+                    "Pending"
+                );
+
+            }
+        );
+
+    }
+
+}
+
+
+function viewFormFillingFile(filePath){
+
+    if(!filePath){
+
+        alert(
+            "इस document की file उपलब्ध नहीं है।"
+        );
+
+        return;
+    }
+
+    let fileUrl = filePath;
+
+    if(
+        !filePath.startsWith("http://") &&
+        !filePath.startsWith("https://")
+    ){
+
+        fileUrl =
+            SUPABASE_URL +
+            "/storage/v1/object/public/form-filling-files/" +
+            filePath;
+    }
+
+    window.open(
+        fileUrl,
+        "_blank"
+    );
+
+}
+
+
+async function updateFormFillingStatus(
+    submissionId,
+    status
+){
+
+    let confirmText = "";
+
+    if(status === "Done"){
+
+        confirmText =
+            "क्या आप इस Form Filling को VERIFICATION DONE करना चाहते हैं?";
+
+    }
+    else if(status === "Failed"){
+
+        confirmText =
+            "क्या आप इस Form Filling को VERIFICATION FAILED करना चाहते हैं?";
+
+    }
+    else{
+
+        confirmText =
+            "क्या आप इस submission का verification फिर से PENDING करना चाहते हैं?";
+
+    }
+
+
+    if(!confirm(confirmText)){
+        return;
+    }
+
+
+    try{
+
+        formFillingMessage.textContent =
+            "Verification update हो रहा है...";
+
+        formFillingMessage.style.color =
+            "#222";
+
+
+        const {
+            error
+        } =
+        await securityClient
+        .from("form_filling_submissions")
+        .update({
+            status:status
+        })
+        .eq(
+            "id",
+            submissionId
+        );
+
+
+        if(error){
+            throw error;
+        }
+
+
+        formFillingMessage.textContent =
+            "✅ Verification successfully update हो गया।";
+
+        formFillingMessage.style.color =
+            "#198754";
+
+
+        await loadFormFillingSubmissions();
+
+    }
+    catch(error){
+
+        console.error(
+            "Form Filling Verification Error:",
+            error
+        );
+
+        formFillingMessage.textContent =
+            "❌ Verification update नहीं हो पाया।";
+
+        formFillingMessage.style.color =
+            "#d32f2f";
+    }
+
+}
+
+
+/* =========================================
+   PROJECT FILE LOAD
+========================================= */
+
+projectFileRefreshBtn.addEventListener(
+    "click",
+    loadProjectFileSubmissions
+);
+
+
+async function loadProjectFileSubmissions(){
+
+    projectFileMessage.textContent =
+        "Loading...";
+
+
+    projectFileResults.innerHTML = "";
+
+
+    try{
+
+        const {
+            data,
+            error
+        } =
+        await securityClient
+        .from("project_file_submissions")
+        .select(
+            "id,mobile_number,admit_card_url,payment_screenshot_url,verification_status,download_link,created_at"
+        )
+        .order(
+            "created_at",
+            {
+                ascending:false
+            }
+        );
+
+
+        if(error){
+
+            throw error;
+
+        }
+
+
+        projectFileMessage.textContent = "";
+
+
+        if(!data || data.length === 0){
+
+            projectFileResults.innerHTML = `
+                <div class="no-project-data">
+                    कोई Project File submission नहीं मिली।
+                </div>
+            `;
+
+            return;
+
+        }
+
+
+        data.forEach(function(item){
+
+            createProjectSubmissionCard(item);
+
+        });
+
+    }
+    catch(error){
+
+        console.error(
+            "Project File Load Error:",
+            error
+        );
+
+
+        projectFileMessage.textContent =
+            "Project File data load नहीं हो पाया।";
+
+
+        projectFileMessage.style.color =
+            "#d32f2f";
+
+    }
+
+}
+
+
+/* =========================================
+   CREATE SUBMISSION CARD
+========================================= */
+
+function createProjectSubmissionCard(item){
+
+    const card =
+        document.createElement("div");
+
+
+    card.className =
+        "project-submission";
+
+
+    const mobile =
+        item.mobile_number || "Not available";
+
+
+    const status =
+        item.verification_status || "pending";
+
+
+    let statusClass =
+        "status-pending";
+
+
+    let statusText =
+        "⏳ PENDING";
+
+
+    if(status === "done"){
+
+        statusClass =
+            "status-done";
+
+        statusText =
+            "✅ VERIFICATION DONE";
+
+    }
+
+
+    if(status === "failed"){
+
+        statusClass =
+            "status-failed";
+
+        statusText =
+            "❌ VERIFICATION FAILED";
+
+    }
+
+
+    let dateText = "";
+
+
+    if(item.created_at){
+
+        try{
+
+            dateText =
+                new Date(
+                    item.created_at
+                ).toLocaleString("en-IN");
+
+        }
+        catch(e){
+
+            dateText = "";
+
+        }
+
+    }
+
+
+    card.innerHTML = `
+
+        <div class="project-mobile">
+            📱 Mobile Number: ${escapeHtml(mobile)}
+        </div>
+
+        ${
+            dateText
+            ?
+            `<div class="project-date">
+                Submitted: ${escapeHtml(dateText)}
+            </div>`
+            :
+            ""
+        }
+
+        <div class="project-status ${statusClass}">
+            ${statusText}
+        </div>
+
+        <div class="project-buttons">
+
+            <button
+                type="button"
+                class="view-document-btn"
+                data-id="${item.id}"
+                data-type="admit"
+            >
+                🪪 VIEW ADMIT CARD
+            </button>
+
+            <button
+                type="button"
+                class="view-document-btn"
+                data-id="${item.id}"
+                data-type="payment"
+            >
+                💳 VIEW PAYMENT SCREENSHOT
+            </button>
+
+            ${
+                status === "pending"
+                ?
+                `
+                <button
+                    type="button"
+                    class="verify-done-btn"
+                    data-id="${item.id}"
+                    data-action="done"
+                >
+                    ✅ VERIFICATION DONE
+                </button>
+
+                <button
+                    type="button"
+                    class="verify-failed-btn"
+                    data-id="${item.id}"
+                    data-action="failed"
+                >
+                    ❌ VERIFICATION FAILED
+                </button>
+                `
+                :
+                `
+                <button
+                    type="button"
+                    class="view-document-btn"
+                    data-id="${item.id}"
+                    data-action="reset"
+                >
+                    🔄 CHANGE VERIFICATION
+                </button>
+                `
+            }
+
+            ${
+                status === "failed"
+                ?
+                `
+                <button
+                    type="button"
+                    class="project-delete-btn"
+                    data-id="${item.id}"
+                >
+                    🗑️ DELETE
+                </button>
+                `
+                :
+                ""
+            }
+
+        </div>
+
+    `;
+
+
+    projectFileResults.appendChild(card);
+
+
+    /* VIEW BUTTONS */
+
+    const viewButtons =
+        card.querySelectorAll(
+            ".view-document-btn"
+        );
+
+
+    viewButtons.forEach(
+        function(button){
+
+            const type =
+                button.getAttribute(
+                    "data-type"
+                );
+
+
+            if(type){
+
+                button.addEventListener(
+                    "click",
+                    function(){
+
+                        viewProjectDocument(
+                            item,
+                            type
+                        );
+
+                    }
+                );
+
+            }
+
+        }
+    );
+
+
+    /* VERIFY DONE */
+
+    const doneButton =
+        card.querySelector(
+            '[data-action="done"]'
+        );
+
+
+    if(doneButton){
+
+        doneButton.addEventListener(
+            "click",
+            function(){
+
+                verifyProjectFile(
+                    item.id,
+                    "done"
+                );
+
+            }
+        );
+
+    }
+
+
+    /* VERIFY FAILED */
+
+    const failedButton =
+        card.querySelector(
+            '[data-action="failed"]'
+        );
+
+
+    if(failedButton){
+
+        failedButton.addEventListener(
+            "click",
+            function(){
+
+                verifyProjectFile(
+                    item.id,
+                    "failed"
+                );
+
+            }
+        );
+
+    }
+
+
+    /* CHANGE VERIFICATION */
+
+    const resetButton =
+        card.querySelector(
+            '[data-action="reset"]'
+        );
+
+
+    if(resetButton){
+
+        resetButton.addEventListener(
+            "click",
+            function(){
+
+                changeVerification(
+                    item.id
+                );
+
+            }
+        );
+
+    }
+
+
+    /* DELETE PROJECT FILE */
+
+    const deleteButton =
+        card.querySelector(
+            ".project-delete-btn"
+        );
+
+
+    if(deleteButton){
+
+        deleteButton.addEventListener(
+            "click",
+            function(){
+
+                deleteProjectFile(
+                    item.id
+                );
+
+            }
+        );
+
+    }
+
+}
+
+
+/* =========================================
+   VIEW PRIVATE DOCUMENT
+========================================= */
+
+async function viewProjectDocument(
+    item,
+    type
+){
+
+    let filePath = "";
+
+
+    if(type === "admit"){
+
+        filePath =
+            item.admit_card_url || "";
+
+    }
+
+
+    if(type === "payment"){
+
+        filePath =
+            item.payment_screenshot_url || "";
+
+    }
+
+
+    if(!filePath){
+
+        alert(
+            "इस document की file उपलब्ध नहीं है।"
+        );
+
+        return;
+
+    }
+
+
+    try{
+
+        const {
+            data,
+            error
+        } =
+        await securityClient
+        .storage
+        .from("project-files")
+        .createSignedUrl(
+            filePath,
+            300
+        );
+
+
+        if(error){
+
+            throw error;
+
+        }
+
+
+        if(!data || !data.signedUrl){
+
+            throw new Error(
+                "Signed URL नहीं मिला।"
+            );
+
+        }
+
+
+        window.open(
+            data.signedUrl,
+            "_blank"
+        );
+
+    }
+    catch(error){
+
+        console.error(
+            "Document View Error:",
+            error
+        );
+
+
+        alert(
+            "Document open नहीं हो पाया। कृपया फिर से प्रयास करें।"
+        );
+
+    }
+
+}
+
+
+/* =========================================
+   VERIFICATION
+========================================= */
+
+async function verifyProjectFile(
+    submissionId,
+    status
+){
+
+    let confirmText =
+        "";
+
+
+    if(status === "done"){
+
+        confirmText =
+            "क्या आप इस Project File को VERIFICATION DONE करना चाहते हैं?";
+
+    }
+    else{
+
+        confirmText =
+            "क्या आप इस Project File को VERIFICATION FAILED करना चाहते हैं?";
+
+    }
+
+
+    if(!confirm(confirmText)){
+
+        return;
+
+    }
+
+
+    try{
+
+        projectFileMessage.textContent =
+            "Verification update हो रहा है...";
+
+
+        const {
+            error
+        } =
+        await securityClient
+        .from("project_file_submissions")
+        .update({
+
+            verification_status:
+                status
+
+        })
+        .eq(
+            "id",
+            submissionId
+        );
+
+
+        if(error){
+
+            throw error;
+
+        }
+
+
+        projectFileMessage.textContent =
+            "✅ Verification successfully update हो गया।";
+
+
+        projectFileMessage.style.color =
+            "#198754";
+
+
+        await loadProjectFileSubmissions();
+
+    }
+    catch(error){
+
+        console.error(
+            "Verification Update Error:",
+            error
+        );
+
+
+        projectFileMessage.textContent =
+            "❌ Verification update नहीं हो पाया।";
+
+
+        projectFileMessage.style.color =
+            "#d32f2f";
+
+    }
+
+}
+
+
+/* =========================================
+   CHANGE VERIFICATION
+========================================= */
+
+async function changeVerification(
+    submissionId
+){
+
+    if(!confirm(
+        "क्या आप इस submission का verification फिर से बदलना चाहते हैं?"
+    )){
+
+        return;
+
+    }
+
+
+    try{
+
+        const {
+            error
+        } =
+        await securityClient
+        .from("project_file_submissions")
+        .update({
+
+            verification_status:
+                "pending"
+
+        })
+        .eq(
+            "id",
+            submissionId
+        );
+
+
+        if(error){
+
+            throw error;
+
+        }
+
+
+        await loadProjectFileSubmissions();
+
+    }
+    catch(error){
+
+        console.error(error);
+
+        alert(
+            "Verification change नहीं हो पाया।"
+        );
+
+    }
+
+}
+
+
+/* =========================================
+   DELETE PROJECT FILE SUBMISSION
+========================================= */
+
+async function deleteProjectFile(submissionId){
+
+    if(!confirm(
+        "क्या आप इस Project File का पूरा data delete करना चाहते हैं?\n\nAdmit Card, Payment Screenshot और Database Record सभी delete हो जाएंगे।"
+    )){
+
+        return;
+
+    }
+
+
+    try{
+
+        projectFileMessage.textContent =
+            "Deleting...";
+
+        projectFileMessage.style.color =
+            "#d32f2f";
+
+
+        /* GET SUBMISSION DATA */
+
+        const {
+            data:submission,
+            error:fetchError
+        } =
+        await securityClient
+        .from("project_file_submissions")
+        .select(
+            "id,admit_card_url,payment_screenshot_url"
+        )
+        .eq(
+            "id",
+            submissionId
+        )
+        .single();
+
+
+        if(fetchError){
+
+            throw fetchError;
+
+        }
+
+
+        if(!submission){
+
+            throw new Error(
+                "Submission नहीं मिली।"
+            );
+
+        }
+
+
+        /* DELETE ADMIT CARD */
+
+        if(
+            submission.admit_card_url
+        ){
+
+            const {
+                error:admitError
+            } =
+            await securityClient
+            .storage
+            .from("project-files")
+            .remove([
+                submission.admit_card_url
+            ]);
+
+
+            if(admitError){
+
+                throw admitError;
+
+            }
+
+        }
+
+
+        /* DELETE PAYMENT SCREENSHOT */
+
+        if(
+            submission.payment_screenshot_url
+        ){
+
+            const {
+                error:paymentError
+            } =
+            await securityClient
+            .storage
+            .from("project-files")
+            .remove([
+                submission.payment_screenshot_url
+            ]);
+
+
+            if(paymentError){
+
+                throw paymentError;
+
+            }
+
+        }
+
+
+        /* DELETE DATABASE RECORD */
+
+        const {
+            error:deleteError
+        } =
+        await securityClient
+        .from("project_file_submissions")
+        .delete()
+        .eq(
+            "id",
+            submissionId
+        );
+
+
+        if(deleteError){
+
+            throw deleteError;
+
+        }
+
+
+        projectFileMessage.textContent =
+            "✅ Project File data successfully deleted.";
+
+        projectFileMessage.style.color =
+            "#198754";
+
+
+        /* REFRESH LIST */
+
+        await loadProjectFileSubmissions();
+
+    }
+    catch(error){
+
+        console.error(
+            "Project File Delete Error:",
+            error
+        );
+
+
+        projectFileMessage.textContent =
+            "❌ Project File delete नहीं हो पाया।";
+
+
+        projectFileMessage.style.color =
+            "#d32f2f";
+
+    }
+
+}
+
+
+/* =========================================
+   HTML ESCAPE
+========================================= */
+
+function escapeHtml(value){
+
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* =========================================
+   INITIAL SECURITY CHECK
+========================================= */
+
+checkAdminSession();
+
+</script>
+
+
+<!-- =========================================
+     YOUR EXISTING ADMIN FUNCTIONALITY
+========================================= -->
+
+<script src="admin.js"></script>
+
+
+</body>
+</html>
 body{
     margin:0;
     background:#f4f7fc;
