@@ -3,28 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Form Filling</title>
 
 <style>
 *{
   box-sizing:border-box;
-  margin:0;
-  padding:0;
-  font-family:Arial, sans-serif;
 }
 
 body{
-  background:#f2f2f2;
-  min-height:100vh;
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#e5ddd5;
 }
 
-.chat-container{
-  width:100%;
-  max-width:600px;
+.chat{
+  max-width:700px;
   margin:auto;
   min-height:100vh;
-  background:white;
+  background:#efeae2;
   display:flex;
   flex-direction:column;
 }
@@ -32,252 +28,170 @@ body{
 .header{
   background:#075e54;
   color:white;
-  padding:12px;
-  display:flex;
-  align-items:center;
-  gap:10px;
-  position:sticky;
-  top:0;
-  z-index:10;
-}
-
-.avatar{
-  width:42px;
-  height:42px;
-  border-radius:50%;
-  background:#fff;
-  color:#075e54;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  padding:15px;
+  font-size:20px;
   font-weight:bold;
-}
-
-.header-info h2{
-  font-size:17px;
-}
-
-.header-info p{
-  font-size:12px;
-  color:#d9fdd3;
-  margin-top:3px;
 }
 
 .messages{
   flex:1;
   padding:15px;
-  background:#efeae2;
   overflow-y:auto;
-  min-height:calc(100vh - 130px);
 }
 
-.message{
+.msg{
   max-width:85%;
-  padding:10px 13px;
-  margin-bottom:10px;
+  padding:11px 14px;
+  margin:8px 0;
   border-radius:10px;
-  font-size:14px;
-  line-height:1.5;
+  line-height:1.4;
   word-wrap:break-word;
 }
 
 .bot{
   background:white;
-  border-top-left-radius:3px;
   margin-right:auto;
 }
 
 .user{
-  background:#d9fdd3;
-  border-top-right-radius:3px;
+  background:#dcf8c6;
   margin-left:auto;
 }
 
 .options{
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-  margin-bottom:15px;
+  padding:10px;
 }
 
-.option-btn{
+button{
   width:100%;
-  border:none;
-  padding:12px;
-  background:#075e54;
-  color:white;
+  padding:13px;
+  margin:5px 0;
+  border:0;
   border-radius:8px;
-  cursor:pointer;
-  font-size:14px;
-}
-
-.option-btn:hover{
-  background:#064e47;
-}
-
-.option-btn.secondary{
   background:#128c7e;
-}
-
-.option-btn.danger{
-  background:#d32f2f;
+  color:white;
+  font-size:16px;
+  cursor:pointer;
 }
 
 .input-area{
-  display:none;
-  padding:10px;
+  display:flex;
+  gap:6px;
+  padding:8px;
   background:#f0f0f0;
-  border-top:1px solid #ddd;
-  gap:8px;
 }
 
-.input-area input{
+input[type=text]{
   flex:1;
-  padding:11px;
+  padding:13px;
   border:1px solid #ccc;
-  border-radius:20px;
-  outline:none;
+  border-radius:8px;
+  font-size:16px;
 }
 
-.send-btn{
-  border:none;
-  background:#075e54;
+.send{
+  width:auto;
+  padding:0 18px;
+}
+
+.file-label{
+  display:block;
+  background:#128c7e;
   color:white;
-  width:45px;
-  height:45px;
-  border-radius:50%;
-  cursor:pointer;
-}
-
-.upload-box{
-  background:white;
-  padding:15px;
-  border-radius:10px;
-  margin-bottom:15px;
-}
-
-.upload-box input{
-  width:100%;
-  margin-top:10px;
-}
-
-.upload-btn{
-  margin-top:10px;
-  width:100%;
-  padding:11px;
-  border:none;
-  background:#075e54;
-  color:white;
-  border-radius:7px;
-  cursor:pointer;
-}
-
-.status-box{
-  background:white;
-  padding:15px;
-  border-radius:10px;
-  margin-top:10px;
   text-align:center;
+  padding:13px;
+  border-radius:8px;
+  cursor:pointer;
+  margin-top:8px;
+}
+
+input[type=file]{
+  display:none;
 }
 
 .qr-box{
   background:white;
+  margin:10px 0;
   padding:15px;
   border-radius:10px;
-  margin-bottom:15px;
   text-align:center;
 }
 
-.qr-box img{
-  width:220px;
-  max-width:100%;
-  margin-top:10px;
-  border-radius:5px;
+.qr-title{
+  font-size:18px;
+  font-weight:bold;
+  margin-bottom:10px;
 }
 
-.receipt-btn{
+.qr-amount{
+  font-size:20px;
+  font-weight:bold;
+  margin-bottom:12px;
+}
+
+.qr-image{
+  width:100%;
+  max-width:300px;
+  height:auto;
+  display:block;
+  margin:0 auto;
+  border-radius:6px;
+}
+
+.receipt-button{
   display:block;
   width:100%;
-  padding:12px;
-  background:#075e54;
-  color:white;
-  text-decoration:none;
+  padding:13px;
+  margin:5px 0;
   border-radius:8px;
-  text-align:center;
-  margin-bottom:8px;
-}
-
-.new-form-btn{
-  width:100%;
-  padding:12px;
-  border:none;
   background:#128c7e;
   color:white;
-  border-radius:8px;
-  cursor:pointer;
-  font-size:14px;
+  text-align:center;
+  text-decoration:none;
+  font-size:16px;
+  font-weight:bold;
 }
 
-.small-note{
-  font-size:12px;
-  color:#666;
-  margin-top:8px;
-}
-
-@media(max-width:600px){
-  .chat-container{
-    min-height:100vh;
-  }
-
-  .messages{
-    padding:10px;
-  }
-
-  .message{
-    max-width:90%;
-  }
+.status-message{
+  background:white;
+  padding:14px;
+  border-radius:10px;
+  margin:10px 0;
+  line-height:1.5;
 }
 </style>
 </head>
 
 <body>
 
-<div class="chat-container">
+<div class="chat">
 
-  <div class="header">
-    <div class="avatar">JV</div>
+  <div class="header">Form Filling</div>
 
-    <div class="header-info">
-      <h2>Form Filling</h2>
-      <p>Online</p>
-    </div>
-  </div>
+  <div class="messages" id="messages"></div>
 
-  <div id="messages" class="messages"></div>
+  <div class="options" id="options"></div>
 
-  <div id="options" class="options"></div>
+  <div class="input-area" id="textArea">
 
-  <div id="inputArea" class="input-area">
     <input
       type="text"
       id="textInput"
-      placeholder="अपना मोबाइल नंबर लिखें"
-      maxlength="10"
+      placeholder="Type here..."
     >
 
-    <button class="send-btn" onclick="sendMobile()">
-      ➤
+    <button
+      class="send"
+      onclick="sendText()"
+    >
+      Send
     </button>
+
   </div>
 
 </div>
 
-
 <script>
-
-/* =========================
-   SUPABASE SETTINGS
-========================= */
 
 const SUPABASE_URL =
 "https://aghizlgvrhunpuxvohep.supabase.co";
@@ -286,31 +200,8 @@ const SUPABASE_KEY =
 "sb_publishable_gpc7KUqUIykO3WM1aCzRfg_Myo8AKyx";
 
 
-/* =========================
-   RECEIPT LINK
-========================= */
+const RECEIPT_LINK = "https://jharkhandvision123.github.io/shubham/student-csc.html";
 
-const RECEIPT_LINK =
-"https://jharkhandvision123.github.io/shubham/student-csc.html";
-
-
-/* =========================
-   STORAGE KEYS
-========================= */
-
-const STORAGE_KEY =
-"formFillingChatData";
-
-const SUBMISSION_ID_KEY =
-"formFillingSubmissionId";
-
-const STATUS_SHOWN_KEY =
-"formFillingStatusShown";
-
-
-/* =========================
-   VARIABLES
-========================= */
 
 const messages =
 document.getElementById("messages");
@@ -318,8 +209,8 @@ document.getElementById("messages");
 const options =
 document.getElementById("options");
 
-const inputArea =
-document.getElementById("inputArea");
+const textArea =
+document.getElementById("textArea");
 
 const textInput =
 document.getElementById("textInput");
@@ -327,12 +218,13 @@ document.getElementById("textInput");
 
 let step = 1;
 
-let currentSubmissionId = null;
-
 let statusCheckTimer = null;
+
+let currentSubmissionId = null;
 
 
 let data = {
+
   form_type:"",
   category:"",
   semester:"",
@@ -340,55 +232,122 @@ let data = {
   admit_card_url:"",
   payment_screenshot_url:"",
   status:"Pending"
+
 };
 
 
-/* =========================
-   SAVE CHAT
-========================= */
+
+/* =========================================
+   LOCAL STORAGE
+========================================= */
+
+const STORAGE_KEY =
+"formFillingChatData";
+
 
 function saveChat(){
 
+  const savedData = {
+
+    step:step,
+
+    currentSubmissionId:
+    currentSubmissionId,
+
+    data:data,
+
+    messages:
+    messages.innerHTML
+
+  };
+
+
   localStorage.setItem(
     STORAGE_KEY,
-    JSON.stringify({
-      step:step,
-      currentSubmissionId:currentSubmissionId,
-      data:data,
-      messages:messages.innerHTML
-    })
+    JSON.stringify(savedData)
   );
 
 }
 
 
-/* =========================
-   USER MESSAGE
-========================= */
 
-function user(text){
+function restoreChat(){
 
-  const div =
-  document.createElement("div");
+  const saved =
+  localStorage.getItem(STORAGE_KEY);
 
-  div.className =
-  "message user";
 
-  div.innerHTML =
-  escapeHtml(text);
+  if(!saved){
 
-  messages.appendChild(div);
+    start();
 
-  scrollBottom();
+    return;
 
-  saveChat();
+  }
+
+
+  try{
+
+    const savedData =
+    JSON.parse(saved);
+
+
+    step =
+    savedData.step || 1;
+
+
+    currentSubmissionId =
+    savedData.currentSubmissionId || null;
+
+
+    if(savedData.data){
+
+      data =
+      savedData.data;
+
+    }
+
+
+    if(savedData.messages){
+
+      messages.innerHTML =
+      savedData.messages;
+
+    }
+
+
+    messages.scrollTop =
+    messages.scrollHeight;
+
+
+    restoreCurrentStep();
+
+
+  }
+  catch(error){
+
+    console.error(
+      "Chat Restore Error:",
+      error
+    );
+
+
+    localStorage.removeItem(
+      STORAGE_KEY
+    );
+
+
+    start();
+
+  }
 
 }
 
 
-/* =========================
+
+/* =========================================
    BOT MESSAGE
-========================= */
+========================================= */
 
 function bot(text){
 
@@ -396,143 +355,173 @@ function bot(text){
   document.createElement("div");
 
   div.className =
-  "message bot";
-
-  div.innerHTML =
-  text;
-
-  messages.appendChild(div);
-
-  scrollBottom();
-
-  saveChat();
-
-}
-
-
-/* =========================
-   HTML ESCAPE
-========================= */
-
-function escapeHtml(text){
-
-  const div =
-  document.createElement("div");
+  "msg bot";
 
   div.textContent =
   text;
 
-  return div.innerHTML;
-
-}
-
-
-/* =========================
-   SCROLL
-========================= */
-
-function scrollBottom(){
+  messages.appendChild(div);
 
   messages.scrollTop =
   messages.scrollHeight;
 
-}
-
-
-/* =========================
-   CLEAR OPTIONS
-========================= */
-
-function clearOptions(){
-
-  options.innerHTML = "";
-
-}
-
-
-/* =========================
-   BUTTONS
-========================= */
-
-function buttons(items){
-
-  clearOptions();
-
-  inputArea.style.display =
-  "none";
-
-  items.forEach(item => {
-
-    const btn =
-    document.createElement("button");
-
-    btn.className =
-    "option-btn";
-
-    if(item.className){
-      btn.className +=
-      " " + item.className;
-    }
-
-    btn.textContent =
-    item.text;
-
-    btn.onclick =
-    item.action;
-
-    options.appendChild(btn);
-
-  });
 
   saveChat();
 
 }
 
 
-/* =========================
+
+/* =========================================
+   USER MESSAGE
+========================================= */
+
+function user(text){
+
+  const div =
+  document.createElement("div");
+
+  div.className =
+  "msg user";
+
+  div.textContent =
+  text;
+
+  messages.appendChild(div);
+
+  messages.scrollTop =
+  messages.scrollHeight;
+
+
+  saveChat();
+
+}
+
+
+
+/* =========================================
+   BUTTONS
+========================================= */
+
+function buttons(items){
+
+  options.innerHTML = "";
+
+  textArea.style.display =
+  "none";
+
+
+  items.forEach(item=>{
+
+    const b =
+    document.createElement("button");
+
+    b.textContent =
+    item.text;
+
+    b.onclick =
+    ()=>item.action();
+
+    options.appendChild(b);
+
+  });
+
+
+  saveChat();
+
+}
+
+
+
+/* =========================================
+   TEXT MODE
+========================================= */
+
+function textMode(placeholder){
+
+  options.innerHTML = "";
+
+  textArea.style.display =
+  "flex";
+
+  textInput.placeholder =
+  placeholder;
+
+  textInput.value =
+  "";
+
+  saveChat();
+
+}
+
+
+
+/* =========================================
+   SEND TEXT
+========================================= */
+
+function sendText(){
+
+  const value =
+  textInput.value.trim();
+
+  if(!value)return;
+
+
+  if(step===3){
+
+    const n =
+    value.replace(/\D/g,"");
+
+
+    if(n.length!==10){
+
+      bot(
+        "कृपया केवल 10 अंकों का मोबाइल नंबर दर्ज करें।"
+      );
+
+      return;
+
+    }
+
+
+    data.mobile_number =
+    n;
+
+    user(n);
+
+
+    payment();
+
+  }
+
+}
+
+
+
+/* =========================================
    START
-========================= */
+========================================= */
 
 function start(){
 
   step = 1;
 
-  data = {
-    form_type:"",
-    category:"",
-    semester:"",
-    mobile_number:"",
-    admit_card_url:"",
-    payment_screenshot_url:"",
-    status:"Pending"
-  };
-
-  currentSubmissionId = null;
-
-  localStorage.removeItem(
-    SUBMISSION_ID_KEY
-  );
-
-  localStorage.removeItem(
-    STATUS_SHOWN_KEY
-  );
-
   bot(
-    "कृपया अपना Form Type चुनें:"
+    "Backlog Form भरने के लिए 1 दबाएँ और Regular Form भरने के लिए 2 दबाएँ।"
   );
+
 
   buttons([
 
     {
-      text:"1️⃣ Backlog Form",
-      action:() =>
-      chooseType("Backlog Form")
+      text:"1 - Backlog Form",
+      action:()=>chooseType("Backlog")
     },
 
     {
-      text:"2️⃣ Regular Form",
-      action:() =>
-      chooseType("Regular Form")
+      text:"2 - Regular Form",
+      action:()=>chooseType("Regular")
     }
 
   ]);
@@ -540,35 +529,37 @@ function start(){
 }
 
 
-/* =========================
-   CHOOSE FORM TYPE
-========================= */
+
+/* =========================================
+   CHOOSE TYPE
+========================================= */
 
 function chooseType(type){
-
-  user(type);
 
   data.form_type =
   type;
 
+  user(type);
+
+
   step = 2;
 
+
   bot(
-    "कृपया Honours का प्रकार चुनें:"
+    "Practical Honours के लिए 1 दबाएँ, Non-Practical Honours के लिए 2 दबाएँ।"
   );
+
 
   buttons([
 
     {
-      text:"1️⃣ Practical Honours",
-      action:() =>
-      chooseCategory("Practical Honours")
+      text:"1 - Practical Honours",
+      action:()=>chooseCategory("Practical")
     },
 
     {
-      text:"2️⃣ Non-Practical Honours",
-      action:() =>
-      chooseCategory("Non-Practical Honours")
+      text:"2 - Non-Practical Honours",
+      action:()=>chooseCategory("Non-Practical")
     }
 
   ]);
@@ -576,385 +567,188 @@ function chooseType(type){
 }
 
 
-/* =========================
+
+/* =========================================
    CHOOSE CATEGORY
-========================= */
+========================================= */
 
 function chooseCategory(category){
-
-  user(category);
 
   data.category =
   category;
 
+  user(category);
+
+
   step = 2;
 
+
   bot(
-    "कृपया अपना Semester चुनें:"
+    "आपको जिस Semester का Form Fill करना है, उसे Select करें।"
   );
 
-  const semesterButtons = [];
 
-  for(let i=1;i<=8;i++){
+  buttons([
 
-    semesterButtons.push({
+    {
+      text:"Semester 1",
+      action:()=>chooseSemester(1)
+    },
 
-      text:"Semester " + i,
+    {
+      text:"Semester 2",
+      action:()=>chooseSemester(2)
+    },
 
-      action:() =>
-      chooseSemester(
-        "Semester " + i
-      )
+    {
+      text:"Semester 3",
+      action:()=>chooseSemester(3)
+    },
 
-    });
+    {
+      text:"Semester 4",
+      action:()=>chooseSemester(4)
+    },
 
-  }
+    {
+      text:"Semester 5",
+      action:()=>chooseSemester(5)
+    },
 
-  buttons(
-    semesterButtons
-  );
+    {
+      text:"Semester 6",
+      action:()=>chooseSemester(6)
+    },
+
+    {
+      text:"Semester 7",
+      action:()=>chooseSemester(7)
+    },
+
+    {
+      text:"Semester 8",
+      action:()=>chooseSemester(8)
+    }
+
+  ]);
 
 }
 
 
-/* =========================
+
+/* =========================================
    CHOOSE SEMESTER
-========================= */
+========================================= */
 
-function chooseSemester(semester){
-
-  user(semester);
+function chooseSemester(s){
 
   data.semester =
-  semester;
+  "Semester "+s;
+
+  user(data.semester);
+
 
   step = 4;
 
+
   bot(
-    "कृपया अपना Admit Card Upload करें:"
+    "कृपया अपना Admit Card भेजें।"
   );
+
 
   showAdmitUpload();
 
 }
 
 
-/* =========================
-   ADMIT UPLOAD UI
-========================= */
+
+/* =========================================
+   ADMIT CARD UPLOAD UI
+========================================= */
 
 function showAdmitUpload(){
 
-  clearOptions();
-
-  inputArea.style.display =
-  "none";
-
-  const box =
-  document.createElement("div");
-
-  box.className =
-  "upload-box";
-
-  box.innerHTML = `
-
-    <strong>📄 Admit Card</strong>
-
-    <p class="small-note">
-      JPG, PNG या PDF Upload करें
-    </p>
-
-    <input
-      type="file"
-      id="admitFile"
-      accept="image/*,.pdf"
-    >
-
-    <button
-      class="upload-btn"
-      onclick="uploadAdmitCard()"
-    >
-      Upload Admit Card
-    </button>
-
-  `;
-
-  options.appendChild(box);
-
-  saveChat();
-
-}
-
-
-/* =========================
-   UPLOAD ADMIT CARD
-========================= */
-
-async function uploadAdmitCard(){
-
-  const fileInput =
-  document.getElementById("admitFile");
-
-  if(!fileInput.files.length){
-
-    alert(
-      "कृपया Admit Card चुनें।"
-    );
-
-    return;
-
-  }
-
-  const file =
-  fileInput.files[0];
-
-  user(
-    "📄 Admit Card Upload"
-  );
-
-  const url =
-  await uploadFile(
-    file,
-    "admit-card"
-  );
-
-  if(!url){
-
-    bot(
-      "❌ Admit Card Upload नहीं हो पाया। कृपया दोबारा प्रयास करें।"
-    );
-
-    showAdmitUpload();
-
-    return;
-
-  }
-
-  data.admit_card_url =
-  url;
-
-  step = 3;
-
-  bot(
-    "✅ Admit Card सफलतापूर्वक प्राप्त हो गया।"
-  );
-
-  bot(
-    "अब NPU में Registered 10 Digit Mobile Number दर्ज करें:"
-  );
-
-  showMobileInput();
-
-}
-
-
-/* =========================
-   MOBILE INPUT
-========================= */
-
-function showMobileInput(){
-
-  clearOptions();
-
-  inputArea.style.display =
-  "flex";
-
-  textInput.value =
+  options.innerHTML =
   "";
 
-  textInput.focus();
-
-  saveChat();
-
-}
-
-
-/* =========================
-   SEND MOBILE
-========================= */
-
-function sendMobile(){
-
-  const mobile =
-  textInput.value.trim();
-
-  if(!/^[0-9]{10}$/.test(mobile)){
-
-    alert(
-      "कृपया सही 10 Digit Mobile Number दर्ज करें।"
-    );
-
-    return;
-
-  }
-
-  user(mobile);
-
-  data.mobile_number =
-  mobile;
-
-  inputArea.style.display =
+  textArea.style.display =
   "none";
 
-  step = 5;
 
-  bot(
-    "अब Payment करें और Payment Screenshot Upload करें।"
-  );
+  const label =
+  document.createElement("label");
 
-  payment();
+  label.className =
+  "file-label";
 
-}
+  label.textContent =
+  "📎 Admit Card Upload";
 
 
-/* =========================
-   PAYMENT
-========================= */
+  const input =
+  document.createElement("input");
 
-function payment(){
+  input.type =
+  "file";
 
-  clearOptions();
+  input.accept =
+  "image/*,.pdf";
 
-  let amount =
-  "625";
 
-  if(
-    data.category ===
-    "Practical Honours"
-  ){
+  input.onchange =
+  ()=>{
 
-    amount =
-    "775";
+    if(input.files.length){
 
-  }
+      uploadFile(
+        input.files[0],
+        "admit"
+      );
 
-  const box =
-  document.createElement("div");
+    }
 
-  box.className =
-  "qr-box";
+  };
 
-  box.innerHTML = `
 
-    <strong>
-      💳 Payment Amount: ₹${amount}
-    </strong>
+  label.appendChild(input);
 
-    <br><br>
+  options.appendChild(label);
 
-    <img
-      src="https://aghizlgvrhunpuxvohep.supabase.co/storage/v1/object/public/project-qr/qr.png"
-      alt="Payment QR"
-    >
-
-    <br><br>
-
-    <strong>
-      Payment करने के बाद Screenshot Upload करें
-    </strong>
-
-    <br><br>
-
-    <input
-      type="file"
-      id="paymentFile"
-      accept="image/*"
-    >
-
-    <button
-      class="upload-btn"
-      onclick="uploadPaymentScreenshot()"
-    >
-      Upload Payment Screenshot
-    </button>
-
-  `;
-
-  options.appendChild(box);
 
   saveChat();
 
 }
 
 
-/* =========================
-   UPLOAD PAYMENT SCREENSHOT
-========================= */
 
-async function uploadPaymentScreenshot(){
+/* =========================================
+   FILE UPLOAD
+========================================= */
 
-  const fileInput =
-  document.getElementById("paymentFile");
+async function uploadFile(file,type){
 
-  if(!fileInput.files.length){
-
-    alert(
-      "कृपया Payment Screenshot चुनें।"
-    );
-
-    return;
-
-  }
-
-  const file =
-  fileInput.files[0];
-
-  user(
-    "💳 Payment Screenshot Upload"
+  bot(
+    "File upload हो रहा है, कृपया प्रतीक्षा करें..."
   );
 
-  const url =
-  await uploadFile(
-    file,
-    "payment-screenshot"
-  );
 
-  if(!url){
+  const path =
+  Date.now()+
+  "_"+
+  Math.random()
+  .toString(36)
+  .substring(2)+
+  "_"+
+  file.name;
 
-    bot(
-      "❌ Payment Screenshot Upload नहीं हो पाया। कृपया दोबारा प्रयास करें।"
-    );
-
-    payment();
-
-    return;
-
-  }
-
-  data.payment_screenshot_url =
-  url;
-
-  await submitForm();
-
-}
-
-
-/* =========================
-   SUPABASE STORAGE UPLOAD
-========================= */
-
-async function uploadFile(file, folder){
 
   try{
-
-    const fileName =
-    Date.now() +
-    "_" +
-    Math.random()
-      .toString(36)
-      .substring(2,10) +
-    "_" +
-    file.name
-      .replace(/\s+/g,"_");
-
-    const path =
-    folder + "/" + fileName;
 
     const response =
     await fetch(
 
-      SUPABASE_URL +
-      "/storage/v1/object/form-filling-files/" +
+      SUPABASE_URL+
+      "/storage/v1/object/form-filling-files/"+
       path,
 
       {
@@ -962,8 +756,14 @@ async function uploadFile(file, folder){
         method:"POST",
 
         headers:{
-          "apikey":SUPABASE_KEY,
-          "x-upsert":"false"
+
+          "apikey":
+          SUPABASE_KEY,
+
+          "Content-Type":
+          file.type ||
+          "application/octet-stream"
+
         },
 
         body:file
@@ -972,56 +772,260 @@ async function uploadFile(file, folder){
 
     );
 
+
     if(!response.ok){
 
       const errorText =
       await response.text();
 
       console.error(
-        "Upload error:",
+        "File Upload Error:",
+        response.status,
         errorText
       );
 
-      return null;
+
+      bot(
+        "File upload नहीं हो पाया। कृपया दोबारा कोशिश करें।"
+      );
+
+      return;
 
     }
 
-    const publicUrl =
-      SUPABASE_URL +
-      "/storage/v1/object/public/form-filling-files/" +
-      path;
 
-    return publicUrl;
+    const url =
+    SUPABASE_URL+
+    "/storage/v1/object/public/form-filling-files/"+
+    path;
 
-  }catch(error){
+
+    if(type==="admit"){
+
+      data.admit_card_url =
+      url;
+
+      user(
+        "Admit Card भेज दिया गया"
+      );
+
+
+      bot(
+        "अब अपना NPU Registered Mobile Number दर्ज करें।"
+      );
+
+
+      step = 3;
+
+      textMode(
+        "10 digit mobile number"
+      );
+
+    }
+
+
+    if(type==="payment"){
+
+      data.payment_screenshot_url =
+      url;
+
+      user(
+        "Payment Screenshot भेज दिया गया"
+      );
+
+
+      await submitForm();
+
+    }
+
+  }
+  catch(error){
 
     console.error(
+      "File Upload Error:",
       error
     );
 
-    return null;
+
+    bot(
+      "File upload नहीं हो पाया। कृपया दोबारा कोशिश करें।"
+    );
 
   }
 
 }
 
 
-/* =========================
-   SUBMIT FORM
-========================= */
+
+/* =========================================
+   PAYMENT
+========================================= */
+
+function payment(){
+
+  const amount =
+  data.category==="Practical"
+  ? "₹775"
+  : "₹625";
+
+
+  const qrFile =
+  data.category==="Practical"
+  ? "qr775.png"
+  : "qr625.png";
+
+
+  step = 5;
+
+
+  bot(
+    "आपको "+amount+
+    " का Payment करना है। नीचे दिए गए QR को Scan करके Payment करें और Payment Screenshot Upload करें।"
+  );
+
+
+  const qrBox =
+  document.createElement("div");
+
+  qrBox.className =
+  "qr-box";
+
+
+  const title =
+  document.createElement("div");
+
+  title.className =
+  "qr-title";
+
+  title.textContent =
+  "💳 PAYMENT QR";
+
+  qrBox.appendChild(title);
+
+
+  const amountText =
+  document.createElement("div");
+
+  amountText.className =
+  "qr-amount";
+
+  amountText.textContent =
+  amount;
+
+  qrBox.appendChild(amountText);
+
+
+  const qrImage =
+  document.createElement("img");
+
+  qrImage.className =
+  "qr-image";
+
+  qrImage.src =
+  qrFile;
+
+  qrImage.alt =
+  "Payment QR Code";
+
+
+  qrImage.onerror =
+  ()=>{
+
+    qrBox.innerHTML =
+    "";
+
+    const error =
+    document.createElement("div");
+
+    error.className =
+    "qr-title";
+
+    error.textContent =
+    "QR Code दिखाई नहीं दे रहा है। कृपया बाद में पुनः प्रयास करें।";
+
+    qrBox.appendChild(error);
+
+  };
+
+
+  qrBox.appendChild(qrImage);
+
+  messages.appendChild(qrBox);
+
+  messages.scrollTop =
+  messages.scrollHeight;
+
+
+  options.innerHTML =
+  "";
+
+
+  const label =
+  document.createElement("label");
+
+  label.className =
+  "file-label";
+
+  label.textContent =
+  "📷 Payment Screenshot Upload";
+
+
+  const input =
+  document.createElement("input");
+
+  input.type =
+  "file";
+
+  input.accept =
+  "image/*,.pdf";
+
+
+  input.onchange =
+  ()=>{
+
+    if(input.files.length){
+
+      uploadFile(
+        input.files[0],
+        "payment"
+      );
+
+    }
+
+  };
+
+
+  label.appendChild(input);
+
+  options.appendChild(label);
+
+  textArea.style.display =
+  "none";
+
+
+  saveChat();
+
+}
+
+
+
+/* =========================================
+   FORM SUBMISSION
+========================================= */
 
 async function submitForm(){
 
   bot(
-    "⏳ आपकी जानकारी Submit की जा रही है..."
+    "आपकी सारी जानकारी सफलतापूर्वक प्राप्त कर ली गई है। Verification एवं Form Filling तक कृपया प्रतीक्षा करें।"
   );
+
 
   try{
 
     const response =
     await fetch(
 
-      SUPABASE_URL +
+      SUPABASE_URL+
       "/rest/v1/rpc/create_form_filling_submission",
 
       {
@@ -1029,12 +1033,17 @@ async function submitForm(){
         method:"POST",
 
         headers:{
-          "apikey":SUPABASE_KEY,
+
+          "apikey":
+          SUPABASE_KEY,
+
           "Content-Type":
           "application/json"
+
         },
 
-        body:JSON.stringify({
+        body:
+        JSON.stringify({
 
           p_form_type:
           data.form_type,
@@ -1067,12 +1076,14 @@ async function submitForm(){
       await response.text();
 
       console.error(
-        "Submit error:",
+        "Form Submission Error:",
+        response.status,
         errorText
       );
 
+
       bot(
-        "❌ Submission में समस्या आई है। कृपया दोबारा प्रयास करें।"
+        "जानकारी जमा करने में समस्या हुई। कृपया दोबारा प्रयास करें।"
       );
 
       return;
@@ -1084,37 +1095,64 @@ async function submitForm(){
     await response.json();
 
 
-    currentSubmissionId =
-    Number(result);
-
-    localStorage.setItem(
-      SUBMISSION_ID_KEY,
-      currentSubmissionId
-    );
-
-    localStorage.removeItem(
-      STATUS_SHOWN_KEY
+    console.log(
+      "Submission ID:",
+      result
     );
 
 
-    step = 6;
+    if(result){
+
+      currentSubmissionId =
+      result;
+
+
+      localStorage.setItem(
+        "formFillingSubmissionId",
+        currentSubmissionId
+      );
+
+
+      localStorage.removeItem(
+        "formFillingStatusShown"
+      );
+
+
+      options.innerHTML =
+      "";
+
+      textArea.style.display =
+      "none";
+
+
+      step = 6;
+
+
+      saveChat();
+
+
+      startStatusChecking();
+
+      return;
+
+    }
+
 
     bot(
-      "आपकी सारी जानकारी सफलतापूर्वक प्राप्त कर ली गई है। Verification एवं Form Filling तक कृपया प्रतीक्षा करें।"
+      "जानकारी जमा करने में समस्या हुई। कृपया दोबारा प्रयास करें।"
     );
 
-    startStatusChecking();
-
-    saveChat();
-
-  }catch(error){
+  }
+  catch(error){
 
     console.error(
+      "Form Submission Error:",
       error
     );
 
+
     bot(
-      "❌ Submission में समस्या आई है। कृपया दोबारा प्रयास करें।"
+      "जानकारी जमा करने में समस्या हुई। कृपया दोबारा प्रयास करें।"
     );
 
   }
@@ -1122,9 +1160,10 @@ async function submitForm(){
 }
 
 
-/* =========================
+
+/* =========================================
    STATUS CHECKING
-========================= */
+========================================= */
 
 function startStatusChecking(){
 
@@ -1136,7 +1175,9 @@ function startStatusChecking(){
 
   }
 
+
   checkSubmissionStatus();
+
 
   statusCheckTimer =
   setInterval(
@@ -1147,24 +1188,35 @@ function startStatusChecking(){
 }
 
 
-/* =========================
-   CHECK STATUS
-========================= */
+
+/* =========================================
+   CHECK SUBMISSION STATUS
+========================================= */
 
 async function checkSubmissionStatus(){
 
   if(!currentSubmissionId){
 
-    return;
+    currentSubmissionId =
+    localStorage.getItem(
+      "formFillingSubmissionId"
+    );
 
   }
+
+
+  if(!currentSubmissionId){
+
+    return;
+  }
+
 
   try{
 
     const response =
     await fetch(
 
-      SUPABASE_URL +
+      SUPABASE_URL+
       "/rest/v1/rpc/get_form_filling_status",
 
       {
@@ -1172,15 +1224,20 @@ async function checkSubmissionStatus(){
         method:"POST",
 
         headers:{
-          "apikey":SUPABASE_KEY,
+
+          "apikey":
+          SUPABASE_KEY,
+
           "Content-Type":
           "application/json"
+
         },
 
-        body:JSON.stringify({
+        body:
+        JSON.stringify({
 
           submission_id:
-          currentSubmissionId
+          Number(currentSubmissionId)
 
         })
 
@@ -1191,9 +1248,13 @@ async function checkSubmissionStatus(){
 
     if(!response.ok){
 
+      const errorText =
+      await response.text();
+
       console.error(
-        "Status error:",
-        await response.text()
+        "Status Check Error:",
+        response.status,
+        errorText
       );
 
       return;
@@ -1207,7 +1268,7 @@ async function checkSubmissionStatus(){
 
     if(
       !result ||
-      !result.length
+      !result[0]
     ){
 
       return;
@@ -1223,30 +1284,29 @@ async function checkSubmissionStatus(){
     status;
 
 
-    /* =========================
-       DONE
-    ========================= */
-
-    if(
-      status === "Done"
-    ){
+    if(status==="Done"){
 
       if(
         localStorage.getItem(
-          STATUS_SHOWN_KEY
-        ) !== "Done"
+          "formFillingStatusShown"
+        )!=="Done"
       ){
-
-        localStorage.setItem(
-          STATUS_SHOWN_KEY,
-          "Done"
-        );
 
         bot(
           "✅ Verification Done हो गया है।"
         );
 
+
+        localStorage.setItem(
+          "formFillingStatusShown",
+          "Done"
+        );
+
+
+        showReceiptButton();
+
       }
+
 
       if(statusCheckTimer){
 
@@ -1254,42 +1314,36 @@ async function checkSubmissionStatus(){
           statusCheckTimer
         );
 
-        statusCheckTimer =
-        null;
+        statusCheckTimer = null;
 
       }
 
-      showCompletionOptions();
 
       saveChat();
 
     }
 
 
-    /* =========================
-       FAILED
-    ========================= */
-
-    else if(
-      status === "Failed"
-    ){
+    if(status==="Failed"){
 
       if(
         localStorage.getItem(
-          STATUS_SHOWN_KEY
-        ) !== "Failed"
+          "formFillingStatusShown"
+        )!=="Failed"
       ){
 
+        bot(
+          "❌ कृपया सही डॉक्यूमेंट अपलोड करें और फिर से प्रयास करें। कृपया फिर से सही डॉक्यूमेंट एवं सही पेमेंट का स्क्रीनशॉट अपलोड करें और पुनः प्रयास करें।"
+        );
+
+
         localStorage.setItem(
-          STATUS_SHOWN_KEY,
+          "formFillingStatusShown",
           "Failed"
         );
 
-        bot(
-          "❌ आपका Verification Failed हो गया है। कृपया पुनः Form Filling करें।"
-        );
-
       }
+
 
       if(statusCheckTimer){
 
@@ -1297,10 +1351,10 @@ async function checkSubmissionStatus(){
           statusCheckTimer
         );
 
-        statusCheckTimer =
-        null;
+        statusCheckTimer = null;
 
       }
+
 
       showNewFormButton();
 
@@ -1308,10 +1362,11 @@ async function checkSubmissionStatus(){
 
     }
 
-
-  }catch(error){
+  }
+  catch(error){
 
     console.error(
+      "Status Check Error:",
       error
     );
 
@@ -1320,99 +1375,105 @@ async function checkSubmissionStatus(){
 }
 
 
-/* =========================
-   COMPLETION OPTIONS
-========================= */
 
-function showCompletionOptions(){
+/* =========================================
+   RECEIPT BUTTON
+========================================= */
 
-  clearOptions();
+function showReceiptButton(){
 
-  inputArea.style.display =
+  options.innerHTML =
+  "";
+
+  textArea.style.display =
   "none";
 
 
   if(RECEIPT_LINK){
 
-    const receipt =
+    const link =
     document.createElement("a");
 
-    receipt.href =
+    link.className =
+    "receipt-button";
+
+    link.href =
     RECEIPT_LINK;
 
-    receipt.target =
+    link.target =
     "_blank";
 
-    receipt.className =
-    "receipt-btn";
+    link.rel =
+    "noopener noreferrer";
 
-    receipt.textContent =
-    "📥 Download Receipt";
+    link.textContent =
+    "📄 Download Receipt";
 
-    options.appendChild(
-      receipt
-    );
+    options.appendChild(link);
 
   }
 
 
-  const newBtn =
+  /*
+     ONLY NEW FORM BUTTON ADDED
+  */
+
+  const newFormButton =
   document.createElement("button");
 
-  newBtn.className =
-  "new-form-btn";
+  newFormButton.textContent =
+  "New Form Filling";
 
-  newBtn.textContent =
-  "📝 New Form Filling";
-
-  newBtn.onclick =
+  newFormButton.onclick =
   startNewForm;
 
   options.appendChild(
-    newBtn
+    newFormButton
   );
+
 
   saveChat();
 
 }
 
 
-/* =========================
+
+/* =========================================
    NEW FORM BUTTON
-========================= */
+========================================= */
 
 function showNewFormButton(){
 
-  clearOptions();
+  options.innerHTML =
+  "";
 
-  inputArea.style.display =
+  textArea.style.display =
   "none";
 
 
-  const newBtn =
+  const newFormButton =
   document.createElement("button");
 
-  newBtn.className =
-  "new-form-btn";
+  newFormButton.textContent =
+  "New Form Filling";
 
-  newBtn.textContent =
-  "📝 New Form Filling";
-
-  newBtn.onclick =
+  newFormButton.onclick =
   startNewForm;
 
   options.appendChild(
-    newBtn
+    newFormButton
   );
+
 
   saveChat();
 
 }
 
 
-/* =========================
+
+/* =========================================
    START NEW FORM
-========================= */
+========================================= */
 
 function startNewForm(){
 
@@ -1429,19 +1490,21 @@ function startNewForm(){
 
 
   /*
-    पुराना Chat/History DELETE नहीं होगा।
-    केवल Current Form की जानकारी Reset होगी।
+     पुरानी Chat/History को नहीं हटाया जाएगा।
+     केवल नई Form Filling के लिए Current Data Reset होगा।
   */
 
   currentSubmissionId =
   null;
 
-  localStorage.removeItem(
-    SUBMISSION_ID_KEY
-  );
 
   localStorage.removeItem(
-    STATUS_SHOWN_KEY
+    "formFillingSubmissionId"
+  );
+
+
+  localStorage.removeItem(
+    "formFillingStatusShown"
   );
 
 
@@ -1461,168 +1524,45 @@ function startNewForm(){
   step = 1;
 
 
-  user(
-    "📝 New Form Filling"
-  );
+  /*
+     नया Form उसी पुराने START
+     process से शुरू होगा।
+  */
 
-
-  bot(
-    "🔄 नया Form Filling शुरू करते हैं।"
-  );
-
-
-  bot(
-    "कृपया अपना Form Type चुनें:"
-  );
-
-
-  buttons([
-
-    {
-      text:"1️⃣ Backlog Form",
-
-      action:() =>
-      chooseType("Backlog Form")
-
-    },
-
-    {
-      text:"2️⃣ Regular Form",
-
-      action:() =>
-      chooseType("Regular Form")
-
-    }
-
-  ]);
-
-
-  saveChat();
+  start();
 
 }
 
 
-/* =========================
-   RESTORE CHAT
-========================= */
 
-function restoreChat(){
-
-  const saved =
-  localStorage.getItem(
-    STORAGE_KEY
-  );
-
-  if(!saved){
-
-    start();
-
-    return;
-
-  }
-
-
-  try{
-
-    const parsed =
-    JSON.parse(saved);
-
-
-    step =
-    parsed.step || 1;
-
-
-    currentSubmissionId =
-    parsed.currentSubmissionId
-    || null;
-
-
-    if(parsed.data){
-
-      data =
-      parsed.data;
-
-    }
-
-
-    if(parsed.messages){
-
-      messages.innerHTML =
-      parsed.messages;
-
-    }
-
-
-    /*
-      अगर Current Submission ID
-      localStorage में है तो उसे
-      प्राथमिकता दें।
-    */
-
-    const savedId =
-    localStorage.getItem(
-      SUBMISSION_ID_KEY
-    );
-
-    if(savedId){
-
-      currentSubmissionId =
-      Number(savedId);
-
-    }
-
-
-    restoreCurrentStep();
-
-    scrollBottom();
-
-
-  }catch(error){
-
-    console.error(
-      "Restore error:",
-      error
-    );
-
-    start();
-
-  }
-
-}
-
-
-/* =========================
+/* =========================================
    RESTORE CURRENT STEP
-========================= */
+========================================= */
 
 function restoreCurrentStep(){
 
-  clearOptions();
+  /*
+    Form अभी शुरुआती चरण में था
+  */
 
-  inputArea.style.display =
-  "none";
+  if(step===1){
 
-
-  /* STEP 1 */
-
-  if(step === 1){
+    /*
+      अगर यह Completed/Failed के बाद
+      New Form शुरू किया गया है,
+      तो Start के पुराने options ही दिखेंगे।
+    */
 
     buttons([
 
       {
-        text:"1️⃣ Backlog Form",
-
-        action:() =>
-        chooseType("Backlog Form")
-
+        text:"1 - Backlog Form",
+        action:()=>chooseType("Backlog")
       },
 
       {
-        text:"2️⃣ Regular Form",
-
-        action:() =>
-        chooseType("Regular Form")
-
+        text:"2 - Regular Form",
+        action:()=>chooseType("Regular")
       }
 
     ]);
@@ -1632,33 +1572,27 @@ function restoreCurrentStep(){
   }
 
 
-  /* STEP 2 */
+  /*
+    Type select हो चुका था,
+    Category select करना बाकी था
+  */
 
   if(
-    step === 2 &&
+    step===2 &&
+    data.form_type &&
     !data.category
   ){
 
     buttons([
 
       {
-        text:"1️⃣ Practical Honours",
-
-        action:() =>
-        chooseCategory(
-          "Practical Honours"
-        )
-
+        text:"1 - Practical Honours",
+        action:()=>chooseCategory("Practical")
       },
 
       {
-        text:"2️⃣ Non-Practical Honours",
-
-        action:() =>
-        chooseCategory(
-          "Non-Practical Honours"
-        )
-
+        text:"2 - Non-Practical Honours",
+        action:()=>chooseCategory("Non-Practical")
       }
 
     ]);
@@ -1668,32 +1602,75 @@ function restoreCurrentStep(){
   }
 
 
-  /* SEMESTER */
+  /*
+    Category select हो चुकी थी,
+    Semester select करना बाकी था
+  */
 
   if(
-    step === 2 &&
-    data.category
+    step===2 &&
+    data.form_type &&
+    data.category &&
+    !data.semester
   ){
 
-    const semesterButtons = [];
+    buttons([
 
-    for(let i=1;i<=8;i++){
+      {
+        text:"Semester 1",
+        action:()=>chooseSemester(1)
+      },
 
-      semesterButtons.push({
+      {
+        text:"Semester 2",
+        action:()=>chooseSemester(2)
+      },
 
-        text:"Semester " + i,
+      {
+        text:"Semester 3",
+        action:()=>chooseSemester(3)
+      },
 
-        action:() =>
-        chooseSemester(
-          "Semester " + i
-        )
+      {
+        text:"Semester 4",
+        action:()=>chooseSemester(4)
+      },
 
-      });
+      {
+        text:"Semester 5",
+        action:()=>chooseSemester(5)
+      },
 
-    }
+      {
+        text:"Semester 6",
+        action:()=>chooseSemester(6)
+      },
 
-    buttons(
-      semesterButtons
+      {
+        text:"Semester 7",
+        action:()=>chooseSemester(7)
+      },
+
+      {
+        text:"Semester 8",
+        action:()=>chooseSemester(8)
+      }
+
+    ]);
+
+    return;
+
+  }
+
+
+  /*
+    Mobile Number डालना बाकी था
+  */
+
+  if(step===3){
+
+    textMode(
+      "10 digit mobile number"
     );
 
     return;
@@ -1701,10 +1678,13 @@ function restoreCurrentStep(){
   }
 
 
-  /* ADMIT CARD */
+  /*
+    Admit Card upload करना बाकी था
+  */
 
   if(
-    step === 4
+    step===4 &&
+    !data.admit_card_url
   ){
 
     showAdmitUpload();
@@ -1714,23 +1694,15 @@ function restoreCurrentStep(){
   }
 
 
-  /* MOBILE */
+  /*
+    Payment Screenshot upload करना बाकी था
+  */
 
   if(
-    step === 3
-  ){
-
-    showMobileInput();
-
-    return;
-
-  }
-
-
-  /* PAYMENT */
-
-  if(
-    step === 5
+    step===5 &&
+    data.admit_card_url &&
+    data.mobile_number &&
+    !data.payment_screenshot_url
   ){
 
     payment();
@@ -1740,25 +1712,30 @@ function restoreCurrentStep(){
   }
 
 
-  /* SUBMISSION STATUS */
+  /*
+    Submission हो चुका है।
+  */
 
   if(
-    step === 6 &&
+    step===6 &&
     currentSubmissionId
   ){
 
-    const shown =
-    localStorage.getItem(
-      STATUS_SHOWN_KEY
-    );
+    options.innerHTML =
+    "";
+
+    textArea.style.display =
+    "none";
 
 
     if(
-      data.status === "Done" ||
-      shown === "Done"
+      data.status==="Done" ||
+      localStorage.getItem(
+        "formFillingStatusShown"
+      )==="Done"
     ){
 
-      showCompletionOptions();
+      showReceiptButton();
 
       return;
 
@@ -1766,8 +1743,10 @@ function restoreCurrentStep(){
 
 
     if(
-      data.status === "Failed" ||
-      shown === "Failed"
+      data.status==="Failed" ||
+      localStorage.getItem(
+        "formFillingStatusShown"
+      )==="Failed"
     ){
 
       showNewFormButton();
@@ -1786,46 +1765,10 @@ function restoreCurrentStep(){
 }
 
 
-/* =========================
-   MOBILE ONLY NUMBERS
-========================= */
 
-textInput.addEventListener(
-  "input",
-  function(){
-
-    this.value =
-    this.value
-      .replace(/\D/g,"")
-      .slice(0,10);
-
-  }
-);
-
-
-/* =========================
-   ENTER KEY
-========================= */
-
-textInput.addEventListener(
-  "keydown",
-  function(event){
-
-    if(
-      event.key === "Enter"
-    ){
-
-      sendMobile();
-
-    }
-
-  }
-);
-
-
-/* =========================
+/* =========================================
    PAGE LOAD
-========================= */
+========================================= */
 
 restoreChat();
 
