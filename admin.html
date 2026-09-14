@@ -74,7 +74,8 @@ button{
 #addVideoBtn,
 #searchDeleteBtn,
 #uploadReceiptBtn,
-#projectFileRefreshBtn{
+#projectFileRefreshBtn,
+#formFillingRefreshBtn{
     background:#0d47a1;
     color:white;
 }
@@ -101,7 +102,8 @@ button{
 #videoMessage,
 #deleteMessage,
 #receiptUploadMessage,
-#projectFileMessage{
+#projectFileMessage,
+#formFillingMessage{
     text-align:center;
     margin-top:15px;
     font-weight:bold;
@@ -243,8 +245,88 @@ button{
     margin-top:10px;
 }
 
+.form-filling-buttons{
+    margin-top:10px;
+}
+
 .form-filling-buttons button{
     margin-top:8px;
+}
+
+.form-filling-delete-btn{
+    background:#d32f2f;
+    color:white;
+}
+
+.form-document-image{
+    width:100%;
+    max-width:100%;
+    height:auto;
+    max-height:500px;
+    object-fit:contain;
+    display:block;
+    margin:10px auto;
+    border:1px solid #ddd;
+    border-radius:8px;
+    background:white;
+}
+
+.form-document-box{
+    display:none;
+    margin-top:10px;
+    padding:10px;
+    background:white;
+    border-radius:8px;
+    border:1px solid #ddd;
+}
+
+.form-document-title{
+    font-weight:bold;
+    color:#0d47a1;
+    margin-bottom:8px;
+}
+
+.form-pdf-link{
+    display:block;
+    width:100%;
+    padding:12px;
+    background:#455a64;
+    color:white;
+    text-align:center;
+    text-decoration:none;
+    border-radius:8px;
+    margin-top:8px;
+    font-weight:bold;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media(max-width:600px){
+
+    .container{
+        width:95%;
+        margin:15px auto;
+    }
+
+    .box{
+        padding:18px;
+    }
+
+    header{
+        padding:20px 10px;
+    }
+
+    header h1{
+        font-size:23px;
+    }
+
+    .form-document-image{
+        max-height:400px;
+    }
+
 }
 
 </style>
@@ -301,7 +383,6 @@ button{
     <div id="adminPanel">
 
 
-
         <!-- =====================================
              FORM FILLING MANAGEMENT
         ====================================== -->
@@ -313,7 +394,6 @@ button{
             <button
                 id="formFillingRefreshBtn"
                 type="button"
-                style="background:#0d47a1;color:white;"
             >
                 🔄 LOAD FORM FILLING SUBMISSIONS
             </button>
@@ -323,6 +403,7 @@ button{
             <div id="formFillingResults"></div>
 
         </div>
+
 
         <!-- =====================================
              PROJECT FILE VERIFICATION
@@ -360,37 +441,14 @@ button{
                     Select Semester
                 </option>
 
-                <option value="Semester 1">
-                    Semester 1
-                </option>
-
-                <option value="Semester 2">
-                    Semester 2
-                </option>
-
-                <option value="Semester 3">
-                    Semester 3
-                </option>
-
-                <option value="Semester 4">
-                    Semester 4
-                </option>
-
-                <option value="Semester 5">
-                    Semester 5
-                </option>
-
-                <option value="Semester 6">
-                    Semester 6
-                </option>
-
-                <option value="Semester 7">
-                    Semester 7
-                </option>
-
-                <option value="Semester 8">
-                    Semester 8
-                </option>
+                <option value="Semester 1">Semester 1</option>
+                <option value="Semester 2">Semester 2</option>
+                <option value="Semester 3">Semester 3</option>
+                <option value="Semester 4">Semester 4</option>
+                <option value="Semester 5">Semester 5</option>
+                <option value="Semester 6">Semester 6</option>
+                <option value="Semester 7">Semester 7</option>
+                <option value="Semester 8">Semester 8</option>
 
             </select>
 
@@ -401,29 +459,12 @@ button{
                     Select Honours / Subject
                 </option>
 
-                <option value="Political Science">
-                    Political Science
-                </option>
-
-                <option value="History">
-                    History
-                </option>
-
-                <option value="Geography">
-                    Geography
-                </option>
-
-                <option value="Hindi">
-                    Hindi
-                </option>
-
-                <option value="English">
-                    English
-                </option>
-
-                <option value="Economics">
-                    Economics
-                </option>
+                <option value="Political Science">Political Science</option>
+                <option value="History">History</option>
+                <option value="Geography">Geography</option>
+                <option value="Hindi">Hindi</option>
+                <option value="English">English</option>
+                <option value="Economics">Economics</option>
 
             </select>
 
@@ -441,21 +482,10 @@ button{
                     Select Content Type
                 </option>
 
-                <option value="Chapter Notes">
-                    Chapter Notes
-                </option>
-
-                <option value="PYQ">
-                    PYQ
-                </option>
-
-                <option value="Online Quiz">
-                    Online Quiz
-                </option>
-
-                <option value="Video Solution">
-                    Video Solution
-                </option>
+                <option value="Chapter Notes">Chapter Notes</option>
+                <option value="PYQ">PYQ</option>
+                <option value="Online Quiz">Online Quiz</option>
+                <option value="Video Solution">Video Solution</option>
 
             </select>
 
@@ -509,29 +539,12 @@ button{
                     Select Honours / Subject
                 </option>
 
-                <option value="Political Science">
-                    Political Science
-                </option>
-
-                <option value="History">
-                    History
-                </option>
-
-                <option value="Geography">
-                    Geography
-                </option>
-
-                <option value="Hindi">
-                    Hindi
-                </option>
-
-                <option value="English">
-                    English
-                </option>
-
-                <option value="Economics">
-                    Economics
-                </option>
+                <option value="Political Science">Political Science</option>
+                <option value="History">History</option>
+                <option value="Geography">Geography</option>
+                <option value="Hindi">Hindi</option>
+                <option value="English">English</option>
+                <option value="Economics">Economics</option>
 
             </select>
 
@@ -581,13 +594,8 @@ button{
                     Select Content to Delete
                 </option>
 
-                <option value="PDF">
-                    PDF
-                </option>
-
-                <option value="VIDEO">
-                    Solution Video
-                </option>
+                <option value="PDF">PDF</option>
+                <option value="VIDEO">Solution Video</option>
 
             </select>
 
@@ -616,29 +624,12 @@ button{
                     Select Honours / Subject
                 </option>
 
-                <option value="Political Science">
-                    Political Science
-                </option>
-
-                <option value="History">
-                    History
-                </option>
-
-                <option value="Geography">
-                    Geography
-                </option>
-
-                <option value="Hindi">
-                    Hindi
-                </option>
-
-                <option value="English">
-                    English
-                </option>
-
-                <option value="Economics">
-                    Economics
-                </option>
+                <option value="Political Science">Political Science</option>
+                <option value="History">History</option>
+                <option value="Geography">Geography</option>
+                <option value="Hindi">Hindi</option>
+                <option value="English">English</option>
+                <option value="Economics">Economics</option>
 
             </select>
 
@@ -656,21 +647,10 @@ button{
                     Select PDF Type
                 </option>
 
-                <option value="Chapter Notes">
-                    Chapter Notes
-                </option>
-
-                <option value="PYQ">
-                    PYQ
-                </option>
-
-                <option value="Online Quiz">
-                    Online Quiz
-                </option>
-
-                <option value="Video Solution">
-                    Video Solution
-                </option>
+                <option value="Chapter Notes">Chapter Notes</option>
+                <option value="PYQ">PYQ</option>
+                <option value="Online Quiz">Online Quiz</option>
+                <option value="Video Solution">Video Solution</option>
 
             </select>
 
@@ -770,10 +750,6 @@ button{
 </div>
 
 
-<!-- =========================================
-     SUPABASE
-========================================= -->
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 
@@ -786,10 +762,8 @@ button{
 const SUPABASE_URL =
     "https://aghizlgvrhunpuxvohep.supabase.co";
 
-
 const SUPABASE_KEY =
     "sb_publishable_gpc7KUqUIykO3WM1aCzRfg_Myo8AKyx";
-
 
 const securityClient =
     window.supabase.createClient(
@@ -799,52 +773,200 @@ const securityClient =
 
 
 /* =========================================
-   LOGIN ELEMENTS
+   LOGIN
 ========================================= */
 
 const loginBox =
     document.getElementById("loginBox");
 
-
 const adminPanel =
     document.getElementById("adminPanel");
-
 
 const loginBtn =
     document.getElementById("loginBtn");
 
-
 const logoutBtn =
     document.getElementById("logoutBtn");
-
 
 const loginMessage =
     document.getElementById("loginMessage");
 
 
+async function checkAdminSession(){
+
+    try{
+
+        const {
+            data,
+            error
+        } =
+        await securityClient.auth.getSession();
+
+        if(error){
+
+            console.error(error);
+            showLogin();
+            return;
+
+        }
+
+        if(data.session){
+
+            showAdminPanel();
+
+        }
+        else{
+
+            showLogin();
+
+        }
+
+    }
+    catch(error){
+
+        console.error(error);
+        showLogin();
+
+    }
+
+}
+
+
+function showAdminPanel(){
+
+    loginBox.style.display = "none";
+
+    adminPanel.style.display = "block";
+
+    loadProjectFileSubmissions();
+
+    loadFormFillingSubmissions();
+
+}
+
+
+function showLogin(){
+
+    loginBox.style.display = "block";
+
+    adminPanel.style.display = "none";
+
+}
+
+
+loginBtn.addEventListener(
+    "click",
+    async function(){
+
+        const email =
+            document.getElementById("email").value.trim();
+
+        const password =
+            document.getElementById("password").value;
+
+        loginMessage.textContent = "";
+
+        if(!email || !password){
+
+            loginMessage.textContent =
+                "Email और Password डालें।";
+
+            return;
+
+        }
+
+        loginBtn.disabled = true;
+
+        loginBtn.textContent = "LOGIN...";
+
+        try{
+
+            const {
+                data,
+                error
+            } =
+            await securityClient.auth.signInWithPassword({
+
+                email:email,
+                password:password
+
+            });
+
+            if(error){
+
+                loginMessage.textContent =
+                    "Invalid Email या Password.";
+
+                loginBtn.disabled = false;
+
+                loginBtn.textContent = "LOGIN";
+
+                return;
+
+            }
+
+            if(data.session){
+
+                document.getElementById("password").value = "";
+
+                showAdminPanel();
+
+            }
+
+        }
+        catch(error){
+
+            console.error(error);
+
+            loginMessage.textContent =
+                "Login failed. फिर से प्रयास करें।";
+
+        }
+
+        loginBtn.disabled = false;
+
+        loginBtn.textContent = "LOGIN";
+
+    }
+);
+
+
+logoutBtn.addEventListener(
+    "click",
+    async function(){
+
+        await securityClient.auth.signOut();
+
+        showLogin();
+
+        document.getElementById("email").value = "";
+
+        document.getElementById("password").value = "";
+
+    }
+);
+
+
+securityClient.auth.onAuthStateChange(
+    function(event,session){
+
+        if(session){
+
+            showAdminPanel();
+
+        }
+        else{
+
+            showLogin();
+
+        }
+
+    }
+);
+
+
 /* =========================================
-   PROJECT FILE ELEMENTS
-========================================= */
-
-const projectFileRefreshBtn =
-    document.getElementById(
-        "projectFileRefreshBtn"
-    );
-
-
-const projectFileMessage =
-    document.getElementById(
-        "projectFileMessage"
-    );
-
-
-const projectFileResults =
-    document.getElementById(
-        "projectFileResults"
-    );
-
-/* =========================================
-   FORM FILLING ELEMENTS
+   FORM FILLING
 ========================================= */
 
 const formFillingRefreshBtn =
@@ -865,244 +987,23 @@ const formFillingResults =
 let formFillingLoadNumber = 0;
 
 
-/* =========================================
-   SHOW / HIDE ADMIN
-========================================= */
-
-function showAdminPanel(){
-
-    loginBox.style.display = "none";
-
-    adminPanel.style.display = "block";
-
-    loadProjectFileSubmissions();
-    loadFormFillingSubmissions();
-
-}
-
-
-function showLogin(){
-
-    loginBox.style.display = "block";
-
-    adminPanel.style.display = "none";
-
-}
-
-
-/* =========================================
-   ADMIN SESSION
-========================================= */
-
-async function checkAdminSession(){
-
-    try{
-
-        const {
-            data,
-            error
-        } =
-        await securityClient.auth.getSession();
-
-
-        if(error){
-
-            console.error(error);
-
-            showLogin();
-
-            return;
-
-        }
-
-
-        if(data.session){
-
-            showAdminPanel();
-
-        }
-        else{
-
-            showLogin();
-
-        }
-
-    }
-    catch(error){
-
-        console.error(error);
-
-        showLogin();
-
-    }
-
-}
-
-
-/* =========================================
-   LOGIN
-========================================= */
-
-loginBtn.addEventListener(
-    "click",
-    async function(){
-
-        const email =
-            document
-            .getElementById("email")
-            .value
-            .trim();
-
-
-        const password =
-            document
-            .getElementById("password")
-            .value;
-
-
-        loginMessage.textContent = "";
-
-
-        if(!email || !password){
-
-            loginMessage.textContent =
-                "Email और Password डालें।";
-
-            return;
-
-        }
-
-
-        loginBtn.disabled = true;
-
-        loginBtn.textContent = "LOGIN...";
-
-
-        try{
-
-            const {
-                data,
-                error
-            } =
-            await securityClient.auth
-            .signInWithPassword({
-
-                email:email,
-
-                password:password
-
-            });
-
-
-            if(error){
-
-                loginMessage.textContent =
-                    "Invalid Email या Password.";
-
-                loginBtn.disabled = false;
-
-                loginBtn.textContent = "LOGIN";
-
-                return;
-
-            }
-
-
-            if(data.session){
-
-                document
-                .getElementById("password")
-                .value = "";
-
-
-                loginMessage.textContent = "";
-
-                showAdminPanel();
-
-            }
-
-        }
-        catch(error){
-
-            console.error(error);
-
-            loginMessage.textContent =
-                "Login failed. फिर से प्रयास करें।";
-
-        }
-
-
-        loginBtn.disabled = false;
-
-        loginBtn.textContent = "LOGIN";
-
-    }
-);
-
-
-/* =========================================
-   LOGOUT
-========================================= */
-
-logoutBtn.addEventListener(
-    "click",
-    async function(){
-
-        await securityClient.auth.signOut();
-
-        showLogin();
-
-        document
-        .getElementById("email")
-        .value = "";
-
-
-        document
-        .getElementById("password")
-        .value = "";
-
-    }
-);
-
-
-/* =========================================
-   AUTH STATE
-========================================= */
-
-securityClient.auth.onAuthStateChange(
-    function(event,session){
-
-        if(session){
-
-            showAdminPanel();
-
-        }
-        else{
-
-            showLogin();
-
-        }
-
-    }
-);
-
-
-
-/* =========================================
-   FORM FILLING LOAD
-========================================= */
-
 formFillingRefreshBtn.addEventListener(
     "click",
     loadFormFillingSubmissions
 );
 
+
 async function loadFormFillingSubmissions(){
 
-    const currentLoad = ++formFillingLoadNumber;
+    const currentLoad =
+        ++formFillingLoadNumber;
 
-    formFillingMessage.textContent = "Loading...";
-    formFillingMessage.style.color = "#222";
+    formFillingMessage.textContent =
+        "Loading...";
+
+    formFillingMessage.style.color =
+        "#222";
+
     formFillingResults.innerHTML = "";
 
     try{
@@ -1142,28 +1043,13 @@ async function loadFormFillingSubmissions(){
             `;
 
             return;
-        }
 
-        /*
-         * Database ID is the submission identity.
-         * Mobile number is NEVER used for duplicate detection.
-         */
-        const uniqueSubmissions = [];
-        const seenIds = new Set();
+        }
 
         data.forEach(function(item){
 
-            if(seenIds.has(String(item.id))){
-                return;
-            }
-
-            seenIds.add(String(item.id));
-            uniqueSubmissions.push(item);
-
-        });
-
-        uniqueSubmissions.forEach(function(item){
             createFormFillingCard(item);
+
         });
 
     }
@@ -1183,10 +1069,15 @@ async function loadFormFillingSubmissions(){
 
         formFillingMessage.style.color =
             "#d32f2f";
+
     }
 
 }
 
+
+/* =========================================
+   CREATE FORM FILLING CARD
+========================================= */
 
 function createFormFillingCard(item){
 
@@ -1196,17 +1087,23 @@ function createFormFillingCard(item){
     card.className =
         "form-filling-submission";
 
+
     const serial =
         item.serial_number || "—";
 
+
     const status =
-        String(item.status || "Pending").toLowerCase();
+        String(
+            item.status || "Pending"
+        ).toLowerCase();
+
 
     let statusClass =
         "status-pending";
 
     let statusText =
         "⏳ PENDING";
+
 
     if(status === "done"){
 
@@ -1218,6 +1115,7 @@ function createFormFillingCard(item){
 
     }
 
+
     if(status === "failed"){
 
         statusClass =
@@ -1228,7 +1126,9 @@ function createFormFillingCard(item){
 
     }
 
+
     let dateText = "";
+
 
     if(item.created_at){
 
@@ -1248,6 +1148,7 @@ function createFormFillingCard(item){
 
     }
 
+
     card.innerHTML = `
 
         <div class="form-filling-serial">
@@ -1255,6 +1156,7 @@ function createFormFillingCard(item){
         </div>
 
         <div class="form-filling-info">
+
             <b>Form Type:</b>
             ${escapeHtml(item.form_type || "Not available")}<br>
 
@@ -1266,14 +1168,17 @@ function createFormFillingCard(item){
 
             <b>Mobile Number:</b>
             ${escapeHtml(item.mobile_number || "Not available")}
+
         </div>
 
         ${
             dateText
             ?
-            `<div class="project-date">
+            `
+            <div class="project-date">
                 Submitted: ${escapeHtml(dateText)}
-            </div>`
+            </div>
+            `
             :
             ""
         }
@@ -1282,35 +1187,60 @@ function createFormFillingCard(item){
             ${statusText}
         </div>
 
+
         <div class="form-filling-buttons">
 
             ${
                 item.admit_card_url
                 ?
-                `<button
+                `
+                <button
                     type="button"
                     class="view-document-btn"
-                    data-file="${escapeHtml(item.admit_card_url)}"
+                    data-form-view="admit"
                 >
                     🪪 VIEW ADMIT CARD
-                </button>`
+                </button>
+
+                <div
+                    class="form-document-box"
+                    data-document-box="admit"
+                >
+                    <div class="form-document-title">
+                        🪪 Admit Card
+                    </div>
+                </div>
+                `
                 :
                 ""
             }
 
+
             ${
                 item.payment_screenshot_url
                 ?
-                `<button
+                `
+                <button
                     type="button"
                     class="view-document-btn"
-                    data-file="${escapeHtml(item.payment_screenshot_url)}"
+                    data-form-view="payment"
                 >
                     💳 VIEW PAYMENT SCREENSHOT
-                </button>`
+                </button>
+
+                <div
+                    class="form-document-box"
+                    data-document-box="payment"
+                >
+                    <div class="form-document-title">
+                        💳 Payment Screenshot
+                    </div>
+                </div>
+                `
                 :
                 ""
             }
+
 
             ${
                 status === "pending"
@@ -1320,7 +1250,6 @@ function createFormFillingCard(item){
                     type="button"
                     class="verify-done-btn"
                     data-form-action="done"
-                    data-id="${escapeHtml(item.id)}"
                 >
                     ✅ VERIFICATION DONE
                 </button>
@@ -1329,7 +1258,6 @@ function createFormFillingCard(item){
                     type="button"
                     class="verify-failed-btn"
                     data-form-action="failed"
-                    data-id="${escapeHtml(item.id)}"
                 >
                     ❌ VERIFICATION FAILED
                 </button>
@@ -1340,43 +1268,91 @@ function createFormFillingCard(item){
                     type="button"
                     class="view-document-btn"
                     data-form-action="pending"
-                    data-id="${escapeHtml(item.id)}"
                 >
                     🔄 CHANGE VERIFICATION
                 </button>
                 `
             }
 
+
+            <button
+                type="button"
+                class="form-filling-delete-btn"
+                data-form-delete="true"
+            >
+                🗑️ DELETE SUBMISSION
+            </button>
+
         </div>
+
     `;
+
 
     formFillingResults.appendChild(card);
 
-    card.querySelectorAll(
-        '[data-file]'
-    ).forEach(function(button){
 
-        button.addEventListener(
+    /* =====================================
+       VIEW ADMIT CARD
+    ===================================== */
+
+    const admitButton =
+        card.querySelector(
+            '[data-form-view="admit"]'
+        );
+
+
+    if(admitButton){
+
+        admitButton.addEventListener(
             "click",
             function(){
 
-                const fileUrl =
-                    button.getAttribute("data-file");
-
-                if(fileUrl){
-                    window.open(
-                        fileUrl,
-                        "_blank"
-                    );
-                }
+                toggleFormDocument(
+                    card,
+                    "admit",
+                    item.admit_card_url
+                );
 
             }
         );
 
-    });
+    }
+
+
+    /* =====================================
+       VIEW PAYMENT SCREENSHOT
+    ===================================== */
+
+    const paymentButton =
+        card.querySelector(
+            '[data-form-view="payment"]'
+        );
+
+
+    if(paymentButton){
+
+        paymentButton.addEventListener(
+            "click",
+            function(){
+
+                toggleFormDocument(
+                    card,
+                    "payment",
+                    item.payment_screenshot_url
+                );
+
+            }
+        );
+
+    }
+
+
+    /* =====================================
+       VERIFICATION
+    ===================================== */
 
     card.querySelectorAll(
-        '[data-form-action]'
+        "[data-form-action]"
     ).forEach(function(button){
 
         button.addEventListener(
@@ -1384,8 +1360,10 @@ function createFormFillingCard(item){
             function(){
 
                 updateFormFillingStatus(
-                    button.getAttribute("data-id"),
-                    button.getAttribute("data-form-action")
+                    item.id,
+                    button.getAttribute(
+                        "data-form-action"
+                    )
                 );
 
             }
@@ -1393,8 +1371,147 @@ function createFormFillingCard(item){
 
     });
 
+
+    /* =====================================
+       DELETE
+    ===================================== */
+
+    const deleteButton =
+        card.querySelector(
+            '[data-form-delete="true"]'
+        );
+
+
+    if(deleteButton){
+
+        deleteButton.addEventListener(
+            "click",
+            function(){
+
+                deleteFormFillingSubmission(
+                    item.id
+                );
+
+            }
+        );
+
+    }
+
 }
 
+
+/* =========================================
+   VIEW FORM DOCUMENT
+========================================= */
+
+function toggleFormDocument(
+    card,
+    type,
+    fileUrl
+){
+
+    if(!fileUrl){
+
+        alert(
+            "Document उपलब्ध नहीं है।"
+        );
+
+        return;
+
+    }
+
+
+    const box =
+        card.querySelector(
+            `[data-document-box="${type}"]`
+        );
+
+
+    if(!box){
+        return;
+    }
+
+
+    if(
+        box.style.display === "block"
+    ){
+
+        box.style.display = "none";
+
+        box.innerHTML = `
+            <div class="form-document-title">
+                ${type === "admit" ? "🪪 Admit Card" : "💳 Payment Screenshot"}
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    box.style.display = "block";
+
+
+    const lowerUrl =
+        fileUrl.toLowerCase();
+
+
+    const isPdf =
+        lowerUrl.includes(".pdf") ||
+        lowerUrl.includes("application/pdf");
+
+
+    if(isPdf){
+
+        box.innerHTML = `
+            <div class="form-document-title">
+                ${type === "admit" ? "🪪 Admit Card PDF" : "💳 Payment Screenshot PDF"}
+            </div>
+
+            <a
+                href="${escapeHtml(fileUrl)}"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="form-pdf-link"
+            >
+                📄 OPEN PDF
+            </a>
+        `;
+
+        return;
+
+    }
+
+
+    box.innerHTML = `
+        <div class="form-document-title">
+            ${type === "admit" ? "🪪 Admit Card" : "💳 Payment Screenshot"}
+        </div>
+
+        <img
+            src="${escapeHtml(fileUrl)}"
+            class="form-document-image"
+            alt="${type === "admit" ? "Admit Card" : "Payment Screenshot"}"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block';"
+        >
+
+        <a
+            href="${escapeHtml(fileUrl)}"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="form-pdf-link"
+            style="display:none;"
+        >
+            📄 OPEN DOCUMENT
+        </a>
+    `;
+
+}
+
+
+/* =========================================
+   UPDATE FORM STATUS
+========================================= */
 
 async function updateFormFillingStatus(
     submissionId,
@@ -1402,6 +1519,7 @@ async function updateFormFillingStatus(
 ){
 
     let confirmText = "";
+
 
     if(status === "done"){
 
@@ -1418,18 +1536,38 @@ async function updateFormFillingStatus(
     else{
 
         confirmText =
-            "क्या आप इस Form Filling submission को फिर से PENDING करना चाहते हैं?";
+            "क्या आप इस submission को फिर से PENDING करना चाहते हैं?";
 
     }
+
 
     if(!confirm(confirmText)){
+
         return;
+
     }
+
 
     try{
 
         formFillingMessage.textContent =
             "Verification update हो रहा है...";
+
+        formFillingMessage.style.color =
+            "#222";
+
+
+        const newStatus =
+            status === "pending"
+            ?
+            "Pending"
+            :
+            status === "done"
+            ?
+            "Done"
+            :
+            "Failed";
+
 
         const {
             error
@@ -1437,31 +1575,29 @@ async function updateFormFillingStatus(
         await securityClient
         .from("form_filling_submissions")
         .update({
-            status:
-                status === "pending"
-                ?
-                "Pending"
-                :
-                status === "done"
-                ?
-                "Done"
-                :
-                "Failed"
+
+            status:newStatus
+
         })
         .eq(
             "id",
             submissionId
         );
 
+
         if(error){
+
             throw error;
+
         }
+
 
         formFillingMessage.textContent =
             "✅ Verification successfully update हो गया।";
 
         formFillingMessage.style.color =
             "#198754";
+
 
         await loadFormFillingSubmissions();
 
@@ -1473,6 +1609,7 @@ async function updateFormFillingStatus(
             error
         );
 
+
         formFillingMessage.textContent =
             "❌ Verification update नहीं हो पाया।";
 
@@ -1483,9 +1620,107 @@ async function updateFormFillingStatus(
 
 }
 
+
 /* =========================================
-   PROJECT FILE LOAD
+   DELETE FORM FILLING SUBMISSION
+   NOTE:
+   DATABASE RECORD ONLY
+   STORAGE FILES ARE NOT DELETED
 ========================================= */
+
+async function deleteFormFillingSubmission(
+    submissionId
+){
+
+    const confirmed =
+        confirm(
+            "क्या आप इस Form Filling submission को permanently delete करना चाहते हैं?\n\nDatabase record delete होगा। Admit Card और Payment Screenshot की Storage files delete नहीं होंगी।"
+        );
+
+
+    if(!confirmed){
+
+        return;
+
+    }
+
+
+    try{
+
+        formFillingMessage.textContent =
+            "Deleting...";
+
+        formFillingMessage.style.color =
+            "#d32f2f";
+
+
+        const {
+            error
+        } =
+        await securityClient
+        .from("form_filling_submissions")
+        .delete()
+        .eq(
+            "id",
+            submissionId
+        );
+
+
+        if(error){
+
+            throw error;
+
+        }
+
+
+        formFillingMessage.textContent =
+            "✅ Form Filling submission successfully deleted.";
+
+        formFillingMessage.style.color =
+            "#198754";
+
+
+        await loadFormFillingSubmissions();
+
+    }
+    catch(error){
+
+        console.error(
+            "Form Filling Delete Error:",
+            error
+        );
+
+
+        formFillingMessage.textContent =
+            "❌ Form Filling submission delete नहीं हो पाया।";
+
+        formFillingMessage.style.color =
+            "#d32f2f";
+
+    }
+
+}
+
+
+/* =========================================
+   PROJECT FILE
+========================================= */
+
+const projectFileRefreshBtn =
+    document.getElementById(
+        "projectFileRefreshBtn"
+    );
+
+const projectFileMessage =
+    document.getElementById(
+        "projectFileMessage"
+    );
+
+const projectFileResults =
+    document.getElementById(
+        "projectFileResults"
+    );
+
 
 projectFileRefreshBtn.addEventListener(
     "click",
@@ -1497,7 +1732,6 @@ async function loadProjectFileSubmissions(){
 
     projectFileMessage.textContent =
         "Loading...";
-
 
     projectFileResults.innerHTML = "";
 
@@ -1562,7 +1796,6 @@ async function loadProjectFileSubmissions(){
         projectFileMessage.textContent =
             "Project File data load नहीं हो पाया।";
 
-
         projectFileMessage.style.color =
             "#d32f2f";
 
@@ -1571,15 +1804,10 @@ async function loadProjectFileSubmissions(){
 }
 
 
-/* =========================================
-   CREATE SUBMISSION CARD
-========================================= */
-
 function createProjectSubmissionCard(item){
 
     const card =
         document.createElement("div");
-
 
     card.className =
         "project-submission";
@@ -1595,7 +1823,6 @@ function createProjectSubmissionCard(item){
 
     let statusClass =
         "status-pending";
-
 
     let statusText =
         "⏳ PENDING";
@@ -1744,8 +1971,6 @@ function createProjectSubmissionCard(item){
     projectFileResults.appendChild(card);
 
 
-    /* VIEW BUTTONS */
-
     const viewButtons =
         card.querySelectorAll(
             ".view-document-btn"
@@ -1781,8 +2006,6 @@ function createProjectSubmissionCard(item){
     );
 
 
-    /* VERIFY DONE */
-
     const doneButton =
         card.querySelector(
             '[data-action="done"]'
@@ -1805,8 +2028,6 @@ function createProjectSubmissionCard(item){
 
     }
 
-
-    /* VERIFY FAILED */
 
     const failedButton =
         card.querySelector(
@@ -1831,8 +2052,6 @@ function createProjectSubmissionCard(item){
     }
 
 
-    /* CHANGE VERIFICATION */
-
     const resetButton =
         card.querySelector(
             '[data-action="reset"]'
@@ -1854,8 +2073,6 @@ function createProjectSubmissionCard(item){
 
     }
 
-
-    /* DELETE PROJECT FILE */
 
     const deleteButton =
         card.querySelector(
@@ -1882,7 +2099,7 @@ function createProjectSubmissionCard(item){
 
 
 /* =========================================
-   VIEW PRIVATE DOCUMENT
+   VIEW PROJECT DOCUMENT
 ========================================= */
 
 async function viewProjectDocument(
@@ -1975,7 +2192,7 @@ async function viewProjectDocument(
 
 
 /* =========================================
-   VERIFICATION
+   PROJECT VERIFICATION
 ========================================= */
 
 async function verifyProjectFile(
@@ -1983,8 +2200,7 @@ async function verifyProjectFile(
     status
 ){
 
-    let confirmText =
-        "";
+    let confirmText = "";
 
 
     if(status === "done"){
@@ -2041,7 +2257,6 @@ async function verifyProjectFile(
         projectFileMessage.textContent =
             "✅ Verification successfully update हो गया।";
 
-
         projectFileMessage.style.color =
             "#198754";
 
@@ -2060,7 +2275,6 @@ async function verifyProjectFile(
         projectFileMessage.textContent =
             "❌ Verification update नहीं हो पाया।";
 
-
         projectFileMessage.style.color =
             "#d32f2f";
 
@@ -2070,7 +2284,7 @@ async function verifyProjectFile(
 
 
 /* =========================================
-   CHANGE VERIFICATION
+   CHANGE PROJECT VERIFICATION
 ========================================= */
 
 async function changeVerification(
@@ -2129,10 +2343,12 @@ async function changeVerification(
 
 
 /* =========================================
-   DELETE PROJECT FILE SUBMISSION
+   DELETE PROJECT FILE
 ========================================= */
 
-async function deleteProjectFile(submissionId){
+async function deleteProjectFile(
+    submissionId
+){
 
     if(!confirm(
         "क्या आप इस Project File का पूरा data delete करना चाहते हैं?\n\nAdmit Card, Payment Screenshot और Database Record सभी delete हो जाएंगे।"
@@ -2151,8 +2367,6 @@ async function deleteProjectFile(submissionId){
         projectFileMessage.style.color =
             "#d32f2f";
 
-
-        /* GET SUBMISSION DATA */
 
         const {
             data:submission,
@@ -2186,8 +2400,6 @@ async function deleteProjectFile(submissionId){
         }
 
 
-        /* DELETE ADMIT CARD */
-
         if(
             submission.admit_card_url
         ){
@@ -2212,8 +2424,6 @@ async function deleteProjectFile(submissionId){
         }
 
 
-        /* DELETE PAYMENT SCREENSHOT */
-
         if(
             submission.payment_screenshot_url
         ){
@@ -2237,8 +2447,6 @@ async function deleteProjectFile(submissionId){
 
         }
 
-
-        /* DELETE DATABASE RECORD */
 
         const {
             error:deleteError
@@ -2266,8 +2474,6 @@ async function deleteProjectFile(submissionId){
             "#198754";
 
 
-        /* REFRESH LIST */
-
         await loadProjectFileSubmissions();
 
     }
@@ -2280,8 +2486,7 @@ async function deleteProjectFile(submissionId){
 
 
         projectFileMessage.textContent =
-            "❌ Project File delete नहीं हो पाया।";
-
+            "❌ Project File delete नहीं हो पाया.";
 
         projectFileMessage.style.color =
             "#d32f2f";
@@ -2315,10 +2520,6 @@ checkAdminSession();
 
 </script>
 
-
-<!-- =========================================
-     YOUR EXISTING ADMIN FUNCTIONALITY
-========================================= -->
 
 <script src="admin.js"></script>
 
