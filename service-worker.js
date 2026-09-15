@@ -12,27 +12,17 @@ firebase.initializeApp({
 
 const messaging = firebase.messaging();
 
-const NOTIFICATION_PAGE =
-    "https://jharkhandvision123.github.io/shubham/notification.html";
-
 messaging.onBackgroundMessage(function(payload) {
-
     console.log("Background message received:", payload);
 
     const notificationTitle =
-        payload.notification?.title ||
-        "S.P.D.D.C Notification";
+        payload.notification?.title || "S.P.D.D.C Notification";
 
-    const notificationOptions = {
-
-        body:
-            payload.notification?.body || "",
-
-        icon:
-            "/shubham/images/app-icon-192.png.jpeg",
-
+    const notificationOptions =  "https://jharkhandvision123.github.io/shubham/notification.html"; {
+        body: payload.notification?.body || "",
+        icon: "/images/app-icon-192.png.jpeg",
         data: {
-            url: NOTIFICATION_PAGE
+            url: payload.data?.url || "/index.html"
         }
     };
 
@@ -42,21 +32,13 @@ messaging.onBackgroundMessage(function(payload) {
     );
 });
 
+self.addEventListener("notificationclick", function(event) {
+    event.notification.close();
 
-self.addEventListener(
-    "notificationclick",
-    function(event) {
+    const url =  "https://jharkhandvision123.github.io/shubham/notification.html";
+        event.notification.data?.url || "/index.html";
 
-        event.notification.close();
-
-        const url =
-            event.notification.data?.url ||
-            NOTIFICATION_PAGE;
-
-        event.waitUntil(
-
-            clients.openWindow(url)
-
-        );
-    }
-);
+    event.waitUntil(
+        clients.openWindow(url)
+    );
+});
