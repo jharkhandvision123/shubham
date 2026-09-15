@@ -1,1120 +1,2051 @@
-document.addEventListener("DOMContentLoaded", () => {
 
-    const SUPABASE_URL = "https://aghizlgvrhunpuxvohep.supabase.co";
-    const SUPABASE_KEY = "sb_publishable_gpc7KUqUIykO3WM1aCzRfg_Myo8AKyx";
+<!DOCTYPE html>
+<html lang="en">
 
-    const supabaseClient = window.supabase.createClient(
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Admin Receipt Management</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    margin:0;
+    background:#f4f7fc;
+    color:#222;
+}
+
+header{
+    background:#0d47a1;
+    color:white;
+    text-align:center;
+    padding:25px 15px;
+}
+
+.container{
+    width:92%;
+    max-width:750px;
+    margin:30px auto;
+}
+
+.box{
+    background:white;
+    padding:25px;
+    border-radius:12px;
+    box-shadow:0 4px 12px rgba(0,0,0,.1);
+    margin-bottom:20px;
+}
+
+h2{
+    color:#0d47a1;
+    text-align:center;
+}
+
+input,
+select{
+    width:100%;
+    padding:13px;
+    border:2px solid #0d47a1;
+    border-radius:8px;
+    font-size:16px;
+    margin-top:10px;
+}
+
+button{
+    width:100%;
+    padding:13px;
+    margin-top:12px;
+    border:none;
+    border-radius:8px;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+#loginBtn,
+#searchBtn,
+#uploadBtn,
+#addVideoBtn,
+#searchDeleteBtn,
+#uploadReceiptBtn,
+#projectFileRefreshBtn,
+#formFillingRefreshBtn{
+    background:#0d47a1;
+    color:white;
+}
+
+.deleteBtn{
+    background:#d32f2f;
+    color:white;
+}
+
+.receipt{
+    border:1px solid #ddd;
+    border-radius:8px;
+    padding:15px;
+    margin-top:15px;
+}
+
+.logoutBtn{
+    background:#555;
+    color:white;
+}
+
+#message,
+#uploadMessage,
+#videoMessage,
+#deleteMessage,
+#receiptUploadMessage,
+#projectFileMessage,
+#formFillingMessage{
+    text-align:center;
+    margin-top:15px;
+    font-weight:bold;
+}
+
+#adminPanel{
+    display:none;
+}
+
+#loginMessage{
+    text-align:center;
+    margin-top:15px;
+    font-weight:bold;
+}
+
+
+/* =========================================
+   PROJECT FILE VERIFICATION
+========================================= */
+
+.project-submission{
+    border:1px solid #ddd;
+    border-radius:10px;
+    padding:15px;
+    margin-top:15px;
+    background:#fafafa;
+}
+
+.project-mobile{
+    font-size:17px;
+    font-weight:bold;
+    color:#0d47a1;
+    margin-bottom:10px;
+}
+
+.project-date{
+    font-size:12px;
+    color:#777;
+    margin-bottom:10px;
+}
+
+.project-status{
+    padding:8px;
+    border-radius:6px;
+    text-align:center;
+    font-weight:bold;
+    margin-top:10px;
+}
+
+.status-pending{
+    background:#fff3cd;
+    color:#856404;
+}
+
+.status-done{
+    background:#d4edda;
+    color:#155724;
+}
+
+.status-failed{
+    background:#f8d7da;
+    color:#721c24;
+}
+
+.view-document-btn{
+    background:#455a64;
+    color:white;
+}
+
+.verify-done-btn{
+    background:#198754;
+    color:white;
+}
+
+.verify-failed-btn{
+    background:#d32f2f;
+    color:white;
+}
+
+.project-buttons{
+    margin-top:10px;
+}
+
+.project-buttons button{
+    margin-top:8px;
+}
+
+.no-project-data{
+    text-align:center;
+    padding:20px;
+    color:#666;
+    background:#f5f5f5;
+    border-radius:8px;
+}
+
+
+/* =========================================
+   PROJECT FILE DELETE BUTTON
+========================================= */
+
+.project-delete-btn{
+    background:#777;
+    color:white;
+    width:auto;
+    padding:8px 12px;
+    font-size:13px;
+    margin-top:8px;
+}
+
+
+/* =========================================
+   FORM FILLING MANAGEMENT
+========================================= */
+
+.form-filling-submission{
+    border:1px solid #ddd;
+    border-radius:10px;
+    padding:15px;
+    margin-top:15px;
+    background:#fafafa;
+}
+
+.form-filling-serial{
+    font-size:18px;
+    font-weight:bold;
+    color:#0d47a1;
+    margin-bottom:8px;
+}
+
+.form-filling-info{
+    line-height:1.7;
+}
+
+.form-filling-status{
+    padding:8px;
+    border-radius:6px;
+    text-align:center;
+    font-weight:bold;
+    margin-top:10px;
+}
+
+.form-filling-buttons{
+    margin-top:10px;
+}
+
+.form-filling-buttons button{
+    margin-top:8px;
+}
+
+.form-filling-delete-btn{
+    background:#d32f2f;
+    color:white;
+}
+
+.form-document-image{
+    width:100%;
+    max-width:100%;
+    height:auto;
+    max-height:500px;
+    object-fit:contain;
+    display:block;
+    margin:10px auto;
+    border:1px solid #ddd;
+    border-radius:8px;
+    background:white;
+}
+
+.form-document-box{
+    display:none;
+    margin-top:10px;
+    padding:10px;
+    background:white;
+    border-radius:8px;
+    border:1px solid #ddd;
+}
+
+.form-document-title{
+    font-weight:bold;
+    color:#0d47a1;
+    margin-bottom:8px;
+}
+
+.form-pdf-link{
+    display:block;
+    width:100%;
+    padding:12px;
+    background:#455a64;
+    color:white;
+    text-align:center;
+    text-decoration:none;
+    border-radius:8px;
+    margin-top:8px;
+    font-weight:bold;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media(max-width:600px){
+
+    .container{
+        width:95%;
+        margin:15px auto;
+    }
+
+    .box{
+        padding:18px;
+    }
+
+    header{
+        padding:20px 10px;
+    }
+
+    header h1{
+        font-size:23px;
+    }
+
+    .form-document-image{
+        max-height:400px;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+    <h1>Admin Receipt Management</h1>
+
+</header>
+
+
+<div class="container">
+
+
+    <!-- =====================================
+         ADMIN LOGIN
+    ====================================== -->
+
+    <div class="box" id="loginBox">
+
+        <h2>Admin Login</h2>
+
+        <input
+            type="email"
+            id="email"
+            placeholder="Admin Email"
+            autocomplete="username"
+        >
+
+        <input
+            type="password"
+            id="password"
+            placeholder="Admin Password"
+            autocomplete="current-password"
+        >
+
+        <button id="loginBtn">
+            LOGIN
+        </button>
+
+        <div id="loginMessage"></div>
+
+    </div>
+
+
+    <!-- =====================================
+         ALL ADMIN FUNCTIONS
+    ====================================== -->
+
+    <div id="adminPanel">
+
+
+        <!-- =====================================
+             FORM FILLING MANAGEMENT
+        ====================================== -->
+
+        <div class="box">
+
+            <h2>Form Filling Management</h2>
+
+            <button
+                id="formFillingRefreshBtn"
+                type="button"
+            >
+                🔄 LOAD FORM FILLING SUBMISSIONS
+            </button>
+
+            <div id="formFillingMessage"></div>
+
+            <div id="formFillingResults"></div>
+
+        </div>
+
+
+        <!-- =====================================
+             PROJECT FILE VERIFICATION
+        ====================================== -->
+
+        <div class="box">
+
+            <h2>Project File Verification</h2>
+
+            <button
+                id="projectFileRefreshBtn"
+                type="button"
+            >
+                🔄 LOAD PROJECT FILE SUBMISSIONS
+            </button>
+
+            <div id="projectFileMessage"></div>
+
+            <div id="projectFileResults"></div>
+
+        </div>
+
+
+        <!-- =====================================
+             PDF UPLOAD
+        ====================================== -->
+
+        <div class="box">
+
+            <h2>Upload PDF</h2>
+
+            <select id="semester">
+
+                <option value="">
+                    Select Semester
+                </option>
+
+                <option value="Semester 1">Semester 1</option>
+                <option value="Semester 2">Semester 2</option>
+                <option value="Semester 3">Semester 3</option>
+                <option value="Semester 4">Semester 4</option>
+                <option value="Semester 5">Semester 5</option>
+                <option value="Semester 6">Semester 6</option>
+                <option value="Semester 7">Semester 7</option>
+                <option value="Semester 8">Semester 8</option>
+
+            </select>
+
+
+            <select id="honoursSubject">
+
+                <option value="">
+                    Select Honours / Subject
+                </option>
+
+                <option value="Political Science">Political Science</option>
+                <option value="History">History</option>
+                <option value="Geography">Geography</option>
+                <option value="Hindi">Hindi</option>
+                <option value="English">English</option>
+                <option value="Economics">Economics</option>
+
+            </select>
+
+
+            <input
+                type="text"
+                id="paperName"
+                placeholder="Enter Paper Name / Code (e.g. MJ-2)"
+            >
+
+
+            <select id="contentType">
+
+                <option value="">
+                    Select Content Type
+                </option>
+
+                <option value="Chapter Notes">Chapter Notes</option>
+                <option value="PYQ">PYQ</option>
+                <option value="Online Quiz">Online Quiz</option>
+                <option value="Video Solution">Video Solution</option>
+
+            </select>
+
+
+            <input
+                type="file"
+                id="pdfFile"
+                accept="application/pdf"
+            >
+
+
+            <button id="uploadBtn">
+                UPLOAD PDF
+            </button>
+
+
+            <div id="uploadMessage"></div>
+
+        </div>
+
+
+        <!-- =====================================
+             SOLUTION VIDEO
+        ====================================== -->
+
+        <div class="box">
+
+            <h2>Add Solution Video</h2>
+
+            <select id="videoSemester">
+
+                <option value="">
+                    Select Semester
+                </option>
+
+                <option value="Semester 1">Semester 1</option>
+                <option value="Semester 2">Semester 2</option>
+                <option value="Semester 3">Semester 3</option>
+                <option value="Semester 4">Semester 4</option>
+                <option value="Semester 5">Semester 5</option>
+                <option value="Semester 6">Semester 6</option>
+                <option value="Semester 7">Semester 7</option>
+                <option value="Semester 8">Semester 8</option>
+
+            </select>
+
+
+            <select id="videoHonoursSubject">
+
+                <option value="">
+                    Select Honours / Subject
+                </option>
+
+                <option value="Political Science">Political Science</option>
+                <option value="History">History</option>
+                <option value="Geography">Geography</option>
+                <option value="Hindi">Hindi</option>
+                <option value="English">English</option>
+                <option value="Economics">Economics</option>
+
+            </select>
+
+
+            <input
+                type="text"
+                id="videoPaperName"
+                placeholder="Enter Paper Name / Code (e.g. MJ-2)"
+            >
+
+
+            <input
+                type="text"
+                id="videoTitle"
+                placeholder="Enter Video Title"
+            >
+
+
+            <input
+                type="url"
+                id="videoUrl"
+                placeholder="Paste YouTube Video Link"
+            >
+
+
+            <button id="addVideoBtn">
+                ADD SOLUTION VIDEO
+            </button>
+
+
+            <div id="videoMessage"></div>
+
+        </div>
+
+
+        <!-- =====================================
+             DELETE CONTENT
+        ====================================== -->
+
+        <div class="box">
+
+            <h2>Delete Content</h2>
+
+            <select id="deleteType">
+
+                <option value="">
+                    Select Content to Delete
+                </option>
+
+                <option value="PDF">PDF</option>
+                <option value="VIDEO">Solution Video</option>
+
+            </select>
+
+
+            <select id="deleteSemester">
+
+                <option value="">
+                    Select Semester
+                </option>
+
+                <option value="Semester 1">Semester 1</option>
+                <option value="Semester 2">Semester 2</option>
+                <option value="Semester 3">Semester 3</option>
+                <option value="Semester 4">Semester 4</option>
+                <option value="Semester 5">Semester 5</option>
+                <option value="Semester 6">Semester 6</option>
+                <option value="Semester 7">Semester 7</option>
+                <option value="Semester 8">Semester 8</option>
+
+            </select>
+
+
+            <select id="deleteSubject">
+
+                <option value="">
+                    Select Honours / Subject
+                </option>
+
+                <option value="Political Science">Political Science</option>
+                <option value="History">History</option>
+                <option value="Geography">Geography</option>
+                <option value="Hindi">Hindi</option>
+                <option value="English">English</option>
+                <option value="Economics">Economics</option>
+
+            </select>
+
+
+            <input
+                type="text"
+                id="deletePaper"
+                placeholder="Enter Paper Name / Code (e.g. MJ-2)"
+            >
+
+
+            <select id="deleteContentType">
+
+                <option value="">
+                    Select PDF Type
+                </option>
+
+                <option value="Chapter Notes">Chapter Notes</option>
+                <option value="PYQ">PYQ</option>
+                <option value="Online Quiz">Online Quiz</option>
+                <option value="Video Solution">Video Solution</option>
+
+            </select>
+
+
+            <button id="searchDeleteBtn">
+                SEARCH CONTENT
+            </button>
+
+
+            <div id="deleteMessage"></div>
+
+            <div id="deleteResults"></div>
+
+        </div>
+
+
+        <!-- =====================================
+             DELETE RECEIPT
+        ====================================== -->
+
+        <div class="box" id="adminBox">
+
+            <h2>Delete Receipt</h2>
+
+            <input
+                type="tel"
+                id="adminMobile"
+                placeholder="Enter 10 digit mobile number"
+                maxlength="10"
+                inputmode="numeric"
+            >
+
+
+            <button id="searchBtn">
+                SEARCH RECEIPTS
+            </button>
+
+
+            <div id="message"></div>
+
+            <div id="receipts"></div>
+
+        </div>
+
+
+        <!-- =====================================
+             UPLOAD RECEIPT
+        ====================================== -->
+
+        <div class="box">
+
+            <h2>Upload Receipt</h2>
+
+            <input
+                type="tel"
+                id="receiptMobile"
+                placeholder="Enter 10 digit mobile number"
+                maxlength="10"
+                inputmode="numeric"
+            >
+
+
+            <input
+                type="file"
+                id="receiptFile"
+                accept="application/pdf"
+            >
+
+
+            <button id="uploadReceiptBtn">
+                UPLOAD RECEIPT
+            </button>
+
+
+            <div id="receiptUploadMessage"></div>
+
+        </div>
+
+
+        <!-- =====================================
+             LOGOUT
+        ====================================== -->
+
+        <div class="box" id="logoutBox">
+
+            <button
+                id="logoutBtn"
+                class="logoutBtn"
+            >
+                LOGOUT
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+<script>
+
+/* =========================================
+   SUPABASE CONFIG
+========================================= */
+
+const SUPABASE_URL =
+    "https://aghizlgvrhunpuxvohep.supabase.co";
+
+const SUPABASE_KEY =
+    "sb_publishable_gpc7KUqUIykO3WM1aCzRfg_Myo8AKyx";
+
+const securityClient =
+    window.supabase.createClient(
         SUPABASE_URL,
         SUPABASE_KEY
     );
 
 
-    // =========================
-    // LOGIN / ADMIN ELEMENTS
-    // =========================
+/* =========================================
+   LOGIN
+========================================= */
 
-    const loginBtn = document.getElementById("loginBtn");
-    const loginBox = document.getElementById("loginBox");
-    const adminPanel = document.getElementById("adminPanel");
-    const logoutBtn = document.getElementById("logoutBtn");
-    const loginMessage = document.getElementById("loginMessage");
+const loginBox =
+    document.getElementById("loginBox");
 
+const adminPanel =
+    document.getElementById("adminPanel");
 
-    // =========================
-    // PDF UPLOAD
-    // =========================
+const loginBtn =
+    document.getElementById("loginBtn");
 
-    const uploadBtn = document.getElementById("uploadBtn");
-    const semester = document.getElementById("semester");
-    const honoursSubject = document.getElementById("honoursSubject");
-    const paperName = document.getElementById("paperName");
-    const contentType = document.getElementById("contentType");
-    const pdfFile = document.getElementById("pdfFile");
-    const uploadMessage = document.getElementById("uploadMessage");
+const logoutBtn =
+    document.getElementById("logoutBtn");
 
+const loginMessage =
+    document.getElementById("loginMessage");
 
-    if (uploadBtn) {
 
-        uploadBtn.addEventListener("click", async () => {
+async function checkAdminSession(){
 
-            const selectedSemester = semester.value.trim();
-            const selectedSubject = honoursSubject.value.trim();
-            const selectedPaper = paperName.value.trim();
-            const selectedContent = contentType.value.trim();
-            const file = pdfFile.files[0];
+    try{
 
+        const {
+            data,
+            error
+        } =
+        await securityClient.auth.getSession();
 
-            if (!selectedSemester) {
-                uploadMessage.innerHTML = "Semester चुनिए।";
-                return;
-            }
+        if(error){
 
-            if (!selectedSubject) {
-                uploadMessage.innerHTML = "Honours / Subject चुनिए।";
-                return;
-            }
-
-            if (!selectedPaper) {
-                uploadMessage.innerHTML = "Paper Name / Code डालिए।";
-                return;
-            }
-
-            if (!selectedContent) {
-                uploadMessage.innerHTML = "Content Type चुनिए।";
-                return;
-            }
-
-            if (!file) {
-                uploadMessage.innerHTML = "PDF file चुनिए।";
-                return;
-            }
-
-            if (file.type !== "application/pdf") {
-                uploadMessage.innerHTML = "सिर्फ PDF file upload करें।";
-                return;
-            }
-
-
-            uploadBtn.disabled = true;
-            uploadBtn.textContent = "UPLOADING...";
-            uploadMessage.innerHTML = "Uploading...";
-
-
-            try {
-
-                const safeFileName =
-                    file.name.replace(/[^\w.\- ]/g, "_");
-
-
-                const filePath =
-                    selectedSemester + "/" +
-                    selectedSubject + "/" +
-                    selectedPaper + "/" +
-                    selectedContent + "/" +
-                    Date.now() + "_" + safeFileName;
-
-
-                const { error: uploadError } =
-                    await supabaseClient.storage
-                        .from("receipts")
-                        .upload(filePath, file);
-
-
-                if (uploadError) {
-                    throw uploadError;
-                }
-
-
-                const { error: dbError } =
-                    await supabaseClient
-                        .from("receipts")
-                        .insert({
-                            mobile_number: "0000000000",
-                            file_name: file.name,
-                            file_path: filePath,
-                            paper_code: selectedPaper,
-                            semester: selectedSemester,
-                            honours_subject: selectedSubject,
-                            paper_name: selectedPaper,
-                            content_type: selectedContent
-                        });
-
-
-                if (dbError) {
-                    throw dbError;
-                }
-
-
-                uploadMessage.innerHTML =
-                    "PDF successfully uploaded.";
-
-
-                semester.value = "";
-                honoursSubject.value = "";
-                paperName.value = "";
-                contentType.value = "";
-                pdfFile.value = "";
-
-
-            } catch (error) {
-
-                console.error("Upload Error:", error);
-
-                uploadMessage.innerHTML =
-                    "Upload failed: " + error.message;
-
-            } finally {
-
-                uploadBtn.disabled = false;
-                uploadBtn.textContent = "UPLOAD PDF";
-
-            }
-
-        });
-
-    }
-
-
-    // =========================
-    // SOLUTION VIDEO
-    // =========================
-
-    const addVideoBtn = document.getElementById("addVideoBtn");
-    const videoSemester = document.getElementById("videoSemester");
-    const videoHonoursSubject = document.getElementById("videoHonoursSubject");
-    const videoPaperName = document.getElementById("videoPaperName");
-    const videoTitle = document.getElementById("videoTitle");
-    const videoUrl = document.getElementById("videoUrl");
-    const videoMessage = document.getElementById("videoMessage");
-
-
-    if (addVideoBtn) {
-
-        addVideoBtn.addEventListener("click", async () => {
-
-            const selectedSemester =
-                videoSemester.value.trim();
-
-            const selectedSubject =
-                videoHonoursSubject.value.trim();
-
-            const selectedPaper =
-                videoPaperName.value.trim();
-
-            const selectedTitle =
-                videoTitle.value.trim();
-
-            const selectedUrl =
-                videoUrl.value.trim();
-
-
-            if (!selectedSemester) {
-                videoMessage.innerHTML =
-                    "Semester चुनिए।";
-                return;
-            }
-
-            if (!selectedSubject) {
-                videoMessage.innerHTML =
-                    "Honours / Subject चुनिए।";
-                return;
-            }
-
-            if (!selectedPaper) {
-                videoMessage.innerHTML =
-                    "Paper Name / Code डालिए।";
-                return;
-            }
-
-            if (!selectedUrl) {
-                videoMessage.innerHTML =
-                    "YouTube Video Link डालिए।";
-                return;
-            }
-
-
-            if (
-                !selectedUrl.includes("youtube.com") &&
-                !selectedUrl.includes("youtu.be")
-            ) {
-                videoMessage.innerHTML =
-                    "सिर्फ YouTube Video Link डालिए।";
-                return;
-            }
-
-
-            addVideoBtn.disabled = true;
-            addVideoBtn.textContent = "ADDING...";
-            videoMessage.innerHTML = "Saving...";
-
-
-            try {
-
-                const { error } =
-                    await supabaseClient
-                        .from("solution_videos")
-                        .insert({
-                            semester: selectedSemester,
-                            honours_subject: selectedSubject,
-                            paper_name: selectedPaper,
-                            video_title: selectedTitle,
-                            video_url: selectedUrl
-                        });
-
-
-                if (error) {
-                    throw error;
-                }
-
-
-                videoMessage.innerHTML =
-                    "Solution Video successfully added.";
-
-
-                videoSemester.value = "";
-                videoHonoursSubject.value = "";
-                videoPaperName.value = "";
-                videoTitle.value = "";
-                videoUrl.value = "";
-
-
-            } catch (error) {
-
-                console.error("Video Error:", error);
-
-                videoMessage.innerHTML =
-                    "Video add failed: " + error.message;
-
-            } finally {
-
-                addVideoBtn.disabled = false;
-                addVideoBtn.textContent =
-                    "ADD SOLUTION VIDEO";
-
-            }
-
-        });
-
-    }
-
-
-    // =========================
-    // DELETE CONTENT ELEMENTS
-    // =========================
-
-    const deleteType =
-        document.getElementById("deleteType");
-
-    const deleteSemester =
-        document.getElementById("deleteSemester");
-
-    const deleteSubject =
-        document.getElementById("deleteSubject");
-
-    const deletePaper =
-        document.getElementById("deletePaper");
-
-    const deleteContentType =
-        document.getElementById("deleteContentType");
-
-    const searchDeleteBtn =
-        document.getElementById("searchDeleteBtn");
-
-    const deleteMessage =
-        document.getElementById("deleteMessage");
-
-    const deleteResults =
-        document.getElementById("deleteResults");
-
-
-    if (searchDeleteBtn) {
-
-        searchDeleteBtn.addEventListener("click", async () => {
-
-            const type =
-                deleteType.value.trim();
-
-            const selectedSemester =
-                deleteSemester.value.trim();
-
-            const selectedSubject =
-                deleteSubject.value.trim();
-
-            const selectedPaper =
-                deletePaper.value.trim();
-
-            const selectedContent =
-                deleteContentType.value.trim();
-
-
-            if (!type) {
-                deleteMessage.innerHTML =
-                    "Content Type चुनिए।";
-                return;
-            }
-
-            if (!selectedSemester) {
-                deleteMessage.innerHTML =
-                    "Semester चुनिए।";
-                return;
-            }
-
-            if (!selectedSubject) {
-                deleteMessage.innerHTML =
-                    "Honours / Subject चुनिए।";
-                return;
-            }
-
-            if (!selectedPaper) {
-                deleteMessage.innerHTML =
-                    "Paper Name / Code डालिए।";
-                return;
-            }
-
-            if (type === "PDF" && !selectedContent) {
-                deleteMessage.innerHTML =
-                    "PDF Type चुनिए।";
-                return;
-            }
-
-
-            searchDeleteBtn.disabled = true;
-            searchDeleteBtn.textContent = "SEARCHING...";
-            deleteMessage.innerHTML = "Searching...";
-            deleteResults.innerHTML = "";
-
-
-            try {
-
-                if (type === "PDF") {
-
-                    const { data, error } =
-                        await supabaseClient
-                            .from("receipts")
-                            .select("*")
-                            .eq("semester", selectedSemester)
-                            .eq("honours_subject", selectedSubject)
-                            .eq("paper_name", selectedPaper)
-                            .eq("content_type", selectedContent);
-
-
-                    if (error) {
-                        throw error;
-                    }
-
-
-                    if (!data || data.length === 0) {
-
-                        deleteMessage.innerHTML =
-                            "इस जानकारी के लिए कोई PDF नहीं मिली।";
-
-                        return;
-                    }
-
-
-                    deleteMessage.innerHTML =
-                        data.length + " PDF मिली।";
-
-
-                    let html = "";
-
-
-                    data.forEach((file, index) => {
-
-                        html += `
-                            <div class="receipt">
-
-                                <strong>
-                                    PDF ${index + 1}
-                                </strong>
-
-                                <br><br>
-
-                                ${file.file_name || "PDF File"}
-
-                                <br><br>
-
-                                <button
-                                    class="deleteContentBtn"
-                                    data-type="PDF"
-                                    data-id="${file.id}"
-                                    data-path="${file.file_path}"
-                                >
-                                    DELETE PDF
-                                </button>
-
-                            </div>
-                        `;
-
-                    });
-
-
-                    deleteResults.innerHTML = html;
-
-                }
-
-
-                if (type === "VIDEO") {
-
-                    const { data, error } =
-                        await supabaseClient
-                            .from("solution_videos")
-                            .select("*")
-                            .eq("semester", selectedSemester)
-                            .eq("honours_subject", selectedSubject)
-                            .eq("paper_name", selectedPaper);
-
-
-                    if (error) {
-                        throw error;
-                    }
-
-
-                    if (!data || data.length === 0) {
-
-                        deleteMessage.innerHTML =
-                            "इस Paper के लिए कोई Solution Video नहीं मिला।";
-
-                        return;
-                    }
-
-
-                    deleteMessage.innerHTML =
-                        data.length +
-                        " Solution Video मिली।";
-
-
-                    let html = "";
-
-
-                    data.forEach((video, index) => {
-
-                        html += `
-                            <div class="receipt">
-
-                                <strong>
-                                    Video ${index + 1}
-                                </strong>
-
-                                <br><br>
-
-                                ${video.video_title || "Solution Video"}
-
-                                <br><br>
-
-                                <button
-                                    class="deleteContentBtn"
-                                    data-type="VIDEO"
-                                    data-id="${video.id}"
-                                >
-                                    DELETE VIDEO
-                                </button>
-
-                            </div>
-                        `;
-
-                    });
-
-
-                    deleteResults.innerHTML = html;
-
-                }
-
-
-                document
-                    .querySelectorAll(".deleteContentBtn")
-                    .forEach(button => {
-
-                        button.addEventListener(
-                            "click",
-                            () => {
-
-                                deleteContent(
-                                    button.dataset.type,
-                                    button.dataset.id,
-                                    button.dataset.path || ""
-                                );
-
-                            }
-                        );
-
-                    });
-
-
-            } catch (error) {
-
-                console.error(
-                    "Content Search Error:",
-                    error
-                );
-
-                deleteMessage.innerHTML =
-                    "Search failed: " +
-                    error.message;
-
-            } finally {
-
-                searchDeleteBtn.disabled = false;
-                searchDeleteBtn.textContent =
-                    "SEARCH CONTENT";
-
-            }
-
-        });
-
-    }
-
-
-    // =========================
-    // DELETE CONTENT
-    // =========================
-
-    async function deleteContent(type, id, filePath) {
-
-        const confirmDelete =
-            confirm(
-                type === "PDF"
-                    ? "क्या आप इस PDF को permanently delete करना चाहते हैं?"
-                    : "क्या आप इस Solution Video को permanently delete करना चाहते हैं?"
-            );
-
-
-        if (!confirmDelete) {
+            console.error(error);
+            showLogin();
             return;
-        }
-
-
-        try {
-
-            if (type === "PDF") {
-
-                if (filePath) {
-
-                    const { error: storageError } =
-                        await supabaseClient.storage
-                            .from("receipts")
-                            .remove([filePath]);
-
-
-                    if (storageError) {
-                        throw storageError;
-                    }
-
-                }
-
-
-                const { error: dbError } =
-                    await supabaseClient
-                        .from("receipts")
-                        .delete()
-                        .eq("id", id);
-
-
-                if (dbError) {
-                    throw dbError;
-                }
-
-
-                alert("PDF successfully deleted.");
-
-            }
-
-
-            if (type === "VIDEO") {
-
-                const { error } =
-                    await supabaseClient
-                        .from("solution_videos")
-                        .delete()
-                        .eq("id", id);
-
-
-                if (error) {
-                    throw error;
-                }
-
-
-                alert("Solution Video successfully deleted.");
-
-            }
-
-
-            if (searchDeleteBtn) {
-                searchDeleteBtn.click();
-            }
-
-
-        } catch (error) {
-
-            console.error(
-                "Delete Content Error:",
-                error
-            );
-
-            alert(
-                "Delete failed: " +
-                error.message
-            );
 
         }
 
-    }
+        if(data.session){
 
+            showAdminPanel();
 
-    // =========================
-    // CHECK ADMIN SESSION
-    // =========================
-
-    async function checkLogin() {
-
-        try {
-
-            const { data, error } =
-                await supabaseClient.auth.getSession();
-
-
-            if (error) {
-                throw error;
-            }
-
-
-            if (data.session) {
-                showAdminPanel();
-            } else {
-                showLogin();
-            }
-
-
-        } catch (error) {
-
-            console.error(
-                "Session Error:",
-                error
-            );
+        }
+        else{
 
             showLogin();
 
         }
 
     }
+    catch(error){
+
+        console.error(error);
+        showLogin();
+
+    }
+
+}
 
 
-    // =========================
-    // LOGIN
-    // =========================
+function showAdminPanel(){
 
-    if (loginBtn) {
+    loginBox.style.display = "none";
 
-        loginBtn.addEventListener("click", async () => {
+    adminPanel.style.display = "block";
 
-            const email =
-                document.getElementById("email").value.trim();
+    loadProjectFileSubmissions();
 
-            const password =
-                document.getElementById("password").value;
+    loadFormFillingSubmissions();
+
+}
 
 
-            loginMessage.innerHTML = "";
+function showLogin(){
+
+    loginBox.style.display = "block";
+
+    adminPanel.style.display = "none";
+
+}
 
 
-            if (!email || !password) {
+loginBtn.addEventListener(
+    "click",
+    async function(){
 
-                loginMessage.innerHTML =
-                    "Email और Password दोनों भरिए।";
+        const email =
+            document.getElementById("email").value.trim();
+
+        const password =
+            document.getElementById("password").value;
+
+        loginMessage.textContent = "";
+
+        if(!email || !password){
+
+            loginMessage.textContent =
+                "Email और Password डालें।";
+
+            return;
+
+        }
+
+        loginBtn.disabled = true;
+
+        loginBtn.textContent = "LOGIN...";
+
+        try{
+
+            const {
+                data,
+                error
+            } =
+            await securityClient.auth.signInWithPassword({
+
+                email:email,
+                password:password
+
+            });
+
+            if(error){
+
+                loginMessage.textContent =
+                    "Invalid Email या Password.";
+
+                loginBtn.disabled = false;
+
+                loginBtn.textContent = "LOGIN";
 
                 return;
+
             }
 
+            if(data.session){
 
-            loginBtn.disabled = true;
-            loginBtn.textContent = "LOGGING IN...";
-
-
-            try {
-
-                const { data, error } =
-                    await supabaseClient.auth.signInWithPassword({
-                        email: email,
-                        password: password
-                    });
-
-
-                if (error) {
-                    throw error;
-                }
-
-
-                if (!data.session) {
-                    throw new Error(
-                        "Login session नहीं बनी।"
-                    );
-                }
-
+                document.getElementById("password").value = "";
 
                 showAdminPanel();
 
-
-            } catch (error) {
-
-                console.error(
-                    "Login Error:",
-                    error
-                );
-
-                loginMessage.innerHTML =
-                    "Login failed: " +
-                    error.message;
-
-
-            } finally {
-
-                loginBtn.disabled = false;
-                loginBtn.textContent = "LOGIN";
-
             }
+
+        }
+        catch(error){
+
+            console.error(error);
+
+            loginMessage.textContent =
+                "Login failed. फिर से प्रयास करें।";
+
+        }
+
+        loginBtn.disabled = false;
+
+        loginBtn.textContent = "LOGIN";
+
+    }
+);
+
+
+logoutBtn.addEventListener(
+    "click",
+    async function(){
+
+        await securityClient.auth.signOut();
+
+        showLogin();
+
+        document.getElementById("email").value = "";
+
+        document.getElementById("password").value = "";
+
+    }
+);
+
+
+securityClient.auth.onAuthStateChange(
+    function(event,session){
+
+        if(session){
+
+            showAdminPanel();
+
+        }
+        else{
+
+            showLogin();
+
+        }
+
+    }
+);
+
+
+/* =========================================
+   FORM FILLING
+========================================= */
+
+const formFillingRefreshBtn =
+    document.getElementById(
+        "formFillingRefreshBtn"
+    );
+
+const formFillingMessage =
+    document.getElementById(
+        "formFillingMessage"
+    );
+
+const formFillingResults =
+    document.getElementById(
+        "formFillingResults"
+    );
+
+let formFillingLoadNumber = 0;
+
+
+formFillingRefreshBtn.addEventListener(
+    "click",
+    loadFormFillingSubmissions
+);
+
+
+async function loadFormFillingSubmissions(){
+
+    const currentLoad =
+        ++formFillingLoadNumber;
+
+    formFillingMessage.textContent =
+        "Loading...";
+
+    formFillingMessage.style.color =
+        "#222";
+
+    formFillingResults.innerHTML = "";
+
+    try{
+
+        const {
+            data,
+            error
+        } =
+        await securityClient
+        .from("form_filling_submissions")
+        .select(
+            "id,serial_number,form_type,semester,category,mobile_number,admit_card_url,payment_screenshot_url,status,created_at"
+        )
+        .order(
+            "serial_number",
+            {
+                ascending:false
+            }
+        );
+
+        if(currentLoad !== formFillingLoadNumber){
+            return;
+        }
+
+        if(error){
+            throw error;
+        }
+
+        formFillingMessage.textContent = "";
+
+        if(!data || data.length === 0){
+
+            formFillingResults.innerHTML = `
+                <div class="no-project-data">
+                    कोई Form Filling submission नहीं मिली।
+                </div>
+            `;
+
+            return;
+
+        }
+
+        data.forEach(function(item){
+
+            createFormFillingCard(item);
 
         });
 
     }
+    catch(error){
 
+        console.error(
+            "Form Filling Load Error:",
+            error
+        );
 
-    // =========================
-    // SHOW ADMIN PANEL
-    // =========================
-
-    function showAdminPanel() {
-
-        if (loginBox) {
-            loginBox.style.display = "none";
+        if(currentLoad !== formFillingLoadNumber){
+            return;
         }
 
-        if (adminPanel) {
-            adminPanel.style.display = "block";
-        }
+        formFillingMessage.textContent =
+            "❌ Form Filling data load नहीं हो पाया।";
 
-        const adminBox =
-            document.getElementById("adminBox");
+        formFillingMessage.style.color =
+            "#d32f2f";
 
-        if (adminBox) {
-            adminBox.style.display = "block";
-        }
+    }
 
-        if (loginMessage) {
-            loginMessage.innerHTML = "";
-        }
+}
 
-        loadNotificationHistory();
+
+/* =========================================
+   CREATE FORM FILLING CARD
+========================================= */
+
+function createFormFillingCard(item){
+
+    const card =
+        document.createElement("div");
+
+    card.className =
+        "form-filling-submission";
+
+
+    const serial =
+        item.serial_number || "—";
+
+
+    const status =
+        String(
+            item.status || "Pending"
+        ).toLowerCase();
+
+
+    let statusClass =
+        "status-pending";
+
+    let statusText =
+        "⏳ PENDING";
+
+
+    if(status === "done"){
+
+        statusClass =
+            "status-done";
+
+        statusText =
+            "✅ VERIFICATION DONE";
 
     }
 
 
-    // =========================
-    // SHOW LOGIN
-    // =========================
+    if(status === "failed"){
 
-    function showLogin() {
+        statusClass =
+            "status-failed";
 
-        if (loginBox) {
-            loginBox.style.display = "block";
+        statusText =
+            "❌ VERIFICATION FAILED";
+
+    }
+
+
+    let dateText = "";
+
+
+    if(item.created_at){
+
+        try{
+
+            dateText =
+                new Date(
+                    item.created_at
+                ).toLocaleString("en-IN");
+
         }
+        catch(e){
 
-        if (adminPanel) {
-            adminPanel.style.display = "none";
+            dateText = "";
+
         }
 
     }
 
 
-    // =========================
-    // AUTH STATE CHANGE
-    // =========================
+    card.innerHTML = `
 
-    supabaseClient.auth.onAuthStateChange(
-        (event, session) => {
+        <div class="form-filling-serial">
+            Serial Number: ${escapeHtml(serial)}
+        </div>
 
-            if (session) {
-                showAdminPanel();
-            } else {
-                showLogin();
+        <div class="form-filling-info">
+
+            <b>Form Type:</b>
+            ${escapeHtml(item.form_type || "Not available")}<br>
+
+            <b>Category:</b>
+            ${escapeHtml(item.category || "Not available")}<br>
+
+            <b>Semester:</b>
+            ${escapeHtml(item.semester || "Not available")}<br>
+
+            <b>Mobile Number:</b>
+            ${escapeHtml(item.mobile_number || "Not available")}
+
+        </div>
+
+        ${
+            dateText
+            ?
+            `
+            <div class="project-date">
+                Submitted: ${escapeHtml(dateText)}
+            </div>
+            `
+            :
+            ""
+        }
+
+        <div class="form-filling-status ${statusClass}">
+            ${statusText}
+        </div>
+
+
+        <div class="form-filling-buttons">
+
+            ${
+                item.admit_card_url
+                ?
+                `
+                <button
+                    type="button"
+                    class="view-document-btn"
+                    data-form-view="admit"
+                >
+                    🪪 VIEW ADMIT CARD
+                </button>
+
+                <div
+                    class="form-document-box"
+                    data-document-box="admit"
+                >
+                    <div class="form-document-title">
+                        🪪 Admit Card
+                    </div>
+                </div>
+                `
+                :
+                ""
+            }
+
+
+            ${
+                item.payment_screenshot_url
+                ?
+                `
+                <button
+                    type="button"
+                    class="view-document-btn"
+                    data-form-view="payment"
+                >
+                    💳 VIEW PAYMENT SCREENSHOT
+                </button>
+
+                <div
+                    class="form-document-box"
+                    data-document-box="payment"
+                >
+                    <div class="form-document-title">
+                        💳 Payment Screenshot
+                    </div>
+                </div>
+                `
+                :
+                ""
+            }
+
+
+            ${
+                status === "pending"
+                ?
+                `
+                <button
+                    type="button"
+                    class="verify-done-btn"
+                    data-form-action="done"
+                >
+                    ✅ VERIFICATION DONE
+                </button>
+
+                <button
+                    type="button"
+                    class="verify-failed-btn"
+                    data-form-action="failed"
+                >
+                    ❌ VERIFICATION FAILED
+                </button>
+                `
+                :
+                `
+                <button
+                    type="button"
+                    class="view-document-btn"
+                    data-form-action="pending"
+                >
+                    🔄 CHANGE VERIFICATION
+                </button>
+                `
+            }
+
+
+            <button
+                type="button"
+                class="form-filling-delete-btn"
+                data-form-delete="true"
+            >
+                🗑️ DELETE SUBMISSION
+            </button>
+
+        </div>
+
+    `;
+
+
+    formFillingResults.appendChild(card);
+
+
+    /* =====================================
+       VIEW ADMIT CARD
+    ===================================== */
+
+    const admitButton =
+        card.querySelector(
+            '[data-form-view="admit"]'
+        );
+
+
+    if(admitButton){
+
+        admitButton.addEventListener(
+            "click",
+            function(){
+
+                toggleFormDocument(
+                    card,
+                    "admit",
+                    item.admit_card_url
+                );
+
+            }
+        );
+
+    }
+
+
+    /* =====================================
+       VIEW PAYMENT SCREENSHOT
+    ===================================== */
+
+    const paymentButton =
+        card.querySelector(
+            '[data-form-view="payment"]'
+        );
+
+
+    if(paymentButton){
+
+        paymentButton.addEventListener(
+            "click",
+            function(){
+
+                toggleFormDocument(
+                    card,
+                    "payment",
+                    item.payment_screenshot_url
+                );
+
+            }
+        );
+
+    }
+
+
+    /* =====================================
+       VERIFICATION
+    ===================================== */
+
+    card.querySelectorAll(
+        "[data-form-action]"
+    ).forEach(function(button){
+
+        button.addEventListener(
+            "click",
+            function(){
+
+                updateFormFillingStatus(
+                    item.id,
+                    button.getAttribute(
+                        "data-form-action"
+                    )
+                );
+
+            }
+        );
+
+    });
+
+
+    /* =====================================
+       DELETE
+    ===================================== */
+
+    const deleteButton =
+        card.querySelector(
+            '[data-form-delete="true"]'
+        );
+
+
+    if(deleteButton){
+
+        deleteButton.addEventListener(
+            "click",
+            function(){
+
+                deleteFormFillingSubmission(
+                    item.id
+                );
+
+            }
+        );
+
+    }
+
+}
+
+
+/* =========================================
+   VIEW FORM DOCUMENT
+========================================= */
+
+function toggleFormDocument(
+    card,
+    type,
+    fileUrl
+){
+
+    if(!fileUrl){
+
+        alert(
+            "Document उपलब्ध नहीं है।"
+        );
+
+        return;
+
+    }
+
+
+    const box =
+        card.querySelector(
+            `[data-document-box="${type}"]`
+        );
+
+
+    if(!box){
+        return;
+    }
+
+
+    if(
+        box.style.display === "block"
+    ){
+
+        box.style.display = "none";
+
+        box.innerHTML = `
+            <div class="form-document-title">
+                ${type === "admit" ? "🪪 Admit Card" : "💳 Payment Screenshot"}
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    box.style.display = "block";
+
+
+    const lowerUrl =
+        fileUrl.toLowerCase();
+
+
+    const isPdf =
+        lowerUrl.includes(".pdf") ||
+        lowerUrl.includes("application/pdf");
+
+
+    if(isPdf){
+
+        box.innerHTML = `
+            <div class="form-document-title">
+                ${type === "admit" ? "🪪 Admit Card PDF" : "💳 Payment Screenshot PDF"}
+            </div>
+
+            <a
+                href="${escapeHtml(fileUrl)}"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="form-pdf-link"
+            >
+                📄 OPEN PDF
+            </a>
+        `;
+
+        return;
+
+    }
+
+
+    box.innerHTML = `
+        <div class="form-document-title">
+            ${type === "admit" ? "🪪 Admit Card" : "💳 Payment Screenshot"}
+        </div>
+
+        <img
+            src="${escapeHtml(fileUrl)}"
+            class="form-document-image"
+            alt="${type === "admit" ? "Admit Card" : "Payment Screenshot"}"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block';"
+        >
+
+        <a
+            href="${escapeHtml(fileUrl)}"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="form-pdf-link"
+            style="display:none;"
+        >
+            📄 OPEN DOCUMENT
+        </a>
+    `;
+
+}
+
+
+/* =========================================
+   UPDATE FORM STATUS
+========================================= */
+
+async function updateFormFillingStatus(
+    submissionId,
+    status
+){
+
+    let confirmText = "";
+
+
+    if(status === "done"){
+
+        confirmText =
+            "क्या आप इस Form Filling submission को VERIFICATION DONE करना चाहते हैं?";
+
+    }
+    else if(status === "failed"){
+
+        confirmText =
+            "क्या आप इस Form Filling submission को VERIFICATION FAILED करना चाहते हैं?";
+
+    }
+    else{
+
+        confirmText =
+            "क्या आप इस submission को फिर से PENDING करना चाहते हैं?";
+
+    }
+
+
+    if(!confirm(confirmText)){
+
+        return;
+
+    }
+
+
+    try{
+
+        formFillingMessage.textContent =
+            "Verification update हो रहा है...";
+
+        formFillingMessage.style.color =
+            "#222";
+
+
+        const newStatus =
+            status === "pending"
+            ?
+            "Pending"
+            :
+            status === "done"
+            ?
+            "Done"
+            :
+            "Failed";
+
+
+        const {
+            error
+        } =
+        await securityClient
+        .from("form_filling_submissions")
+        .update({
+
+            status:newStatus
+
+        })
+        .eq(
+            "id",
+            submissionId
+        );
+
+
+        if(error){
+
+            throw error;
+
+        }
+
+
+        formFillingMessage.textContent =
+            "✅ Verification successfully update हो गया।";
+
+        formFillingMessage.style.color =
+            "#198754";
+
+
+        await loadFormFillingSubmissions();
+
+    }
+    catch(error){
+
+        console.error(
+            "Form Filling Verification Error:",
+            error
+        );
+
+
+        formFillingMessage.textContent =
+            "❌ Verification update नहीं हो पाया।";
+
+        formFillingMessage.style.color =
+            "#d32f2f";
+
+    }
+
+}
+
+
+/* =========================================
+   DELETE FORM FILLING SUBMISSION
+   NOTE:
+   DATABASE RECORD ONLY
+   STORAGE FILES ARE NOT DELETED
+========================================= */
+
+async function deleteFormFillingSubmission(
+    submissionId
+){
+
+    const confirmed =
+        confirm(
+            "क्या आप इस Form Filling submission को permanently delete करना चाहते हैं?\n\nDatabase record delete होगा। Admit Card और Payment Screenshot की Storage files delete नहीं होंगी।"
+        );
+
+
+    if(!confirmed){
+
+        return;
+
+    }
+
+
+    try{
+
+        formFillingMessage.textContent =
+            "Deleting...";
+
+        formFillingMessage.style.color =
+            "#d32f2f";
+
+
+        const {
+            error
+        } =
+        await securityClient
+        .from("form_filling_submissions")
+        .delete()
+        .eq(
+            "id",
+            submissionId
+        );
+
+
+        if(error){
+
+            throw error;
+
+        }
+
+
+        formFillingMessage.textContent =
+            "✅ Form Filling submission successfully deleted.";
+
+        formFillingMessage.style.color =
+            "#198754";
+
+
+        await loadFormFillingSubmissions();
+
+    }
+    catch(error){
+
+        console.error(
+            "Form Filling Delete Error:",
+            error
+        );
+
+
+        formFillingMessage.textContent =
+            "❌ Form Filling submission delete नहीं हो पाया।";
+
+        formFillingMessage.style.color =
+            "#d32f2f";
+
+    }
+
+}
+
+
+/* =========================================
+   PROJECT FILE
+========================================= */
+
+const projectFileRefreshBtn =
+    document.getElementById(
+        "projectFileRefreshBtn"
+    );
+
+const projectFileMessage =
+    document.getElementById(
+        "projectFileMessage"
+    );
+
+const projectFileResults =
+    document.getElementById(
+        "projectFileResults"
+    );
+
+
+projectFileRefreshBtn.addEventListener(
+    "click",
+    loadProjectFileSubmissions
+);
+
+
+async function loadProjectFileSubmissions(){
+
+    projectFileMessage.textContent =
+        "Loading...";
+
+    projectFileResults.innerHTML = "";
+
+
+    try{
+
+        const {
+            data,
+            error
+        } =
+        await securityClient
+        .from("project_file_submissions")
+        .select(
+            "id,mobile_number,admit_card_url,payment_screenshot_url,verification_status,download_link,created_at"
+        )
+        .order(
+            "created_at",
+            {
+                ascending:false
+            }
+        );
+
+
+        if(error){
+
+            throw error;
+
+        }
+
+
+        projectFileMessage.textContent = "";
+
+
+        if(!data || data.length === 0){
+
+            projectFileResults.innerHTML = `
+                <div class="no-project-data">
+                    कोई Project File submission नहीं मिली।
+                </div>
+            `;
+
+            return;
+
+        }
+
+
+        data.forEach(function(item){
+
+            createProjectSubmissionCard(item);
+
+        });
+
+    }
+    catch(error){
+
+        console.error(
+            "Project File Load Error:",
+            error
+        );
+
+
+        projectFileMessage.textContent =
+            "Project File data load नहीं हो पाया।";
+
+        projectFileMessage.style.color =
+            "#d32f2f";
+
+    }
+
+}
+
+
+function createProjectSubmissionCard(item){
+
+    const card =
+        document.createElement("div");
+
+    card.className =
+        "project-submission";
+
+
+    const mobile =
+        item.mobile_number || "Not available";
+
+
+    const status =
+        item.verification_status || "pending";
+
+
+    let statusClass =
+        "status-pending";
+
+    let statusText =
+        "⏳ PENDING";
+
+
+    if(status === "done"){
+
+        statusClass =
+            "status-done";
+
+        statusText =
+            "✅ VERIFICATION DONE";
+
+    }
+
+
+    if(status === "failed"){
+
+        statusClass =
+            "status-failed";
+
+        statusText =
+            "❌ VERIFICATION FAILED";
+
+    }
+
+
+    let dateText = "";
+
+
+    if(item.created_at){
+
+        try{
+
+            dateText =
+                new Date(
+                    item.created_at
+                ).toLocaleString("en-IN");
+
+        }
+        catch(e){
+
+            dateText = "";
+
+        }
+
+    }
+
+
+    card.innerHTML = `
+
+        <div class="project-mobile">
+            📱 Mobile Number: ${escapeHtml(mobile)}
+        </div>
+
+        ${
+            dateText
+            ?
+            `<div class="project-date">
+                Submitted: ${escapeHtml(dateText)}
+            </div>`
+            :
+            ""
+        }
+
+        <div class="project-status ${statusClass}">
+            ${statusText}
+        </div>
+
+        <div class="project-buttons">
+
+            <button
+                type="button"
+                class="view-document-btn"
+                data-id="${item.id}"
+                data-type="admit"
+            >
+                🪪 VIEW ADMIT CARD
+            </button>
+
+            <button
+                type="button"
+                class="view-document-btn"
+                data-id="${item.id}"
+                data-type="payment"
+            >
+                💳 VIEW PAYMENT SCREENSHOT
+            </button>
+
+            ${
+                status === "pending"
+                ?
+                `
+                <button
+                    type="button"
+                    class="verify-done-btn"
+                    data-id="${item.id}"
+                    data-action="done"
+                >
+                    ✅ VERIFICATION DONE
+                </button>
+
+                <button
+                    type="button"
+                    class="verify-failed-btn"
+                    data-id="${item.id}"
+                    data-action="failed"
+                >
+                    ❌ VERIFICATION FAILED
+                </button>
+                `
+                :
+                `
+                <button
+                    type="button"
+                    class="view-document-btn"
+                    data-id="${item.id}"
+                    data-action="reset"
+                >
+                    🔄 CHANGE VERIFICATION
+                </button>
+                `
+            }
+
+            ${
+                status === "failed"
+                ?
+                `
+                <button
+                    type="button"
+                    class="project-delete-btn"
+                    data-id="${item.id}"
+                >
+                    🗑️ DELETE
+                </button>
+                `
+                :
+                ""
+            }
+
+        </div>
+
+    `;
+
+
+    projectFileResults.appendChild(card);
+
+
+    const viewButtons =
+        card.querySelectorAll(
+            ".view-document-btn"
+        );
+
+
+    viewButtons.forEach(
+        function(button){
+
+            const type =
+                button.getAttribute(
+                    "data-type"
+                );
+
+
+            if(type){
+
+                button.addEventListener(
+                    "click",
+                    function(){
+
+                        viewProjectDocument(
+                            item,
+                            type
+                        );
+
+                    }
+                );
+
             }
 
         }
     );
 
 
-    // =========================
-    // SEARCH RECEIPTS
-    // =========================
-
-    const searchBtn =
-        document.getElementById("searchBtn");
-
-    const adminMobile =
-        document.getElementById("adminMobile");
-
-    const message =
-        document.getElementById("message");
-
-    const receipts =
-        document.getElementById("receipts");
+    const doneButton =
+        card.querySelector(
+            '[data-action="done"]'
+        );
 
 
-    if (searchBtn) {
+    if(doneButton){
 
-        searchBtn.addEventListener("click", async () => {
+        doneButton.addEventListener(
+            "click",
+            function(){
 
-            const mobile =
-                adminMobile.value.trim();
-
-
-            if (!/^[0-9]{10}$/.test(mobile)) {
-
-                message.innerHTML =
-                    "Please enter a valid 10 digit mobile number.";
-
-                return;
-            }
-
-
-            searchBtn.disabled = true;
-            searchBtn.textContent = "SEARCHING...";
-            message.innerHTML = "Searching...";
-            receipts.innerHTML = "";
-
-
-            try {
-
-                const { data, error } =
-                    await supabaseClient
-                        .from("receipts")
-                        .select("*")
-                        .eq("mobile_number", mobile);
-
-
-                if (error) {
-                    throw error;
-                }
-
-
-                if (!data || data.length === 0) {
-
-                    message.innerHTML =
-                        "No receipt found for this mobile number.";
-
-                    return;
-                }
-
-
-                message.innerHTML =
-                    data.length +
-                    " receipt(s) found.";
-
-
-                let html = "";
-
-
-                data.forEach((receipt, index) => {
-
-                    html += `
-                        <div class="receipt">
-
-                            <strong>
-                                Receipt ${index + 1}
-                            </strong>
-
-                            <br><br>
-
-                            ${receipt.file_name || "Receipt PDF"}
-
-                            <br><br>
-
-                            <button
-                                class="deleteBtn"
-                                data-id="${receipt.id}"
-                                data-path="${receipt.file_path}"
-                            >
-                                DELETE RECEIPT
-                            </button>
-
-                        </div>
-                    `;
-
-                });
-
-
-                receipts.innerHTML = html;
-
-
-                document
-                    .querySelectorAll(".deleteBtn")
-                    .forEach(button => {
-
-                        button.addEventListener(
-                            "click",
-                            () => {
-
-                                deleteReceipt(
-                                    button.dataset.id,
-                                    button.dataset.path
-                                );
-
-                            }
-                        );
-
-                    });
-
-
-            } catch (error) {
-
-                console.error(
-                    "Search Error:",
-                    error
+                verifyProjectFile(
+                    item.id,
+                    "done"
                 );
 
-                message.innerHTML =
-                    "Search failed: " +
-                    error.message;
-
-
-            } finally {
-
-                searchBtn.disabled = false;
-                searchBtn.textContent =
-                    "SEARCH RECEIPTS";
-
             }
-
-        });
+        );
 
     }
 
 
-    // =========================
-    // RECEIPT UPLOAD
-    // =========================
-
-    const uploadReceiptBtn =
-        document.getElementById("uploadReceiptBtn");
-
-    const receiptMobile =
-        document.getElementById("receiptMobile");
-
-    const receiptFile =
-        document.getElementById("receiptFile");
-
-    const receiptUploadMessage =
-        document.getElementById("receiptUploadMessage");
+    const failedButton =
+        card.querySelector(
+            '[data-action="failed"]'
+        );
 
 
-    if (uploadReceiptBtn) {
+    if(failedButton){
 
-        uploadReceiptBtn.addEventListener(
+        failedButton.addEventListener(
             "click",
-            async () => {
+            function(){
 
-                const mobile =
-                    receiptMobile.value.trim();
-
-                const file =
-                    receiptFile.files[0];
-
-
-                if (!/^[0-9]{10}$/.test(mobile)) {
-
-                    receiptUploadMessage.innerHTML =
-                        "Please enter a valid 10 digit mobile number.";
-
-                    return;
-                }
-
-
-                if (!file) {
-
-                    receiptUploadMessage.innerHTML =
-                        "PDF file चुनिए।";
-
-                    return;
-                }
-
-
-                if (file.type !== "application/pdf") {
-
-                    receiptUploadMessage.innerHTML =
-                        "सिर्फ PDF file upload करें।";
-
-                    return;
-                }
-
-
-                uploadReceiptBtn.disabled = true;
-
-                uploadReceiptBtn.textContent =
-                    "UPLOADING...";
-
-                receiptUploadMessage.innerHTML =
-                    "Receipt uploading...";
-
-
-                try {
-
-                    const safeFileName =
-                        file.name.replace(
-                            /[^\w.\- ]/g,
-                            "_"
-                        );
-
-
-                    const filePath =
-                        "customer_receipts/" +
-                        mobile + "/" +
-                        Date.now() +
-                        "_" +
-                        safeFileName;
-
-
-                    const { error: storageError } =
-                        await supabaseClient.storage
-                            .from("receipts")
-                            .upload(
-                                filePath,
-                                file
-                            );
-
-
-                    if (storageError) {
-                        throw storageError;
-                    }
-
-
-                    const { error: dbError } =
-                        await supabaseClient
-                            .from("receipts")
-                            .insert({
-                                mobile_number: mobile,
-                                file_name: file.name,
-                                file_path: filePath
-                            });
-
-
-                    if (dbError) {
-
-                        await supabaseClient.storage
-                            .from("receipts")
-                            .remove([filePath]);
-
-                        throw dbError;
-                    }
-
-
-                    receiptUploadMessage.innerHTML =
-                        "Receipt successfully uploaded.";
-
-
-                    receiptMobile.value = "";
-                    receiptFile.value = "";
-
-
-                } catch (error) {
-
-                    console.error(
-                        "Receipt Upload Error:",
-                        error
-                    );
-
-
-                    receiptUploadMessage.innerHTML =
-                        "Upload failed: " +
-                        error.message;
-
-
-                } finally {
-
-                    uploadReceiptBtn.disabled = false;
-
-                    uploadReceiptBtn.textContent =
-                        "UPLOAD RECEIPT";
-
-                }
+                verifyProjectFile(
+                    item.id,
+                    "failed"
+                );
 
             }
         );
@@ -1122,441 +2053,21 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    // =========================
-    // DELETE RECEIPT
-    // =========================
-
-    async function deleteReceipt(id, filePath) {
-
-        const confirmDelete =
-            confirm(
-                "क्या आप इस receipt को permanently delete करना चाहते हैं?"
-            );
+    const resetButton =
+        card.querySelector(
+            '[data-action="reset"]'
+        );
 
 
-        if (!confirmDelete) {
-            return;
-        }
+    if(resetButton){
 
-
-        try {
-
-            if (filePath) {
-
-                const { error: storageError } =
-                    await supabaseClient.storage
-                        .from("receipts")
-                        .remove([filePath]);
-
-
-                if (storageError) {
-                    throw storageError;
-                }
-
-            }
-
-
-            const { error: dbError } =
-                await supabaseClient
-                    .from("receipts")
-                    .delete()
-                    .eq("id", id);
-
-
-            if (dbError) {
-                throw dbError;
-            }
-
-
-            alert(
-                "Receipt successfully deleted."
-            );
-
-
-            if (searchBtn) {
-                searchBtn.click();
-            }
-
-
-        } catch (error) {
-
-            console.error(
-                "Delete Error:",
-                error
-            );
-
-
-            alert(
-                "Delete failed: " +
-                error.message
-            );
-
-        }
-
-    }
-
-
-    // =====================================================
-    // 🔔 NOTIFICATION MANAGEMENT
-    // =====================================================
-
-    const notificationTitle =
-        document.getElementById("notificationTitle");
-
-    const notificationMessageInput =
-        document.getElementById("notificationMessage");
-
-    const notificationLink =
-        document.getElementById("notificationLink");
-
-    const sendNotificationBtn =
-        document.getElementById("sendNotificationBtn");
-
-
-    // IMPORTANT:
-    // ये IDs आपके वर्तमान admin.html के अनुसार हैं।
-    const notificationStatus =
-        document.getElementById("notificationStatus");
-
-    const notificationResults =
-        document.getElementById("notificationResults");
-
-
-    // =========================
-    // SEND NOTIFICATION
-    // =========================
-
-    if (sendNotificationBtn) {
-
-        sendNotificationBtn.addEventListener(
+        resetButton.addEventListener(
             "click",
-            async function () {
-
-                // Prevent double click
-                if (sendNotificationBtn.disabled) {
-                    return;
-                }
-
-
-                const title =
-                    notificationTitle
-                        ? notificationTitle.value.trim()
-                        : "";
-
-                const notificationText =
-                    notificationMessageInput
-                        ? notificationMessageInput.value.trim()
-                        : "";
-
-                const link =
-                    notificationLink
-                        ? notificationLink.value.trim()
-                        : "";
-
-
-                if (!title) {
-
-                    if (notificationStatus) {
-                        notificationStatus.innerHTML =
-                            "Notification Title डालिए।";
-
-                        notificationStatus.style.color =
-                            "#d32f2f";
-                    }
-
-                    return;
-                }
-
-
-                if (!notificationText) {
-
-                    if (notificationStatus) {
-                        notificationStatus.innerHTML =
-                            "Notification Message डालिए।";
-
-                        notificationStatus.style.color =
-                            "#d32f2f";
-                    }
-
-                    return;
-                }
-
-
-                if (link) {
-
-                    try {
-
-                        const parsedLink =
-                            new URL(link);
-
-                        if (
-                            parsedLink.protocol !== "http:" &&
-                            parsedLink.protocol !== "https:"
-                        ) {
-                            throw new Error("Invalid protocol");
-                        }
-
-                    } catch (error) {
-
-                        if (notificationStatus) {
-                            notificationStatus.innerHTML =
-                                "सही Link डालिए।";
-
-                            notificationStatus.style.color =
-                                "#d32f2f";
-                        }
-
-                        return;
-                    }
-
-                }
-
-
-                const confirmed =
-                    confirm(
-                        "क्या आप यह Notification सभी subscribed users को भेजना चाहते हैं?"
-                    );
-
-
-                if (!confirmed) {
-                    return;
-                }
-
-
-                // Immediately disable button
-                sendNotificationBtn.disabled = true;
-
-                sendNotificationBtn.textContent =
-                    "SENDING...";
-
-
-                if (notificationStatus) {
-
-                    notificationStatus.innerHTML =
-                        "Notification भेजा जा रहा है...";
-
-                    notificationStatus.style.color =
-                        "#222";
-
-                }
-
-
-                let savedNotification = null;
-
-
-                try {
-
-                    // =====================================
-                    // SAVE NOTIFICATION HISTORY
-                    // =====================================
-
-                    const {
-                        data: historyData,
-                        error: saveError
-                    } =
-                    await supabaseClient
-                        .from("notifications")
-                        .insert({
-                            title: title,
-                            message: notificationText,
-                            link: link || null
-                        })
-                        .select()
-                        .single();
-
-
-                    if (saveError) {
-                        throw saveError;
-                    }
-
-
-                    savedNotification =
-                        historyData;
-
-
-                    // =====================================
-                    // SEND THROUGH EDGE FUNCTION
-                    // =====================================
-
-                    const {
-                        data,
-                        error: functionError
-                    } =
-                    await supabaseClient.functions.invoke(
-                        "send-notification",
-                        {
-                            body: {
-                                title: title,
-                                message: notificationText,
-                                link: link
-                            }
-                        }
-                    );
-
-
-                    if (functionError) {
-
-                        throw functionError;
-
-                    }
-
-
-                    if (!data) {
-
-                        throw new Error(
-                            "Edge Function से कोई response नहीं मिला।"
-                        );
-
-                    }
-
-
-                    if (data.success === false) {
-
-                        throw new Error(
-                            data.message ||
-                            "Notification send नहीं हो पाई।"
-                        );
-
-                    }
-
-
-                    // =====================================
-                    // CHECK ACTUAL SEND RESULT
-                    // =====================================
-
-                    if (
-                        typeof data.sent === "number" &&
-                        data.sent === 0
-                    ) {
-
-                        throw new Error(
-                            data.message ||
-                            "किसी subscribed user को Notification नहीं भेजी गई।"
-                        );
-
-                    }
-
-
-                    // =====================================
-                    // SUCCESS
-                    // =====================================
-
-                    if (notificationStatus) {
-
-                        let successMessage =
-                            "✅ Notification successfully भेज दी गई।";
-
-                        if (
-                            typeof data.sent === "number"
-                        ) {
-
-                            successMessage +=
-                                " Sent: " +
-                                data.sent;
-
-                        }
-
-                        if (
-                            typeof data.failed === "number" &&
-                            data.failed > 0
-                        ) {
-
-                            successMessage +=
-                                " | Failed: " +
-                                data.failed;
-
-                        }
-
-                        notificationStatus.innerHTML =
-                            successMessage;
-
-                        notificationStatus.style.color =
-                            "#198754";
-
-                    }
-
-
-                    // Clear inputs
-
-                    if (notificationTitle) {
-                        notificationTitle.value = "";
-                    }
-
-                    if (notificationMessageInput) {
-                        notificationMessageInput.value = "";
-                    }
-
-                    if (notificationLink) {
-                        notificationLink.value = "";
-                    }
-
-
-                    // Reload history
-
-                    await loadNotificationHistory();
-
-
-                } catch (error) {
-
-                    console.error(
-                        "Notification Send Error:",
-                        error
-                    );
-
-
-                    // Send failed:
-                    // Remove history record if it was created.
-
-                    if (
-                        savedNotification &&
-                        savedNotification.id
-                    ) {
-
-                        try {
-
-                            await supabaseClient
-                                .from("notifications")
-                                .delete()
-                                .eq(
-                                    "id",
-                                    savedNotification.id
-                                );
-
-                        } catch (deleteError) {
-
-                            console.error(
-                                "History rollback error:",
-                                deleteError
-                            );
-
-                        }
-
-                    }
-
-
-                    if (notificationStatus) {
-
-                        notificationStatus.innerHTML =
-                            "❌ Notification send failed: " +
-                            (
-                                error.message ||
-                                "Unknown error"
-                            );
-
-                        notificationStatus.style.color =
-                            "#d32f2f";
-
-                    }
-
-                } finally {
-
-                    sendNotificationBtn.disabled =
-                        false;
-
-                    sendNotificationBtn.textContent =
-                        "🔔 SEND NOTIFICATION";
-
-                }
+            function(){
+
+                changeVerification(
+                    item.id
+                );
 
             }
         );
@@ -1564,367 +2075,455 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    // =========================
-    // LOAD NOTIFICATION HISTORY
-    // =========================
+    const deleteButton =
+        card.querySelector(
+            ".project-delete-btn"
+        );
 
-    async function loadNotificationHistory() {
 
-        if (!notificationResults) {
-            return;
+    if(deleteButton){
+
+        deleteButton.addEventListener(
+            "click",
+            function(){
+
+                deleteProjectFile(
+                    item.id
+                );
+
+            }
+        );
+
+    }
+
+}
+
+
+/* =========================================
+   VIEW PROJECT DOCUMENT
+========================================= */
+
+async function viewProjectDocument(
+    item,
+    type
+){
+
+    let filePath = "";
+
+
+    if(type === "admit"){
+
+        filePath =
+            item.admit_card_url || "";
+
+    }
+
+
+    if(type === "payment"){
+
+        filePath =
+            item.payment_screenshot_url || "";
+
+    }
+
+
+    if(!filePath){
+
+        alert(
+            "इस document की file उपलब्ध नहीं है।"
+        );
+
+        return;
+
+    }
+
+
+    try{
+
+        const {
+            data,
+            error
+        } =
+        await securityClient
+        .storage
+        .from("project-files")
+        .createSignedUrl(
+            filePath,
+            300
+        );
+
+
+        if(error){
+
+            throw error;
+
         }
 
 
-        try {
+        if(!data || !data.signedUrl){
 
-            notificationResults.innerHTML =
-                `<div class="notification-empty">
-                    Loading notifications...
-                </div>`;
+            throw new Error(
+                "Signed URL नहीं मिला।"
+            );
 
+        }
+
+
+        window.open(
+            data.signedUrl,
+            "_blank"
+        );
+
+    }
+    catch(error){
+
+        console.error(
+            "Document View Error:",
+            error
+        );
+
+
+        alert(
+            "Document open नहीं हो पाया। कृपया फिर से प्रयास करें।"
+        );
+
+    }
+
+}
+
+
+/* =========================================
+   PROJECT VERIFICATION
+========================================= */
+
+async function verifyProjectFile(
+    submissionId,
+    status
+){
+
+    let confirmText = "";
+
+
+    if(status === "done"){
+
+        confirmText =
+            "क्या आप इस Project File को VERIFICATION DONE करना चाहते हैं?";
+
+    }
+    else{
+
+        confirmText =
+            "क्या आप इस Project File को VERIFICATION FAILED करना चाहते हैं?";
+
+    }
+
+
+    if(!confirm(confirmText)){
+
+        return;
+
+    }
+
+
+    try{
+
+        projectFileMessage.textContent =
+            "Verification update हो रहा है...";
+
+
+        const {
+            error
+        } =
+        await securityClient
+        .from("project_file_submissions")
+        .update({
+
+            verification_status:
+                status
+
+        })
+        .eq(
+            "id",
+            submissionId
+        );
+
+
+        if(error){
+
+            throw error;
+
+        }
+
+
+        projectFileMessage.textContent =
+            "✅ Verification successfully update हो गया।";
+
+        projectFileMessage.style.color =
+            "#198754";
+
+
+        await loadProjectFileSubmissions();
+
+    }
+    catch(error){
+
+        console.error(
+            "Verification Update Error:",
+            error
+        );
+
+
+        projectFileMessage.textContent =
+            "❌ Verification update नहीं हो पाया।";
+
+        projectFileMessage.style.color =
+            "#d32f2f";
+
+    }
+
+}
+
+
+/* =========================================
+   CHANGE PROJECT VERIFICATION
+========================================= */
+
+async function changeVerification(
+    submissionId
+){
+
+    if(!confirm(
+        "क्या आप इस submission का verification फिर से बदलना चाहते हैं?"
+    )){
+
+        return;
+
+    }
+
+
+    try{
+
+        const {
+            error
+        } =
+        await securityClient
+        .from("project_file_submissions")
+        .update({
+
+            verification_status:
+                "pending"
+
+        })
+        .eq(
+            "id",
+            submissionId
+        );
+
+
+        if(error){
+
+            throw error;
+
+        }
+
+
+        await loadProjectFileSubmissions();
+
+    }
+    catch(error){
+
+        console.error(error);
+
+        alert(
+            "Verification change नहीं हो पाया।"
+        );
+
+    }
+
+}
+
+
+/* =========================================
+   DELETE PROJECT FILE
+========================================= */
+
+async function deleteProjectFile(
+    submissionId
+){
+
+    if(!confirm(
+        "क्या आप इस Project File का पूरा data delete करना चाहते हैं?\n\nAdmit Card, Payment Screenshot और Database Record सभी delete हो जाएंगे।"
+    )){
+
+        return;
+
+    }
+
+
+    try{
+
+        projectFileMessage.textContent =
+            "Deleting...";
+
+        projectFileMessage.style.color =
+            "#d32f2f";
+
+
+        const {
+            data:submission,
+            error:fetchError
+        } =
+        await securityClient
+        .from("project_file_submissions")
+        .select(
+            "id,admit_card_url,payment_screenshot_url"
+        )
+        .eq(
+            "id",
+            submissionId
+        )
+        .single();
+
+
+        if(fetchError){
+
+            throw fetchError;
+
+        }
+
+
+        if(!submission){
+
+            throw new Error(
+                "Submission नहीं मिली।"
+            );
+
+        }
+
+
+        if(
+            submission.admit_card_url
+        ){
 
             const {
-                data,
-                error
+                error:admitError
             } =
-            await supabaseClient
-                .from("notifications")
-                .select(
-                    "id,title,message,link,created_at"
-                )
-                .order(
-                    "created_at",
-                    {
-                        ascending: false
-                    }
-                );
+            await securityClient
+            .storage
+            .from("project-files")
+            .remove([
+                submission.admit_card_url
+            ]);
 
 
-            if (error) {
-                throw error;
-            }
+            if(admitError){
 
-
-            notificationResults.innerHTML = "";
-
-
-            if (!data || data.length === 0) {
-
-                notificationResults.innerHTML = `
-                    <div class="notification-empty">
-                        कोई पुरानी Notification नहीं है।
-                    </div>
-                `;
-
-                return;
-
-            }
-
-
-            data.forEach(
-                function (notification) {
-
-                    createNotificationCard(
-                        notification
-                    );
-
-                }
-            );
-
-
-        } catch (error) {
-
-            console.error(
-                "Notification History Error:",
-                error
-            );
-
-
-            notificationResults.innerHTML = `
-                <div class="notification-empty">
-                    ❌ Notification history load नहीं हो पाई।<br><br>
-                    ${escapeHtml(
-                        error.message || "Unknown error"
-                    )}
-                </div>
-            `;
-
-        }
-
-    }
-
-
-    // =========================
-    // CREATE NOTIFICATION CARD
-    // =========================
-
-    function createNotificationCard(
-        notification
-    ) {
-
-        const card =
-            document.createElement("div");
-
-
-        card.className =
-            "notification-item";
-
-
-        let dateText = "";
-
-
-        if (notification.created_at) {
-
-            try {
-
-                dateText =
-                    new Date(
-                        notification.created_at
-                    ).toLocaleString("en-IN");
-
-            } catch (error) {
-
-                dateText = "";
+                throw admitError;
 
             }
 
         }
 
 
-        card.innerHTML = `
-
-            <div class="notification-title">
-                🔔 ${escapeHtml(
-                    notification.title || ""
-                )}
-            </div>
-
-            <div class="notification-message">
-                ${escapeHtml(
-                    notification.message || ""
-                )}
-            </div>
-
-            ${
-                notification.link
-                ?
-                `
-                <a
-                    class="notification-link"
-                    href="${escapeHtml(
-                        notification.link
-                    )}"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    🔗 OPEN LINK
-                </a>
-                `
-                :
-                ""
-            }
-
-            ${
-                dateText
-                ?
-                `
-                <div class="notification-date">
-                    ${escapeHtml(dateText)}
-                </div>
-                `
-                :
-                ""
-            }
-
-            <button
-                type="button"
-                class="notification-delete-btn"
-                data-id="${notification.id}"
-            >
-                🗑️ DELETE NOTIFICATION
-            </button>
-
-        `;
-
-
-        notificationResults.appendChild(
-            card
-        );
-
-
-        const deleteButton =
-            card.querySelector(
-                ".notification-delete-btn"
-            );
-
-
-        if (deleteButton) {
-
-            deleteButton.addEventListener(
-                "click",
-                function () {
-
-                    deleteNotification(
-                        notification.id
-                    );
-
-                }
-            );
-
-        }
-
-    }
-
-
-    // =========================
-    // DELETE NOTIFICATION
-    // =========================
-
-    async function deleteNotification(
-        notificationId
-    ) {
-
-        const confirmed =
-            confirm(
-                "क्या आप इस Notification को permanently delete करना चाहते हैं?"
-            );
-
-
-        if (!confirmed) {
-            return;
-        }
-
-
-        try {
+        if(
+            submission.payment_screenshot_url
+        ){
 
             const {
-                error
+                error:paymentError
             } =
-            await supabaseClient
-                .from("notifications")
-                .delete()
-                .eq(
-                    "id",
-                    notificationId
-                );
+            await securityClient
+            .storage
+            .from("project-files")
+            .remove([
+                submission.payment_screenshot_url
+            ]);
 
 
-            if (error) {
-                throw error;
-            }
+            if(paymentError){
 
-
-            if (notificationStatus) {
-
-                notificationStatus.innerHTML =
-                    "✅ Notification deleted.";
-
-                notificationStatus.style.color =
-                    "#198754";
-
-            }
-
-
-            await loadNotificationHistory();
-
-
-        } catch (error) {
-
-            console.error(
-                "Notification Delete Error:",
-                error
-            );
-
-
-            if (notificationStatus) {
-
-                notificationStatus.innerHTML =
-                    "❌ Notification delete नहीं हो पाई: " +
-                    (
-                        error.message ||
-                        "Unknown error"
-                    );
-
-                notificationStatus.style.color =
-                    "#d32f2f";
+                throw paymentError;
 
             }
 
         }
 
-    }
 
-
-    // =========================
-    // HTML ESCAPE
-    // =========================
-
-    function escapeHtml(value) {
-
-        return String(value)
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
-
-    }
-
-
-    // =========================
-    // LOGOUT
-    // =========================
-
-    if (logoutBtn) {
-
-        logoutBtn.addEventListener(
-            "click",
-            async () => {
-
-                const { error } =
-                    await supabaseClient.auth.signOut();
-
-
-                if (error) {
-
-                    alert(
-                        "Logout failed: " +
-                        error.message
-                    );
-
-                    return;
-                }
-
-
-                showLogin();
-
-
-                document.getElementById("email").value = "";
-                document.getElementById("password").value = "";
-
-
-                if (adminMobile) {
-                    adminMobile.value = "";
-                }
-
-                if (message) {
-                    message.innerHTML = "";
-                }
-
-                if (receipts) {
-                    receipts.innerHTML = "";
-                }
-
-            }
+        const {
+            error:deleteError
+        } =
+        await securityClient
+        .from("project_file_submissions")
+        .delete()
+        .eq(
+            "id",
+            submissionId
         );
 
+
+        if(deleteError){
+
+            throw deleteError;
+
+        }
+
+
+        projectFileMessage.textContent =
+            "✅ Project File data successfully deleted.";
+
+        projectFileMessage.style.color =
+            "#198754";
+
+
+        await loadProjectFileSubmissions();
+
+    }
+    catch(error){
+
+        console.error(
+            "Project File Delete Error:",
+            error
+        );
+
+
+        projectFileMessage.textContent =
+            "❌ Project File delete नहीं हो पाया.";
+
+        projectFileMessage.style.color =
+            "#d32f2f";
+
     }
 
+}
 
-    // =========================
-    // START SECURITY CHECK
-    // =========================
 
-    checkLogin();
+/* =========================================
+   HTML ESCAPE
+========================================= */
 
-});
+function escapeHtml(value){
+
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* =========================================
+   INITIAL SECURITY CHECK
+========================================= */
+
+checkAdminSession();
+
+</script>
+
+
+<script src="admin.js"></script>
+
+
+</body>
+</html>
