@@ -783,6 +783,8 @@ document.addEventListener("DOMContentLoaded", () => {
             loginMessage.innerHTML = "";
         }
 
+        loadNotificationHistory();
+
     }
 
 
@@ -997,7 +999,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     receiptFile.files[0];
 
 
-                // Mobile validation
                 if (!/^[0-9]{10}$/.test(mobile)) {
 
                     receiptUploadMessage.innerHTML =
@@ -1007,7 +1008,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
 
 
-                // File validation
                 if (!file) {
 
                     receiptUploadMessage.innerHTML =
@@ -1052,7 +1052,6 @@ document.addEventListener("DOMContentLoaded", () => {
                         safeFileName;
 
 
-                    // Upload PDF to Storage
                     const { error: storageError } =
                         await supabaseClient.storage
                             .from("receipts")
@@ -1067,7 +1066,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
 
 
-                    // Save receipt information
                     const { error: dbError } =
                         await supabaseClient
                             .from("receipts")
@@ -1078,8 +1076,6 @@ document.addEventListener("DOMContentLoaded", () => {
                             });
 
 
-                    // If database insert fails,
-                    // remove uploaded file
                     if (dbError) {
 
                         await supabaseClient.storage
@@ -1196,6 +1192,604 @@ document.addEventListener("DOMContentLoaded", () => {
             );
 
         }
+
+    }
+
+
+    // =====================================================
+    // 🔔 NOTIFICATION MANAGEMENT
+    // =====================================================
+
+    const notificationTitle =
+        document.getElementById(
+            "notificationTitle"
+        );
+
+    const notificationMessageInput =
+        document.getElementById(
+            "notificationMessage"
+        );
+
+    const notificationLink =
+        document.getElementById(
+            "notificationLink"
+        );
+
+    const sendNotificationBtn =
+        document.getElementById(
+            "sendNotificationBtn"
+        );
+
+    const notificationStatus =
+        document.getElementById(
+            "notificationStatus"
+        );
+
+    const notificationResults =
+        document.getElementById(
+            "notificationResults"
+        );
+
+
+    // =========================
+    // SEND NOTIFICATION
+    // =========================
+
+    if (sendNotificationBtn) {
+
+        sendNotificationBtn.addEventListener(
+            "click",
+            async function () {
+
+                const title =
+                    notificationTitle
+                        ? notificationTitle.value.trim()
+                        : "";
+
+                const notificationText =
+                    notificationMessageInput
+                        ? notificationMessageInput.value.trim()
+                        : "";
+
+                const link =
+                    notificationLink
+                        ? notificationLink.value.trim()
+                        : "";
+
+
+                if (!title) {
+
+                    if (notificationStatus) {
+                        notificationStatus.innerHTML =
+                            "Notification Title डालिए।";
+
+                        notificationStatus.style.color =
+                            "#d32f2f";
+                    }
+
+                    return;
+                }
+
+
+                if (!notificationText) {
+
+                    if (notificationStatus) {
+                        notificationStatus.innerHTML =
+                            "Notification Message डालिए।";
+
+                        notificationStatus.style.color =
+                            "#d32f2f";
+                    }
+
+                    return;
+                }
+
+
+                if (link) {
+
+                    try {
+
+                        new URL(link);
+
+                    } catch (error) {
+
+                        if (notificationStatus) {
+                            notificationStatus.innerHTML =
+                                "सही Link डालिए।";
+
+                            notificationStatus.style.color =
+                                "#d32f2f";
+                        }
+
+                        return;
+
+                    }
+
+                }
+
+
+                const confirmed =
+                    confirm(
+                        "क्या आप यह Notification सभी subscribed users को भेजना चाहते हैं?"
+                    );
+
+
+                if (!confirmed) {
+                    return;
+                }
+
+
+                sendNotificationBtn.disabled = true;
+
+                sendNotificationBtn.textContent =
+                    "SENDING...";
+
+
+                if (notificationStatus) {
+
+                    notificationStatus.innerHTML =
+                        "Notification भेजा जा रहा है...";
+
+                    notificationStatus.style.color =
+                        "#222";
+
+                }
+
+
+                try {
+
+                    // पहले notification history save करें
+                    const {
+                        data: savedNotification,
+                        error: saveError
+                    } =
+                    await supabaseClient
+                        .from("notifications")
+                        .insert({
+                            title: title,
+                            message: notificationText,
+                            link: link || null
+                        })
+                        .select()
+                        .single();
+
+
+                    if (saveError) {
+                        throw saveError;
+                    }
+
+
+                    // Edge Function call
+                    const {
+                        data,
+                        error: functionError
+                    } =
+                    await supabaseClient.functions.invoke(
+                        "send-notification",
+                        {
+                            body: {
+                                title: title,
+                                message: notificationText,
+                                link: link
+                            }
+                        }
+                    );
+
+
+                    if (functionError) {
+
+                        // अगर notification send नहीं हुई
+                        // तो history entry भी हटाएँ
+                        if (
+                            savedNotification &&
+                            savedNotification.id
+                        ) {
+
+                            await supabaseClient
+                                .from("notifications")
+                                .delete()
+                                .eq(
+                                    "id",
+                                    savedNotification.id
+                                );
+
+                        }
+
+                        throw functionError;
+                    }
+
+
+                    if (
+                        data &&
+                        data.success === false
+                    ) {
+
+                        if (
+                            savedNotification &&
+                            savedNotification.id
+                        ) {
+
+                            await supabaseClient
+                                .from("notifications")
+                                .delete()
+                                .eq(
+                                    "id",
+                                    savedNotification.id
+                                );
+
+                        }
+
+                        throw new Error(
+                            data.message ||
+                            "Notification send नहीं हो पाई।"
+                        );
+
+                    }
+
+
+                    if (notificationStatus) {
+
+                        notificationStatus.innerHTML =
+                            "✅ Notification successfully भेज दी गई।";
+
+                        notificationStatus.style.color =
+                            "#198754";
+
+                    }
+
+
+                    if (notificationTitle) {
+                        notificationTitle.value = "";
+                    }
+
+                    if (notificationMessageInput) {
+                        notificationMessageInput.value = "";
+                    }
+
+                    if (notificationLink) {
+                        notificationLink.value = "";
+                    }
+
+
+                    await loadNotificationHistory();
+
+
+                } catch (error) {
+
+                    console.error(
+                        "Notification Send Error:",
+                        error
+                    );
+
+
+                    if (notificationStatus) {
+
+                        notificationStatus.innerHTML =
+                            "❌ Notification send failed: " +
+                            error.message;
+
+                        notificationStatus.style.color =
+                            "#d32f2f";
+
+                    }
+
+                } finally {
+
+                    sendNotificationBtn.disabled =
+                        false;
+
+                    sendNotificationBtn.textContent =
+                        "🔔 SEND NOTIFICATION";
+
+                }
+
+            }
+        );
+
+    }
+
+
+    // =========================
+    // LOAD NOTIFICATION HISTORY
+    // =========================
+
+    async function loadNotificationHistory() {
+
+        if (!notificationResults) {
+            return;
+        }
+
+
+        try {
+
+            const {
+                data,
+                error
+            } =
+            await supabaseClient
+                .from("notifications")
+                .select(
+                    "id,title,message,link,created_at"
+                )
+                .order(
+                    "created_at",
+                    {
+                        ascending: false
+                    }
+                );
+
+
+            if (error) {
+                throw error;
+            }
+
+
+            notificationResults.innerHTML = "";
+
+
+            if (!data || data.length === 0) {
+
+                notificationResults.innerHTML = `
+                    <div class="receipt">
+                        कोई पुरानी Notification नहीं है।
+                    </div>
+                `;
+
+                return;
+
+            }
+
+
+            data.forEach(
+                function (notification) {
+
+                    createNotificationCard(
+                        notification
+                    );
+
+                }
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "Notification History Error:",
+                error
+            );
+
+
+            notificationResults.innerHTML = `
+                <div class="receipt">
+                    ❌ Notification history load नहीं हो पाई।
+                </div>
+            `;
+
+        }
+
+    }
+
+
+    // =========================
+    // CREATE NOTIFICATION CARD
+    // =========================
+
+    function createNotificationCard(
+        notification
+    ) {
+
+        const card =
+            document.createElement("div");
+
+
+        card.className =
+            "receipt";
+
+
+        let dateText = "";
+
+
+        if (notification.created_at) {
+
+            try {
+
+                dateText =
+                    new Date(
+                        notification.created_at
+                    ).toLocaleString("en-IN");
+
+            } catch (error) {
+
+                dateText = "";
+
+            }
+
+        }
+
+
+        card.innerHTML = `
+
+            <strong>
+                🔔 ${escapeHtml(
+                    notification.title || ""
+                )}
+            </strong>
+
+            <br><br>
+
+            ${escapeHtml(
+                notification.message || ""
+            )}
+
+            ${
+                notification.link
+                ?
+                `
+                <br><br>
+
+                <a
+                    href="${escapeHtml(
+                        notification.link
+                    )}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    🔗 OPEN LINK
+                </a>
+                `
+                :
+                ""
+            }
+
+            ${
+                dateText
+                ?
+                `
+                <br><br>
+
+                <small>
+                    ${escapeHtml(dateText)}
+                </small>
+                `
+                :
+                ""
+            }
+
+            <br>
+
+            <button
+                type="button"
+                class="deleteNotificationBtn"
+                data-id="${notification.id}"
+                style="
+                    background:#d32f2f;
+                    color:white;
+                    width:100%;
+                    margin-top:12px;
+                "
+            >
+                🗑️ DELETE NOTIFICATION
+            </button>
+
+        `;
+
+
+        notificationResults.appendChild(
+            card
+        );
+
+
+        const deleteButton =
+            card.querySelector(
+                ".deleteNotificationBtn"
+            );
+
+
+        if (deleteButton) {
+
+            deleteButton.addEventListener(
+                "click",
+                function () {
+
+                    deleteNotification(
+                        notification.id
+                    );
+
+                }
+            );
+
+        }
+
+    }
+
+
+    // =========================
+    // DELETE NOTIFICATION
+    // =========================
+
+    async function deleteNotification(
+        notificationId
+    ) {
+
+        const confirmed =
+            confirm(
+                "क्या आप इस Notification को permanently delete करना चाहते हैं?"
+            );
+
+
+        if (!confirmed) {
+            return;
+        }
+
+
+        try {
+
+            const {
+                error
+            } =
+            await supabaseClient
+                .from("notifications")
+                .delete()
+                .eq(
+                    "id",
+                    notificationId
+                );
+
+
+            if (error) {
+                throw error;
+            }
+
+
+            if (notificationStatus) {
+
+                notificationStatus.innerHTML =
+                    "✅ Notification deleted.";
+
+                notificationStatus.style.color =
+                    "#198754";
+
+            }
+
+
+            await loadNotificationHistory();
+
+
+        } catch (error) {
+
+            console.error(
+                "Notification Delete Error:",
+                error
+            );
+
+
+            if (notificationStatus) {
+
+                notificationStatus.innerHTML =
+                    "❌ Notification delete नहीं हो पाई।";
+
+                notificationStatus.style.color =
+                    "#d32f2f";
+
+            }
+
+        }
+
+    }
+
+
+    // =========================
+    // HTML ESCAPE
+    // =========================
+
+    function escapeHtml(value) {
+
+        return String(value)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
 
     }
 
