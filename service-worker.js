@@ -12,17 +12,31 @@ firebase.initializeApp({
 
 const messaging = firebase.messaging();
 
+const NOTIFICATION_PAGE =
+    "https://jharkhandvision123.github.io/shubham/notification.html";
+
+
 messaging.onBackgroundMessage(function(payload) {
-    console.log("Background message received:", payload);
+
+    console.log(
+        "Background message received:",
+        payload
+    );
 
     const notificationTitle =
-        payload.notification?.title || "S.P.D.D.C Notification";
+        payload.notification?.title ||
+        "S.P.D.D.C Notification";
 
-    const notificationOptions =  "https://jharkhandvision123.github.io/shubham/notification.html"; {
-        body: payload.notification?.body || "",
-        icon: "/images/app-icon-192.png.jpeg",
+    const notificationOptions = {
+
+        body:
+            payload.notification?.body || "",
+
+        icon:
+            "https://jharkhandvision123.github.io/shubham/images/app-icon-192.png.jpeg",
+
         data: {
-            url: payload.data?.url || "/index.html"
+            url: NOTIFICATION_PAGE
         }
     };
 
@@ -32,13 +46,50 @@ messaging.onBackgroundMessage(function(payload) {
     );
 });
 
-self.addEventListener("notificationclick", function(event) {
-    event.notification.close();
 
-    const url =  "https://jharkhandvision123.github.io/shubham/notification.html";
-        event.notification.data?.url || "/index.html";
+self.addEventListener(
+    "notificationclick",
+    function(event) {
 
-    event.waitUntil(
-        clients.openWindow(url)
-    );
-});
+        event.notification.close();
+
+        const url =
+            event.notification.data?.url ||
+            NOTIFICATION_PAGE;
+
+        event.waitUntil(
+
+            clients.matchAll({
+                type: "window",
+                includeUncontrolled: true
+            }).then(function(clientList) {
+
+                for (const client of clientList) {
+
+                    if (
+                        client.url.startsWith(
+                            "https://jharkhandvision123.github.io/shubham/"
+                        ) &&
+                        "focus" in client
+                    ) {
+
+                        return client.focus().then(function() {
+
+                            return client.navigate(
+                                NOTIFICATION_PAGE
+                            );
+
+                        });
+
+                    }
+                }
+
+                return clients.openWindow(
+                    NOTIFICATION_PAGE
+                );
+
+            })
+
+        );
+    }
+);
