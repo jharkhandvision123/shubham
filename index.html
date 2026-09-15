@@ -604,75 +604,57 @@
             );
 
 
-            /* ==============================
-               SAVE TOKEN TO SUPABASE
-            ============================== */
+       /* ==============================
+   SAVE TOKEN TO SUPABASE
+============================== */
 
-            const SUPABASE_URL =
-                "https://aghizlgvrhunpuxvohep.supabase.co";
+const SUPABASE_URL =
+    "https://aghizlgvrhunpuxvohep.supabase.co";
 
+const SUPABASE_KEY =
+    "sb_publishable_gpc7KUqUIykO3WM1aCzRfg_Myo8AKyx";
 
-            const SUPABASE_KEY =
-                "sb_publishable_gpc7KUqUIykO3WM1aCzRfg_Myo8AKyx";
+const response =
+    await fetch(
+        SUPABASE_URL +
+        "/rest/v1/push_subscriptions",
+        {
+            method: "POST",
 
+            headers: {
+                "apikey":
+                    SUPABASE_KEY,
 
-            const response =
-                await fetch(
+                "Content-Type":
+                    "application/json",
 
-                    SUPABASE_URL +
-                    "/rest/v1/push_subscriptions",
+                "Prefer":
+                    "resolution=ignore-duplicates"
+            },
 
-                    {
+            body:
+                JSON.stringify({
+                    token: token
+                })
+        }
+    );
 
-                        method: "POST",
+if (!response.ok) {
 
-                        headers: {
+    const errorText =
+        await response.text();
 
-                            "apikey":
-                                SUPABASE_KEY,
+    console.error(
+        "Supabase Token Save Error:",
+        errorText
+    );
 
-                            "Authorization":
-                                "Bearer " +
-                                SUPABASE_KEY,
+    return;
+}
 
-                            "Content-Type":
-                                "application/json",
-
-                            "Prefer":
-                                "resolution=ignore-duplicates"
-
-                        },
-
-                        body:
-                            JSON.stringify({
-
-                                token: token
-
-                            })
-
-                    }
-
-                );
-
-
-            if (!response.ok) {
-
-                const errorText =
-                    await response.text();
-
-                console.error(
-                    "Supabase Token Save Error:",
-                    errorText
-                );
-
-                return;
-
-            }
-
-
-            console.log(
-                "Notification token saved successfully."
-            );
+console.log(
+    "Notification token saved successfully."
+);
 
 
         }
