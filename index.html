@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -25,7 +24,6 @@
         rel="apple-touch-icon"
         href="images/imageslogo-192.png%20(1).jpeg"
     >
-
 
     <link
         rel="stylesheet"
@@ -74,161 +72,165 @@
             border-radius: 12px;
         }
 
-       .slides {
-    display: flex;
-    width: 400%;
-    height: 100%;
-    animation: slide 16s infinite;
-}
+        .slides {
+            display: flex;
+            width: 400%;
+            height: 100%;
+            animation: slide 16s infinite;
+        }
 
-.slides img {
-    width: 25%;
-    height: 100%;
-    display: block;
-    object-fit: cover;
-}
+        .slides img {
+            width: 25%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+        }
 
-@keyframes slide {
+        @keyframes slide {
 
-    0% {
-        transform: translateX(0);
-    }
+            0% {
+                transform: translateX(0);
+            }
 
-    20% {
-        transform: translateX(0);
-    }
+            20% {
+                transform: translateX(0);
+            }
 
-    25% {
-        transform: translateX(-25%);
-    }
+            25% {
+                transform: translateX(-25%);
+            }
 
-    45% {
-        transform: translateX(-25%);
-    }
+            45% {
+                transform: translateX(-25%);
+            }
 
-    50% {
-        transform: translateX(-50%);
-    }
+            50% {
+                transform: translateX(-50%);
+            }
 
-    70% {
-        transform: translateX(-50%);
-    }
+            70% {
+                transform: translateX(-50%);
+            }
 
-    75% {
-        transform: translateX(-75%);
-    }
+            75% {
+                transform: translateX(-75%);
+            }
 
-    95% {
-        transform: translateX(-75%);
-    }
+            95% {
+                transform: translateX(-75%);
+            }
 
-    100% {
-        transform: translateX(0);
-    }
+            100% {
+                transform: translateX(0);
+            }
 
-}
-/* ==============================
-   JOIN GROUP TRICOLOR SECTION
-============================== */
+        }
 
-.join-group-hero{
-    padding:12px;
-    border-radius:18px;
-    background:linear-gradient(
-        90deg,
-        #ff9933 0%,
-        #ffffff 50%,
-        #138808 100%
-    );
-    box-shadow:0 5px 16px rgba(0,0,0,.15);
-}
 
-.join-group-link{
-    display:flex;
-    align-items:center;
-    gap:20px;
-    padding:18px 22px;
-    text-decoration:none;
-    color:#08306b;
-    background:white;
-    border-radius:14px;
-}
+        /* ==============================
+           JOIN GROUP TRICOLOR SECTION
+        ============================== */
 
-.join-group-logo{
-    width:90px;
-    height:90px;
-    min-width:90px;
-    border-radius:50%;
-    object-fit:cover;
-    border:5px solid white;
-    box-shadow:
-        0 0 0 3px #ff9933,
-        0 0 0 6px #ffffff,
-        0 0 0 9px #138808;
-}
+        .join-group-hero{
+            padding:12px;
+            border-radius:18px;
+            background:linear-gradient(
+                90deg,
+                #ff9933 0%,
+                #ffffff 50%,
+                #138808 100%
+            );
+            box-shadow:0 5px 16px rgba(0,0,0,.15);
+        }
 
-.join-group-text{
-    flex:1;
-}
+        .join-group-link{
+            display:flex;
+            align-items:center;
+            gap:20px;
+            padding:18px 22px;
+            text-decoration:none;
+            color:#08306b;
+            background:white;
+            border-radius:14px;
+        }
 
-.join-group-text h2{
-    margin:0 0 7px;
-    font-size:30px;
-    font-weight:800;
-    color:#0d47a1;
-}
+        .join-group-logo{
+            width:90px;
+            height:90px;
+            min-width:90px;
+            border-radius:50%;
+            object-fit:cover;
+            border:5px solid white;
+            box-shadow:
+                0 0 0 3px #ff9933,
+                0 0 0 6px #ffffff,
+                0 0 0 9px #138808;
+        }
 
-.join-group-text p{
-    margin:0;
-    font-size:16px;
-    line-height:1.5;
-    color:#333;
-}
+        .join-group-text{
+            flex:1;
+        }
 
-.join-group-link:hover{
-    transform:translateY(-2px);
-}
+        .join-group-text h2{
+            margin:0 0 7px;
+            font-size:30px;
+            font-weight:800;
+            color:#0d47a1;
+        }
 
-@media(max-width:600px){
+        .join-group-text p{
+            margin:0;
+            font-size:16px;
+            line-height:1.5;
+            color:#333;
+        }
 
-    .join-group-link{
-        gap:15px;
-        padding:15px;
-    }
+        .join-group-link:hover{
+            transform:translateY(-2px);
+        }
 
-    .join-group-logo{
-        width:72px;
-        height:72px;
-        min-width:72px;
-    }
+        @media(max-width:600px){
 
-    .join-group-text h2{
-        font-size:22px;
-    }
+            .join-group-link{
+                gap:15px;
+                padding:15px;
+            }
 
-    .join-group-text p{
-        font-size:14px;
-    }
+            .join-group-logo{
+                width:72px;
+                height:72px;
+                min-width:72px;
+            }
 
-}
-.tricolor-title{
-    background:linear-gradient(
-        to bottom,
-        #ff9933 0%,
-        #ff9933 33%,
-        #ffffff 33%,
-        #ffffff 66%,
-        #138808 66%,
-        #138808 100%
-    );
+            .join-group-text h2{
+                font-size:22px;
+            }
 
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-    background-clip:text;
+            .join-group-text p{
+                font-size:14px;
+            }
 
-    font-weight:800;
-    text-shadow:0 1px 1px rgba(0,0,0,0.08);
-}    
+        }
+
+        .tricolor-title{
+            background:linear-gradient(
+                to bottom,
+                #ff9933 0%,
+                #ff9933 33%,
+                #ffffff 33%,
+                #ffffff 66%,
+                #138808 66%,
+                #138808 100%
+            );
+
+            -webkit-background-clip:text;
+            -webkit-text-fill-color:transparent;
+            background-clip:text;
+
+            font-weight:800;
+            text-shadow:0 1px 1px rgba(0,0,0,0.08);
+        }
+
     </style>
 
 </head>
@@ -253,7 +255,9 @@
 
         <div>
 
-            <h1 class="tricolor-title">     S. P. D. D. COLLAGE NAGAR UNTARI ----- STUDY BY JV123 </h1>
+            <h1 class="tricolor-title">
+                S. P. D. D. COLLAGE NAGAR UNTARI ----- STUDY BY JV123
+            </h1>
 
             <p>Welcome to Student </p>
 
@@ -314,7 +318,7 @@
             src="images/slide4.jpg"
             alt="Slide 4"
         >
-        
+
     </div>
 
 </section>
@@ -326,34 +330,36 @@
 
 <section class="hero">
 
-   <section class="hero join-group-hero">
+    <section class="hero join-group-hero">
 
-    <a
-        href="https://chat.whatsapp.com/FKA6o4eNNXC0GYzvkzm3O8"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="join-group-link"
-    >
-
-        <img
-            src="images/group-logo.png.jpeg"
-            alt="Join Student Group"
-            class="join-group-logo"
+        <a
+            href="https://chat.whatsapp.com/FKA6o4eNNXC0GYzvkzm3O8"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="join-group-link"
         >
 
-        <div class="join-group-text">
+            <img
+                src="images/group-logo.png.jpeg"
+                alt="Join Student Group"
+                class="join-group-logo"
+            >
 
-            <h2>JOIN GROUP NOW</h2>
+            <div class="join-group-text">
 
-            <p>
-                Access student information, courses,
-                notifications and other useful services
-                from one place.
-            </p>
+                <h2>JOIN GROUP NOW</h2>
 
-        </div>
+                <p>
+                    Access student information, courses,
+                    notifications and other useful services
+                    from one place.
+                </p>
 
-    </a>
+            </div>
+
+        </a>
+
+    </section>
 
 </section>
 
@@ -361,8 +367,6 @@
 <!-- ==============================
      SEARCH SECTION
 ================================ -->
-
- 
 
 
 <!-- ==============================
@@ -408,6 +412,8 @@
         </button>
 
     </a>
+
+
     <!-- NPU Result -->
 
     <a
@@ -476,6 +482,211 @@
         });
 
     }
+
+</script>
+
+
+<!-- =========================================
+     FIREBASE PUSH NOTIFICATION
+========================================= -->
+
+<script type="module">
+
+    import { initializeApp }
+        from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+    import {
+        getMessaging,
+        getToken
+    }
+        from "https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging.js";
+
+
+    const firebaseConfig = {
+
+        apiKey:
+            "AIzaSyD8YmnfyVnEXKIxBsKeAdQZYVo1CHjmYXg",
+
+        authDomain:
+            "spddc-notification.firebaseapp.com",
+
+        projectId:
+            "spddc-notification",
+
+        storageBucket:
+            "spddc-notification.firebasestorage.app",
+
+        messagingSenderId:
+            "329322876402",
+
+        appId:
+            "1:329322876402:web:736db8f195a23a18206f6b"
+
+    };
+
+
+    const app =
+        initializeApp(firebaseConfig);
+
+
+    const messaging =
+        getMessaging(app);
+
+
+    window.addEventListener("load", async function () {
+
+        try {
+
+            /* ==============================
+               REQUEST NOTIFICATION PERMISSION
+            ============================== */
+
+            const permission =
+                await Notification.requestPermission();
+
+
+            if (permission !== "granted") {
+
+                console.log(
+                    "Notification permission was not granted."
+                );
+
+                return;
+
+            }
+
+
+            console.log(
+                "Notification permission granted."
+            );
+
+
+            /* ==============================
+               GET FIREBASE TOKEN
+            ============================== */
+
+            const registration =
+                await navigator.serviceWorker.ready;
+
+
+            const token =
+                await getToken(
+
+                    messaging,
+
+                    {
+
+                        vapidKey:
+                            "BMpeXyHCM_IBCYIH6jVLMlyNZE3M4lTNkO9yahExvW9OkALmcFNpnHYDIW-1xVqoMP_XbNLs-sa6sLNdqZx8oBc",
+
+                        serviceWorkerRegistration:
+                            registration
+
+                    }
+
+                );
+
+
+            if (!token) {
+
+                console.log(
+                    "No notification token received."
+                );
+
+                return;
+
+            }
+
+
+            console.log(
+                "Notification Token:",
+                token
+            );
+
+
+            /* ==============================
+               SAVE TOKEN TO SUPABASE
+            ============================== */
+
+            const SUPABASE_URL =
+                "https://aghizlgvrhunpuxvohep.supabase.co";
+
+
+            const SUPABASE_KEY =
+                "sb_publishable_gpc7KUqUIykO3WM1aCzRfg_Myo8AKyx";
+
+
+            const response =
+                await fetch(
+
+                    SUPABASE_URL +
+                    "/rest/v1/push_subscriptions",
+
+                    {
+
+                        method: "POST",
+
+                        headers: {
+
+                            "apikey":
+                                SUPABASE_KEY,
+
+                            "Authorization":
+                                "Bearer " +
+                                SUPABASE_KEY,
+
+                            "Content-Type":
+                                "application/json",
+
+                            "Prefer":
+                                "resolution=ignore-duplicates"
+
+                        },
+
+                        body:
+                            JSON.stringify({
+
+                                token: token
+
+                            })
+
+                    }
+
+                );
+
+
+            if (!response.ok) {
+
+                const errorText =
+                    await response.text();
+
+                console.error(
+                    "Supabase Token Save Error:",
+                    errorText
+                );
+
+                return;
+
+            }
+
+
+            console.log(
+                "Notification token saved successfully."
+            );
+
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Firebase Notification Error:",
+                error
+            );
+
+        }
+
+    });
 
 </script>
 
