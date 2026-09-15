@@ -1220,14 +1220,16 @@ document.addEventListener("DOMContentLoaded", () => {
             "sendNotificationBtn"
         );
 
+    // HTML में notificationSendMessage रखा गया है
     const notificationStatus =
         document.getElementById(
-            "notificationStatus"
+            "notificationSendMessage"
         );
 
+    // HTML में notificationList रखा गया है
     const notificationResults =
         document.getElementById(
-            "notificationResults"
+            "notificationList"
         );
 
 
@@ -1338,7 +1340,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 try {
 
-                    // पहले notification history save करें
+                    // =====================================
+                    // पहले Notification History में Save करें
+                    // =====================================
+
                     const {
                         data: savedNotification,
                         error: saveError
@@ -1359,7 +1364,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
 
 
-                    // Edge Function call
+                    // =====================================
+                    // Supabase Edge Function Call
+                    // =====================================
+
                     const {
                         data,
                         error: functionError
@@ -1378,8 +1386,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     if (functionError) {
 
-                        // अगर notification send नहीं हुई
-                        // तो history entry भी हटाएँ
+                        // Send fail होने पर History से भी हटाएँ
                         if (
                             savedNotification &&
                             savedNotification.id
@@ -1427,6 +1434,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
 
 
+                    // =====================================
+                    // SUCCESS
+                    // =====================================
+
                     if (notificationStatus) {
 
                         notificationStatus.innerHTML =
@@ -1437,6 +1448,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     }
 
+
+                    // Input खाली करें
 
                     if (notificationTitle) {
                         notificationTitle.value = "";
@@ -1450,6 +1463,8 @@ document.addEventListener("DOMContentLoaded", () => {
                         notificationLink.value = "";
                     }
 
+
+                    // History Refresh करें
 
                     await loadNotificationHistory();
 
@@ -1479,7 +1494,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         false;
 
                     sendNotificationBtn.textContent =
-                        "🔔 SEND NOTIFICATION";
+                        "📢 SEND NOTIFICATION TO ALL";
 
                 }
 
@@ -1530,7 +1545,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!data || data.length === 0) {
 
                 notificationResults.innerHTML = `
-                    <div class="receipt">
+                    <div class="notification-empty">
                         कोई पुरानी Notification नहीं है।
                     </div>
                 `;
@@ -1560,7 +1575,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
             notificationResults.innerHTML = `
-                <div class="receipt">
+                <div class="notification-empty">
                     ❌ Notification history load नहीं हो पाई।
                 </div>
             `;
@@ -1583,7 +1598,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
         card.className =
-            "receipt";
+            "notification-item";
 
 
         let dateText = "";
@@ -1609,25 +1624,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
         card.innerHTML = `
 
-            <strong>
+            <div class="notification-title">
                 🔔 ${escapeHtml(
                     notification.title || ""
                 )}
-            </strong>
+            </div>
 
-            <br><br>
-
-            ${escapeHtml(
-                notification.message || ""
-            )}
+            <div class="notification-message">
+                ${escapeHtml(
+                    notification.message || ""
+                )}
+            </div>
 
             ${
                 notification.link
                 ?
                 `
-                <br><br>
-
                 <a
+                    class="notification-link"
                     href="${escapeHtml(
                         notification.link
                     )}"
@@ -1645,28 +1659,18 @@ document.addEventListener("DOMContentLoaded", () => {
                 dateText
                 ?
                 `
-                <br><br>
-
-                <small>
+                <div class="notification-date">
                     ${escapeHtml(dateText)}
-                </small>
+                </div>
                 `
                 :
                 ""
             }
 
-            <br>
-
             <button
                 type="button"
-                class="deleteNotificationBtn"
+                class="notification-delete-btn"
                 data-id="${notification.id}"
-                style="
-                    background:#d32f2f;
-                    color:white;
-                    width:100%;
-                    margin-top:12px;
-                "
             >
                 🗑️ DELETE NOTIFICATION
             </button>
@@ -1681,7 +1685,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const deleteButton =
             card.querySelector(
-                ".deleteNotificationBtn"
+                ".notification-delete-btn"
             );
 
 
