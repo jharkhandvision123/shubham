@@ -1220,16 +1220,16 @@ document.addEventListener("DOMContentLoaded", () => {
             "sendNotificationBtn"
         );
 
-    // HTML में notificationSendMessage रखा गया है
+
+    // ✅ सही HTML IDs
     const notificationStatus =
         document.getElementById(
-            "notificationSendMessage"
+            "notificationStatus"
         );
 
-    // HTML में notificationList रखा गया है
     const notificationResults =
         document.getElementById(
-            "notificationList"
+            "notificationResults"
         );
 
 
@@ -1341,7 +1341,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 try {
 
                     // =====================================
-                    // पहले Notification History में Save करें
+                    // 1. SUPABASE में Notification SAVE करें
                     // =====================================
 
                     const {
@@ -1365,7 +1365,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
                     // =====================================
-                    // Supabase Edge Function Call
+                    // 2. EDGE FUNCTION से Notification भेजें
                     // =====================================
 
                     const {
@@ -1384,64 +1384,68 @@ document.addEventListener("DOMContentLoaded", () => {
                     );
 
 
+                    // =====================================
+                    // Edge Function Error
+                    // =====================================
+
                     if (functionError) {
 
-                        // Send fail होने पर History से भी हटाएँ
-                        if (
-                            savedNotification &&
-                            savedNotification.id
-                        ) {
+                        console.error(
+                            "Edge Function Error:",
+                            functionError
+                        );
 
-                            await supabaseClient
-                                .from("notifications")
-                                .delete()
-                                .eq(
-                                    "id",
-                                    savedNotification.id
-                                );
+                        if (notificationStatus) {
+
+                            notificationStatus.innerHTML =
+                                "⚠️ Notification Supabase में save हो गई, लेकिन users को भेजने में समस्या हुई: " +
+                                functionError.message;
+
+                            notificationStatus.style.color =
+                                "#d97706";
 
                         }
 
-                        throw functionError;
+                        await loadNotificationHistory();
+
+                        return;
                     }
 
+
+                    // =====================================
+                    // Function ने Error Response दिया
+                    // =====================================
 
                     if (
                         data &&
                         data.success === false
                     ) {
 
-                        if (
-                            savedNotification &&
-                            savedNotification.id
-                        ) {
+                        if (notificationStatus) {
 
-                            await supabaseClient
-                                .from("notifications")
-                                .delete()
-                                .eq(
-                                    "id",
-                                    savedNotification.id
-                                );
+                            notificationStatus.innerHTML =
+                                "⚠️ Notification Supabase में save हो गई, लेकिन send नहीं हो पाई: " +
+                                (data.message || "Unknown error");
+
+                            notificationStatus.style.color =
+                                "#d97706";
 
                         }
 
-                        throw new Error(
-                            data.message ||
-                            "Notification send नहीं हो पाई।"
-                        );
+                        await loadNotificationHistory();
 
+                        return;
                     }
 
 
                     // =====================================
-                    // SUCCESS
+                    // 3. SUCCESS
                     // =====================================
 
                     if (notificationStatus) {
 
                         notificationStatus.innerHTML =
-                            "✅ Notification successfully भेज दी गई।";
+                            "✅ Notification successfully भेज दी गई और Supabase में save हो गई।";
 
                         notificationStatus.style.color =
                             "#198754";
@@ -1480,7 +1484,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     if (notificationStatus) {
 
                         notificationStatus.innerHTML =
-                            "❌ Notification send failed: " +
+                            "❌ Notification save/send failed: " +
                             error.message;
 
                         notificationStatus.style.color =
@@ -1494,7 +1498,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         false;
 
                     sendNotificationBtn.textContent =
-                        "📢 SEND NOTIFICATION TO ALL";
+                        "🔔 SEND NOTIFICATION";
 
                 }
 
@@ -1513,6 +1517,13 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!notificationResults) {
             return;
         }
+
+
+        notificationResults.innerHTML = `
+            <div class="notification-empty">
+                Loading notifications...
+            </div>
+        `;
 
 
         try {
@@ -1577,6 +1588,8 @@ document.addEventListener("DOMContentLoaded", () => {
             notificationResults.innerHTML = `
                 <div class="notification-empty">
                     ❌ Notification history load नहीं हो पाई।
+                    <br>
+                    ${escapeHtml(error.message || "")}
                 </div>
             `;
 
@@ -1770,7 +1783,8 @@ document.addEventListener("DOMContentLoaded", () => {
             if (notificationStatus) {
 
                 notificationStatus.innerHTML =
-                    "❌ Notification delete नहीं हो पाई।";
+                    "❌ Notification delete नहीं हो पाई: " +
+                    error.message;
 
                 notificationStatus.style.color =
                     "#d32f2f";
