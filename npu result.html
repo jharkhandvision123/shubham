@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NPU Result</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #efeae2;
+      min-height: 100vh;
+    }
+
+    .header {
+      background: #075e54;
+      color: white;
+      padding: 16px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .chat {
+      max-width: 700px;
+      margin: auto;
+      min-height: calc(100vh - 60px);
+      padding: 20px 14px 100px;
+    }
+
+    .bot {
+      background: white;
+      width: fit-content;
+      max-width: 90%;
+      padding: 12px 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      box-shadow: 0 1px 2px #bbb;
+    }
+
+    .card {
+      background: white;
+      padding: 18px;
+      border-radius: 10px;
+      box-shadow: 0 1px 3px #bbb;
+      margin-top: 15px;
+    }
+
+    label {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 6px;
+      font-weight: bold;
+    }
+
+    select,
+    input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 7px;
+      margin-bottom: 15px;
+      font-size: 16px;
+      outline: none;
+    }
+
+    button {
+      width: 100%;
+      border: none;
+      padding: 13px;
+      border-radius: 7px;
+      background: #128c7e;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      background: #999;
+      cursor: not-allowed;
+    }
+
+    .loading {
+      display: none;
+      text-align: center;
+      padding: 15px;
+      color: #555;
+    }
+
+    .result {
+      display: none;
+      background: white;
+      margin-top: 18px;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px #bbb;
+    }
+
+    .result h2 {
+      text-align: center;
+      margin-bottom: 5px;
+    }
+
+    .result .university {
+      text-align: center;
+      font-weight: bold;
+      margin-bottom: 18px;
+    }
+
+    .student-info {
+      border: 1px solid #ddd;
+      padding: 12px;
+      margin-bottom: 18px;
+      line-height: 1.8;
+    }
+
+    .marks {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    .marks th,
+    .marks td {
+      border: 1px solid #ccc;
+      padding: 8px 5px;
+      text-align: center;
+      font-size: 13px;
+    }
+
+    .marks th {
+      background: #f1f1f1;
+    }
+
+    .summary {
+      margin-top: 18px;
+      border: 1px solid #ddd;
+      padding: 12px;
+      line-height: 1.9;
+    }
+
+    .print-btn {
+      margin-top: 15px;
+      background: #075e54;
+    }
+
+    .error {
+      display: none;
+      background: #ffe5e5;
+      color: #b00020;
+      padding: 12px;
+      border-radius: 7px;
+      margin-top: 15px;
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+
+      .header,
+      .card,
+      .bot,
+      .print-btn {
+        display: none !important;
+      }
+
+      .chat {
+        padding: 0;
+      }
+
+      .result {
+        display: block !important;
+        box-shadow: none;
+        margin: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="header">
+    NPU Result
+  </div>
+
+  <div class="chat">
+
+    <div class="bot">
+      👋 Welcome! अपना Semester और Roll Number डालकर Result प्राप्त करें।
+    </div>
+
+    <div class="card">
+
+      <label for="semester">Semester</label>
+
+      <select id="semester">
+        <option value="">Select Semester</option>
+        <option value="1">Semester 1</option>
+        <option value="2">Semester 2</option>
+        <option value="3">Semester 3</option>
+        <option value="4">Semester 4</option>
+        <option value="5">Semester 5</option>
+        <option value="6">Semester 6</option>
+        <option value="7">Semester 7</option>
+        <option value="8">Semester 8</option>
+      </select>
+
+      <label for="rollno">Roll Number</label>
+
+      <input
+        type="text"
+        id="rollno"
+        placeholder="Enter Roll Number"
+        autocomplete="off"
+      >
+
+      <!-- Fixed values -->
+      <input type="hidden" id="course" value="NEP-UG">
+      <input type="hidden" id="stream" value="Arts">
+
+      <button id="getResult" onclick="getResult()">
+        Get Result
+      </button>
+
+      <div class="loading" id="loading">
+        ⏳ Result fetch हो रहा है...
+      </div>
+
+      <div class="error" id="error"></div>
+
+    </div>
+
+    <div class="result" id="resultBox">
+
+      <h2>NILAMBER-PITAMBER UNIVERSITY</h2>
+
+      <div class="university">
+        Provisional Marks / Grade Card
+      </div>
+
+      <div class="student-info" id="studentInfo"></div>
+
+      <table class="marks">
+        <thead>
+          <tr>
+            <th>Paper</th>
+            <th>Paper Name</th>
+            <th>TH</th>
+            <th>PR</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+
+        <tbody id="marksBody"></tbody>
+      </table>
+
+      <div class="summary" id="summary"></div>
+
+      <button class="print-btn" onclick="window.print()">
+        🖨️ Print / Save PDF
+      </button>
+
+    </div>
+
+  </div>
+
+
+<script>
+
+  /*
+    NPU API
+    ------------------------------------------------
+    IMPORTANT:
+    Browser से direct request CORS/session के कारण fail हो सकती है।
+
+    जरूरत पड़ने पर नीचे API_URL को अपने backend proxy
+    endpoint से replace करें।
+  */
+
+  const API_URL =
+    "https://npuuniv.in/npuresult/fetch/result/allcourse/nep";
+
+
+  function base64(value) {
+    return btoa(unescape(encodeURIComponent(value)));
+  }
+
+
+  async function getResult() {
+
+    const semester =
+      document.getElementById("semester").value.trim();
+
+    const rollno =
+      document.getElementById("rollno").value.trim();
+
+    const button =
+      document.getElementById("getResult");
+
+    const loading =
+      document.getElementById("loading");
+
+    const error =
+      document.getElementById("error");
+
+    const resultBox =
+      document.getElementById("resultBox");
+
+
+    error.style.display = "none";
+    resultBox.style.display = "none";
+
+
+    if (!semester) {
+      showError("कृपया Semester select करें।");
+      return;
+    }
+
+    if (!rollno) {
+      showError("कृपया Roll Number डालें।");
+      return;
+    }
+
+
+    button.disabled = true;
+    loading.style.display = "block";
+
+
+    try {
+
+      /*
+        NPU request parameters
+      */
+
+      const params = new URLSearchParams();
+
+      params.set("course", base64("NEP-UG"));
+      params.set("rollno", base64(rollno));
+      params.set("semester", base64(semester));
+      params.set("stream", base64("Arts"));
+
+
+      const response =
+        await fetch(API_URL + "?" + params.toString(), {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            "Accept": "application/json"
+          }
+        });
+
+
+      if (!response.ok) {
+        throw new Error(
+          "Server error: " + response.status
+        );
+      }
+
+
+      const data = await response.json();
+
+
+      if (
+        !data ||
+        !Array.isArray(data.result) ||
+        data.result.length === 0
+      ) {
+        throw new Error(
+          "इस Roll Number और Semester का Result नहीं मिला।"
+        );
+      }
+
+
+      displayResult(data.result[0]);
+
+
+    } catch (err) {
+
+      console.error(err);
+
+      showError(
+        "Result प्राप्त नहीं हो सका। कृपया Roll Number जांचें या थोड़ी देर बाद प्रयास करें।"
+      );
+
+    } finally {
+
+      button.disabled = false;
+      loading.style.display = "none";
+
+    }
+  }
+
+
+  function showError(message) {
+
+    const error =
+      document.getElementById("error");
+
+    error.innerText = message;
+    error.style.display = "block";
+  }
+
+
+  function displayResult(student) {
+
+    const resultBox =
+      document.getElementById("resultBox");
+
+    const studentInfo =
+      document.getElementById("studentInfo");
+
+    const marksBody =
+      document.getElementById("marksBody");
+
+    const summary =
+      document.getElementById("summary");
+
+
+    /*
+      Student information
+    */
+
+    studentInfo.innerHTML = `
+      <strong>Name:</strong>
+      ${safe(student.sname)}<br>
+
+      <strong>Father's Name:</strong>
+      ${safe(student.fname)}<br>
+
+      <strong>Roll Number:</strong>
+      ${safe(student.rollno)}<br>
+
+      <strong>College:</strong>
+      ${safe(student.college_name)}<br>
+
+      <strong>Course:</strong>
+      ${safe(student.course_type)}<br>
+
+      <strong>Stream:</strong>
+      ${safe(student.stream)}<br>
+
+      <strong>Honours:</strong>
+      ${safe(student.honours)}
+    `;
+
+
+    /*
+      Papers
+    */
+
+    marksBody.innerHTML = "";
+
+
+    for (let i = 1; i <= 6; i++) {
+
+      const paperName =
+        student["paper" + i + "n"];
+
+      const total =
+        student["paper_tot" + i];
+
+      const theory =
+        student["paper_th" + i];
+
+      const practical =
+        student["paper_pr" + i];
+
+
+      if (
+        paperName ||
+        total ||
+        theory ||
+        practical
+      ) {
+
+        const row =
+          document.createElement("tr");
+
+        row.innerHTML = `
+          <td>${i}</td>
+          <td>${safe(paperName)}</td>
+          <td>${safe(theory)}</td>
+          <td>${safe(practical)}</td>
+          <td>${safe(total)}</td>
+        `;
+
+        marksBody.appendChild(row);
+      }
+    }
+
+
+    /*
+      Semester summary
+    */
+
+    summary.innerHTML = `
+      <strong>Full Marks:</strong>
+      ${safe(student.full_marks)}<br>
+
+      <strong>Grand Total:</strong>
+      ${safe(student.grandtotal)}<br>
+
+      <strong>Result:</strong>
+      ${safe(student.semresult)}<br>
+
+      <strong>Percentage:</strong>
+      ${safe(student.sempercent)}<br>
+
+      <strong>Grade:</strong>
+      ${safe(student.semgrade)}<br>
+
+      <strong>SGPA:</strong>
+      ${safe(student.semsgpa)}<br>
+
+      <strong>Promotion:</strong>
+      ${safe(student.sempromotion)}<br>
+
+      <strong>Result Date:</strong>
+      ${safe(student.result_date)}
+    `;
+
+
+    resultBox.style.display = "block";
+
+    resultBox.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  }
+
+
+  /*
+    Prevent HTML injection from API data
+  */
+
+  function safe(value) {
+
+    if (
+      value === null ||
+      value === undefined ||
+      value === ""
+    ) {
+      return "-";
+    }
+
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+
+  /*
+    Enter key support
+  */
+
+  document
+    .getElementById("rollno")
+    .addEventListener("keydown", function(event) {
+
+      if (event.key === "Enter") {
+        getResult();
+      }
+
+    });
+
+</script>
+
+</body>
+</html>
