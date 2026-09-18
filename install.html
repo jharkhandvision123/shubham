@@ -1,255 +1,471 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
+
     <meta charset="UTF-8">
 
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0,
                    maximum-scale=1.0, user-scalable=no">
 
-    <meta name="theme-color" content="#0d47a1">
+    <meta name="theme-color" content="#ffffff">
 
-    <title>Install Student Portal</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <meta name="apple-mobile-web-app-status-bar-style"
+          content="default">
+
+    <meta name="apple-mobile-web-app-title"
+          content="STDD College">
+
+    <title>STDD College</title>
 
     <link rel="manifest" href="./manifest.json">
 
     <link rel="icon"
           href="./images/app-icon-192.png.jpeg">
 
+    <link rel="apple-touch-icon"
+          href="./images/app-icon-192.png.jpeg">
+
+
     <style>
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+
         html,
         body {
             width: 100%;
             min-height: 100%;
-            font-family: Arial, sans-serif;
         }
+
 
         body {
+
             min-height: 100vh;
+
             display: flex;
+
             justify-content: center;
+
             align-items: center;
+
+            padding: 28px 18px;
+
+            font-family:
+                Arial,
+                "Noto Sans Devanagari",
+                sans-serif;
+
             background:
+
                 linear-gradient(
-                    to bottom,
+                    180deg,
                     #ff9933 0%,
-                    #ff9933 33.33%,
-                    #ffffff 33.33%,
-                    #ffffff 66.66%,
-                    #138808 66.66%,
+                    #ff9933 33%,
+                    #ffffff 33%,
+                    #ffffff 67%,
+                    #138808 67%,
                     #138808 100%
                 );
-            padding: 20px;
+
+            overflow-x: hidden;
         }
 
-        .install-container {
+
+        /* Main White Card */
+
+        .install-card {
+
             width: 100%;
+
             max-width: 430px;
-            background: rgba(255, 255, 255, 0.96);
-            border-radius: 25px;
-            padding: 35px 25px;
-            text-align: center;
-            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.25);
+
+            min-height: 570px;
+
+            background: #ffffff;
+
+            border-radius: 30px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            justify-content: flex-start;
+
+            padding:
+
+                55px 25px
+                55px 25px;
+
+            box-shadow:
+
+                0 18px 45px
+                rgba(0, 0, 0, 0.22);
+
+            position: relative;
+
+            overflow: hidden;
         }
 
-        .logo {
-            width: 105px;
-            height: 105px;
-            object-fit: cover;
-            border-radius: 22px;
-            margin-bottom: 18px;
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
-        }
 
-        .chakra {
-            font-size: 42px;
-            line-height: 1;
-            margin-bottom: 12px;
-        }
+        /* Small Tricolor Top Line */
 
-        h1 {
-            font-size: 28px;
-            color: #0d47a1;
-            margin-bottom: 8px;
-        }
+        .top-line {
 
-        .subtitle {
-            font-size: 16px;
-            color: #555;
-            line-height: 1.5;
-            margin-bottom: 28px;
-        }
+            position: absolute;
 
-        .install-btn {
+            top: 0;
+
+            left: 0;
+
             width: 100%;
+
+            height: 7px;
+
+            background:
+
+                linear-gradient(
+                    90deg,
+                    #ff9933 0%,
+                    #ff9933 33%,
+                    #ffffff 33%,
+                    #ffffff 66%,
+                    #138808 66%,
+                    #138808 100%
+                );
+        }
+
+
+        /* Logo */
+
+        .college-logo {
+
+            width: 105px;
+
+            height: 105px;
+
+            object-fit: cover;
+
+            border-radius: 23px;
+
+            display: block;
+
+            margin-bottom: 35px;
+
+            box-shadow:
+
+                0 8px 20px
+                rgba(0, 0, 0, 0.20);
+        }
+
+
+        /* College Name */
+
+        .college-name {
+
+            font-size: 32px;
+
+            font-weight: 800;
+
+            color: #0d47a1;
+
+            text-align: center;
+
+            letter-spacing: 0.3px;
+
+            margin-bottom: 55px;
+        }
+
+
+        /* Install Button */
+
+        .install-button {
+
+            width: 100%;
+
+            max-width: 330px;
+
+            min-height: 64px;
+
             border: none;
-            border-radius: 14px;
-            padding: 17px 20px;
-            font-size: 21px;
-            font-weight: bold;
-            letter-spacing: 1px;
-            color: white;
+
+            border-radius: 18px;
+
             cursor: pointer;
 
+            color: #ffffff;
+
+            font-size: 25px;
+
+            font-weight: 800;
+
+            font-family:
+                Arial,
+                "Noto Sans Devanagari",
+                sans-serif;
+
+            letter-spacing: 0.5px;
+
             background:
+
                 linear-gradient(
-                    to bottom,
+                    180deg,
                     #ff9933 0%,
-                    #ff9933 33.33%,
-                    #0d47a1 33.33%,
-                    #0d47a1 66.66%,
-                    #138808 66.66%,
+                    #ff9933 48%,
+                    #138808 52%,
                     #138808 100%
                 );
 
             box-shadow:
-                0 7px 18px rgba(0, 0, 0, 0.25);
 
-            transition: transform 0.15s ease,
-                        box-shadow 0.15s ease;
+                0 9px 20px
+                rgba(0, 0, 0, 0.25);
+
+            border: 3px solid #ffffff;
+
+            outline: 2px solid rgba(13, 71, 161, 0.15);
+
+            transition:
+
+                transform 0.15s ease,
+
+                box-shadow 0.15s ease,
+
+                opacity 0.2s ease;
         }
 
-        .install-btn:active {
-            transform: scale(0.97);
+
+        .install-button:active {
+
+            transform: scale(0.96);
+
             box-shadow:
-                0 4px 10px rgba(0, 0, 0, 0.20);
+
+                0 4px 10px
+                rgba(0, 0, 0, 0.20);
         }
+
+
+        .install-button:hover {
+
+            box-shadow:
+
+                0 12px 25px
+                rgba(0, 0, 0, 0.28);
+        }
+
+
+        .install-button:disabled {
+
+            cursor: default;
+
+            opacity: 0.75;
+
+            transform: none;
+        }
+
+
+        /* Download Icon */
+
+        .install-icon {
+
+            display: inline-block;
+
+            font-size: 25px;
+
+            margin-right: 9px;
+
+            vertical-align: middle;
+        }
+
+
+        /* Status */
 
         .status {
-            margin-top: 20px;
+
+            margin-top: 22px;
+
+            text-align: center;
+
             font-size: 14px;
+
             line-height: 1.5;
+
             color: #555;
+
             min-height: 22px;
+
+            max-width: 330px;
         }
 
-        .features {
-            margin-top: 25px;
-            text-align: left;
-            border-top: 1px solid #ddd;
-            padding-top: 20px;
-        }
 
-        .feature {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin: 12px 0;
-            font-size: 14px;
-            color: #333;
-        }
+        /* Mobile */
 
-        .feature-icon {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: #f1f1f1;
-            font-size: 15px;
-            flex-shrink: 0;
-        }
+        @media (max-width: 480px) {
 
-        .footer {
-            margin-top: 25px;
-            font-size: 12px;
-            color: #777;
-        }
+            body {
 
-        @media (max-width: 380px) {
-            .install-container {
-                padding: 28px 20px;
+                padding: 18px 14px;
             }
 
-            h1 {
-                font-size: 24px;
+
+            .install-card {
+
+                min-height: 550px;
+
+                padding:
+
+                    48px 20px
+                    48px 20px;
+
+                border-radius: 27px;
             }
 
-            .install-btn {
-                font-size: 19px;
+
+            .college-logo {
+
+                width: 100px;
+
+                height: 100px;
+
+                margin-bottom: 32px;
+            }
+
+
+            .college-name {
+
+                font-size: 29px;
+
+                margin-bottom: 50px;
+            }
+
+
+            .install-button {
+
+                max-width: 315px;
+
+                min-height: 62px;
+
+                font-size: 23px;
             }
         }
+
+
+        @media (max-width: 360px) {
+
+            .install-card {
+
+                padding-top: 40px;
+
+                padding-bottom: 40px;
+            }
+
+
+            .college-logo {
+
+                width: 90px;
+
+                height: 90px;
+            }
+
+
+            .college-name {
+
+                font-size: 26px;
+
+                margin-bottom: 42px;
+            }
+
+
+            .install-button {
+
+                font-size: 21px;
+
+                min-height: 58px;
+            }
+        }
+
     </style>
+
 </head>
+
 
 <body>
 
-    <div class="install-container">
+
+    <div class="install-card">
+
+        <div class="top-line"></div>
+
+
+        <!-- Existing College Logo -->
 
         <img
-            class="logo"
+            class="college-logo"
             src="./images/app-icon-192.png.jpeg"
-            alt="Student Portal">
+            alt="STDD College Logo"
+        >
 
-        <div class="chakra">☸️</div>
 
-        <h1>Student Portal</h1>
+        <!-- College Name -->
 
-        <p class="subtitle">
-            Install Student Portal on your device
-            for quick and easy access.
-        </p>
+        <div class="college-name">
+            STDD कॉलेज
+        </div>
+
+
+        <!-- Install Button -->
 
         <button
             id="installButton"
-            class="install-btn">
-            INSTALL
+            class="install-button"
+            type="button"
+        >
+
+            <span class="install-icon">⬇</span>
+
+            इंस्टॉल
+
         </button>
+
+
+        <!-- Installation Status -->
 
         <div
             id="status"
-            class="status">
-            Tap INSTALL to add Student Portal to your device.
-        </div>
-
-        <div class="features">
-
-            <div class="feature">
-                <div class="feature-icon">📱</div>
-                <div>Use Student Portal like an app</div>
-            </div>
-
-            <div class="feature">
-                <div class="feature-icon">⚡</div>
-                <div>Quick access from your home screen</div>
-            </div>
-
-            <div class="feature">
-                <div class="feature-icon">🔔</div>
-                <div>Receive important notifications</div>
-            </div>
-
-        </div>
-
-        <div class="footer">
-            Student Portal
-        </div>
+            class="status"
+        ></div>
 
     </div>
+
 
 
     <script>
 
         let deferredPrompt = null;
 
+
         const installButton =
             document.getElementById("installButton");
+
 
         const status =
             document.getElementById("status");
 
 
+
         /*
-         * Browser sends this event when the PWA
-         * is eligible for installation.
+         * PWA Installation Prompt
          */
+
         window.addEventListener(
             "beforeinstallprompt",
             function(event) {
@@ -258,76 +474,93 @@
 
                 deferredPrompt = event;
 
-                installButton.style.display = "block";
-
-                status.textContent =
-                    "Tap INSTALL to install Student Portal.";
             }
         );
 
 
+
         /*
-         * INSTALL button
+         * INSTALL Button
          */
+
         installButton.addEventListener(
             "click",
             async function() {
 
+
+                /*
+                 * Browser has not provided
+                 * installation prompt.
+                 */
+
                 if (!deferredPrompt) {
 
                     status.textContent =
-                        "If the install window does not appear, open your browser menu and choose 'Install app' or 'Add to Home screen'.";
+                        "ब्राउज़र के मेनू से Install App या Add to Home Screen चुनें।";
 
                     return;
                 }
 
+
+                /*
+                 * Open native PWA install prompt
+                 */
+
                 deferredPrompt.prompt();
 
-                const choiceResult =
+
+                const result =
                     await deferredPrompt.userChoice;
 
-                if (choiceResult.outcome === "accepted") {
+
+                if (result.outcome === "accepted") {
 
                     status.textContent =
-                        "Installation started successfully.";
+                        "ऐप इंस्टॉल हो रहा है...";
 
                 } else {
 
                     status.textContent =
-                        "Installation was cancelled.";
+                        "इंस्टॉलेशन रद्द कर दिया गया।";
                 }
 
+
                 deferredPrompt = null;
+
             }
         );
 
 
+
         /*
-         * Fired after the browser confirms
-         * that the PWA has been installed.
+         * PWA Successfully Installed
          */
+
         window.addEventListener(
             "appinstalled",
             function() {
 
                 status.textContent =
-                    "Student Portal installed successfully.";
+                    "ऐप सफलतापूर्वक इंस्टॉल हो गया।";
 
-                installButton.textContent =
-                    "INSTALLED";
+
+                installButton.innerHTML =
+                    "✓ इंस्टॉल हो गया";
+
 
                 installButton.disabled = true;
 
-                installButton.style.opacity = "0.75";
             }
         );
 
 
+
         /*
-         * Register existing service worker.
-         * This does not replace or modify the
-         * existing Firebase service-worker code.
+         * Existing Service Worker
+         *
+         * इसे replace नहीं किया जा रहा है।
          */
+
         if ("serviceWorker" in navigator) {
 
             window.addEventListener(
@@ -339,7 +572,7 @@
                     ).catch(function(error) {
 
                         console.log(
-                            "Service Worker registration failed:",
+                            "Service Worker Error:",
                             error
                         );
 
@@ -352,5 +585,7 @@
 
     </script>
 
+
 </body>
+
 </html>
