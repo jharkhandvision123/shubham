@@ -1,201 +1,398 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Form Filling</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Admin Receipt Management</title>
 
 <style>
+
 *{
-  box-sizing:border-box;
-}
-
-html,
-body{
-  margin:0;
-  padding:0;
-  width:100%;
-  min-height:100%;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
 }
 
 body{
-  font-family:Arial,sans-serif;
-  background:#e5ddd5;
-  overflow-x:hidden;
+    margin:0;
+    background:#f4f7fc;
+    color:#222;
 }
 
-.chat{
-  width:100%;
-  max-width:700px;
-  min-height:100vh;
-  margin:0 auto;
-  background:#efeae2;
-  display:flex;
-  flex-direction:column;
-  overflow:hidden;
+header{
+    background:#0d47a1;
+    color:white;
+    text-align:center;
+    padding:25px 15px;
 }
 
-.header{
-  background:#075e54;
-  color:white;
-  padding:15px;
-  font-size:20px;
-  font-weight:bold;
-  flex-shrink:0;
+.container{
+    width:92%;
+    max-width:750px;
+    margin:30px auto;
 }
 
-.messages{
-  flex:1;
-  padding:15px;
-  overflow-y:auto;
-  overflow-x:hidden;
-  -webkit-overflow-scrolling:touch;
+.box{
+    background:white;
+    padding:25px;
+    border-radius:12px;
+    box-shadow:0 4px 12px rgba(0,0,0,.1);
+    margin-bottom:20px;
 }
 
-.msg{
-  max-width:85%;
-  padding:11px 14px;
-  margin:8px 0;
-  border-radius:10px;
-  line-height:1.4;
-  word-wrap:break-word;
-  overflow-wrap:break-word;
+h2{
+    color:#0d47a1;
+    text-align:center;
 }
 
-.bot{
-  background:white;
-  margin-right:auto;
+input,
+select,
+textarea{
+    width:100%;
+    padding:13px;
+    border:2px solid #0d47a1;
+    border-radius:8px;
+    font-size:16px;
+    margin-top:10px;
 }
 
-.user{
-  background:#dcf8c6;
-  margin-left:auto;
-}
-
-.options{
-  padding:10px;
-  flex-shrink:0;
+textarea{
+    resize:vertical;
+    min-height:110px;
 }
 
 button{
-  width:100%;
-  padding:13px;
-  margin:5px 0;
-  border:0;
-  border-radius:8px;
-  background:#128c7e;
-  color:white;
-  font-size:16px;
-  cursor:pointer;
+    width:100%;
+    padding:13px;
+    margin-top:12px;
+    border:none;
+    border-radius:8px;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
 }
 
-.input-area{
-  display:flex;
-  gap:6px;
-  padding:8px;
-  background:#f0f0f0;
-  flex-shrink:0;
+#loginBtn,
+#searchBtn,
+#uploadBtn,
+#addVideoBtn,
+#searchDeleteBtn,
+#uploadReceiptBtn,
+#projectFileRefreshBtn,
+#formFillingRefreshBtn,
+#sendNotificationBtn{
+    background:#0d47a1;
+    color:white;
 }
 
-input[type=text]{
-  flex:1;
-  min-width:0;
-  padding:13px;
-  border:1px solid #ccc;
-  border-radius:8px;
-  font-size:16px;
+.deleteBtn{
+    background:#d32f2f;
+    color:white;
 }
 
-.send{
-  width:auto;
-  padding:0 18px;
+.receipt{
+    border:1px solid #ddd;
+    border-radius:8px;
+    padding:15px;
+    margin-top:15px;
 }
 
-.file-label{
-  display:block;
-  background:#128c7e;
-  color:white;
-  text-align:center;
-  padding:13px;
-  border-radius:8px;
-  cursor:pointer;
-  margin-top:8px;
+.logoutBtn{
+    background:#555;
+    color:white;
 }
 
-input[type=file]{
-  display:none;
+#message,
+#uploadMessage,
+#videoMessage,
+#deleteMessage,
+#receiptUploadMessage,
+#projectFileMessage,
+#formFillingMessage,
+#notificationStatus{
+    text-align:center;
+    margin-top:15px;
+    font-weight:bold;
 }
 
-.qr-box{
-  background:white;
-  margin:10px 0;
-  padding:15px;
-  border-radius:10px;
-  text-align:center;
+#adminPanel{
+    display:none;
 }
 
-.qr-title{
-  font-size:18px;
-  font-weight:bold;
-  margin-bottom:10px;
-}
-
-.qr-amount{
-  font-size:20px;
-  font-weight:bold;
-  margin-bottom:12px;
-}
-
-.qr-image{
-  width:100%;
-  max-width:300px;
-  height:auto;
-  display:block;
-  margin:0 auto;
-  border-radius:6px;
-}
-
-.receipt-button{
-  display:block;
-  width:100%;
-  padding:13px;
-  margin:5px 0;
-  border-radius:8px;
-  background:#128c7e;
-  color:white;
-  text-align:center;
-  text-decoration:none;
-  font-size:16px;
-  font-weight:bold;
-}
-
-.status-message{
-  background:white;
-  padding:14px;
-  border-radius:10px;
-  margin:10px 0;
-  line-height:1.5;
+#loginMessage{
+    text-align:center;
+    margin-top:15px;
+    font-weight:bold;
 }
 
 
 /* =========================================
-   DESKTOP SITE / LARGE SCREEN CONTROL
+   NOTIFICATION MANAGEMENT
 ========================================= */
 
-@media (min-width:701px){
+.notification-box-title{
+    text-align:center;
+    color:#0d47a1;
+}
 
-  body{
-    display:flex;
-    justify-content:center;
-    background:#e5ddd5;
-  }
+.notification-history-title{
+    color:#0d47a1;
+    margin-top:20px;
+    margin-bottom:10px;
+}
 
-  .chat{
-    width:700px;
-    max-width:700px;
-    min-height:100vh;
-    margin:0 auto;
-  }
+.notification-item{
+    border:1px solid #ddd;
+    border-radius:10px;
+    padding:15px;
+    margin-top:15px;
+    background:#fafafa;
+}
+
+.notification-item-title{
+    font-size:17px;
+    font-weight:bold;
+    color:#0d47a1;
+}
+
+.notification-item-message{
+    margin-top:8px;
+    line-height:1.5;
+}
+
+.notification-item-date{
+    margin-top:8px;
+    font-size:12px;
+    color:#777;
+}
+
+.notification-item-link{
+    display:block;
+    margin-top:8px;
+    word-break:break-all;
+}
+
+
+/* =========================================
+   PROJECT FILE VERIFICATION
+========================================= */
+
+.project-submission{
+    border:1px solid #ddd;
+    border-radius:10px;
+    padding:15px;
+    margin-top:15px;
+    background:#fafafa;
+}
+
+.project-mobile{
+    font-size:17px;
+    font-weight:bold;
+    color:#0d47a1;
+    margin-bottom:10px;
+}
+
+.project-date{
+    font-size:12px;
+    color:#777;
+    margin-bottom:10px;
+}
+
+.project-status{
+    padding:8px;
+    border-radius:6px;
+    text-align:center;
+    font-weight:bold;
+    margin-top:10px;
+}
+
+.status-pending{
+    background:#fff3cd;
+    color:#856404;
+}
+
+.status-done{
+    background:#d4edda;
+    color:#155724;
+}
+
+.status-failed{
+    background:#f8d7da;
+    color:#721c24;
+}
+
+.view-document-btn{
+    background:#455a64;
+    color:white;
+}
+
+.verify-done-btn{
+    background:#198754;
+    color:white;
+}
+
+.verify-failed-btn{
+    background:#d32f2f;
+    color:white;
+}
+
+.project-buttons{
+    margin-top:10px;
+}
+
+.project-buttons button{
+    margin-top:8px;
+}
+
+.no-project-data{
+    text-align:center;
+    padding:20px;
+    color:#666;
+    background:#f5f5f5;
+    border-radius:8px;
+}
+
+
+/* =========================================
+   PROJECT FILE DELETE BUTTON
+========================================= */
+
+.project-delete-btn{
+    background:#777;
+    color:white;
+    width:auto;
+    padding:8px 12px;
+    font-size:13px;
+    margin-top:8px;
+}
+
+
+/* =========================================
+   FORM FILLING MANAGEMENT
+========================================= */
+
+.form-filling-submission{
+    border:1px solid #ddd;
+    border-radius:10px;
+    padding:15px;
+    margin-top:15px;
+    background:#fafafa;
+}
+
+.form-filling-serial{
+    font-size:18px;
+    font-weight:bold;
+    color:#0d47a1;
+    margin-bottom:8px;
+}
+
+.form-filling-info{
+    line-height:1.7;
+}
+
+.form-filling-status{
+    padding:8px;
+    border-radius:6px;
+    text-align:center;
+    font-weight:bold;
+    margin-top:10px;
+}
+
+.form-filling-buttons{
+    margin-top:10px;
+}
+
+.form-filling-buttons button{
+    margin-top:8px;
+}
+
+.form-filling-delete-btn{
+    background:#d32f2f;
+    color:white;
+}
+
+.form-document-image{
+    width:100%;
+    max-width:100%;
+    height:auto;
+    max-height:500px;
+    object-fit:contain;
+    display:block;
+    margin:10px auto;
+    border:1px solid #ddd;
+    border-radius:8px;
+    background:white;
+}
+
+.form-document-box{
+    display:none;
+    margin-top:10px;
+    padding:10px;
+    background:white;
+    border-radius:8px;
+    border:1px solid #ddd;
+}
+
+.form-document-title{
+    font-weight:bold;
+    color:#0d47a1;
+    margin-bottom:8px;
+}
+
+
+/* =========================================
+   ADMIN SYSTEM MENU / PAGE NAVIGATION
+========================================= */
+
+.admin-system-menu{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.system-menu-btn{
+    background:white;
+    color:#0d47a1;
+    border:2px solid #0d47a1;
+    box-shadow:0 4px 12px rgba(0,0,0,.08);
+    min-height:70px;
+    margin-top:0;
+    transition:.2s;
+}
+
+.system-menu-btn:hover{
+    background:#0d47a1;
+    color:white;
+}
+
+.system-page{
+    display:none;
+}
+
+.system-page.active{
+    display:block;
+}
+
+.back-to-menu{
+    background:#455a64;
+    color:white;
+    margin-top:0;
+    margin-bottom:20px;
+}
+
+@media(max-width:600px){
+
+    .admin-system-menu{
+        grid-template-columns:1fr;
+        gap:12px;
+    }
+
+    .system-menu-btn{
+        min-height:58px;
+    }
 
 }
 
@@ -204,1789 +401,2295 @@ input[type=file]{
    MOBILE
 ========================================= */
 
-@media (max-width:700px){
+@media(max-width:600px){
 
-  .chat{
-    width:100%;
-    max-width:700px;
-  }
+    .container{
+        width:95%;
+        margin:15px auto;
+    }
+
+    .box{
+        padding:18px;
+    }
+
+    header{
+        padding:20px 10px;
+    }
+
+    header h1{
+        font-size:23px;
+    }
+
+    .form-document-image{
+        max-height:400px;
+    }
 
 }
+
 </style>
+
 </head>
 
 <body>
 
-<div class="chat">
+<header>
 
-  <div class="header">Form Filling</div>
+    <h1>Admin Receipt Management</h1>
 
-  <div class="messages" id="messages"></div>
+</header>
 
-  <div class="options" id="options"></div>
 
-  <div class="input-area" id="textArea">
+<div class="container">
 
-    <input
-      type="text"
-      id="textInput"
-      placeholder="Type here..."
-    >
 
-    <button
-      class="send"
-      onclick="sendText()"
-    >
-      Send
-    </button>
+    <!-- =====================================
+         ADMIN LOGIN
+    ====================================== -->
 
-  </div>
+    <div class="box" id="loginBox">
+
+        <h2>Admin Login</h2>
+
+        <input
+            type="email"
+            id="email"
+            placeholder="Admin Email"
+            autocomplete="username"
+        >
+
+        <input
+            type="password"
+            id="password"
+            placeholder="Admin Password"
+            autocomplete="current-password"
+        >
+
+        <button id="loginBtn">
+            LOGIN
+        </button>
+
+        <div id="loginMessage"></div>
+
+    </div>
+
+
+    <!-- =====================================
+         ALL ADMIN FUNCTIONS
+    ====================================== -->
+
+    <div id="adminPanel">
+
+        <!-- =====================================
+             ADMIN SYSTEM MENU
+        ====================================== -->
+
+        <div class="admin-system-menu" id="adminSystemMenu">
+
+            <button type="button" class="system-menu-btn" data-system="notification">🔔 Notification Management</button>
+
+            <button type="button" class="system-menu-btn" data-system="form">Form Filling Management</button>
+
+            <button type="button" class="system-menu-btn" data-system="project">Project File Verification</button>
+
+            <button type="button" class="system-menu-btn" data-system="receipt">Receipt Upload / Delete</button>
+
+            <button type="button" class="system-menu-btn" data-system="login-users">Login System</button>
+
+        </div>
+
+
+        <div class="system-page" id="system-notification">
+
+        <div class="box">
+
+            <h2 class="notification-box-title">
+                🔔 Notification Management
+            </h2>
+
+            <input
+                type="text"
+                id="notificationTitle"
+                placeholder="Notification Title / Main Line"
+            >
+
+            <textarea
+                id="notificationMessage"
+                placeholder="Notification Message लिखें..."
+                rows="4"
+            ></textarea>
+
+            <input
+                type="url"
+                id="notificationLink"
+                placeholder="Optional Link (https://...)"
+            >
+
+            <button
+                id="sendNotificationBtn"
+                type="button"
+            >
+                🔔 SEND NOTIFICATION
+            </button>
+
+            <div id="notificationStatus"></div>
+
+            <hr style="margin:20px 0;">
+
+            <h3 class="notification-history-title">
+                📋 Old Notifications
+            </h3>
+
+            <div id="notificationResults"></div>
+
+        </div>
+
+        <button type="button" class="back-to-menu">
+            ← BACK TO ADMIN MENU
+        </button>
+
+        </div>
+
+
+        <div class="system-page" id="system-form">
+
+        <div class="box">
+
+            <h2>Form Filling Management</h2>
+
+            <button
+                id="formFillingRefreshBtn"
+                type="button"
+            >
+                🔄 LOAD FORM FILLING SUBMISSIONS
+            </button>
+
+            <div id="formFillingMessage"></div>
+
+            <div id="formFillingResults"></div>
+
+        </div>
+
+        <button type="button" class="back-to-menu">
+            ← BACK TO ADMIN MENU
+        </button>
+
+        </div>
+
+
+        <div class="system-page" id="system-project">
+
+        <div class="box">
+
+            <h2>Project File Verification</h2>
+
+            <button
+                id="projectFileRefreshBtn"
+                type="button"
+            >
+                🔄 LOAD PROJECT FILE SUBMISSIONS
+            </button>
+
+            <div id="projectFileMessage"></div>
+
+            <div id="projectFileResults"></div>
+
+        </div>
+
+        <button type="button" class="back-to-menu">
+            ← BACK TO ADMIN MENU
+        </button>
+
+        </div>
+
+
+        <div class="system-page" id="system-pdf">
+
+        <div class="box" id="adminBox">
+
+            <h2>Delete Receipt</h2>
+
+            <input
+                type="tel"
+                id="adminMobile"
+                placeholder="Enter 10 digit mobile number"
+                maxlength="10"
+                inputmode="numeric"
+            >
+
+            <button id="searchBtn">
+                SEARCH RECEIPTS
+            </button>
+
+            <div id="message"></div>
+
+            <div id="receipts"></div>
+
+        </div>
+
+
+        <div class="box">
+
+            <h2>Upload Receipt</h2>
+
+            <input
+                type="tel"
+                id="receiptMobile"
+                placeholder="Enter 10 digit mobile number"
+                maxlength="10"
+                inputmode="numeric"
+            >
+
+            <input
+                type="file"
+                id="receiptFile"
+                accept="application/pdf"
+            >
+
+            <button id="uploadReceiptBtn">
+                UPLOAD RECEIPT
+            </button>
+
+            <div id="receiptUploadMessage"></div>
+
+        </div>
+
+        <button type="button" class="back-to-menu">
+            ← BACK TO ADMIN MENU
+        </button>
+
+        </div>
+
+
+        <div class="system-page" id="system-login-users">
+
+            <div class="box">
+
+                <h2>Login System</h2>
+
+                <button id="appUsersRefreshBtn" type="button">
+                    🔄 REFRESH LOGIN USERS
+                </button>
+
+                <div id="appUsersMessage"></div>
+
+                <div id="appUsersResults"></div>
+
+            </div>
+
+            <button type="button" class="back-to-menu">
+                ← BACK TO ADMIN MENU
+            </button>
+
+        </div>
+
+
+        <div class="system-page" id="system-logout">
+
+        <div class="box" id="logoutBox">
+
+            <button
+                id="logoutBtn"
+                class="logoutBtn"
+            >
+                LOGOUT
+            </button>
+
+        </div>
+
+        <button type="button" class="back-to-menu">
+            ← BACK TO ADMIN MENU
+        </button>
+
+        </div>
+
+    </div>
 
 </div>
 
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
 <script>
 
+/* =========================================
+   SUPABASE CONFIG
+========================================= */
+
 const SUPABASE_URL =
-"https://aghizlgvrhunpuxvohep.supabase.co";
+    "https://aghizlgvrhunpuxvohep.supabase.co";
 
 const SUPABASE_KEY =
-"sb_publishable_gpc7KUqUIykO3WM1aCzRfg_Myo8AKyx";
+    "sb_publishable_gpc7KUqUIykO3WM1aCzRfg_Myo8AKyx";
 
-
-const RECEIPT_LINK =
-"https://jharkhandvision123.github.io/shubham/student-csc.html";
-
-
-const messages =
-document.getElementById("messages");
-
-const options =
-document.getElementById("options");
-
-const textArea =
-document.getElementById("textArea");
-
-const textInput =
-document.getElementById("textInput");
-
-
-let step = 1;
-
-let statusCheckTimer = null;
-
-let currentSubmissionId = null;
-
-
-let data = {
-
-  form_type:"",
-  category:"",
-  semester:"",
-  mobile_number:"",
-  admit_card_url:"",
-  rasid_url:"",
-  payment_screenshot_url:"",
-  status:"Pending"
-
-};
-
-
-
-/* =========================================
-   LOCAL STORAGE
-========================================= */
-
-const STORAGE_KEY =
-"formFillingChatData";
-
-
-function saveChat(){
-
-  const savedData = {
-
-    step:step,
-
-    currentSubmissionId:
-    currentSubmissionId,
-
-    data:data,
-
-    messages:
-    messages.innerHTML
-
-  };
-
-
-  localStorage.setItem(
-    STORAGE_KEY,
-    JSON.stringify(savedData)
-  );
-
-}
-
-
-
-function restoreChat(){
-
-  const saved =
-  localStorage.getItem(STORAGE_KEY);
-
-
-  if(!saved){
-
-    start();
-
-    return;
-
-  }
-
-
-  try{
-
-    const savedData =
-    JSON.parse(saved);
-
-
-    step =
-    savedData.step || 1;
-
-
-    currentSubmissionId =
-    savedData.currentSubmissionId || null;
-
-
-    if(savedData.data){
-
-      data =
-      savedData.data;
-
-    }
-
-
-    if(savedData.messages){
-
-      messages.innerHTML =
-      savedData.messages;
-
-    }
-
-
-    messages.scrollTop =
-    messages.scrollHeight;
-
-
-    restoreCurrentStep();
-
-
-  }
-  catch(error){
-
-    console.error(
-      "Chat Restore Error:",
-      error
+const securityClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
     );
 
 
-    localStorage.removeItem(
-      STORAGE_KEY
+/* =========================================
+   LOGIN
+========================================= */
+
+const loginBox =
+    document.getElementById("loginBox");
+
+const adminPanel =
+    document.getElementById("adminPanel");
+
+const loginBtn =
+    document.getElementById("loginBtn");
+
+const logoutBtn =
+    document.getElementById("logoutBtn");
+
+const loginMessage =
+    document.getElementById("loginMessage");
+
+
+async function checkAdminSession(){
+
+    try{
+
+        const {
+            data,
+            error
+        } =
+        await securityClient.auth.getSession();
+
+        if(error){
+
+            console.error(error);
+            showLogin();
+            return;
+
+        }
+
+        if(data.session){
+
+            showAdminPanel();
+
+        }
+        else{
+
+            showLogin();
+
+        }
+
+    }
+    catch(error){
+
+        console.error(error);
+        showLogin();
+
+    }
+
+}
+
+
+function showAdminPanel(){
+
+    loginBox.style.display = "none";
+
+    adminPanel.style.display = "block";
+
+    loadProjectFileSubmissions();
+
+    loadFormFillingSubmissions();
+
+}
+
+
+function showLogin(){
+
+    loginBox.style.display = "block";
+
+    adminPanel.style.display = "none";
+
+}
+
+
+loginBtn.addEventListener(
+    "click",
+    async function(){
+
+        const email =
+            document.getElementById("email").value.trim();
+
+        const password =
+            document.getElementById("password").value;
+
+        loginMessage.textContent = "";
+
+        if(!email || !password){
+
+            loginMessage.textContent =
+                "Email और Password डालें।";
+
+            return;
+
+        }
+
+        loginBtn.disabled = true;
+
+        loginBtn.textContent = "LOGIN...";
+
+        try{
+
+            const {
+                data,
+                error
+            } =
+            await securityClient.auth.signInWithPassword({
+
+                email:email,
+                password:password
+
+            });
+
+            if(error){
+
+                loginMessage.textContent =
+                    "Invalid Email या Password.";
+
+                loginBtn.disabled = false;
+
+                loginBtn.textContent = "LOGIN";
+
+                return;
+
+            }
+
+            if(data.session){
+
+                document.getElementById("password").value = "";
+
+                showAdminPanel();
+
+            }
+
+        }
+        catch(error){
+
+            console.error(error);
+
+            loginMessage.textContent =
+                "Login failed. फिर से प्रयास करें।";
+
+        }
+
+        loginBtn.disabled = false;
+
+        loginBtn.textContent = "LOGIN";
+
+    }
+);
+
+
+logoutBtn.addEventListener(
+    "click",
+    async function(){
+
+        await securityClient.auth.signOut();
+
+        showLogin();
+
+        document.getElementById("email").value = "";
+
+        document.getElementById("password").value = "";
+
+    }
+);
+
+
+securityClient.auth.onAuthStateChange(
+    function(event,session){
+
+        if(session){
+
+            showAdminPanel();
+
+        }
+        else{
+
+            showLogin();
+
+        }
+
+    }
+);
+
+
+/* =========================================
+   FORM FILLING
+========================================= */
+
+const formFillingRefreshBtn =
+    document.getElementById(
+        "formFillingRefreshBtn"
     );
 
-
-    start();
-
-  }
-
-}
-
-
-
-/* =========================================
-   BOT MESSAGE
-========================================= */
-
-function bot(text){
-
-  const div =
-  document.createElement("div");
-
-  div.className =
-  "msg bot";
-
-  div.textContent =
-  text;
-
-  messages.appendChild(div);
-
-  messages.scrollTop =
-  messages.scrollHeight;
-
-
-  saveChat();
-
-}
-
-
-
-/* =========================================
-   USER MESSAGE
-========================================= */
-
-function user(text){
-
-  const div =
-  document.createElement("div");
-
-  div.className =
-  "msg user";
-
-  div.textContent =
-  text;
-
-  messages.appendChild(div);
-
-  messages.scrollTop =
-  messages.scrollHeight;
-
-
-  saveChat();
-
-}
-
-
-
-/* =========================================
-   BUTTONS
-========================================= */
-
-function buttons(items){
-
-  options.innerHTML = "";
-
-  textArea.style.display =
-  "none";
-
-
-  items.forEach(item=>{
-
-    const b =
-    document.createElement("button");
-
-    b.textContent =
-    item.text;
-
-    b.onclick =
-    ()=>item.action();
-
-    options.appendChild(b);
-
-  });
-
-
-  saveChat();
-
-}
-
-
-
-/* =========================================
-   TEXT MODE
-========================================= */
-
-function textMode(placeholder){
-
-  options.innerHTML = "";
-
-  textArea.style.display =
-  "flex";
-
-  textInput.placeholder =
-  placeholder;
-
-  textInput.value =
-  "";
-
-  saveChat();
-
-}
-
-
-
-/* =========================================
-   SEND TEXT
-========================================= */
-
-function sendText(){
-
-  const value =
-  textInput.value.trim();
-
-  if(!value)return;
-
-
-  if(step===4){
-
-    const n =
-    value.replace(/\D/g,"");
-
-
-    if(n.length!==10){
-
-      bot(
-        "कृपया केवल 10 अंकों का मोबाइल नंबर दर्ज करें।"
-      );
-
-      return;
-
-    }
-
-
-    data.mobile_number =
-    n;
-
-    user(n);
-
-
-    payment();
-
-  }
-
-}
-
-
-
-/* =========================================
-   START
-========================================= */
-
-function start(){
-
-  step = 1;
-
-  bot(
-    "Backlog Form भरने के लिए 1 दबाएँ और Regular Form भरने के लिए 2 दबाएँ।"
-  );
-
-
-  buttons([
-
-    {
-      text:"1 - Backlog Form",
-      action:()=>chooseType("Backlog")
-    },
-
-    {
-      text:"2 - Regular Form",
-      action:()=>chooseType("Regular")
-    }
-
-  ]);
-
-}
-
-
-
-/* =========================================
-   CHOOSE TYPE
-========================================= */
-
-function chooseType(type){
-
-  data.form_type =
-  type;
-
-  user(type);
-
-
-  step = 2;
-
-
-  bot(
-    "Practical Honours के लिए 1 दबाएँ, Non-Practical Honours के लिए 2 दबाएँ।"
-  );
-
-
-  buttons([
-
-    {
-      text:"1 - Practical Honours",
-      action:()=>chooseCategory("Practical")
-    },
-
-    {
-      text:"2 - Non-Practical Honours",
-      action:()=>chooseCategory("Non-Practical")
-    }
-
-  ]);
-
-}
-
-
-
-/* =========================================
-   CHOOSE CATEGORY
-========================================= */
-
-function chooseCategory(category){
-
-  data.category =
-  category;
-
-  user(category);
-
-
-  step = 2;
-
-
-  bot(
-    "आपको जिस Semester का Form Fill करना है, उसे Select करें।"
-  );
-
-
-  buttons([
-
-    {
-      text:"Semester 1",
-      action:()=>chooseSemester(1)
-    },
-
-    {
-      text:"Semester 2",
-      action:()=>chooseSemester(2)
-    },
-
-    {
-      text:"Semester 3",
-      action:()=>chooseSemester(3)
-    },
-
-    {
-      text:"Semester 4",
-      action:()=>chooseSemester(4)
-    },
-
-    {
-      text:"Semester 5",
-      action:()=>chooseSemester(5)
-    },
-
-    {
-      text:"Semester 6",
-      action:()=>chooseSemester(6)
-    },
-
-    {
-      text:"Semester 7",
-      action:()=>chooseSemester(7)
-    },
-
-    {
-      text:"Semester 8",
-      action:()=>chooseSemester(8)
-    }
-
-  ]);
-
-}
-
-
-
-/* =========================================
-   CHOOSE SEMESTER
-========================================= */
-
-function chooseSemester(s){
-
-  data.semester =
-  "Semester "+s;
-
-  user(data.semester);
-
-
-  step = 3;
-
-
-  bot(
-    "कृपया अपना Admit Card भेजें।"
-  );
-
-
-  showAdmitUpload();
-
-}
-
-
-
-/* =========================================
-   ADMIT CARD UPLOAD UI
-========================================= */
-
-function showAdmitUpload(){
-
-  options.innerHTML =
-  "";
-
-  textArea.style.display =
-  "none";
-
-
-  const label =
-  document.createElement("label");
-
-  label.className =
-  "file-label";
-
-  label.textContent =
-  "📎 Admit Card Upload";
-
-
-  const input =
-  document.createElement("input");
-
-  input.type =
-  "file";
-
-  input.accept =
-  "image/*,.pdf";
-
-
-  input.onchange =
-  ()=>{
-
-    if(input.files.length){
-
-      uploadFile(
-        input.files[0],
-        "admit"
-      );
-
-    }
-
-  };
-
-
-  label.appendChild(input);
-
-  options.appendChild(label);
-
-
-  saveChat();
-
-}
-
-
-
-/* =========================================
-   रसीद UPLOAD UI
-========================================= */
-
-function showRasidUpload(){
-
-  options.innerHTML =
-  "";
-
-  textArea.style.display =
-  "none";
-
-
-  const label =
-  document.createElement("label");
-
-  label.className =
-  "file-label";
-
-  label.textContent =
-  "📎 रसीद Upload";
-
-
-  const input =
-  document.createElement("input");
-
-  input.type =
-  "file";
-
-  input.accept =
-  "image/*,.pdf";
-
-
-  input.onchange =
-  ()=>{
-
-    if(input.files.length){
-
-      uploadFile(
-        input.files[0],
-        "rasid"
-      );
-
-    }
-
-  };
-
-
-  label.appendChild(input);
-
-  options.appendChild(label);
-
-
-  saveChat();
-
-}
-
-
-
-/* =========================================
-   FILE UPLOAD
-========================================= */
-
-async function uploadFile(file,type){
-
-  bot(
-    "File upload हो रहा है, कृपया प्रतीक्षा करें..."
-  );
-
-
-  const path =
-  Date.now()+
-  "_"+
-  Math.random()
-  .toString(36)
-  .substring(2)+
-  "_"+
-  file.name;
-
-
-  try{
-
-    const response =
-    await fetch(
-
-      SUPABASE_URL+
-      "/storage/v1/object/form-filling-files/"+
-      path,
-
-      {
-
-        method:"POST",
-
-        headers:{
-
-          "apikey":
-          SUPABASE_KEY,
-
-          "Content-Type":
-          file.type ||
-          "application/octet-stream"
-
-        },
-
-        body:file
-
-      }
-
+const formFillingMessage =
+    document.getElementById(
+        "formFillingMessage"
     );
 
-
-    if(!response.ok){
-
-      const errorText =
-      await response.text();
-
-      console.error(
-        "File Upload Error:",
-        response.status,
-        errorText
-      );
-
-
-      bot(
-        "File upload नहीं हो पाया। कृपया दोबारा कोशिश करें।"
-      );
-
-      return;
-
-    }
-
-
-    const url =
-    SUPABASE_URL+
-    "/storage/v1/object/public/form-filling-files/"+
-    path;
-
-
-    /* =====================================
-       ADMIT CARD SUCCESS
-    ===================================== */
-
-    if(type==="admit"){
-
-      data.admit_card_url =
-      url;
-
-      user(
-        "Admit Card भेज दिया गया"
-      );
-
-
-      step = 3.5;
-
-
-      bot(
-        "अब अपनी कोई एक रसीद Upload करें।"
-      );
-
-
-      showRasidUpload();
-
-      return;
-
-    }
-
-
-    /* =====================================
-       रसीद SUCCESS
-    ===================================== */
-
-    if(type==="rasid"){
-
-      data.rasid_url =
-      url;
-
-      user(
-        "रसीद भेज दी गई"
-      );
-
-
-      bot(
-        "अब अपना NPU Registered Mobile Number दर्ज करें।"
-      );
-
-
-      step = 4;
-
-      textMode(
-        "10 digit mobile number"
-      );
-
-      return;
-
-    }
-
-
-    /* =====================================
-       PAYMENT SUCCESS
-    ===================================== */
-
-    if(type==="payment"){
-
-      data.payment_screenshot_url =
-      url;
-
-      user(
-        "Payment Screenshot भेज दिया गया"
-      );
-
-
-      await submitForm();
-
-    }
-
-  }
-  catch(error){
-
-    console.error(
-      "File Upload Error:",
-      error
+const formFillingResults =
+    document.getElementById(
+        "formFillingResults"
     );
 
+let formFillingLoadNumber = 0;
 
-    bot(
-      "File upload नहीं हो पाया। कृपया दोबारा कोशिश करें।"
-    );
 
-  }
+formFillingRefreshBtn.addEventListener(
+    "click",
+    loadFormFillingSubmissions
+);
+
+
+async function loadFormFillingSubmissions(){
+
+    const currentLoad =
+        ++formFillingLoadNumber;
+
+    formFillingMessage.textContent =
+        "Loading...";
+
+    formFillingMessage.style.color =
+        "#222";
+
+    formFillingResults.innerHTML = "";
+
+    try{
+
+        const {
+            data,
+            error
+        } =
+        await securityClient
+        .from("form_filling_submissions")
+        .select(
+            "id,serial_number,form_type,semester,category,mobile_number,admit_card_url,payment_screenshot_url,rasid_url,status,created_at"
+        )
+        .order(
+            "serial_number",
+            {
+                ascending:false
+            }
+        );
+
+        if(currentLoad !== formFillingLoadNumber){
+            return;
+        }
+
+        if(error){
+            throw error;
+        }
+
+        formFillingMessage.textContent = "";
+
+        if(!data || data.length === 0){
+
+            formFillingResults.innerHTML = `
+                <div class="no-project-data">
+                    कोई Form Filling submission नहीं मिली।
+                </div>
+            `;
+
+            return;
+
+        }
+
+        data.forEach(function(item){
+
+            createFormFillingCard(item);
+
+        });
+
+    }
+    catch(error){
+
+        console.error(
+            "Form Filling Load Error:",
+            error
+        );
+
+        if(currentLoad !== formFillingLoadNumber){
+            return;
+        }
+
+        formFillingMessage.textContent =
+            "❌ Form Filling data load नहीं हो पाया।";
+
+        formFillingMessage.style.color =
+            "#d32f2f";
+
+    }
 
 }
 
 
-
 /* =========================================
-   PAYMENT
+   CREATE FORM FILLING CARD
 ========================================= */
 
-function payment(){
+function createFormFillingCard(item){
 
-  const amount =
-  data.category==="Practical"
-  ? "₹775"
-  : "₹625";
+    const card =
+        document.createElement("div");
 
+    card.className =
+        "form-filling-submission";
 
-  const qrFile =
-  data.category==="Practical"
-  ? "qr775.png"
-  : "qr625.png";
 
-
-  step = 5;
-
-
-  bot(
-    "आपको "+amount+
-    " का Payment करना है। नीचे दिए गए QR को Scan करके Payment करें और Payment Screenshot Upload करें।"
-  );
-
-
-  const qrBox =
-  document.createElement("div");
-
-  qrBox.className =
-  "qr-box";
-
-
-  const title =
-  document.createElement("div");
-
-  title.className =
-  "qr-title";
-
-  title.textContent =
-  "💳 PAYMENT QR";
-
-  qrBox.appendChild(title);
-
-
-  const amountText =
-  document.createElement("div");
-
-  amountText.className =
-  "qr-amount";
-
-  amountText.textContent =
-  amount;
-
-  qrBox.appendChild(amountText);
-
-
-  const qrImage =
-  document.createElement("img");
-
-  qrImage.className =
-  "qr-image";
-
-  qrImage.src =
-  qrFile;
-
-  qrImage.alt =
-  "Payment QR Code";
-
-
-  qrImage.onerror =
-  ()=>{
-
-    qrBox.innerHTML =
-    "";
-
-    const error =
-    document.createElement("div");
-
-    error.className =
-    "qr-title";
-
-    error.textContent =
-    "QR Code दिखाई नहीं दे रहा है। कृपया बाद में पुनः प्रयास करें।";
-
-    qrBox.appendChild(error);
-
-  };
-
-
-  qrBox.appendChild(qrImage);
-
-  messages.appendChild(qrBox);
-
-  messages.scrollTop =
-  messages.scrollHeight;
-
-
-  options.innerHTML =
-  "";
-
-
-  const label =
-  document.createElement("label");
-
-  label.className =
-  "file-label";
-
-  label.textContent =
-  "📷 Payment Screenshot Upload";
-
-
-  const input =
-  document.createElement("input");
-
-  input.type =
-  "file";
-
-  input.accept =
-  "image/*,.pdf";
-
-
-  input.onchange =
-  ()=>{
-
-    if(input.files.length){
-
-      uploadFile(
-        input.files[0],
-        "payment"
-      );
-
-    }
-
-  };
-
-
-  label.appendChild(input);
-
-  options.appendChild(label);
-
-  textArea.style.display =
-  "none";
-
-
-  saveChat();
-
-}
-
-
-
-/* =========================================
-   PAYMENT UPLOAD UI - RESTORE ONLY
-========================================= */
-
-function restorePaymentUpload(){
-
-  options.innerHTML =
-  "";
-
-  textArea.style.display =
-  "none";
-
-
-  const label =
-  document.createElement("label");
-
-  label.className =
-  "file-label";
-
-  label.textContent =
-  "📷 Payment Screenshot Upload";
-
-
-  const input =
-  document.createElement("input");
-
-  input.type =
-  "file";
-
-  input.accept =
-  "image/*,.pdf";
-
-
-  input.onchange =
-  ()=>{
-
-    if(input.files.length){
-
-      uploadFile(
-        input.files[0],
-        "payment"
-      );
-
-    }
-
-  };
-
-
-  label.appendChild(input);
-
-  options.appendChild(label);
-
-
-  saveChat();
-
-}
-
-
-
-/* =========================================
-   FORM SUBMISSION
-========================================= */
-
-async function submitForm(){
-
-  bot(
-    "आपकी सारी जानकारी सफलतापूर्वक प्राप्त कर ली गई है। Verification एवं Form Filling तक कृपया प्रतीक्षा करें।"
-  );
-
-
-  try{
-
-    const response =
-    await fetch(
-
-      SUPABASE_URL+
-      "/rest/v1/rpc/create_form_filling_submission",
-
-      {
-
-        method:"POST",
-
-        headers:{
-
-          "apikey":
-          SUPABASE_KEY,
-
-          "Content-Type":
-          "application/json"
-
-        },
-
-        body:
-        JSON.stringify({
-
-          p_form_type:
-          data.form_type,
-
-          p_semester:
-          data.semester,
-
-          p_category:
-          data.category,
-
-          p_mobile_number:
-          data.mobile_number,
-
-          p_admit_card_url:
-          data.admit_card_url,
-
-          p_payment_screenshot_url:
-          data.payment_screenshot_url,
-
-          p_rasid_url:
-          data.rasid_url
-
-        })
-
-      }
-
-    );
-
-
-    if(!response.ok){
-
-      const errorText =
-      await response.text();
-
-      console.error(
-        "Form Submission Error:",
-        response.status,
-        errorText
-      );
-
-
-      bot(
-        "जानकारी जमा करने में समस्या हुई। कृपया दोबारा प्रयास करें।"
-      );
-
-      return;
-
-    }
-
-
-    const result =
-    await response.json();
-
-
-    console.log(
-      "Submission ID:",
-      result
-    );
-
-
-    if(result){
-
-      currentSubmissionId =
-      result;
-
-
-      localStorage.setItem(
-        "formFillingSubmissionId",
-        currentSubmissionId
-      );
-
-
-      localStorage.removeItem(
-        "formFillingStatusShown"
-      );
-
-
-      options.innerHTML =
-      "";
-
-      textArea.style.display =
-      "none";
-
-
-      step = 6;
-
-
-      saveChat();
-
-
-      startStatusChecking();
-
-      return;
-
-    }
-
-
-    bot(
-      "जानकारी जमा करने में समस्या हुई। कृपया दोबारा प्रयास करें।"
-    );
-
-  }
-  catch(error){
-
-    console.error(
-      "Form Submission Error:",
-      error
-    );
-
-
-    bot(
-      "जानकारी जमा करने में समस्या हुई। कृपया दोबारा प्रयास करें।"
-    );
-
-  }
-
-}
-
-
-
-/* =========================================
-   STATUS CHECKING
-========================================= */
-
-function startStatusChecking(){
-
-  if(statusCheckTimer){
-
-    clearInterval(
-      statusCheckTimer
-    );
-
-  }
-
-
-  checkSubmissionStatus();
-
-
-  statusCheckTimer =
-  setInterval(
-    checkSubmissionStatus,
-    5000
-  );
-
-}
-
-
-
-/* =========================================
-   CHECK SUBMISSION STATUS
-========================================= */
-
-async function checkSubmissionStatus(){
-
-  if(!currentSubmissionId){
-
-    currentSubmissionId =
-    localStorage.getItem(
-      "formFillingSubmissionId"
-    );
-
-  }
-
-
-  if(!currentSubmissionId){
-
-    return;
-  }
-
-
-  try{
-
-    const response =
-    await fetch(
-
-      SUPABASE_URL+
-      "/rest/v1/rpc/get_form_filling_status",
-
-      {
-
-        method:"POST",
-
-        headers:{
-
-          "apikey":
-          SUPABASE_KEY,
-
-          "Content-Type":
-          "application/json"
-
-        },
-
-        body:
-        JSON.stringify({
-
-          submission_id:
-          Number(currentSubmissionId)
-
-        })
-
-      }
-
-    );
-
-
-    if(!response.ok){
-
-      const errorText =
-      await response.text();
-
-      console.error(
-        "Status Check Error:",
-        response.status,
-        errorText
-      );
-
-      return;
-
-    }
-
-
-    const result =
-    await response.json();
-
-
-    if(
-      !result ||
-      !result[0]
-    ){
-
-      return;
-
-    }
+    const serial =
+        item.serial_number || "—";
 
 
     const status =
-    result[0].status;
+        String(
+            item.status || "Pending"
+        ).toLowerCase();
 
 
-    data.status =
-    status;
+    let statusClass =
+        "status-pending";
+
+    let statusText =
+        "⏳ PENDING";
 
 
-    if(status==="Done"){
+    if(status === "done"){
 
-      if(
-        localStorage.getItem(
-          "formFillingStatusShown"
-        )!=="Done"
-      ){
+        statusClass =
+            "status-done";
 
-        bot(
-          "✅ Verification Done हो गया है।"
-        );
-
-
-        localStorage.setItem(
-          "formFillingStatusShown",
-          "Done"
-        );
-
-
-        showReceiptButton();
-
-      }
-
-
-      if(statusCheckTimer){
-
-        clearInterval(
-          statusCheckTimer
-        );
-
-        statusCheckTimer = null;
-
-      }
-
-
-      saveChat();
+        statusText =
+            "✅ VERIFICATION DONE";
 
     }
 
 
-    if(status==="Failed"){
+    if(status === "failed"){
 
-      if(
-        localStorage.getItem(
-          "formFillingStatusShown"
-        )!=="Failed"
-      ){
+        statusClass =
+            "status-failed";
 
-        bot(
-          "❌ कृपया फिर से सही डॉक्यूमेंट एवं सही पेमेंट का स्क्रीनशॉट अपलोड करें और पुनः प्रयास करें।"
-        );
-
-
-        localStorage.setItem(
-          "formFillingStatusShown",
-          "Failed"
-        );
-
-      }
-
-
-      if(statusCheckTimer){
-
-        clearInterval(
-          statusCheckTimer
-        );
-
-        statusCheckTimer = null;
-
-      }
-
-
-      showNewFormButton();
-
-      saveChat();
+        statusText =
+            "❌ VERIFICATION FAILED";
 
     }
 
-  }
-  catch(error){
 
-    console.error(
-      "Status Check Error:",
-      error
+    let dateText = "";
+
+
+    if(item.created_at){
+
+        try{
+
+            dateText =
+                new Date(
+                    item.created_at
+                ).toLocaleString("en-IN");
+
+        }
+        catch(e){
+
+            dateText = "";
+
+        }
+
+    }
+
+
+    card.innerHTML = `
+
+        <div class="form-filling-serial">
+            Serial Number: ${escapeHtml(serial)}
+        </div>
+
+        <div class="form-filling-info">
+
+            <b>Form Type:</b>
+            ${escapeHtml(item.form_type || "Not available")}<br>
+
+            <b>Category:</b>
+            ${escapeHtml(item.category || "Not available")}<br>
+
+            <b>Semester:</b>
+            ${escapeHtml(item.semester || "Not available")}<br>
+
+            <b>Mobile Number:</b>
+            ${escapeHtml(item.mobile_number || "Not available")}
+
+        </div>
+
+        ${
+            dateText
+            ?
+            `
+            <div class="project-date">
+                Submitted: ${escapeHtml(dateText)}
+            </div>
+            `
+            :
+            ""
+        }
+
+        <div class="form-filling-status ${statusClass}">
+            ${statusText}
+        </div>
+
+
+        <div class="form-filling-buttons">
+
+            ${
+                item.admit_card_url
+                ?
+                `
+                <button
+                    type="button"
+                    class="view-document-btn"
+                    data-form-view="admit"
+                >
+                    🪪 VIEW ADMIT CARD
+                </button>
+                `
+                :
+                ""
+            }
+
+
+            ${
+                item.rasid_url
+                ?
+                `
+                <button
+                    type="button"
+                    class="view-document-btn"
+                    data-form-view="rasid"
+                >
+                    🧾 VIEW रसीद
+                </button>
+                `
+                :
+                ""
+            }
+
+
+            ${
+                item.payment_screenshot_url
+                ?
+                `
+                <button
+                    type="button"
+                    class="view-document-btn"
+                    data-form-view="payment"
+                >
+                    💳 VIEW PAYMENT SCREENSHOT
+                </button>
+                `
+                :
+                ""
+            }
+
+
+            ${
+                status === "pending"
+                ?
+                `
+                <button
+                    type="button"
+                    class="verify-done-btn"
+                    data-form-action="done"
+                >
+                    ✅ VERIFICATION DONE
+                </button>
+
+                <button
+                    type="button"
+                    class="verify-failed-btn"
+                    data-form-action="failed"
+                >
+                    ❌ VERIFICATION FAILED
+                </button>
+                `
+                :
+                `
+                <button
+                    type="button"
+                    class="view-document-btn"
+                    data-form-action="pending"
+                >
+                    🔄 CHANGE VERIFICATION
+                </button>
+                `
+            }
+
+
+            <button
+                type="button"
+                class="form-filling-delete-btn"
+                data-form-delete="true"
+            >
+                🗑️ DELETE SUBMISSION
+            </button>
+
+        </div>
+
+    `;
+
+
+    formFillingResults.appendChild(card);
+
+
+    const admitButton =
+        card.querySelector(
+            '[data-form-view="admit"]'
+        );
+
+
+    if(admitButton){
+
+        admitButton.addEventListener(
+            "click",
+            function(){
+
+                openFormDocumentDirect(
+                    item.admit_card_url
+                );
+
+            }
+        );
+
+    }
+
+
+    const rasidButton =
+        card.querySelector(
+            '[data-form-view="rasid"]'
+        );
+
+
+    if(rasidButton){
+
+        rasidButton.addEventListener(
+            "click",
+            function(){
+
+                openFormDocumentDirect(
+                    item.rasid_url
+                );
+
+            }
+        );
+
+    }
+
+
+    const paymentButton =
+        card.querySelector(
+            '[data-form-view="payment"]'
+        );
+
+
+    if(paymentButton){
+
+        paymentButton.addEventListener(
+            "click",
+            function(){
+
+                toggleFormDocument(
+                    card,
+                    "payment",
+                    item.payment_screenshot_url
+                );
+
+            }
+        );
+
+    }
+
+
+    card.querySelectorAll(
+        "[data-form-action]"
+    ).forEach(function(button){
+
+        button.addEventListener(
+            "click",
+            function(){
+
+                updateFormFillingStatus(
+                    item.id,
+                    button.getAttribute(
+                        "data-form-action"
+                    )
+                );
+
+            }
+        );
+
+    });
+
+
+    const deleteButton =
+        card.querySelector(
+            '[data-form-delete="true"]'
+        );
+
+
+    if(deleteButton){
+
+        deleteButton.addEventListener(
+            "click",
+            function(){
+
+                deleteFormFillingSubmission(
+                    item.id
+                );
+
+            }
+        );
+
+    }
+
+}
+
+
+/* =========================================
+   DIRECT FORM DOCUMENT OPEN
+========================================= */
+
+function openFormDocumentDirect(fileUrl){
+
+    if(!fileUrl){
+
+        alert(
+            "Document उपलब्ध नहीं है।"
+        );
+
+        return;
+
+    }
+
+    window.open(
+        fileUrl,
+        "_blank"
     );
 
-  }
-
 }
 
 
-
 /* =========================================
-   RECEIPT BUTTON
+   VIEW PAYMENT DOCUMENT
 ========================================= */
 
-function showReceiptButton(){
+function toggleFormDocument(
+    card,
+    type,
+    fileUrl
+){
 
-  options.innerHTML =
-  "";
+    if(!fileUrl){
 
-  textArea.style.display =
-  "none";
+        alert(
+            "Document उपलब्ध नहीं है।"
+        );
 
+        return;
 
-  if(RECEIPT_LINK){
+    }
 
-    const link =
-    document.createElement("a");
 
-    link.className =
-    "receipt-button";
+    const box =
+        card.querySelector(
+            `[data-document-box="${type}"]`
+        );
 
-    link.href =
-    RECEIPT_LINK;
 
-    link.target =
-    "_blank";
+    if(!box){
 
-    link.rel =
-    "noopener noreferrer";
+        /*
+         * Payment Screenshot का पुराना
+         * document box उपलब्ध नहीं है,
+         * इसलिए सीधे document खोलें।
+         */
 
-    link.textContent =
-    "📄 Download Receipt";
+        window.open(
+            fileUrl,
+            "_blank"
+        );
 
-    options.appendChild(link);
-
-  }
-
-
-  const newFormButton =
-  document.createElement("button");
-
-  newFormButton.textContent =
-  "New Form Filling";
-
-  newFormButton.onclick =
-  startNewForm;
-
-  options.appendChild(
-    newFormButton
-  );
-
-
-  saveChat();
-
-}
-
-
-
-/* =========================================
-   NEW FORM BUTTON
-========================================= */
-
-function showNewFormButton(){
-
-  options.innerHTML =
-  "";
-
-  textArea.style.display =
-  "none";
-
-
-  const newFormButton =
-  document.createElement("button");
-
-  newFormButton.textContent =
-  "New Form Filling";
-
-  newFormButton.onclick =
-  startNewForm;
-
-  options.appendChild(
-    newFormButton
-  );
-
-
-  saveChat();
-
-}
-
-
-
-/* =========================================
-   START NEW FORM
-========================================= */
-
-function startNewForm(){
-
-  if(statusCheckTimer){
-
-    clearInterval(
-      statusCheckTimer
-    );
-
-    statusCheckTimer =
-    null;
-
-  }
-
-
-  currentSubmissionId =
-  null;
-
-
-  localStorage.removeItem(
-    "formFillingSubmissionId"
-  );
-
-
-  localStorage.removeItem(
-    "formFillingStatusShown"
-  );
-
-
-  data = {
-
-    form_type:"",
-    category:"",
-    semester:"",
-    mobile_number:"",
-    admit_card_url:"",
-    rasid_url:"",
-    payment_screenshot_url:"",
-    status:"Pending"
-
-  };
-
-
-  step = 1;
-
-
-  start();
-
-}
-
-
-
-/* =========================================
-   RESTORE CURRENT STEP
-========================================= */
-
-function restoreCurrentStep(){
-
-  /*
-    Form अभी शुरुआती चरण में था
-  */
-
-  if(step===1){
-
-    buttons([
-
-      {
-        text:"1 - Backlog Form",
-        action:()=>chooseType("Backlog")
-      },
-
-      {
-        text:"2 - Regular Form",
-        action:()=>chooseType("Regular")
-      }
-
-    ]);
-
-    return;
-
-  }
-
-
-  /*
-    Type select हो चुका था,
-    Category select करना बाकी था
-  */
-
-  if(
-    step===2 &&
-    data.form_type &&
-    !data.category
-  ){
-
-    buttons([
-
-      {
-        text:"1 - Practical Honours",
-        action:()=>chooseCategory("Practical")
-      },
-
-      {
-        text:"2 - Non-Practical Honours",
-        action:()=>chooseCategory("Non-Practical")
-      }
-
-    ]);
-
-    return;
-
-  }
-
-
-  /*
-    Category select हो चुकी थी,
-    Semester select करना बाकी था
-  */
-
-  if(
-    step===2 &&
-    data.form_type &&
-    data.category &&
-    !data.semester
-  ){
-
-    buttons([
-
-      {
-        text:"Semester 1",
-        action:()=>chooseSemester(1)
-      },
-
-      {
-        text:"Semester 2",
-        action:()=>chooseSemester(2)
-      },
-
-      {
-        text:"Semester 3",
-        action:()=>chooseSemester(3)
-      },
-
-      {
-        text:"Semester 4",
-        action:()=>chooseSemester(4)
-      },
-
-      {
-        text:"Semester 5",
-        action:()=>chooseSemester(5)
-      },
-
-      {
-        text:"Semester 6",
-        action:()=>chooseSemester(6)
-      },
-
-      {
-        text:"Semester 7",
-        action:()=>chooseSemester(7)
-      },
-
-      {
-        text:"Semester 8",
-        action:()=>chooseSemester(8)
-      }
-
-    ]);
-
-    return;
-
-  }
-
-
-  /*
-    Admit Card upload करना बाकी था
-  */
-
-  if(
-    step===3 &&
-    !data.admit_card_url
-  ){
-
-    showAdmitUpload();
-
-    return;
-
-  }
-
-
-  /*
-    रसीद upload करना बाकी था
-  */
-
-  if(
-    step===3.5 &&
-    data.admit_card_url &&
-    !data.rasid_url
-  ){
-
-    showRasidUpload();
-
-    return;
-
-  }
-
-
-  /*
-    Mobile Number डालना बाकी था
-  */
-
-  if(step===4){
-
-    textMode(
-      "10 digit mobile number"
-    );
-
-    return;
-
-  }
-
-
-  /*
-    Payment Screenshot upload करना बाकी था
-  */
-
-  if(
-    step===5 &&
-    data.admit_card_url &&
-    data.rasid_url &&
-    data.mobile_number &&
-    !data.payment_screenshot_url
-  ){
-
-    restorePaymentUpload();
-
-    return;
-
-  }
-
-
-  /*
-    Submission हो चुका है।
-  */
-
-  if(
-    step===6 &&
-    currentSubmissionId
-  ){
-
-    options.innerHTML =
-    "";
-
-    textArea.style.display =
-    "none";
-
-
-    if(
-      data.status==="Done" ||
-      localStorage.getItem(
-        "formFillingStatusShown"
-      )==="Done"
-    ){
-
-      showReceiptButton();
-
-      return;
+        return;
 
     }
 
 
     if(
-      data.status==="Failed" ||
-      localStorage.getItem(
-        "formFillingStatusShown"
-      )==="Failed"
+        box.style.display === "block"
     ){
 
-      showNewFormButton();
+        box.style.display = "none";
 
-      return;
+        return;
 
     }
 
 
-    startStatusChecking();
+    box.style.display = "block";
 
-    return;
 
-  }
+    const lowerUrl =
+        fileUrl.toLowerCase();
+
+
+    const isPdf =
+        lowerUrl.includes(".pdf") ||
+        lowerUrl.includes("application/pdf");
+
+
+    if(isPdf){
+
+        box.innerHTML = `
+            <div class="form-document-title">
+                💳 Payment Screenshot PDF
+            </div>
+
+            <iframe
+                src="${escapeHtml(fileUrl)}"
+                style="
+                    width:100%;
+                    height:500px;
+                    border:1px solid #ddd;
+                    border-radius:8px;
+                    background:white;
+                "
+            ></iframe>
+        `;
+
+        return;
+
+    }
+
+
+    box.innerHTML = `
+        <div class="form-document-title">
+            💳 Payment Screenshot
+        </div>
+
+        <img
+            src="${escapeHtml(fileUrl)}"
+            class="form-document-image"
+            alt="Payment Screenshot"
+            onerror="this.style.display='none';"
+        >
+    `;
 
 }
 
 
-
 /* =========================================
-   PAGE LOAD
+   UPDATE FORM STATUS
 ========================================= */
 
-restoreChat();
+async function updateFormFillingStatus(
+    submissionId,
+    status
+){
+
+    let confirmText = "";
+
+
+    if(status === "done"){
+
+        confirmText =
+            "क्या आप इस Form Filling submission को VERIFICATION DONE करना चाहते हैं?";
+
+    }
+    else if(status === "failed"){
+
+        confirmText =
+            "क्या आप इस Form Filling submission को VERIFICATION FAILED करना चाहते हैं?";
+
+    }
+    else{
+
+        confirmText =
+            "क्या आप इस submission को फिर से PENDING करना चाहते हैं?";
+
+    }
+
+
+    if(!confirm(confirmText)){
+
+        return;
+
+    }
+
+
+    try{
+
+        formFillingMessage.textContent =
+            "Verification update हो रहा है...";
+
+        formFillingMessage.style.color =
+            "#222";
+
+
+        const newStatus =
+            status === "pending"
+            ?
+            "Pending"
+            :
+            status === "done"
+            ?
+            "Done"
+            :
+            "Failed";
+
+
+        const {
+            error
+        } =
+        await securityClient
+        .from("form_filling_submissions")
+        .update({
+
+            status:newStatus
+
+        })
+        .eq(
+            "id",
+            submissionId
+        );
+
+
+        if(error){
+
+            throw error;
+
+        }
+
+
+        formFillingMessage.textContent =
+            "✅ Verification successfully update हो गया।";
+
+        formFillingMessage.style.color =
+            "#198754";
+
+
+        await loadFormFillingSubmissions();
+
+    }
+    catch(error){
+
+        console.error(
+            "Form Filling Verification Error:",
+            error
+        );
+
+
+        formFillingMessage.textContent =
+            "❌ Verification update नहीं हो पाया।";
+
+        formFillingMessage.style.color =
+            "#d32f2f";
+
+    }
+
+}
+
+
+/* =========================================
+   DELETE FORM FILLING SUBMISSION
+========================================= */
+
+async function deleteFormFillingSubmission(
+    submissionId
+){
+
+    const confirmed =
+        confirm(
+            "क्या आप इस Form Filling submission को permanently delete करना चाहते हैं?\n\nDatabase record delete होगा। Admit Card और Payment Screenshot की Storage files delete नहीं होंगी।"
+        );
+
+
+    if(!confirmed){
+
+        return;
+
+    }
+
+
+    try{
+
+        formFillingMessage.textContent =
+            "Deleting...";
+
+        formFillingMessage.style.color =
+            "#d32f2f";
+
+
+        const {
+            error
+        } =
+        await securityClient
+        .from("form_filling_submissions")
+        .delete()
+        .eq(
+            "id",
+            submissionId
+        );
+
+
+        if(error){
+
+            throw error;
+
+        }
+
+
+        formFillingMessage.textContent =
+            "✅ Form Filling submission successfully deleted.";
+
+        formFillingMessage.style.color =
+            "#198754";
+
+
+        await loadFormFillingSubmissions();
+
+    }
+    catch(error){
+
+        console.error(
+            "Form Filling Delete Error:",
+            error
+        );
+
+
+        formFillingMessage.textContent =
+            "❌ Form Filling submission delete नहीं हो पाया।";
+
+        formFillingMessage.style.color =
+            "#d32f2f";
+
+    }
+
+}
+
+
+/* =========================================
+   PROJECT FILE
+========================================= */
+
+const projectFileRefreshBtn =
+    document.getElementById(
+        "projectFileRefreshBtn"
+    );
+
+const projectFileMessage =
+    document.getElementById(
+        "projectFileMessage"
+    );
+
+const projectFileResults =
+    document.getElementById(
+        "projectFileResults"
+    );
+
+
+projectFileRefreshBtn.addEventListener(
+    "click",
+    loadProjectFileSubmissions
+);
+
+
+async function loadProjectFileSubmissions(){
+
+    projectFileMessage.textContent =
+        "Loading...";
+
+    projectFileResults.innerHTML = "";
+
+
+    try{
+
+        const {
+            data,
+            error
+        } =
+        await securityClient
+        .from("project_file_submissions")
+        .select(
+            "id,mobile_number,admit_card_url,payment_screenshot_url,verification_status,download_link,created_at"
+        )
+        .order(
+            "created_at",
+            {
+                ascending:false
+            }
+        );
+
+
+        if(error){
+
+            throw error;
+
+        }
+
+
+        projectFileMessage.textContent = "";
+
+
+        if(!data || data.length === 0){
+
+            projectFileResults.innerHTML = `
+                <div class="no-project-data">
+                    कोई Project File submission नहीं मिली।
+                </div>
+            `;
+
+            return;
+
+        }
+
+
+        data.forEach(function(item){
+
+            createProjectSubmissionCard(item);
+
+        });
+
+    }
+    catch(error){
+
+        console.error(
+            "Project File Load Error:",
+            error
+        );
+
+
+        projectFileMessage.textContent =
+            "Project File data load नहीं हो पाया।";
+
+        projectFileMessage.style.color =
+            "#d32f2f";
+
+    }
+
+}
+
+
+function createProjectSubmissionCard(item){
+
+    const card =
+        document.createElement("div");
+
+    card.className =
+        "project-submission";
+
+
+    const mobile =
+        item.mobile_number || "Not available";
+
+
+    const status =
+        item.verification_status || "pending";
+
+
+    let statusClass =
+        "status-pending";
+
+    let statusText =
+        "⏳ PENDING";
+
+
+    if(status === "done"){
+
+        statusClass =
+            "status-done";
+
+        statusText =
+            "✅ VERIFICATION DONE";
+
+    }
+
+
+    if(status === "failed"){
+
+        statusClass =
+            "status-failed";
+
+        statusText =
+            "❌ VERIFICATION FAILED";
+
+    }
+
+
+    let dateText = "";
+
+
+    if(item.created_at){
+
+        try{
+
+            dateText =
+                new Date(
+                    item.created_at
+                ).toLocaleString("en-IN");
+
+        }
+        catch(e){
+
+            dateText = "";
+
+        }
+
+    }
+
+
+    card.innerHTML = `
+
+        <div class="project-mobile">
+            📱 Mobile Number: ${escapeHtml(mobile)}
+        </div>
+
+        ${
+            dateText
+            ?
+            `<div class="project-date">
+                Submitted: ${escapeHtml(dateText)}
+            </div>`
+            :
+            ""
+        }
+
+        <div class="project-status ${statusClass}">
+            ${statusText}
+        </div>
+
+        <div class="project-buttons">
+
+            <button
+                type="button"
+                class="view-document-btn"
+                data-id="${item.id}"
+                data-type="admit"
+            >
+                🪪 VIEW ADMIT CARD
+            </button>
+
+            <button
+                type="button"
+                class="view-document-btn"
+                data-id="${item.id}"
+                data-type="payment"
+            >
+                💳 VIEW PAYMENT SCREENSHOT
+            </button>
+
+            ${
+                status === "pending"
+                ?
+                `
+                <button
+                    type="button"
+                    class="verify-done-btn"
+                    data-id="${item.id}"
+                    data-action="done"
+                >
+                    ✅ VERIFICATION DONE
+                </button>
+
+                <button
+                    type="button"
+                    class="verify-failed-btn"
+                    data-id="${item.id}"
+                    data-action="failed"
+                >
+                    ❌ VERIFICATION FAILED
+                </button>
+                `
+                :
+                `
+                <button
+                    type="button"
+                    class="view-document-btn"
+                    data-id="${item.id}"
+                    data-action="reset"
+                >
+                    🔄 CHANGE VERIFICATION
+                </button>
+                `
+            }
+
+            ${
+                status === "failed"
+                ?
+                `
+                <button
+                    type="button"
+                    class="project-delete-btn"
+                    data-id="${item.id}"
+                >
+                    🗑️ DELETE
+                </button>
+                `
+                :
+                ""
+            }
+
+        </div>
+
+    `;
+
+
+    projectFileResults.appendChild(card);
+
+
+    const viewButtons =
+        card.querySelectorAll(
+            ".view-document-btn"
+        );
+
+
+    viewButtons.forEach(
+        function(button){
+
+            const type =
+                button.getAttribute(
+                    "data-type"
+                );
+
+
+            if(type){
+
+                button.addEventListener(
+                    "click",
+                    function(){
+
+                        viewProjectDocument(
+                            item,
+                            type
+                        );
+
+                    }
+                );
+
+            }
+
+        }
+    );
+
+
+    const doneButton =
+        card.querySelector(
+            '[data-action="done"]'
+        );
+
+
+    if(doneButton){
+
+        doneButton.addEventListener(
+            "click",
+            function(){
+
+                verifyProjectFile(
+                    item.id,
+                    "done"
+                );
+
+            }
+        );
+
+    }
+
+
+    const failedButton =
+        card.querySelector(
+            '[data-action="failed"]'
+        );
+
+
+    if(failedButton){
+
+        failedButton.addEventListener(
+            "click",
+            function(){
+
+                verifyProjectFile(
+                    item.id,
+                    "failed"
+                );
+
+            }
+        );
+
+    }
+
+
+    const resetButton =
+        card.querySelector(
+            '[data-action="reset"]'
+        );
+
+
+    if(resetButton){
+
+        resetButton.addEventListener(
+            "click",
+            function(){
+
+                changeVerification(
+                    item.id
+                );
+
+            }
+        );
+
+    }
+
+
+    const deleteButton =
+        card.querySelector(
+            ".project-delete-btn"
+        );
+
+
+    if(deleteButton){
+
+        deleteButton.addEventListener(
+            "click",
+            function(){
+
+                deleteProjectFile(
+                    item.id
+                );
+
+            }
+        );
+
+    }
+
+}
+
+
+/* =========================================
+   VIEW PROJECT DOCUMENT
+========================================= */
+
+async function viewProjectDocument(
+    item,
+    type
+){
+
+    let filePath = "";
+
+
+    if(type === "admit"){
+
+        filePath =
+            item.admit_card_url || "";
+
+    }
+
+
+    if(type === "payment"){
+
+        filePath =
+            item.payment_screenshot_url || "";
+
+    }
+
+
+    if(!filePath){
+
+        alert(
+            "इस document की file उपलब्ध नहीं है।"
+        );
+
+        return;
+
+    }
+
+
+    try{
+
+        const {
+            data,
+            error
+        } =
+        await securityClient
+        .storage
+        .from("project-files")
+        .createSignedUrl(
+            filePath,
+            300
+        );
+
+
+        if(error){
+
+            throw error;
+
+        }
+
+
+        if(!data || !data.signedUrl){
+
+            throw new Error(
+                "Signed URL नहीं मिला।"
+            );
+
+        }
+
+
+        window.open(
+            data.signedUrl,
+            "_blank"
+        );
+
+    }
+    catch(error){
+
+        console.error(
+            "Document View Error:",
+            error
+        );
+
+
+        alert(
+            "Document open नहीं हो पाया। कृपया फिर से प्रयास करें।"
+        );
+
+    }
+
+}
+
+
+/* =========================================
+   PROJECT VERIFICATION
+========================================= */
+
+async function verifyProjectFile(
+    submissionId,
+    status
+){
+
+    let confirmText = "";
+
+
+    if(status === "done"){
+
+        confirmText =
+            "क्या आप इस Project File को VERIFICATION DONE करना चाहते हैं?";
+
+    }
+    else{
+
+        confirmText =
+            "क्या आप इस Project File को VERIFICATION FAILED करना चाहते हैं?";
+
+    }
+
+
+    if(!confirm(confirmText)){
+
+        return;
+
+    }
+
+
+    try{
+
+        projectFileMessage.textContent =
+            "Verification update हो रहा है...";
+
+
+        const {
+            error
+        } =
+        await securityClient
+        .from("project_file_submissions")
+        .update({
+
+            verification_status:
+                status
+
+        })
+        .eq(
+            "id",
+            submissionId
+        );
+
+
+        if(error){
+
+            throw error;
+
+        }
+
+
+        projectFileMessage.textContent =
+            "✅ Verification successfully update हो गया।";
+
+        projectFileMessage.style.color =
+            "#198754";
+
+
+        await loadProjectFileSubmissions();
+
+    }
+    catch(error){
+
+        console.error(
+            "Verification Update Error:",
+            error
+        );
+
+
+        projectFileMessage.textContent =
+            "❌ Verification update नहीं हो पाया।";
+
+        projectFileMessage.style.color =
+            "#d32f2f";
+
+    }
+
+}
+
+
+/* =========================================
+   CHANGE PROJECT VERIFICATION
+========================================= */
+
+async function changeVerification(
+    submissionId
+){
+
+    if(!confirm(
+        "क्या आप इस submission का verification फिर से बदलना चाहते हैं?"
+    )){
+
+        return;
+
+    }
+
+
+    try{
+
+        const {
+            error
+        } =
+        await securityClient
+        .from("project_file_submissions")
+        .update({
+
+            verification_status:
+                "pending"
+
+        })
+        .eq(
+            "id",
+            submissionId
+        );
+
+
+        if(error){
+
+            throw error;
+
+        }
+
+
+        await loadProjectFileSubmissions();
+
+    }
+    catch(error){
+
+        console.error(error);
+
+        alert(
+            "Verification change नहीं हो पाया।"
+        );
+
+    }
+
+}
+
+
+/* =========================================
+   DELETE PROJECT FILE
+========================================= */
+
+async function deleteProjectFile(
+    submissionId
+){
+
+    if(!confirm(
+        "क्या आप इस Project File का पूरा data delete करना चाहते हैं?\n\nAdmit Card, Payment Screenshot और Database Record सभी delete हो जाएंगे।"
+    )){
+
+        return;
+
+    }
+
+
+    try{
+
+        projectFileMessage.textContent =
+            "Deleting...";
+
+        projectFileMessage.style.color =
+            "#d32f2f";
+
+
+        const {
+            data:submission,
+            error:fetchError
+        } =
+        await securityClient
+        .from("project_file_submissions")
+        .select(
+            "id,admit_card_url,payment_screenshot_url"
+        )
+        .eq(
+            "id",
+            submissionId
+        )
+        .single();
+
+
+        if(fetchError){
+
+            throw fetchError;
+
+        }
+
+
+        if(!submission){
+
+            throw new Error(
+                "Submission नहीं मिली।"
+            );
+
+        }
+
+
+        if(
+            submission.admit_card_url
+        ){
+
+            const {
+                error:admitError
+            } =
+            await securityClient
+            .storage
+            .from("project-files")
+            .remove([
+                submission.admit_card_url
+            ]);
+
+
+            if(admitError){
+
+                throw admitError;
+
+            }
+
+        }
+
+
+        if(
+            submission.payment_screenshot_url
+        ){
+
+            const {
+                error:paymentError
+            } =
+            await securityClient
+            .storage
+            .from("project-files")
+            .remove([
+                submission.payment_screenshot_url
+            ]);
+
+
+            if(paymentError){
+
+                throw paymentError;
+
+            }
+
+        }
+
+
+        const {
+            error:deleteError
+        } =
+        await securityClient
+        .from("project_file_submissions")
+        .delete()
+        .eq(
+            "id",
+            submissionId
+        );
+
+
+        if(deleteError){
+
+            throw deleteError;
+
+        }
+
+
+        projectFileMessage.textContent =
+            "✅ Project File data successfully deleted.";
+
+        projectFileMessage.style.color =
+            "#198754";
+
+
+        await loadProjectFileSubmissions();
+
+    }
+    catch(error){
+
+        console.error(
+            "Project File Delete Error:",
+            error
+        );
+
+
+        projectFileMessage.textContent =
+            "❌ Project File delete नहीं हो पाया.";
+
+        projectFileMessage.style.color =
+            "#d32f2f";
+
+    }
+
+}
+
+
+/* =========================================
+   HTML ESCAPE
+========================================= */
+
+function escapeHtml(value){
+
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* =========================================
+   INITIAL SECURITY CHECK
+========================================= */
+
+checkAdminSession();
 
 </script>
+
+
+<script>
+
+/* =========================================
+   ADMIN SYSTEM PAGE NAVIGATION
+========================================= */
+
+(function(){
+
+    function showAdminMenu(){
+
+        document.getElementById(
+            "adminSystemMenu"
+        ).style.display = "grid";
+
+        document.querySelectorAll(
+            ".system-page"
+        ).forEach(function(page){
+
+            page.classList.remove("active");
+
+        });
+
+    }
+
+
+    function showSystem(system){
+
+        document.getElementById(
+            "adminSystemMenu"
+        ).style.display = "none";
+
+
+        document.querySelectorAll(
+            ".system-page"
+        ).forEach(function(page){
+
+            page.classList.remove("active");
+
+        });
+
+
+        const page =
+            document.getElementById(
+                "system-" + system
+            );
+
+
+        if(page){
+
+            page.classList.add("active");
+
+        }
+
+
+        if(
+            system === "login-users" &&
+            typeof loadAppUsers === "function"
+        ){
+
+            loadAppUsers();
+
+        }
+
+    }
+
+
+    document.querySelectorAll(
+        ".system-menu-btn"
+    ).forEach(function(button){
+
+        button.addEventListener(
+            "click",
+            function(){
+
+                showSystem(
+                    button.getAttribute(
+                        "data-system"
+                    )
+                );
+
+            }
+        );
+
+    });
+
+
+    document.querySelectorAll(
+        ".back-to-menu"
+    ).forEach(function(button){
+
+        button.addEventListener(
+            "click",
+            showAdminMenu
+        );
+
+    });
+
+
+    const menuLogoutBtn =
+        document.getElementById(
+            "menuLogoutBtn"
+        );
+
+
+    if(menuLogoutBtn){
+
+        menuLogoutBtn.addEventListener(
+            "click",
+            function(){
+
+                const logoutBtn =
+                    document.getElementById(
+                        "logoutBtn"
+                    );
+
+
+                if(logoutBtn){
+
+                    logoutBtn.click();
+
+                }
+
+            }
+        );
+
+    }
+
+
+    const observer =
+        new MutationObserver(
+            function(){
+
+                const panel =
+                    document.getElementById(
+                        "adminPanel"
+                    );
+
+
+                if(
+                    panel &&
+                    panel.style.display === "block"
+                ){
+
+                    const active =
+                        document.querySelector(
+                            ".system-page.active"
+                        );
+
+
+                    if(!active){
+
+                        showAdminMenu();
+
+                    }
+
+                }
+
+            }
+        );
+
+
+    const panel =
+        document.getElementById(
+            "adminPanel"
+        );
+
+
+    if(panel){
+
+        observer.observe(
+            panel,
+            {
+                attributes:true,
+                attributeFilter:["style"]
+            }
+        );
+
+    }
+
+
+    showAdminMenu();
+
+})();
+
+</script>
+
+
+<script src="admin.js"></script>
+
 
 </body>
 </html>
