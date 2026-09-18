@@ -20,7 +20,6 @@
       align-items: center;
       font-family: Arial, sans-serif;
 
-      /* New Mirror Reflection Background */
       background:
         radial-gradient(
           circle at 50% 50%,
@@ -35,34 +34,44 @@
       overflow: hidden;
     }
 
-    /* Continuous Light Reflection */
+
+    /* Mirror Light */
+
     body::before {
       content: "";
       position: absolute;
+
       top: -30%;
       left: -80%;
+
       width: 55%;
       height: 160%;
 
-      background: linear-gradient(
-        90deg,
-        transparent 0%,
-        rgba(255,255,255,0.05) 30%,
-        rgba(255,255,255,0.75) 50%,
-        rgba(255,255,255,0.05) 70%,
-        transparent 100%
-      );
+      background:
+        linear-gradient(
+          90deg,
+          transparent 0%,
+          rgba(255,255,255,0.05) 30%,
+          rgba(255,255,255,0.75) 50%,
+          rgba(255,255,255,0.05) 70%,
+          transparent 100%
+        );
 
       transform: rotate(18deg);
-      animation: mirrorLight 4s linear infinite;
+
+      animation:
+        mirrorLight 4s linear infinite;
 
       pointer-events: none;
     }
 
-    /* Soft Moving Reflection */
+
+    /* Soft Reflection */
+
     body::after {
       content: "";
       position: absolute;
+
       inset: 0;
 
       background:
@@ -76,10 +85,13 @@
         );
 
       background-size: 220% 220%;
-      animation: reflectionMove 6s ease-in-out infinite;
+
+      animation:
+        reflectionMove 6s ease-in-out infinite;
 
       pointer-events: none;
     }
+
 
     @keyframes mirrorLight {
 
@@ -92,6 +104,7 @@
       }
 
     }
+
 
     @keyframes reflectionMove {
 
@@ -112,92 +125,205 @@
 
     }
 
+
+    /* Login Popup */
+
     .login-box {
       width: 90%;
       max-width: 400px;
-      background: rgba(255,255,255,0.97);
-      border-radius: 22px;
-      padding: 30px 25px;
-      text-align: center;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.20);
 
-      /* Keep Login Popup Above Background */
+      background: rgba(255,255,255,0.97);
+
+      border-radius: 22px;
+
+      padding: 30px 25px;
+
+      text-align: center;
+
+      box-shadow:
+        0 10px 30px
+        rgba(0,0,0,0.20);
+
       position: relative;
+
       z-index: 10;
     }
+
 
     .logo {
       width: 90px;
       height: 90px;
+
       object-fit: contain;
+
       border-radius: 50%;
+
       margin-bottom: 15px;
     }
+
 
     h1 {
       font-size: 27px;
+
       color: #0d47a1;
+
       margin-bottom: 5px;
     }
 
+
     .subtitle {
       font-size: 16px;
+
       color: #555;
+
       margin-bottom: 25px;
     }
 
+
     .input-box {
       width: 100%;
+
       margin-bottom: 15px;
     }
 
+
     input {
       width: 100%;
+
       padding: 15px;
+
       border: 2px solid #ddd;
+
       border-radius: 12px;
+
       font-size: 16px;
+
       outline: none;
     }
+
 
     input:focus {
       border-color: #0d47a1;
     }
 
+
+    /* Login Button */
+
     .login-btn {
       width: 100%;
+
       padding: 15px;
+
       border: none;
+
       border-radius: 12px;
 
-      background: linear-gradient(
-        to right,
-        #ff9933,
-        #ffffff,
-        #138808
-      );
+      background:
+        linear-gradient(
+          to right,
+          #ff9933,
+          #ffffff,
+          #138808
+        );
 
       color: #111;
+
       font-size: 18px;
+
       font-weight: bold;
+
       cursor: pointer;
+
       border: 1px solid #ddd;
     }
 
+
     .login-btn:disabled {
       opacity: 0.6;
+
       cursor: not-allowed;
     }
 
+
+    /* Download Button */
+
+    .download-btn {
+      display: none;
+
+      width: 100%;
+
+      margin-top: 14px;
+
+      padding: 15px;
+
+      border: none;
+
+      border-radius: 12px;
+
+      cursor: pointer;
+
+      background:
+        linear-gradient(
+          180deg,
+          #ff9933 0%,
+          #ff9933 48%,
+          #138808 52%,
+          #138808 100%
+        );
+
+      color: #ffffff;
+
+      font-size: 18px;
+
+      font-weight: bold;
+
+      box-shadow:
+        0 7px 16px
+        rgba(0,0,0,0.20);
+
+      border: 2px solid #ffffff;
+
+      outline: 1px solid
+        rgba(13,71,161,0.15);
+
+      transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease;
+    }
+
+
+    .download-btn:active {
+      transform: scale(0.97);
+
+      box-shadow:
+        0 4px 10px
+        rgba(0,0,0,0.18);
+    }
+
+
+    .download-icon {
+      margin-right: 8px;
+
+      font-size: 20px;
+
+      vertical-align: middle;
+    }
+
+
     .message {
       margin-top: 15px;
+
       font-size: 14px;
+
       min-height: 20px;
     }
+
   </style>
 </head>
 
+
 <body>
+
 
   <div class="login-box">
 
@@ -207,22 +333,29 @@
       class="logo"
     >
 
+
     <h1>SPDD College</h1>
+
 
     <div class="subtitle">
       Student Portal Login
     </div>
 
+
     <div class="input-box">
+
       <input
         type="text"
         id="name"
         placeholder="अपना नाम दर्ज करें"
         autocomplete="name"
       >
+
     </div>
 
+
     <div class="input-box">
+
       <input
         type="tel"
         id="mobile"
@@ -231,7 +364,11 @@
         autocomplete="tel"
         maxlength="10"
       >
+
     </div>
+
+
+    <!-- Login Button -->
 
     <button
       class="login-btn"
@@ -241,21 +378,46 @@
       Login
     </button>
 
-    <div class="message" id="message"></div>
+
+    <!-- Download Button -->
+
+    <button
+      class="download-btn"
+      id="downloadBtn"
+      type="button"
+      onclick="downloadAndOpen()"
+    >
+
+      <span class="download-icon">⬇</span>
+
+      Download App / Continue
+
+    </button>
+
+
+    <div
+      class="message"
+      id="message"
+    ></div>
+
 
   </div>
 
 
   <!-- Supabase -->
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 
   <script>
 
     const SUPABASE_URL =
       "https://aghizlgvrhunpuxvohep.supabase.co";
 
+
     const SUPABASE_KEY =
       "sb_publishable_gpc7KUqUIykO3WM1aCzRfg_Myo8AKyx";
+
 
     const supabaseClient =
       window.supabase.createClient(
@@ -264,114 +426,168 @@
       );
 
 
-    // Device ID
+    /* Device ID */
+
     function getDeviceId() {
 
       let deviceId =
-        localStorage.getItem("spdd_device_id");
+        localStorage.getItem(
+          "spdd_device_id"
+        );
+
 
       if (!deviceId) {
 
         deviceId =
           crypto.randomUUID();
 
+
         localStorage.setItem(
           "spdd_device_id",
           deviceId
         );
+
       }
 
+
       return deviceId;
+
     }
 
+
+    /* Login */
 
     async function loginUser() {
 
       const name =
-        document.getElementById("name").value.trim();
+        document
+          .getElementById("name")
+          .value
+          .trim();
+
 
       const mobile =
-        document.getElementById("mobile").value.trim();
+        document
+          .getElementById("mobile")
+          .value
+          .trim();
+
 
       const message =
-        document.getElementById("message");
+        document.getElementById(
+          "message"
+        );
+
 
       const loginBtn =
-        document.getElementById("loginBtn");
+        document.getElementById(
+          "loginBtn"
+        );
 
 
-      // Name check
+      const downloadBtn =
+        document.getElementById(
+          "downloadBtn"
+        );
+
+
+      /* Name Check */
+
       if (!name) {
 
-        message.style.color = "red";
+        message.style.color =
+          "red";
+
         message.textContent =
           "कृपया अपना नाम दर्ज करें।";
 
         return;
+
       }
 
 
-      // Mobile check
+      /* Mobile Check */
+
       if (!/^[0-9]{10}$/.test(mobile)) {
 
-        message.style.color = "red";
+        message.style.color =
+          "red";
+
         message.textContent =
           "कृपया सही 10 अंकों का मोबाइल नंबर दर्ज करें।";
 
         return;
+
       }
 
 
       loginBtn.disabled = true;
-      loginBtn.textContent = "Please wait...";
 
-      message.style.color = "#0d47a1";
+      loginBtn.textContent =
+        "Please wait...";
+
+
+      message.style.color =
+        "#0d47a1";
+
+
       message.textContent =
         "Login हो रहा है...";
 
 
-      const deviceId = getDeviceId();
+      const deviceId =
+        getDeviceId();
 
 
       try {
 
-        // Supabase Database Function
+        /* Supabase Login */
+
         const { error } =
           await supabaseClient.rpc(
             "save_app_login",
             {
               p_device_id: deviceId,
+
               p_name: name,
+
               p_mobile: mobile
             }
           );
 
 
         if (error) {
+
           throw error;
+
         }
 
 
-        // Local login information
+        /* Local Login Information */
+
         localStorage.setItem(
           "spdd_login",
           "true"
         );
+
 
         localStorage.setItem(
           "spdd_user_name",
           name
         );
 
+
         localStorage.setItem(
           "spdd_user_mobile",
           mobile
         );
 
+
         localStorage.setItem(
           "spdd_login_time",
           new Date().toISOString()
         );
+
 
         localStorage.setItem(
           "spdd_device_id",
@@ -379,39 +595,108 @@
         );
 
 
-        message.style.color = "green";
+        /* Login Button Disabled */
+
+        loginBtn.disabled = true;
+
+        loginBtn.textContent =
+          "✓ Login Successful";
+
+
+        /* Show Download Button */
+
+        downloadBtn.style.display =
+          "block";
+
+
+        message.style.color =
+          "green";
+
 
         message.textContent =
-          "Login सफल हो गया।";
+          "Login सफल हो गया। अब Download पर क्लिक करें।";
 
 
-        setTimeout(function() {
-
-          window.location.href =
-            "./index.html";
-
-        }, 500);
-
-
-      } catch (error) {
+      }
+      catch (error) {
 
         console.error(
           "Login Error:",
           error
         );
 
-        message.style.color = "red";
+
+        message.style.color =
+          "red";
+
 
         message.textContent =
           "Login नहीं हो पाया। कृपया फिर कोशिश करें।";
 
-        loginBtn.disabled = false;
-        loginBtn.textContent = "Login";
+
+        loginBtn.disabled =
+          false;
+
+
+        loginBtn.textContent =
+          "Login";
+
       }
+
     }
 
 
-    // Mobile में केवल numbers
+    /* Download + Open Portal */
+
+    function downloadAndOpen() {
+
+      const downloadBtn =
+        document.getElementById(
+          "downloadBtn"
+        );
+
+
+      const message =
+        document.getElementById(
+          "message"
+        );
+
+
+      downloadBtn.disabled =
+        true;
+
+
+      downloadBtn.innerHTML =
+        "⬇ Opening Student Portal...";
+
+
+      message.style.color =
+        "#0d47a1";
+
+
+      message.textContent =
+        "Student Portal खोला जा रहा है...";
+
+
+      /*
+       * index.html खोलें
+       *
+       * Login पहले ही Supabase
+       * में save हो चुका है।
+       */
+
+      setTimeout(function() {
+
+        window.location.href =
+          "./index.html";
+
+      }, 500);
+
+    }
+
+
+    /* Mobile में केवल Numbers */
+
     document
       .getElementById("mobile")
       .addEventListener(
@@ -422,10 +707,12 @@
             this.value
               .replace(/\D/g, "")
               .slice(0, 10);
+
         }
       );
 
   </script>
+
 
 </body>
 </html>
