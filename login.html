@@ -20,16 +20,96 @@
       align-items: center;
       font-family: Arial, sans-serif;
 
+      /* New Mirror Reflection Background */
+      background:
+        radial-gradient(
+          circle at 50% 50%,
+          rgba(255,255,255,0.95) 0%,
+          rgba(255,255,255,0.75) 18%,
+          rgba(230,235,240,0.9) 40%,
+          rgba(190,200,210,0.95) 70%,
+          rgba(145,155,165,1) 100%
+        );
+
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Continuous Light Reflection */
+    body::before {
+      content: "";
+      position: absolute;
+      top: -30%;
+      left: -80%;
+      width: 55%;
+      height: 160%;
+
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255,255,255,0.05) 30%,
+        rgba(255,255,255,0.75) 50%,
+        rgba(255,255,255,0.05) 70%,
+        transparent 100%
+      );
+
+      transform: rotate(18deg);
+      animation: mirrorLight 4s linear infinite;
+
+      pointer-events: none;
+    }
+
+    /* Soft Moving Reflection */
+    body::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+
       background:
         linear-gradient(
-          to bottom,
-          #ff9933 0%,
-          #ff9933 33.33%,
-          #ffffff 33.33%,
-          #ffffff 66.66%,
-          #138808 66.66%,
-          #138808 100%
+          120deg,
+          transparent 0%,
+          rgba(255,255,255,0.18) 35%,
+          rgba(255,255,255,0.55) 50%,
+          rgba(255,255,255,0.18) 65%,
+          transparent 100%
         );
+
+      background-size: 220% 220%;
+      animation: reflectionMove 6s ease-in-out infinite;
+
+      pointer-events: none;
+    }
+
+    @keyframes mirrorLight {
+
+      0% {
+        left: -80%;
+      }
+
+      100% {
+        left: 140%;
+      }
+
+    }
+
+    @keyframes reflectionMove {
+
+      0% {
+        background-position: 0% 50%;
+        opacity: 0.35;
+      }
+
+      50% {
+        background-position: 100% 50%;
+        opacity: 0.75;
+      }
+
+      100% {
+        background-position: 0% 50%;
+        opacity: 0.35;
+      }
+
     }
 
     .login-box {
@@ -40,6 +120,10 @@
       padding: 30px 25px;
       text-align: center;
       box-shadow: 0 10px 30px rgba(0,0,0,0.20);
+
+      /* Keep Login Popup Above Background */
+      position: relative;
+      z-index: 10;
     }
 
     .logo {
