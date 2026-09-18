@@ -1,717 +1,745 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>SPDD College - Login</title>
+<title>Student Portal Login</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+<link rel="manifest" href="./manifest.json">
 
-    body {
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-family: Arial, sans-serif;
+<meta name="theme-color" content="#0d47a1">
 
-      background:
-        radial-gradient(
-          circle at 50% 50%,
-          rgba(255,255,255,0.95) 0%,
-          rgba(255,255,255,0.75) 18%,
-          rgba(230,235,240,0.9) 40%,
-          rgba(190,200,210,0.95) 70%,
-          rgba(145,155,165,1) 100%
-        );
+<style>
 
-      position: relative;
-      overflow: hidden;
-    }
+*{
+    box-sizing:border-box;
+}
 
+html,
+body{
+    margin:0;
+    padding:0;
+    width:100%;
+    min-height:100%;
+}
 
-    /* Mirror Light */
+body{
 
-    body::before {
-      content: "";
-      position: absolute;
+    font-family:Arial, sans-serif;
 
-      top: -30%;
-      left: -80%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
 
-      width: 55%;
-      height: 160%;
+    min-height:100vh;
 
-      background:
+    overflow:hidden;
+
+    background:
         linear-gradient(
-          90deg,
-          transparent 0%,
-          rgba(255,255,255,0.05) 30%,
-          rgba(255,255,255,0.75) 50%,
-          rgba(255,255,255,0.05) 70%,
-          transparent 100%
+            135deg,
+            #ff9933 0%,
+            #ffffff 35%,
+            #ffffff 65%,
+            #138808 100%
         );
 
-      transform: rotate(18deg);
-
-      animation:
-        mirrorLight 4s linear infinite;
-
-      pointer-events: none;
-    }
+    position:relative;
+}
 
 
-    /* Soft Reflection */
+/* MIRROR REFLECTION EFFECT */
 
-    body::after {
-      content: "";
-      position: absolute;
+body::before{
 
-      inset: 0;
+    content:"";
 
-      background:
+    position:absolute;
+
+    top:-50%;
+    left:-50%;
+
+    width:200%;
+    height:200%;
+
+    background:
         linear-gradient(
-          120deg,
-          transparent 0%,
-          rgba(255,255,255,0.18) 35%,
-          rgba(255,255,255,0.55) 50%,
-          rgba(255,255,255,0.18) 65%,
-          transparent 100%
+            120deg,
+            transparent 40%,
+            rgba(255,255,255,0.45) 50%,
+            transparent 60%
         );
 
-      background-size: 220% 220%;
+    transform:rotate(0deg);
 
-      animation:
-        reflectionMove 6s ease-in-out infinite;
+    animation:mirrorMove 6s linear infinite;
 
-      pointer-events: none;
+    pointer-events:none;
+}
+
+
+@keyframes mirrorMove{
+
+    0%{
+        transform:translateX(-30%) rotate(0deg);
     }
 
-
-    @keyframes mirrorLight {
-
-      0% {
-        left: -80%;
-      }
-
-      100% {
-        left: 140%;
-      }
-
+    50%{
+        transform:translateX(30%) rotate(0deg);
     }
 
-
-    @keyframes reflectionMove {
-
-      0% {
-        background-position: 0% 50%;
-        opacity: 0.35;
-      }
-
-      50% {
-        background-position: 100% 50%;
-        opacity: 0.75;
-      }
-
-      100% {
-        background-position: 0% 50%;
-        opacity: 0.35;
-      }
-
+    100%{
+        transform:translateX(-30%) rotate(0deg);
     }
 
-
-    /* Login Popup */
-
-    .login-box {
-      width: 90%;
-      max-width: 400px;
-
-      background: rgba(255,255,255,0.97);
-
-      border-radius: 22px;
-
-      padding: 30px 25px;
-
-      text-align: center;
-
-      box-shadow:
-        0 10px 30px
-        rgba(0,0,0,0.20);
-
-      position: relative;
-
-      z-index: 10;
-    }
+}
 
 
-    .logo {
-      width: 90px;
-      height: 90px;
+/* LOGIN BOX */
 
-      object-fit: contain;
+.login-box{
 
-      border-radius: 50%;
+    width:90%;
+    max-width:400px;
 
-      margin-bottom: 15px;
-    }
+    background:#ffffff;
 
+    padding:30px 25px;
 
-    h1 {
-      font-size: 27px;
+    border-radius:20px;
 
-      color: #0d47a1;
+    box-shadow:
+        0 10px 35px rgba(0,0,0,0.25);
 
-      margin-bottom: 5px;
-    }
+    position:relative;
 
+    z-index:10;
 
-    .subtitle {
-      font-size: 16px;
-
-      color: #555;
-
-      margin-bottom: 25px;
-    }
+    text-align:center;
+}
 
 
-    .input-box {
-      width: 100%;
+/* TITLE */
 
-      margin-bottom: 15px;
-    }
+.login-box h2{
 
+    margin-top:0;
+    margin-bottom:25px;
 
-    input {
-      width: 100%;
+    color:#0d47a1;
 
-      padding: 15px;
+    font-size:28px;
 
-      border: 2px solid #ddd;
-
-      border-radius: 12px;
-
-      font-size: 16px;
-
-      outline: none;
-    }
+}
 
 
-    input:focus {
-      border-color: #0d47a1;
-    }
+/* INPUT */
+
+.login-box input{
+
+    width:100%;
+
+    padding:14px;
+
+    margin-bottom:15px;
+
+    border:1px solid #ccc;
+
+    border-radius:10px;
+
+    font-size:16px;
+
+    outline:none;
+}
 
 
-    /* Login Button */
+.login-box input:focus{
 
-    .login-btn {
-      width: 100%;
+    border-color:#0d47a1;
 
-      padding: 15px;
+    box-shadow:
+        0 0 5px rgba(13,71,161,0.25);
 
-      border: none;
+}
 
-      border-radius: 12px;
 
-      background:
+/* LOGIN BUTTON */
+
+.login-btn{
+
+    width:100%;
+
+    padding:14px;
+
+    border:none;
+
+    border-radius:10px;
+
+    font-size:17px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    background:
         linear-gradient(
-          to right,
-          #ff9933,
-          #ffffff,
-          #138808
+            to right,
+            #ff9933,
+            #ffffff,
+            #138808
         );
 
-      color: #111;
+    color:#000;
 
-      font-size: 18px;
-
-      font-weight: bold;
-
-      cursor: pointer;
-
-      border: 1px solid #ddd;
-    }
+    transition:0.3s;
+}
 
 
-    .login-btn:disabled {
-      opacity: 0.6;
+.login-btn:hover{
 
-      cursor: not-allowed;
-    }
+    transform:scale(1.02);
+
+}
 
 
-    /* Download Button */
+.login-btn:disabled{
 
-    .download-btn {
-      display: none;
+    opacity:0.6;
 
-      width: 100%;
+    cursor:not-allowed;
 
-      margin-top: 14px;
+    transform:none;
+}
 
-      padding: 15px;
 
-      border: none;
+/* DOWNLOAD BUTTON */
 
-      border-radius: 12px;
+.download-btn{
 
-      cursor: pointer;
+    width:100%;
 
-      background:
+    padding:14px;
+
+    margin-top:14px;
+
+    border:none;
+
+    border-radius:10px;
+
+    font-size:17px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    /* EXACT SAME COLOR AS LOGIN BUTTON */
+
+    background:
         linear-gradient(
-          180deg,
-          #ff9933 0%,
-          #ff9933 48%,
-          #138808 52%,
-          #138808 100%
+            to right,
+            #ff9933,
+            #ffffff,
+            #138808
         );
 
-      color: #ffffff;
+    color:#000;
 
-      font-size: 18px;
+    transition:0.3s;
 
-      font-weight: bold;
+    display:none;
+}
 
-      box-shadow:
-        0 7px 16px
-        rgba(0,0,0,0.20);
 
-      border: 2px solid #ffffff;
+.download-btn:hover{
 
-      outline: 1px solid
-        rgba(13,71,161,0.15);
+    transform:scale(1.02);
 
-      transition:
-        transform 0.15s ease,
-        box-shadow 0.15s ease;
+}
+
+
+.download-btn:disabled{
+
+    opacity:0.6;
+
+    cursor:not-allowed;
+
+    transform:none;
+
+}
+
+
+/* MESSAGE */
+
+#message{
+
+    margin-top:15px;
+
+    font-size:14px;
+
+    font-weight:bold;
+
+    min-height:20px;
+
+}
+
+
+/* MOBILE */
+
+@media(max-width:500px){
+
+    .login-box{
+
+        padding:25px 20px;
+
     }
 
+    .login-box h2{
 
-    .download-btn:active {
-      transform: scale(0.97);
+        font-size:25px;
 
-      box-shadow:
-        0 4px 10px
-        rgba(0,0,0,0.18);
     }
 
+}
 
-    .download-icon {
-      margin-right: 8px;
-
-      font-size: 20px;
-
-      vertical-align: middle;
-    }
-
-
-    .message {
-      margin-top: 15px;
-
-      font-size: 14px;
-
-      min-height: 20px;
-    }
-
-  </style>
+</style>
 </head>
 
 
 <body>
 
 
-  <div class="login-box">
+<div class="login-box">
 
-    <img
-      src="./images/app-icon-192.png.jpeg"
-      alt="SPDD College Logo"
-      class="logo"
-    >
+    <h2>Student Portal Login</h2>
 
 
-    <h1>SPDD College</h1>
-
-
-    <div class="subtitle">
-      Student Portal Login
-    </div>
-
-
-    <div class="input-box">
-
-      <input
+    <input
         type="text"
         id="name"
-        placeholder="अपना नाम दर्ज करें"
+        placeholder="Enter Your Name"
         autocomplete="name"
-      >
-
-    </div>
+    >
 
 
-    <div class="input-box">
-
-      <input
+    <input
         type="tel"
         id="mobile"
-        placeholder="10 अंकों का मोबाइल नंबर"
+        placeholder="Enter 10 Digit Mobile Number"
+        maxlength="10"
         inputmode="numeric"
         autocomplete="tel"
-        maxlength="10"
-      >
+    >
 
-    </div>
-
-
-    <!-- Login Button -->
 
     <button
-      class="login-btn"
-      id="loginBtn"
-      onclick="loginUser()"
+        class="login-btn"
+        id="loginBtn"
+        type="button"
+        onclick="loginUser()"
     >
-      Login
+        Login
     </button>
 
 
-    <!-- Download Button -->
-
     <button
-      class="download-btn"
-      id="downloadBtn"
-      type="button"
-      onclick="downloadAndOpen()"
+        class="download-btn"
+        id="downloadBtn"
+        type="button"
+        onclick="downloadAndOpen()"
     >
-
-      <span class="download-icon">⬇</span>
-
-      Download App / Continue
-
+        ⬇ Download App
     </button>
 
 
-    <div
-      class="message"
-      id="message"
-    ></div>
+    <div id="message"></div>
+
+</div>
 
 
-  </div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 
-  <!-- Supabase -->
+<script>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+/* ================================
+   SUPABASE
+================================ */
 
+const SUPABASE_URL =
+"https://aghizlgvrhunpuxvohep.supabase.co";
 
-  <script>
+const SUPABASE_KEY =
+"sb_publishable_gpc7KUqUIykO3WM1aCzRfg_Myo8AKyx";
 
-    const SUPABASE_URL =
-      "https://aghizlgvrhunpuxvohep.supabase.co";
-
-
-    const SUPABASE_KEY =
-      "sb_publishable_gpc7KUqUIykO3WM1aCzRfg_Myo8AKyx";
-
-
-    const supabaseClient =
-      window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-      );
+const supabaseClient =
+supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
 
 
-    /* Device ID */
+/* ================================
+   PWA INSTALL PROMPT
+================================ */
 
-    function getDeviceId() {
+let deferredPrompt = null;
 
-      let deviceId =
-        localStorage.getItem(
-          "spdd_device_id"
+
+window.addEventListener(
+    "beforeinstallprompt",
+    function(event){
+
+        event.preventDefault();
+
+        deferredPrompt = event;
+
+        console.log(
+            "PWA install prompt ready"
         );
 
-
-      if (!deviceId) {
-
-        deviceId =
-          crypto.randomUUID();
+    }
+);
 
 
-        localStorage.setItem(
-          "spdd_device_id",
-          deviceId
-        );
+/* ================================
+   LOGIN
+================================ */
 
-      }
+async function loginUser(){
+
+    const name =
+        document.getElementById("name")
+        .value.trim();
+
+    const mobile =
+        document.getElementById("mobile")
+        .value.trim();
+
+    const loginBtn =
+        document.getElementById("loginBtn");
+
+    const downloadBtn =
+        document.getElementById("downloadBtn");
+
+    const message =
+        document.getElementById("message");
 
 
-      return deviceId;
+    /* NAME CHECK */
 
+    if(!name){
+
+        message.style.color="red";
+
+        message.textContent =
+            "Please enter your name.";
+
+        return;
     }
 
 
-    /* Login */
+    /* MOBILE CHECK */
 
-    async function loginUser() {
+    if(!/^[0-9]{10}$/.test(mobile)){
 
-      const name =
-        document
-          .getElementById("name")
-          .value
-          .trim();
-
-
-      const mobile =
-        document
-          .getElementById("mobile")
-          .value
-          .trim();
-
-
-      const message =
-        document.getElementById(
-          "message"
-        );
-
-
-      const loginBtn =
-        document.getElementById(
-          "loginBtn"
-        );
-
-
-      const downloadBtn =
-        document.getElementById(
-          "downloadBtn"
-        );
-
-
-      /* Name Check */
-
-      if (!name) {
-
-        message.style.color =
-          "red";
+        message.style.color="red";
 
         message.textContent =
-          "कृपया अपना नाम दर्ज करें।";
+            "Please enter a valid 10 digit mobile number.";
 
         return;
-
-      }
-
-
-      /* Mobile Check */
-
-      if (!/^[0-9]{10}$/.test(mobile)) {
-
-        message.style.color =
-          "red";
-
-        message.textContent =
-          "कृपया सही 10 अंकों का मोबाइल नंबर दर्ज करें।";
-
-        return;
-
-      }
+    }
 
 
-      loginBtn.disabled = true;
+    loginBtn.disabled=true;
 
-      loginBtn.textContent =
-        "Please wait...";
+    loginBtn.textContent="Logging in...";
 
+    message.style.color="#0d47a1";
 
-      message.style.color =
-        "#0d47a1";
-
-
-      message.textContent =
-        "Login हो रहा है...";
+    message.textContent="Please wait...";
 
 
-      const deviceId =
-        getDeviceId();
+    try{
+
+        /* DEVICE ID */
+
+        let deviceId =
+            localStorage.getItem(
+                "student_portal_device_id"
+            );
 
 
-      try {
+        if(!deviceId){
 
-        /* Supabase Login */
+            deviceId =
+                crypto.randomUUID();
+
+            localStorage.setItem(
+                "student_portal_device_id",
+                deviceId
+            );
+
+        }
+
+
+        /* SAVE LOGIN */
 
         const { error } =
-          await supabaseClient.rpc(
-            "save_app_login",
-            {
-              p_device_id: deviceId,
-
-              p_name: name,
-
-              p_mobile: mobile
-            }
-          );
+            await supabaseClient.rpc(
+                "save_app_login",
+                {
+                    p_device_id:deviceId,
+                    p_name:name,
+                    p_mobile:mobile
+                }
+            );
 
 
-        if (error) {
+        if(error){
 
-          throw error;
+            throw error;
 
         }
 
 
-        /* Local Login Information */
+        /* SAVE LOCAL LOGIN */
 
         localStorage.setItem(
-          "spdd_login",
-          "true"
+            "student_portal_name",
+            name
+        );
+
+        localStorage.setItem(
+            "student_portal_mobile",
+            mobile
+        );
+
+        localStorage.setItem(
+            "student_portal_logged_in",
+            "true"
         );
 
 
-        localStorage.setItem(
-          "spdd_user_name",
-          name
-        );
-
-
-        localStorage.setItem(
-          "spdd_user_mobile",
-          mobile
-        );
-
-
-        localStorage.setItem(
-          "spdd_login_time",
-          new Date().toISOString()
-        );
-
-
-        localStorage.setItem(
-          "spdd_device_id",
-          deviceId
-        );
-
-
-        /* Login Button Disabled */
-
-        loginBtn.disabled = true;
+        /* LOGIN SUCCESS */
 
         loginBtn.textContent =
-          "✓ Login Successful";
+            "Login Successful ✓";
+
+        message.style.color="green";
+
+        message.textContent =
+            "Login successful. अब App Download करें।";
 
 
-        /* Show Download Button */
+        /* SHOW DOWNLOAD BUTTON */
 
         downloadBtn.style.display =
-          "block";
+            "block";
 
 
-        message.style.color =
-          "green";
-
-
-        message.textContent =
-          "Login सफल हो गया। अब Download पर क्लिक करें।";
-
-
-      }
-      catch (error) {
+    }catch(error){
 
         console.error(
-          "Login Error:",
-          error
+            "Login Error:",
+            error
         );
 
+        loginBtn.disabled=false;
 
-        message.style.color =
-          "red";
+        loginBtn.textContent="Login";
 
+        message.style.color="red";
 
         message.textContent =
-          "Login नहीं हो पाया। कृपया फिर कोशिश करें।";
+            error.message ||
+            "Login failed. Please try again.";
+
+    }
+
+}
 
 
-        loginBtn.disabled =
-          false;
+/* ================================
+   DOWNLOAD / INSTALL APP
+================================ */
+
+async function downloadAndOpen(){
+
+    const downloadBtn =
+        document.getElementById("downloadBtn");
+
+    const message =
+        document.getElementById("message");
 
 
-        loginBtn.textContent =
-          "Login";
+    /*
+       Native PWA install prompt
+    */
 
-      }
+    if(!deferredPrompt){
+
+        message.style.color="#d35400";
+
+        message.textContent =
+            "Install option अभी उपलब्ध नहीं है। Browser menu से Install App / Add to Home Screen चुनें।";
+
+        return;
 
     }
 
 
-    /* Download + Open Portal */
+    downloadBtn.disabled=true;
 
-    function downloadAndOpen() {
-
-      const downloadBtn =
-        document.getElementById(
-          "downloadBtn"
-        );
+    downloadBtn.textContent =
+        "Downloading / Installing...";
 
 
-      const message =
-        document.getElementById(
-          "message"
-        );
+    try{
+
+        /* OPEN NATIVE INSTALL POPUP */
+
+        deferredPrompt.prompt();
 
 
-      downloadBtn.disabled =
-        true;
+        const result =
+            await deferredPrompt.userChoice;
 
 
-      downloadBtn.innerHTML =
-        "⬇ Opening Student Portal...";
+        if(result.outcome === "accepted"){
 
+            message.style.color="green";
 
-      message.style.color =
-        "#0d47a1";
+            message.textContent =
+                "App install हो रहा है...";
 
+        }else{
 
-      message.textContent =
-        "Student Portal खोला जा रहा है...";
+            message.style.color="#d35400";
 
+            message.textContent =
+                "App installation cancelled.";
 
-      /*
-       * index.html खोलें
-       *
-       * Login पहले ही Supabase
-       * में save हो चुका है।
-       */
+            downloadBtn.disabled=false;
 
-      setTimeout(function() {
-
-        window.location.href =
-          "./index.html";
-
-      }, 500);
-
-    }
-
-
-    /* Mobile में केवल Numbers */
-
-    document
-      .getElementById("mobile")
-      .addEventListener(
-        "input",
-        function() {
-
-          this.value =
-            this.value
-              .replace(/\D/g, "")
-              .slice(0, 10);
+            downloadBtn.textContent =
+                "⬇ Download App";
 
         }
-      );
 
-  </script>
+
+        deferredPrompt=null;
+
+
+    }catch(error){
+
+        console.error(
+            "Install Error:",
+            error
+        );
+
+        message.style.color="red";
+
+        message.textContent =
+            "App installation शुरू नहीं हो सकी।";
+
+        downloadBtn.disabled=false;
+
+        downloadBtn.textContent =
+            "⬇ Download App";
+
+    }
+
+}
+
+
+/* ================================
+   APP INSTALLED
+================================ */
+
+window.addEventListener(
+    "appinstalled",
+    function(){
+
+        const downloadBtn =
+            document.getElementById(
+                "downloadBtn"
+            );
+
+        const message =
+            document.getElementById(
+                "message"
+            );
+
+
+        downloadBtn.textContent =
+            "✓ App Installed";
+
+        downloadBtn.disabled=true;
+
+
+        message.style.color="green";
+
+        message.textContent =
+            "App successfully installed. Opening App...";
+
+
+        /*
+           Installation complete होने के बाद
+           Portal खोलें
+        */
+
+        setTimeout(
+            function(){
+
+                window.location.href =
+                    "./index.html";
+
+            },
+            1000
+        );
+
+    }
+);
+
+
+/* ================================
+   SERVICE WORKER
+================================ */
+
+if("serviceWorker" in navigator){
+
+    window.addEventListener(
+        "load",
+        function(){
+
+            navigator.serviceWorker
+                .register(
+                    "./service-worker.js"
+                )
+                .then(function(){
+
+                    console.log(
+                        "Service Worker Registered"
+                    );
+
+                })
+                .catch(function(error){
+
+                    console.log(
+                        "Service Worker Error:",
+                        error
+                    );
+
+                });
+
+        }
+    );
+
+}
+
+</script>
 
 
 </body>
