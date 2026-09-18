@@ -2,7 +2,7 @@
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Form Filling</title>
 
 <style>
@@ -10,19 +10,29 @@
   box-sizing:border-box;
 }
 
+html,
 body{
   margin:0;
+  padding:0;
+  width:100%;
+  min-height:100%;
+}
+
+body{
   font-family:Arial,sans-serif;
   background:#e5ddd5;
+  overflow-x:hidden;
 }
 
 .chat{
+  width:100%;
   max-width:700px;
-  margin:auto;
   min-height:100vh;
+  margin:0 auto;
   background:#efeae2;
   display:flex;
   flex-direction:column;
+  overflow:hidden;
 }
 
 .header{
@@ -31,12 +41,15 @@ body{
   padding:15px;
   font-size:20px;
   font-weight:bold;
+  flex-shrink:0;
 }
 
 .messages{
   flex:1;
   padding:15px;
   overflow-y:auto;
+  overflow-x:hidden;
+  -webkit-overflow-scrolling:touch;
 }
 
 .msg{
@@ -46,6 +59,7 @@ body{
   border-radius:10px;
   line-height:1.4;
   word-wrap:break-word;
+  overflow-wrap:break-word;
 }
 
 .bot{
@@ -60,6 +74,7 @@ body{
 
 .options{
   padding:10px;
+  flex-shrink:0;
 }
 
 button{
@@ -79,10 +94,12 @@ button{
   gap:6px;
   padding:8px;
   background:#f0f0f0;
+  flex-shrink:0;
 }
 
 input[type=text]{
   flex:1;
+  min-width:0;
   padding:13px;
   border:1px solid #ccc;
   border-radius:8px;
@@ -159,6 +176,42 @@ input[type=file]{
   margin:10px 0;
   line-height:1.5;
 }
+
+
+/* =========================================
+   DESKTOP SITE / LARGE SCREEN CONTROL
+========================================= */
+
+@media (min-width:701px){
+
+  body{
+    display:flex;
+    justify-content:center;
+    background:#e5ddd5;
+  }
+
+  .chat{
+    width:700px;
+    max-width:700px;
+    min-height:100vh;
+    margin:0 auto;
+  }
+
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width:700px){
+
+  .chat{
+    width:100%;
+    max-width:700px;
+  }
+
+}
 </style>
 </head>
 
@@ -200,7 +253,8 @@ const SUPABASE_KEY =
 "sb_publishable_gpc7KUqUIykO3WM1aCzRfg_Myo8AKyx";
 
 
-const RECEIPT_LINK = "https://jharkhandvision123.github.io/shubham/student-csc.html";
+const RECEIPT_LINK =
+"https://jharkhandvision123.github.io/shubham/student-csc.html";
 
 
 const messages =
@@ -230,6 +284,7 @@ let data = {
   semester:"",
   mobile_number:"",
   admit_card_url:"",
+  rasid_url:"",
   payment_screenshot_url:"",
   status:"Pending"
 
@@ -468,7 +523,7 @@ function sendText(){
   if(!value)return;
 
 
-  if(step===3){
+  if(step===4){
 
     const n =
     value.replace(/\D/g,"");
@@ -648,7 +703,7 @@ function chooseSemester(s){
   user(data.semester);
 
 
-  step = 4;
+  step = 3;
 
 
   bot(
@@ -703,6 +758,65 @@ function showAdmitUpload(){
       uploadFile(
         input.files[0],
         "admit"
+      );
+
+    }
+
+  };
+
+
+  label.appendChild(input);
+
+  options.appendChild(label);
+
+
+  saveChat();
+
+}
+
+
+
+/* =========================================
+   रसीद UPLOAD UI
+========================================= */
+
+function showRasidUpload(){
+
+  options.innerHTML =
+  "";
+
+  textArea.style.display =
+  "none";
+
+
+  const label =
+  document.createElement("label");
+
+  label.className =
+  "file-label";
+
+  label.textContent =
+  "📎 रसीद Upload";
+
+
+  const input =
+  document.createElement("input");
+
+  input.type =
+  "file";
+
+  input.accept =
+  "image/*,.pdf";
+
+
+  input.onchange =
+  ()=>{
+
+    if(input.files.length){
+
+      uploadFile(
+        input.files[0],
+        "rasid"
       );
 
     }
@@ -800,6 +914,10 @@ async function uploadFile(file,type){
     path;
 
 
+    /* =====================================
+       ADMIT CARD SUCCESS
+    ===================================== */
+
     if(type==="admit"){
 
       data.admit_card_url =
@@ -810,19 +928,54 @@ async function uploadFile(file,type){
       );
 
 
+      step = 3.5;
+
+
+      bot(
+        "अब अपनी कोई एक रसीद Upload करें।"
+      );
+
+
+      showRasidUpload();
+
+      return;
+
+    }
+
+
+    /* =====================================
+       रसीद SUCCESS
+    ===================================== */
+
+    if(type==="rasid"){
+
+      data.rasid_url =
+      url;
+
+      user(
+        "रसीद भेज दी गई"
+      );
+
+
       bot(
         "अब अपना NPU Registered Mobile Number दर्ज करें।"
       );
 
 
-      step = 3;
+      step = 4;
 
       textMode(
         "10 digit mobile number"
       );
 
+      return;
+
     }
 
+
+    /* =====================================
+       PAYMENT SUCCESS
+    ===================================== */
 
     if(type==="payment"){
 
@@ -1011,9 +1164,6 @@ function payment(){
 
 /* =========================================
    PAYMENT UPLOAD UI - RESTORE ONLY
-   IMPORTANT:
-   यहाँ कोई नया Payment message या QR
-   messages में add नहीं किया जाएगा।
 ========================================= */
 
 function restorePaymentUpload(){
@@ -1123,7 +1273,10 @@ async function submitForm(){
           data.admit_card_url,
 
           p_payment_screenshot_url:
-          data.payment_screenshot_url
+          data.payment_screenshot_url,
+
+          p_rasid_url:
+          data.rasid_url
 
         })
 
@@ -1476,10 +1629,6 @@ function showReceiptButton(){
   }
 
 
-  /*
-     ONLY NEW FORM BUTTON ADDED
-  */
-
   const newFormButton =
   document.createElement("button");
 
@@ -1551,11 +1700,6 @@ function startNewForm(){
   }
 
 
-  /*
-     पुरानी Chat/History को नहीं हटाया जाएगा।
-     केवल Current Form का Data Reset होगा।
-  */
-
   currentSubmissionId =
   null;
 
@@ -1577,6 +1721,7 @@ function startNewForm(){
     semester:"",
     mobile_number:"",
     admit_card_url:"",
+    rasid_url:"",
     payment_screenshot_url:"",
     status:"Pending"
 
@@ -1585,11 +1730,6 @@ function startNewForm(){
 
   step = 1;
 
-
-  /*
-     नया Form उसी पुराने START
-     process से शुरू होगा।
-  */
 
   start();
 
@@ -1720,26 +1860,11 @@ function restoreCurrentStep(){
 
 
   /*
-    Mobile Number डालना बाकी था
-  */
-
-  if(step===3){
-
-    textMode(
-      "10 digit mobile number"
-    );
-
-    return;
-
-  }
-
-
-  /*
     Admit Card upload करना बाकी था
   */
 
   if(
-    step===4 &&
+    step===3 &&
     !data.admit_card_url
   ){
 
@@ -1751,20 +1876,45 @@ function restoreCurrentStep(){
 
 
   /*
+    रसीद upload करना बाकी था
+  */
+
+  if(
+    step===3.5 &&
+    data.admit_card_url &&
+    !data.rasid_url
+  ){
+
+    showRasidUpload();
+
+    return;
+
+  }
+
+
+  /*
+    Mobile Number डालना बाकी था
+  */
+
+  if(step===4){
+
+    textMode(
+      "10 digit mobile number"
+    );
+
+    return;
+
+  }
+
+
+  /*
     Payment Screenshot upload करना बाकी था
-
-    IMPORTANT:
-    यहाँ payment() नहीं चलाया जाएगा।
-    क्योंकि payment() नया message और QR
-    messages में जोड़ता है।
-
-    QR पहले से localStorage में मौजूद
-    messages.innerHTML के अंदर है।
   */
 
   if(
     step===5 &&
     data.admit_card_url &&
+    data.rasid_url &&
     data.mobile_number &&
     !data.payment_screenshot_url
   ){
