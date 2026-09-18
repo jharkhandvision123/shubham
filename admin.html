@@ -341,19 +341,6 @@ button{
     margin-bottom:8px;
 }
 
-.form-pdf-link{
-    display:block;
-    width:100%;
-    padding:12px;
-    background:#455a64;
-    color:white;
-    text-align:center;
-    text-decoration:none;
-    border-radius:8px;
-    margin-top:8px;
-    font-weight:bold;
-}
-
 
 /* =========================================
    ADMIN SYSTEM MENU / PAGE NAVIGATION
@@ -499,20 +486,19 @@ button{
         <div class="admin-system-menu" id="adminSystemMenu">
 
             <button type="button" class="system-menu-btn" data-system="notification">🔔 Notification Management</button>
+
             <button type="button" class="system-menu-btn" data-system="form">Form Filling Management</button>
+
             <button type="button" class="system-menu-btn" data-system="project">Project File Verification</button>
-             
-             
+
             <button type="button" class="system-menu-btn" data-system="receipt">Receipt Upload / Delete</button>
+
             <button type="button" class="system-menu-btn" data-system="login-users">Login System</button>
 
         </div>
 
 
         <div class="system-page" id="system-notification">
-                    <!-- =====================================
-             🔔 NOTIFICATION MANAGEMENT
-        ====================================== -->
 
         <div class="box">
 
@@ -526,20 +512,17 @@ button{
                 placeholder="Notification Title / Main Line"
             >
 
-
             <textarea
                 id="notificationMessage"
                 placeholder="Notification Message लिखें..."
                 rows="4"
             ></textarea>
 
-
             <input
                 type="url"
                 id="notificationLink"
                 placeholder="Optional Link (https://...)"
             >
-
 
             <button
                 id="sendNotificationBtn"
@@ -548,32 +531,26 @@ button{
                 🔔 SEND NOTIFICATION
             </button>
 
-
             <div id="notificationStatus"></div>
 
-
             <hr style="margin:20px 0;">
-
 
             <h3 class="notification-history-title">
                 📋 Old Notifications
             </h3>
 
-
             <div id="notificationResults"></div>
 
         </div>
 
+        <button type="button" class="back-to-menu">
+            ← BACK TO ADMIN MENU
+        </button>
 
-
-            <button type="button" class="back-to-menu">← BACK TO ADMIN MENU</button>
         </div>
 
 
         <div class="system-page" id="system-form">
-                    <!-- =====================================
-             FORM FILLING MANAGEMENT
-        ====================================== -->
 
         <div class="box">
 
@@ -592,16 +569,14 @@ button{
 
         </div>
 
+        <button type="button" class="back-to-menu">
+            ← BACK TO ADMIN MENU
+        </button>
 
-
-            <button type="button" class="back-to-menu">← BACK TO ADMIN MENU</button>
         </div>
 
 
         <div class="system-page" id="system-project">
-                    <!-- =====================================
-             PROJECT FILE VERIFICATION
-        ====================================== -->
 
         <div class="box">
 
@@ -620,17 +595,14 @@ button{
 
         </div>
 
+        <button type="button" class="back-to-menu">
+            ← BACK TO ADMIN MENU
+        </button>
 
-
-            <button type="button" class="back-to-menu">← BACK TO ADMIN MENU</button>
         </div>
 
 
         <div class="system-page" id="system-pdf">
- 
-                    <!-- =====================================
-             DELETE RECEIPT
-        ====================================== -->
 
         <div class="box" id="adminBox">
 
@@ -644,11 +616,9 @@ button{
                 inputmode="numeric"
             >
 
-
             <button id="searchBtn">
                 SEARCH RECEIPTS
             </button>
-
 
             <div id="message"></div>
 
@@ -656,10 +626,6 @@ button{
 
         </div>
 
-
-        <!-- =====================================
-             UPLOAD RECEIPT
-        ====================================== -->
 
         <div class="box">
 
@@ -673,26 +639,24 @@ button{
                 inputmode="numeric"
             >
 
-
             <input
                 type="file"
                 id="receiptFile"
                 accept="application/pdf"
             >
 
-
             <button id="uploadReceiptBtn">
                 UPLOAD RECEIPT
             </button>
-
 
             <div id="receiptUploadMessage"></div>
 
         </div>
 
+        <button type="button" class="back-to-menu">
+            ← BACK TO ADMIN MENU
+        </button>
 
-
-            <button type="button" class="back-to-menu">← BACK TO ADMIN MENU</button>
         </div>
 
 
@@ -702,7 +666,9 @@ button{
 
                 <h2>Login System</h2>
 
-                <button id="appUsersRefreshBtn" type="button">🔄 REFRESH LOGIN USERS</button>
+                <button id="appUsersRefreshBtn" type="button">
+                    🔄 REFRESH LOGIN USERS
+                </button>
 
                 <div id="appUsersMessage"></div>
 
@@ -710,15 +676,14 @@ button{
 
             </div>
 
-            <button type="button" class="back-to-menu">← BACK TO ADMIN MENU</button>
+            <button type="button" class="back-to-menu">
+                ← BACK TO ADMIN MENU
+            </button>
 
         </div>
 
 
         <div class="system-page" id="system-logout">
-                    <!-- =====================================
-             LOGOUT
-        ====================================== -->
 
         <div class="box" id="logoutBox">
 
@@ -731,7 +696,10 @@ button{
 
         </div>
 
-            <button type="button" class="back-to-menu">← BACK TO ADMIN MENU</button>
+        <button type="button" class="back-to-menu">
+            ← BACK TO ADMIN MENU
+        </button>
+
         </div>
 
     </div>
@@ -1004,7 +972,7 @@ async function loadFormFillingSubmissions(){
         await securityClient
         .from("form_filling_submissions")
         .select(
-            "id,serial_number,form_type,semester,category,mobile_number,admit_card_url,payment_screenshot_url,status,created_at"
+            "id,serial_number,form_type,semester,category,mobile_number,admit_card_url,payment_screenshot_url,rasid_url,status,created_at"
         )
         .order(
             "serial_number",
@@ -1190,15 +1158,23 @@ function createFormFillingCard(item){
                 >
                     🪪 VIEW ADMIT CARD
                 </button>
+                `
+                :
+                ""
+            }
 
-                <div
-                    class="form-document-box"
-                    data-document-box="admit"
+
+            ${
+                item.rasid_url
+                ?
+                `
+                <button
+                    type="button"
+                    class="view-document-btn"
+                    data-form-view="rasid"
                 >
-                    <div class="form-document-title">
-                        🪪 Admit Card
-                    </div>
-                </div>
+                    🧾 VIEW रसीद
+                </button>
                 `
                 :
                 ""
@@ -1216,15 +1192,6 @@ function createFormFillingCard(item){
                 >
                     💳 VIEW PAYMENT SCREENSHOT
                 </button>
-
-                <div
-                    class="form-document-box"
-                    data-document-box="payment"
-                >
-                    <div class="form-document-title">
-                        💳 Payment Screenshot
-                    </div>
-                </div>
                 `
                 :
                 ""
@@ -1292,10 +1259,30 @@ function createFormFillingCard(item){
             "click",
             function(){
 
-                toggleFormDocument(
-                    card,
-                    "admit",
+                openFormDocumentDirect(
                     item.admit_card_url
+                );
+
+            }
+        );
+
+    }
+
+
+    const rasidButton =
+        card.querySelector(
+            '[data-form-view="rasid"]'
+        );
+
+
+    if(rasidButton){
+
+        rasidButton.addEventListener(
+            "click",
+            function(){
+
+                openFormDocumentDirect(
+                    item.rasid_url
                 );
 
             }
@@ -1374,7 +1361,31 @@ function createFormFillingCard(item){
 
 
 /* =========================================
-   VIEW FORM DOCUMENT
+   DIRECT FORM DOCUMENT OPEN
+========================================= */
+
+function openFormDocumentDirect(fileUrl){
+
+    if(!fileUrl){
+
+        alert(
+            "Document उपलब्ध नहीं है।"
+        );
+
+        return;
+
+    }
+
+    window.open(
+        fileUrl,
+        "_blank"
+    );
+
+}
+
+
+/* =========================================
+   VIEW PAYMENT DOCUMENT
 ========================================= */
 
 function toggleFormDocument(
@@ -1401,7 +1412,20 @@ function toggleFormDocument(
 
 
     if(!box){
+
+        /*
+         * Payment Screenshot का पुराना
+         * document box उपलब्ध नहीं है,
+         * इसलिए सीधे document खोलें।
+         */
+
+        window.open(
+            fileUrl,
+            "_blank"
+        );
+
         return;
+
     }
 
 
@@ -1410,12 +1434,6 @@ function toggleFormDocument(
     ){
 
         box.style.display = "none";
-
-        box.innerHTML = `
-            <div class="form-document-title">
-                ${type === "admit" ? "🪪 Admit Card" : "💳 Payment Screenshot"}
-            </div>
-        `;
 
         return;
 
@@ -1438,17 +1456,19 @@ function toggleFormDocument(
 
         box.innerHTML = `
             <div class="form-document-title">
-                ${type === "admit" ? "🪪 Admit Card PDF" : "💳 Payment Screenshot PDF"}
+                💳 Payment Screenshot PDF
             </div>
 
-            <a
-                href="${escapeHtml(fileUrl)}"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="form-pdf-link"
-            >
-                📄 OPEN PDF
-            </a>
+            <iframe
+                src="${escapeHtml(fileUrl)}"
+                style="
+                    width:100%;
+                    height:500px;
+                    border:1px solid #ddd;
+                    border-radius:8px;
+                    background:white;
+                "
+            ></iframe>
         `;
 
         return;
@@ -1458,25 +1478,15 @@ function toggleFormDocument(
 
     box.innerHTML = `
         <div class="form-document-title">
-            ${type === "admit" ? "🪪 Admit Card" : "💳 Payment Screenshot"}
+            💳 Payment Screenshot
         </div>
 
         <img
             src="${escapeHtml(fileUrl)}"
             class="form-document-image"
-            alt="${type === "admit" ? "Admit Card" : "Payment Screenshot"}"
-            onerror="this.style.display='none';this.nextElementSibling.style.display='block';"
+            alt="Payment Screenshot"
+            onerror="this.style.display='none';"
         >
-
-        <a
-            href="${escapeHtml(fileUrl)}"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="form-pdf-link"
-            style="display:none;"
-        >
-            📄 OPEN DOCUMENT
-        </a>
     `;
 
 }
@@ -2491,7 +2501,6 @@ checkAdminSession();
 </script>
 
 
-
 <script>
 
 /* =========================================
@@ -2501,71 +2510,183 @@ checkAdminSession();
 (function(){
 
     function showAdminMenu(){
-        document.getElementById("adminSystemMenu").style.display = "grid";
 
-        document.querySelectorAll(".system-page").forEach(function(page){
+        document.getElementById(
+            "adminSystemMenu"
+        ).style.display = "grid";
+
+        document.querySelectorAll(
+            ".system-page"
+        ).forEach(function(page){
+
             page.classList.remove("active");
+
         });
+
     }
+
 
     function showSystem(system){
-        document.getElementById("adminSystemMenu").style.display = "none";
 
-        document.querySelectorAll(".system-page").forEach(function(page){
+        document.getElementById(
+            "adminSystemMenu"
+        ).style.display = "none";
+
+
+        document.querySelectorAll(
+            ".system-page"
+        ).forEach(function(page){
+
             page.classList.remove("active");
+
         });
 
-        const page = document.getElementById("system-" + system);
+
+        const page =
+            document.getElementById(
+                "system-" + system
+            );
+
+
         if(page){
+
             page.classList.add("active");
+
         }
 
-        if(system === "login-users" && typeof loadAppUsers === "function"){
+
+        if(
+            system === "login-users" &&
+            typeof loadAppUsers === "function"
+        ){
+
             loadAppUsers();
+
         }
+
     }
 
-    document.querySelectorAll(".system-menu-btn").forEach(function(button){
-        button.addEventListener("click",function(){
-            showSystem(button.getAttribute("data-system"));
-        });
+
+    document.querySelectorAll(
+        ".system-menu-btn"
+    ).forEach(function(button){
+
+        button.addEventListener(
+            "click",
+            function(){
+
+                showSystem(
+                    button.getAttribute(
+                        "data-system"
+                    )
+                );
+
+            }
+        );
+
     });
 
-    document.querySelectorAll(".back-to-menu").forEach(function(button){
-        button.addEventListener("click",showAdminMenu);
+
+    document.querySelectorAll(
+        ".back-to-menu"
+    ).forEach(function(button){
+
+        button.addEventListener(
+            "click",
+            showAdminMenu
+        );
+
     });
 
-    const menuLogoutBtn = document.getElementById("menuLogoutBtn");
+
+    const menuLogoutBtn =
+        document.getElementById(
+            "menuLogoutBtn"
+        );
+
+
     if(menuLogoutBtn){
-        menuLogoutBtn.addEventListener("click",function(){
-            const logoutBtn = document.getElementById("logoutBtn");
-            if(logoutBtn){
-                logoutBtn.click();
+
+        menuLogoutBtn.addEventListener(
+            "click",
+            function(){
+
+                const logoutBtn =
+                    document.getElementById(
+                        "logoutBtn"
+                    );
+
+
+                if(logoutBtn){
+
+                    logoutBtn.click();
+
+                }
+
             }
-        });
+        );
+
     }
 
-    // Keep the admin home as the first screen after login.
-    const observer = new MutationObserver(function(){
-        const panel = document.getElementById("adminPanel");
-        if(panel && panel.style.display === "block"){
-            const active = document.querySelector(".system-page.active");
-            if(!active){
-                showAdminMenu();
-            }
-        }
-    });
 
-    const panel = document.getElementById("adminPanel");
+    const observer =
+        new MutationObserver(
+            function(){
+
+                const panel =
+                    document.getElementById(
+                        "adminPanel"
+                    );
+
+
+                if(
+                    panel &&
+                    panel.style.display === "block"
+                ){
+
+                    const active =
+                        document.querySelector(
+                            ".system-page.active"
+                        );
+
+
+                    if(!active){
+
+                        showAdminMenu();
+
+                    }
+
+                }
+
+            }
+        );
+
+
+    const panel =
+        document.getElementById(
+            "adminPanel"
+        );
+
+
     if(panel){
-        observer.observe(panel,{attributes:true,attributeFilter:["style"]});
+
+        observer.observe(
+            panel,
+            {
+                attributes:true,
+                attributeFilter:["style"]
+            }
+        );
+
     }
+
 
     showAdminMenu();
 
 })();
 
 </script>
+
 
 <script src="admin.js"></script>
 
