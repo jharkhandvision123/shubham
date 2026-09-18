@@ -1869,3 +1869,162 @@ document.addEventListener("DOMContentLoaded", () => {
     checkLogin();
 
 });
+/* =====================================
+   APP USERS / LOGIN USERS
+===================================== */
+
+async function loadAppUsers() {
+    const message = document.getElementById("appUsersMessage");
+    const results = document.getElementById("appUsersResults");
+
+    if (!message || !results) return;
+
+    message.textContent = "Loading...";
+    results.innerHTML = "";
+
+    try {
+        const { data, error } = await securityClient
+            .from("app_installations")
+            .select(`
+                name,
+                mobile_number,
+                installed_at,
+                first_login_at,
+                last_login_at,
+                login_status
+            `)
+            .order("created_at", { ascending: false });
+
+        if (error) throw error;
+
+        message.textContent = `Total Users: ${data.length}`;
+
+        if (data.length === 0) {
+            results.innerHTML = `
+                <div style="
+                    text-align:center;
+                    padding:20px;
+                    background:#f5f5f5;
+                    border-radius:10px;
+                ">
+                    No users found
+                </div>
+            `;
+            return;
+        }
+
+        let html = `
+            <div style="
+                overflow-x:auto;
+                margin-top:15px;
+            ">
+            <table style="
+                width:100%;
+                border-collapse:collapse;
+                min-width:750px;
+            ">
+                <thead>
+                    <tr style="background:#0d47a1;color:white;">
+                        <th style="padding:10px;border:1px solid #ddd;">#</th>
+                        <th style="padding:10px;border:1px solid #ddd;">Name</th>
+                        <th style="padding:10px;border:1px solid #ddd;">Mobile</th>
+                        <th style="padding:10px;border:1px solid #ddd;">Install Date</th>
+                        <th style="padding:10px;border:1px solid #ddd;">First Login</th>
+                        <th style="padding:10px;border:1px solid #ddd;">Last Login</th>
+                        <th style="padding:10px;border:1px solid #ddd;">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+        `;
+
+        data.forEach((user, index) => {
+
+            const formatDate = (date) => {
+                if (!date) return "—";
+
+                return new Date(date).toLocaleString("en-IN", {
+                    dateStyle: "short",
+                    timeStyle: "short"
+                });
+            };
+
+            html += `
+                <tr>
+                    <td style="padding:10px;border:1px solid #ddd;text-align:center;">
+                        ${index + 1}
+                    </td>
+
+                    <td style="padding:10px;border:1px solid #ddd;">
+                        ${escapeHtml(user.name || "—")}
+                    </td>
+
+                    <td style="padding:10px;border:1px solid #ddd;">
+                        ${escapeHtml(user.mobile_number || "—")}
+                    </td>
+
+                    <td style="padding:10px;border:1px solid #ddd;">
+                        ${formatDate(user.installed_at)}
+                    </td>
+
+                    <td style="padding:10px;border:1px solid #ddd;">
+                        ${formatDate(user.first_login_at)}
+                    </td>
+
+                    <td style="padding:10px;border:1px solid #ddd;">
+                        ${formatDate(user.last_login_at)}
+                    </td>
+
+                    <td style="
+                        padding:10px;
+                        border:1px solid #ddd;
+                        text-align:center;
+                        font-weight:bold;
+                    ">
+                        ${escapeHtml(user.login_status || "—")}
+                    </td>
+                </tr>
+            `;
+        });
+
+        html += `
+                </tbody>
+            </table>
+            </div>
+        `;
+
+        results.innerHTML = html;
+        message.style.color = "green";
+
+    } catch (error) {
+
+        console.error("App Users Error:", error);
+
+        message.textContent = "Error loading users";
+        message.style.color = "red";
+
+        results.innerHTML = `
+            <div style="
+                color:red;
+                background:#ffebee;
+                padding:15px;
+                border-radius:10px;
+                margin-top:10px;
+            ">
+                ${escapeHtml(error.message || "Unknown error")}
+            </div>
+        `;
+    }
+}
+
+
+/* Refresh Button */
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const btn = document.getElementById("appUsersRefreshBtn");
+
+    if (btn) {
+        btn.addEventListener("click", loadAppUsers);
+    }
+
+});
