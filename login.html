@@ -227,6 +227,10 @@
         #mobile {
 
             letter-spacing: 1px;
+
+            -webkit-user-select: text;
+
+            user-select: text;
         }
 
 
@@ -341,16 +345,12 @@
         <div class="top-line"></div>
 
 
-        <!-- SPDD College Logo -->
-
         <img
             class="logo"
             src="./images/app-icon-192.png.jpeg"
             alt="SPDD College Logo"
         >
 
-
-        <!-- College Name -->
 
         <div class="college-name">
             SPDD कॉलेज
@@ -373,8 +373,10 @@
             <input
                 type="text"
                 id="name"
+                name="name"
                 placeholder="अपना नाम लिखें"
                 autocomplete="name"
+                autocapitalize="words"
                 maxlength="100"
             >
 
@@ -392,16 +394,16 @@
             <input
                 type="tel"
                 id="mobile"
+                name="tel"
                 placeholder="10 अंकों का मोबाइल नंबर"
                 inputmode="numeric"
                 autocomplete="tel"
+                enterkeyhint="done"
                 maxlength="10"
             >
 
         </div>
 
-
-        <!-- Login -->
 
         <button
             id="loginButton"
@@ -415,6 +417,7 @@
         <div
             id="message"
             class="message"
+            aria-live="polite"
         ></div>
 
     </div>
@@ -437,8 +440,8 @@
 
 
         /*
-         * Mobile field:
-         * केवल numbers allow करें
+         * Mobile number:
+         * केवल 10 digits रखें।
          */
 
         mobileInput.addEventListener(
@@ -455,7 +458,7 @@
 
 
         /*
-         * पहले से Login है या नहीं
+         * Login पहले से मौजूद है या नहीं
          */
 
         document.addEventListener(
@@ -524,10 +527,6 @@
                 }
 
 
-                /*
-                 * Button loading
-                 */
-
                 loginButton.disabled = true;
 
                 loginButton.textContent =
@@ -551,8 +550,26 @@
 
                     if (!deviceId) {
 
-                        deviceId =
-                            crypto.randomUUID();
+                        if (
+                            window.crypto &&
+                            crypto.randomUUID
+                        ) {
+
+                            deviceId =
+                                crypto.randomUUID();
+
+                        } else {
+
+                            deviceId =
+                                "device-" +
+                                Date.now() +
+                                "-" +
+                                Math.random()
+                                    .toString(36)
+                                    .substring(2);
+
+                        }
+
 
                         localStorage.setItem(
                             "spdd_device_id",
@@ -564,7 +581,6 @@
 
                     /*
                      * Login information
-                     * अभी local device पर save होगी।
                      */
 
                     localStorage.setItem(
@@ -583,10 +599,6 @@
                     );
 
 
-                    /*
-                     * Login time
-                     */
-
                     localStorage.setItem(
                         "spdd_login_time",
                         new Date().toISOString()
@@ -594,7 +606,7 @@
 
 
                     /*
-                     * Portal खोलें
+                     * Existing Portal
                      */
 
                     window.location.replace(
@@ -622,7 +634,6 @@
 
             }
         );
-
 
     </script>
 
