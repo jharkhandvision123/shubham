@@ -1,8 +1,17 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta
+    name="viewport"
+    content="width=device-width,
+             initial-scale=1.0,
+             maximum-scale=1.0,
+             minimum-scale=1.0,
+             user-scalable=no"
+>
 
 <title>Student Portal Login</title>
 
@@ -12,27 +21,50 @@
 
 <style>
 
+/* ================================
+   PAGE LOCK
+================================ */
+
 *{
     box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
 }
 
 html,
 body{
+
+    width:100%;
+    height:100%;
+
     margin:0;
     padding:0;
-    width:100%;
-    min-height:100%;
+
+    overflow:hidden;
+
+    overscroll-behavior:none;
+
+    touch-action:pan-y;
+
 }
 
 body{
 
     font-family:Arial, sans-serif;
 
-    display:flex;
-    justify-content:center;
-    align-items:center;
+    position:fixed;
 
-    min-height:100vh;
+    inset:0;
+
+    width:100vw;
+    height:100vh;
+
+    min-width:320px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
 
     overflow:hidden;
 
@@ -44,12 +76,12 @@ body{
             #ffffff 65%,
             #138808 100%
         );
-
-    position:relative;
 }
 
 
-/* MIRROR REFLECTION EFFECT */
+/* ================================
+   MIRROR REFLECTION
+================================ */
 
 body::before{
 
@@ -57,11 +89,11 @@ body::before{
 
     position:absolute;
 
-    top:-50%;
-    left:-50%;
-
     width:200%;
     height:200%;
+
+    top:-50%;
+    left:-50%;
 
     background:
         linear-gradient(
@@ -71,86 +103,130 @@ body::before{
             transparent 60%
         );
 
-    transform:rotate(0deg);
-
-    animation:mirrorMove 6s linear infinite;
+    animation:
+        mirrorMove 6s linear infinite;
 
     pointer-events:none;
+
+    z-index:1;
+
 }
 
 
 @keyframes mirrorMove{
 
     0%{
-        transform:translateX(-30%) rotate(0deg);
+        transform:
+            translateX(-30%);
     }
 
     50%{
-        transform:translateX(30%) rotate(0deg);
+        transform:
+            translateX(30%);
     }
 
     100%{
-        transform:translateX(-30%) rotate(0deg);
+        transform:
+            translateX(-30%);
     }
 
 }
 
 
-/* LOGIN BOX */
+/* ================================
+   LOGIN BOX
+================================ */
 
 .login-box{
-
-    width:90%;
-    max-width:400px;
-
-    background:#ffffff;
-
-    padding:30px 25px;
-
-    border-radius:20px;
-
-    box-shadow:
-        0 10px 35px rgba(0,0,0,0.25);
 
     position:relative;
 
     z-index:10;
 
+    width:min(90vw, 420px);
+
+    min-height:350px;
+
+    padding:35px 30px;
+
+    background:#ffffff;
+
+    border-radius:20px;
+
+    box-shadow:
+        0 10px 35px
+        rgba(0,0,0,0.28);
+
     text-align:center;
+
+    flex-shrink:0;
+
 }
 
 
-/* TITLE */
+/* ================================
+   TITLE
+================================ */
 
 .login-box h2{
 
-    margin-top:0;
-    margin-bottom:25px;
+    margin:
+
+        0
+        0
+        28px
+        0;
 
     color:#0d47a1;
 
     font-size:28px;
 
+    line-height:1.25;
+
 }
 
 
-/* INPUT */
+/* ================================
+   INPUT
+================================ */
 
 .login-box input{
 
+    display:block;
+
     width:100%;
 
-    padding:14px;
+    height:52px;
 
-    margin-bottom:15px;
+    padding:
 
-    border:1px solid #ccc;
+        0
+        14px;
+
+    margin:
+
+        0
+        0
+        16px
+        0;
+
+    border:
+
+        1px solid
+        #cccccc;
 
     border-radius:10px;
 
+    background:#ffffff;
+
     font-size:16px;
 
+    color:#222;
+
     outline:none;
+
+    -webkit-appearance:none;
+
 }
 
 
@@ -159,18 +235,27 @@ body::before{
     border-color:#0d47a1;
 
     box-shadow:
-        0 0 5px rgba(13,71,161,0.25);
+        0 0 5px
+        rgba(13,71,161,0.25);
 
 }
 
 
-/* LOGIN BUTTON */
+/* ================================
+   LOGIN BUTTON
+================================ */
 
 .login-btn{
 
+    display:block;
+
     width:100%;
 
-    padding:14px;
+    height:52px;
+
+    padding:0;
+
+    margin:0;
 
     border:none;
 
@@ -190,15 +275,16 @@ body::before{
             #138808
         );
 
-    color:#000;
+    color:#000000;
 
-    transition:0.3s;
+    transition:transform 0.2s;
+
 }
 
 
 .login-btn:hover{
 
-    transform:scale(1.02);
+    transform:scale(1.01);
 
 }
 
@@ -210,18 +296,30 @@ body::before{
     cursor:not-allowed;
 
     transform:none;
+
 }
 
 
-/* DOWNLOAD BUTTON */
+/* ================================
+   DOWNLOAD BUTTON
+================================ */
 
 .download-btn{
 
+    display:none;
+
     width:100%;
 
-    padding:14px;
+    height:52px;
 
-    margin-top:14px;
+    padding:0;
+
+    margin:
+
+        14px
+        0
+        0
+        0;
 
     border:none;
 
@@ -233,7 +331,7 @@ body::before{
 
     cursor:pointer;
 
-    /* EXACT SAME COLOR AS LOGIN BUTTON */
+    /* SAME AS LOGIN BUTTON */
 
     background:
         linear-gradient(
@@ -243,17 +341,16 @@ body::before{
             #138808
         );
 
-    color:#000;
+    color:#000000;
 
-    transition:0.3s;
+    transition:transform 0.2s;
 
-    display:none;
 }
 
 
 .download-btn:hover{
 
-    transform:scale(1.02);
+    transform:scale(1.01);
 
 }
 
@@ -269,28 +366,49 @@ body::before{
 }
 
 
-/* MESSAGE */
+/* ================================
+   MESSAGE
+================================ */
 
 #message{
 
-    margin-top:15px;
+    width:100%;
+
+    min-height:22px;
+
+    margin-top:16px;
 
     font-size:14px;
 
     font-weight:bold;
 
-    min-height:20px;
+    line-height:1.4;
+
+    overflow-wrap:break-word;
 
 }
 
 
-/* MOBILE */
+/* ================================
+   SMALL MOBILE SCREEN
+================================ */
 
 @media(max-width:500px){
 
     .login-box{
 
-        padding:25px 20px;
+        width:calc(100vw - 32px);
+
+        max-width:420px;
+
+        min-height:350px;
+
+        padding:
+
+            30px
+            22px;
+
+        border-radius:18px;
 
     }
 
@@ -298,11 +416,82 @@ body::before{
 
         font-size:25px;
 
+        margin-bottom:25px;
+
+    }
+
+}
+
+
+/* ================================
+   VERY SMALL SCREEN
+================================ */
+
+@media(max-height:600px){
+
+    .login-box{
+
+        transform:scale(0.92);
+
+    }
+
+}
+
+
+/* ================================
+   LANDSCAPE MOBILE
+================================ */
+
+@media(
+    orientation:landscape
+){
+
+    .login-box{
+
+        max-height:94vh;
+
+        overflow:hidden;
+
+        padding:
+
+            20px
+            25px;
+
+    }
+
+    .login-box h2{
+
+        margin-bottom:16px;
+
+        font-size:24px;
+
+    }
+
+    .login-box input{
+
+        height:46px;
+
+        margin-bottom:10px;
+
+    }
+
+    .login-btn,
+    .download-btn{
+
+        height:46px;
+
+    }
+
+    #message{
+
+        margin-top:10px;
+
     }
 
 }
 
 </style>
+
 </head>
 
 
@@ -311,7 +500,9 @@ body::before{
 
 <div class="login-box">
 
-    <h2>Student Portal Login</h2>
+    <h2>
+        Student Portal Login
+    </h2>
 
 
     <input
@@ -409,24 +600,29 @@ window.addEventListener(
 async function loginUser(){
 
     const name =
-        document.getElementById("name")
-        .value.trim();
+        document
+        .getElementById("name")
+        .value
+        .trim();
 
     const mobile =
-        document.getElementById("mobile")
-        .value.trim();
+        document
+        .getElementById("mobile")
+        .value
+        .trim();
 
     const loginBtn =
-        document.getElementById("loginBtn");
+        document
+        .getElementById("loginBtn");
 
     const downloadBtn =
-        document.getElementById("downloadBtn");
+        document
+        .getElementById("downloadBtn");
 
     const message =
-        document.getElementById("message");
+        document
+        .getElementById("message");
 
-
-    /* NAME CHECK */
 
     if(!name){
 
@@ -436,10 +632,9 @@ async function loginUser(){
             "Please enter your name.";
 
         return;
+
     }
 
-
-    /* MOBILE CHECK */
 
     if(!/^[0-9]{10}$/.test(mobile)){
 
@@ -449,16 +644,20 @@ async function loginUser(){
             "Please enter a valid 10 digit mobile number.";
 
         return;
+
     }
 
 
     loginBtn.disabled=true;
 
-    loginBtn.textContent="Logging in...";
+    loginBtn.textContent=
+        "Logging in...";
 
-    message.style.color="#0d47a1";
+    message.style.color=
+        "#0d47a1";
 
-    message.textContent="Please wait...";
+    message.textContent=
+        "Please wait...";
 
 
     try{
@@ -504,7 +703,7 @@ async function loginUser(){
         }
 
 
-        /* SAVE LOCAL LOGIN */
+        /* LOCAL LOGIN */
 
         localStorage.setItem(
             "student_portal_name",
@@ -522,20 +721,22 @@ async function loginUser(){
         );
 
 
-        /* LOGIN SUCCESS */
+        /* SUCCESS */
 
-        loginBtn.textContent =
+        loginBtn.textContent=
             "Login Successful ✓";
 
-        message.style.color="green";
 
-        message.textContent =
+        message.style.color=
+            "green";
+
+        message.textContent=
             "Login successful. अब App Download करें।";
 
 
-        /* SHOW DOWNLOAD BUTTON */
+        /* SHOW DOWNLOAD */
 
-        downloadBtn.style.display =
+        downloadBtn.style.display=
             "block";
 
 
@@ -546,13 +747,18 @@ async function loginUser(){
             error
         );
 
-        loginBtn.disabled=false;
 
-        loginBtn.textContent="Login";
+        loginBtn.disabled=
+            false;
 
-        message.style.color="red";
+        loginBtn.textContent=
+            "Login";
 
-        message.textContent =
+
+        message.style.color=
+            "red";
+
+        message.textContent=
             error.message ||
             "Login failed. Please try again.";
 
@@ -562,27 +768,26 @@ async function loginUser(){
 
 
 /* ================================
-   DOWNLOAD / INSTALL APP
+   DOWNLOAD / INSTALL
 ================================ */
 
 async function downloadAndOpen(){
 
     const downloadBtn =
-        document.getElementById("downloadBtn");
+        document
+        .getElementById("downloadBtn");
 
     const message =
-        document.getElementById("message");
+        document
+        .getElementById("message");
 
-
-    /*
-       Native PWA install prompt
-    */
 
     if(!deferredPrompt){
 
-        message.style.color="#d35400";
+        message.style.color=
+            "#d35400";
 
-        message.textContent =
+        message.textContent=
             "Install option अभी उपलब्ध नहीं है। Browser menu से Install App / Add to Home Screen चुनें।";
 
         return;
@@ -590,15 +795,14 @@ async function downloadAndOpen(){
     }
 
 
-    downloadBtn.disabled=true;
+    downloadBtn.disabled=
+        true;
 
-    downloadBtn.textContent =
+    downloadBtn.textContent=
         "Downloading / Installing...";
 
 
     try{
-
-        /* OPEN NATIVE INSTALL POPUP */
 
         deferredPrompt.prompt();
 
@@ -609,21 +813,24 @@ async function downloadAndOpen(){
 
         if(result.outcome === "accepted"){
 
-            message.style.color="green";
+            message.style.color=
+                "green";
 
-            message.textContent =
+            message.textContent=
                 "App install हो रहा है...";
 
         }else{
 
-            message.style.color="#d35400";
+            message.style.color=
+                "#d35400";
 
-            message.textContent =
+            message.textContent=
                 "App installation cancelled.";
 
-            downloadBtn.disabled=false;
+            downloadBtn.disabled=
+                false;
 
-            downloadBtn.textContent =
+            downloadBtn.textContent=
                 "⬇ Download App";
 
         }
@@ -639,14 +846,18 @@ async function downloadAndOpen(){
             error
         );
 
-        message.style.color="red";
 
-        message.textContent =
+        message.style.color=
+            "red";
+
+        message.textContent=
             "App installation शुरू नहीं हो सकी।";
 
-        downloadBtn.disabled=false;
 
-        downloadBtn.textContent =
+        downloadBtn.disabled=
+            false;
+
+        downloadBtn.textContent=
             "⬇ Download App";
 
     }
@@ -663,37 +874,32 @@ window.addEventListener(
     function(){
 
         const downloadBtn =
-            document.getElementById(
-                "downloadBtn"
-            );
+            document
+            .getElementById("downloadBtn");
 
         const message =
-            document.getElementById(
-                "message"
-            );
+            document
+            .getElementById("message");
 
 
-        downloadBtn.textContent =
+        downloadBtn.textContent=
             "✓ App Installed";
 
-        downloadBtn.disabled=true;
+        downloadBtn.disabled=
+            true;
 
 
-        message.style.color="green";
+        message.style.color=
+            "green";
 
-        message.textContent =
+        message.textContent=
             "App successfully installed. Opening App...";
 
-
-        /*
-           Installation complete होने के बाद
-           Portal खोलें
-        */
 
         setTimeout(
             function(){
 
-                window.location.href =
+                window.location.href=
                     "./index.html";
 
             },
@@ -708,31 +914,39 @@ window.addEventListener(
    SERVICE WORKER
 ================================ */
 
-if("serviceWorker" in navigator){
+if(
+    "serviceWorker"
+    in navigator
+){
 
     window.addEventListener(
         "load",
         function(){
 
-            navigator.serviceWorker
+            navigator
+                .serviceWorker
                 .register(
                     "./service-worker.js"
                 )
-                .then(function(){
+                .then(
+                    function(){
 
-                    console.log(
-                        "Service Worker Registered"
-                    );
+                        console.log(
+                            "Service Worker Registered"
+                        );
 
-                })
-                .catch(function(error){
+                    }
+                )
+                .catch(
+                    function(error){
 
-                    console.log(
-                        "Service Worker Error:",
-                        error
-                    );
+                        console.log(
+                            "Service Worker Error:",
+                            error
+                        );
 
-                });
+                    }
+                );
 
         }
     );
