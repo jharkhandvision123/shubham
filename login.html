@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0,
+                   maximum-scale=1.0, user-scalable=no">
+
+    <meta name="theme-color" content="#ffffff">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <meta name="apple-mobile-web-app-status-bar-style"
+          content="default">
+
+    <meta name="apple-mobile-web-app-title"
+          content="SPDD College">
+
+    <title>SPDD College - Login</title>
+
+    <link rel="manifest" href="./manifest.json">
+
+    <link rel="icon"
+          href="./images/app-icon-192.png.jpeg">
+
+    <link rel="apple-touch-icon"
+          href="./images/app-icon-192.png.jpeg">
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        html,
+        body {
+            width: 100%;
+            min-height: 100%;
+        }
+
+
+        body {
+
+            min-height: 100vh;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            padding: 20px;
+
+            font-family:
+                Arial,
+                "Noto Sans Devanagari",
+                sans-serif;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #ff9933 0%,
+                    #ff9933 33.33%,
+                    #ffffff 33.33%,
+                    #ffffff 66.66%,
+                    #138808 66.66%,
+                    #138808 100%
+                );
+        }
+
+
+        .login-card {
+
+            width: 100%;
+
+            max-width: 430px;
+
+            background: #ffffff;
+
+            border-radius: 30px;
+
+            padding: 45px 25px 40px;
+
+            box-shadow:
+                0 18px 45px
+                rgba(0, 0, 0, 0.22);
+
+            text-align: center;
+
+            position: relative;
+
+            overflow: hidden;
+        }
+
+
+        .top-line {
+
+            position: absolute;
+
+            top: 0;
+
+            left: 0;
+
+            width: 100%;
+
+            height: 7px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #ff9933 0%,
+                    #ff9933 33.33%,
+                    #ffffff 33.33%,
+                    #ffffff 66.66%,
+                    #138808 66.66%,
+                    #138808 100%
+                );
+        }
+
+
+        .logo {
+
+            width: 105px;
+
+            height: 105px;
+
+            object-fit: cover;
+
+            border-radius: 23px;
+
+            margin-bottom: 22px;
+
+            box-shadow:
+                0 7px 18px
+                rgba(0, 0, 0, 0.18);
+        }
+
+
+        .college-name {
+
+            font-size: 30px;
+
+            font-weight: 800;
+
+            color: #0d47a1;
+
+            margin-bottom: 8px;
+        }
+
+
+        .login-title {
+
+            font-size: 20px;
+
+            font-weight: 700;
+
+            color: #333;
+
+            margin-bottom: 30px;
+        }
+
+
+        .input-group {
+
+            text-align: left;
+
+            margin-bottom: 18px;
+        }
+
+
+        .input-group label {
+
+            display: block;
+
+            font-size: 15px;
+
+            font-weight: 700;
+
+            color: #333;
+
+            margin-bottom: 8px;
+        }
+
+
+        .input-group input {
+
+            width: 100%;
+
+            height: 55px;
+
+            border: 2px solid #ddd;
+
+            border-radius: 13px;
+
+            padding: 0 16px;
+
+            font-size: 17px;
+
+            color: #222;
+
+            background: #ffffff;
+
+            outline: none;
+
+            transition:
+                border-color 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+
+        .input-group input:focus {
+
+            border-color: #0d47a1;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(13, 71, 161, 0.10);
+        }
+
+
+        #mobile {
+
+            letter-spacing: 1px;
+        }
+
+
+        .login-button {
+
+            width: 100%;
+
+            height: 58px;
+
+            margin-top: 12px;
+
+            border: none;
+
+            border-radius: 15px;
+
+            background: #0d47a1;
+
+            color: #ffffff;
+
+            font-size: 20px;
+
+            font-weight: 800;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 7px 17px
+                rgba(13, 71, 161, 0.30);
+
+            transition:
+                transform 0.15s ease,
+                box-shadow 0.15s ease;
+        }
+
+
+        .login-button:active {
+
+            transform: scale(0.97);
+
+            box-shadow:
+                0 4px 10px
+                rgba(13, 71, 161, 0.22);
+        }
+
+
+        .login-button:disabled {
+
+            opacity: 0.65;
+
+            cursor: wait;
+        }
+
+
+        .message {
+
+            min-height: 22px;
+
+            margin-top: 18px;
+
+            font-size: 14px;
+
+            line-height: 1.5;
+
+            color: #555;
+        }
+
+
+        @media (max-width: 380px) {
+
+            body {
+                padding: 14px;
+            }
+
+            .login-card {
+                padding:
+                    40px 19px 32px;
+            }
+
+            .logo {
+                width: 92px;
+                height: 92px;
+            }
+
+            .college-name {
+                font-size: 27px;
+            }
+
+            .login-title {
+                font-size: 18px;
+            }
+
+            .input-group input {
+                height: 52px;
+            }
+
+            .login-button {
+                height: 55px;
+                font-size: 19px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="login-card">
+
+        <div class="top-line"></div>
+
+
+        <!-- SPDD College Logo -->
+
+        <img
+            class="logo"
+            src="./images/app-icon-192.png.jpeg"
+            alt="SPDD College Logo"
+        >
+
+
+        <!-- College Name -->
+
+        <div class="college-name">
+            SPDD कॉलेज
+        </div>
+
+
+        <div class="login-title">
+            Login
+        </div>
+
+
+        <!-- Name -->
+
+        <div class="input-group">
+
+            <label for="name">
+                नाम
+            </label>
+
+            <input
+                type="text"
+                id="name"
+                placeholder="अपना नाम लिखें"
+                autocomplete="name"
+                maxlength="100"
+            >
+
+        </div>
+
+
+        <!-- Mobile Number -->
+
+        <div class="input-group">
+
+            <label for="mobile">
+                मोबाइल नंबर
+            </label>
+
+            <input
+                type="tel"
+                id="mobile"
+                placeholder="10 अंकों का मोबाइल नंबर"
+                inputmode="numeric"
+                autocomplete="tel"
+                maxlength="10"
+            >
+
+        </div>
+
+
+        <!-- Login -->
+
+        <button
+            id="loginButton"
+            class="login-button"
+            type="button"
+        >
+            Login
+        </button>
+
+
+        <div
+            id="message"
+            class="message"
+        ></div>
+
+    </div>
+
+
+
+    <script>
+
+        const nameInput =
+            document.getElementById("name");
+
+        const mobileInput =
+            document.getElementById("mobile");
+
+        const loginButton =
+            document.getElementById("loginButton");
+
+        const message =
+            document.getElementById("message");
+
+
+        /*
+         * Mobile field:
+         * केवल numbers allow करें
+         */
+
+        mobileInput.addEventListener(
+            "input",
+            function() {
+
+                this.value =
+                    this.value
+                        .replace(/\D/g, "")
+                        .slice(0, 10);
+
+            }
+        );
+
+
+        /*
+         * पहले से Login है या नहीं
+         */
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function() {
+
+                const savedLogin =
+                    localStorage.getItem(
+                        "spdd_login"
+                    );
+
+                if (savedLogin === "true") {
+
+                    window.location.replace(
+                        "./index.html"
+                    );
+
+                }
+
+            }
+        );
+
+
+        /*
+         * Login
+         */
+
+        loginButton.addEventListener(
+            "click",
+            async function() {
+
+                const name =
+                    nameInput.value.trim();
+
+                const mobile =
+                    mobileInput.value.trim();
+
+
+                /*
+                 * Name validation
+                 */
+
+                if (name.length < 2) {
+
+                    message.textContent =
+                        "कृपया अपना नाम दर्ज करें।";
+
+                    nameInput.focus();
+
+                    return;
+                }
+
+
+                /*
+                 * Mobile validation
+                 */
+
+                if (!/^[0-9]{10}$/.test(mobile)) {
+
+                    message.textContent =
+                        "कृपया सही 10 अंकों का मोबाइल नंबर दर्ज करें।";
+
+                    mobileInput.focus();
+
+                    return;
+                }
+
+
+                /*
+                 * Button loading
+                 */
+
+                loginButton.disabled = true;
+
+                loginButton.textContent =
+                    "Login हो रहा है...";
+
+                message.textContent =
+                    "";
+
+
+                try {
+
+                    /*
+                     * Device ID
+                     */
+
+                    let deviceId =
+                        localStorage.getItem(
+                            "spdd_device_id"
+                        );
+
+
+                    if (!deviceId) {
+
+                        deviceId =
+                            crypto.randomUUID();
+
+                        localStorage.setItem(
+                            "spdd_device_id",
+                            deviceId
+                        );
+
+                    }
+
+
+                    /*
+                     * Login information
+                     * अभी local device पर save होगी।
+                     */
+
+                    localStorage.setItem(
+                        "spdd_user_name",
+                        name
+                    );
+
+                    localStorage.setItem(
+                        "spdd_user_mobile",
+                        mobile
+                    );
+
+                    localStorage.setItem(
+                        "spdd_login",
+                        "true"
+                    );
+
+
+                    /*
+                     * Login time
+                     */
+
+                    localStorage.setItem(
+                        "spdd_login_time",
+                        new Date().toISOString()
+                    );
+
+
+                    /*
+                     * Portal खोलें
+                     */
+
+                    window.location.replace(
+                        "./index.html"
+                    );
+
+                }
+
+                catch (error) {
+
+                    console.error(
+                        "Login Error:",
+                        error
+                    );
+
+                    message.textContent =
+                        "Login में समस्या हुई। कृपया फिर से प्रयास करें।";
+
+                    loginButton.disabled = false;
+
+                    loginButton.textContent =
+                        "Login";
+
+                }
+
+            }
+        );
+
+
+    </script>
+
+
+</body>
+
+</html>
