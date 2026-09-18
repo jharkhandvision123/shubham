@@ -1,27 +1,20 @@
 {
-  "id": "./",
-  "name": "SPDD College",
-  "short_name": "SPDD College",
-  "description": "SPDD College ",
+  "name": "Student Portal",
+  "short_name": "S.P.D.D.C",
   "start_url": "./index.html",
-  "scope": "./",
   "display": "standalone",
-  "orientation": "portrait",
   "background_color": "#ffffff",
   "theme_color": "#0d47a1",
-
   "icons": [
     {
-      "src": "./images/app-icon-192.png.jpeg",
+     "src": "images/app-icon-192.png.jpeg",
       "sizes": "192x192",
-      "type": "image/jpeg",
-      "purpose": "any maskable"
+      "type": "image/png"
     },
     {
-      "src": "./images/app-icon-512.png.png",
+     "src": "images/app-icon-512.png.png",
       "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/png"
     }
   ]
 }
