@@ -343,7 +343,7 @@ button{
 
 
 /* =========================================
-   ADMIN SYSTEM MENU
+   ADMIN SYSTEM MENU / PAGE NAVIGATION
 ========================================= */
 
 .admin-system-menu{
@@ -383,11 +383,6 @@ button{
     margin-bottom:20px;
 }
 
-
-/* =========================================
-   MOBILE
-========================================= */
-
 @media(max-width:600px){
 
     .admin-system-menu{
@@ -398,6 +393,15 @@ button{
     .system-menu-btn{
         min-height:58px;
     }
+
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media(max-width:600px){
 
     .container{
         width:95%;
@@ -475,222 +479,186 @@ button{
 
     <div id="adminPanel">
 
+        <!-- =====================================
+             ADMIN SYSTEM MENU
+        ====================================== -->
+
         <div class="admin-system-menu" id="adminSystemMenu">
 
-            <button type="button"
-                    class="system-menu-btn"
-                    data-system="notification">
-                🔔 Notification Management
-            </button>
+            <button type="button" class="system-menu-btn" data-system="notification">🔔 Notification Management</button>
 
-            <button type="button"
-                    class="system-menu-btn"
-                    data-system="form">
-                Form Filling Management
-            </button>
+            <button type="button" class="system-menu-btn" data-system="form">Form Filling Management</button>
 
-            <button type="button"
-                    class="system-menu-btn"
-                    data-system="project">
-                Project File Verification
-            </button>
+            <button type="button" class="system-menu-btn" data-system="project">Project File Verification</button>
 
-            <button type="button"
-                    class="system-menu-btn"
-                    data-system="receipt">
-                Receipt Upload / Delete
-            </button>
+            <button type="button" class="system-menu-btn" data-system="receipt">Receipt Upload / Delete</button>
 
-            <button type="button"
-                    class="system-menu-btn"
-                    data-system="login-users">
-                Login System
-            </button>
+            <button type="button" class="system-menu-btn" data-system="login-users">Login System</button>
 
         </div>
 
-
-        <!-- =====================================
-             NOTIFICATION
-        ====================================== -->
 
         <div class="system-page" id="system-notification">
 
-            <div class="box">
+        <div class="box">
 
-                <h2 class="notification-box-title">
-                    🔔 Notification Management
-                </h2>
+            <h2 class="notification-box-title">
+                🔔 Notification Management
+            </h2>
 
-                <input
-                    type="text"
-                    id="notificationTitle"
-                    placeholder="Notification Title / Main Line"
-                >
+            <input
+                type="text"
+                id="notificationTitle"
+                placeholder="Notification Title / Main Line"
+            >
 
-                <textarea
-                    id="notificationMessage"
-                    placeholder="Notification Message लिखें..."
-                    rows="4"
-                ></textarea>
+            <textarea
+                id="notificationMessage"
+                placeholder="Notification Message लिखें..."
+                rows="4"
+            ></textarea>
 
-                <input
-                    type="url"
-                    id="notificationLink"
-                    placeholder="Optional Link (https://...)"
-                >
+            <input
+                type="url"
+                id="notificationLink"
+                placeholder="Optional Link (https://...)"
+            >
 
-                <button
-                    id="sendNotificationBtn"
-                    type="button"
-                >
-                    🔔 SEND NOTIFICATION
-                </button>
-
-                <div id="notificationStatus"></div>
-
-                <hr style="margin:20px 0;">
-
-                <h3 class="notification-history-title">
-                    📋 Old Notifications
-                </h3>
-
-                <div id="notificationResults"></div>
-
-            </div>
-
-            <button type="button" class="back-to-menu">
-                ← BACK TO ADMIN MENU
+            <button
+                id="sendNotificationBtn"
+                type="button"
+            >
+                🔔 SEND NOTIFICATION
             </button>
+
+            <div id="notificationStatus"></div>
+
+            <hr style="margin:20px 0;">
+
+            <h3 class="notification-history-title">
+                📋 Old Notifications
+            </h3>
+
+            <div id="notificationResults"></div>
 
         </div>
 
+        <button type="button" class="back-to-menu">
+            ← BACK TO ADMIN MENU
+        </button>
 
-        <!-- =====================================
-             FORM FILLING
-        ====================================== -->
+        </div>
+
 
         <div class="system-page" id="system-form">
 
-            <div class="box">
+        <div class="box">
 
-                <h2>Form Filling Management</h2>
+            <h2>Form Filling Management</h2>
 
-                <button
-                    id="formFillingRefreshBtn"
-                    type="button"
-                >
-                    🔄 LOAD FORM FILLING SUBMISSIONS
-                </button>
-
-                <div id="formFillingMessage"></div>
-
-                <div id="formFillingResults"></div>
-
-            </div>
-
-            <button type="button" class="back-to-menu">
-                ← BACK TO ADMIN MENU
+            <button
+                id="formFillingRefreshBtn"
+                type="button"
+            >
+                🔄 LOAD FORM FILLING SUBMISSIONS
             </button>
+
+            <div id="formFillingMessage"></div>
+
+            <div id="formFillingResults"></div>
 
         </div>
 
+        <button type="button" class="back-to-menu">
+            ← BACK TO ADMIN MENU
+        </button>
 
-        <!-- =====================================
-             PROJECT FILE
-        ====================================== -->
+        </div>
+
 
         <div class="system-page" id="system-project">
 
-            <div class="box">
+        <div class="box">
 
-                <h2>Project File Verification</h2>
+            <h2>Project File Verification</h2>
 
-                <button
-                    id="projectFileRefreshBtn"
-                    type="button"
-                >
-                    🔄 LOAD PROJECT FILE SUBMISSIONS
-                </button>
-
-                <div id="projectFileMessage"></div>
-
-                <div id="projectFileResults"></div>
-
-            </div>
-
-            <button type="button" class="back-to-menu">
-                ← BACK TO ADMIN MENU
+            <button
+                id="projectFileRefreshBtn"
+                type="button"
+            >
+                🔄 LOAD PROJECT FILE SUBMISSIONS
             </button>
+
+            <div id="projectFileMessage"></div>
+
+            <div id="projectFileResults"></div>
 
         </div>
 
+        <button type="button" class="back-to-menu">
+            ← BACK TO ADMIN MENU
+        </button>
 
-        <!-- =====================================
-             RECEIPT UPLOAD / DELETE
-        ====================================== -->
+        </div>
+
 
         <div class="system-page" id="system-pdf">
 
-            <div class="box" id="adminBox">
+        <div class="box" id="adminBox">
 
-                <h2>Delete Receipt</h2>
+            <h2>Delete Receipt</h2>
 
-                <input
-                    type="tel"
-                    id="adminMobile"
-                    placeholder="Enter 10 digit mobile number"
-                    maxlength="10"
-                    inputmode="numeric"
-                >
+            <input
+                type="tel"
+                id="adminMobile"
+                placeholder="Enter 10 digit mobile number"
+                maxlength="10"
+                inputmode="numeric"
+            >
 
-                <button id="searchBtn">
-                    SEARCH RECEIPTS
-                </button>
-
-                <div id="message"></div>
-
-                <div id="receipts"></div>
-
-            </div>
-
-
-            <div class="box">
-
-                <h2>Upload Receipt</h2>
-
-                <input
-                    type="tel"
-                    id="receiptMobile"
-                    placeholder="Enter 10 digit mobile number"
-                    maxlength="10"
-                    inputmode="numeric"
-                >
-
-                <input
-                    type="file"
-                    id="receiptFile"
-                    accept="application/pdf"
-                >
-
-                <button id="uploadReceiptBtn">
-                    UPLOAD RECEIPT
-                </button>
-
-                <div id="receiptUploadMessage"></div>
-
-            </div>
-
-            <button type="button" class="back-to-menu">
-                ← BACK TO ADMIN MENU
+            <button id="searchBtn">
+                SEARCH RECEIPTS
             </button>
+
+            <div id="message"></div>
+
+            <div id="receipts"></div>
 
         </div>
 
 
-        <!-- =====================================
-             LOGIN USERS
-        ====================================== -->
+        <div class="box">
+
+            <h2>Upload Receipt</h2>
+
+            <input
+                type="tel"
+                id="receiptMobile"
+                placeholder="Enter 10 digit mobile number"
+                maxlength="10"
+                inputmode="numeric"
+            >
+
+            <input
+                type="file"
+                id="receiptFile"
+                accept="application/pdf"
+            >
+
+            <button id="uploadReceiptBtn">
+                UPLOAD RECEIPT
+            </button>
+
+            <div id="receiptUploadMessage"></div>
+
+        </div>
+
+        <button type="button" class="back-to-menu">
+            ← BACK TO ADMIN MENU
+        </button>
+
+        </div>
+
 
         <div class="system-page" id="system-login-users">
 
@@ -698,10 +666,7 @@ button{
 
                 <h2>Login System</h2>
 
-                <button
-                    id="appUsersRefreshBtn"
-                    type="button"
-                >
+                <button id="appUsersRefreshBtn" type="button">
                     🔄 REFRESH LOGIN USERS
                 </button>
 
@@ -718,26 +683,22 @@ button{
         </div>
 
 
-        <!-- =====================================
-             LOGOUT
-        ====================================== -->
-
         <div class="system-page" id="system-logout">
 
-            <div class="box" id="logoutBox">
+        <div class="box" id="logoutBox">
 
-                <button
-                    id="logoutBtn"
-                    class="logoutBtn"
-                >
-                    LOGOUT
-                </button>
-
-            </div>
-
-            <button type="button" class="back-to-menu">
-                ← BACK TO ADMIN MENU
+            <button
+                id="logoutBtn"
+                class="logoutBtn"
+            >
+                LOGOUT
             </button>
+
+        </div>
+
+        <button type="button" class="back-to-menu">
+            ← BACK TO ADMIN MENU
+        </button>
 
         </div>
 
@@ -1286,10 +1247,6 @@ function createFormFillingCard(item){
     formFillingResults.appendChild(card);
 
 
-    /* =====================================
-       ADMIT CARD
-    ===================================== */
-
     const admitButton =
         card.querySelector(
             '[data-form-view="admit"]'
@@ -1300,11 +1257,10 @@ function createFormFillingCard(item){
 
         admitButton.addEventListener(
             "click",
-            async function(){
+            function(){
 
-                await openFormFillingDocument(
-                    item.admit_card_url,
-                    "admit-card"
+                openFormDocumentDirect(
+                    item.admit_card_url
                 );
 
             }
@@ -1312,10 +1268,6 @@ function createFormFillingCard(item){
 
     }
 
-
-    /* =====================================
-       रसीद
-    ===================================== */
 
     const rasidButton =
         card.querySelector(
@@ -1327,11 +1279,10 @@ function createFormFillingCard(item){
 
         rasidButton.addEventListener(
             "click",
-            async function(){
+            function(){
 
-                await openFormFillingDocument(
-                    item.rasid_url,
-                    "rasid"
+                openFormDocumentDirect(
+                    item.rasid_url
                 );
 
             }
@@ -1339,10 +1290,6 @@ function createFormFillingCard(item){
 
     }
 
-
-    /* =====================================
-       PAYMENT SCREENSHOT
-    ===================================== */
 
     const paymentButton =
         card.querySelector(
@@ -1354,11 +1301,12 @@ function createFormFillingCard(item){
 
         paymentButton.addEventListener(
             "click",
-            async function(){
+            function(){
 
-                await openFormFillingDocument(
-                    item.payment_screenshot_url,
-                    "payment"
+                toggleFormDocument(
+                    card,
+                    "payment",
+                    item.payment_screenshot_url
                 );
 
             }
@@ -1366,10 +1314,6 @@ function createFormFillingCard(item){
 
     }
 
-
-    /* =====================================
-       STATUS BUTTONS
-    ===================================== */
 
     card.querySelectorAll(
         "[data-form-action]"
@@ -1391,10 +1335,6 @@ function createFormFillingCard(item){
 
     });
 
-
-    /* =====================================
-       DELETE
-    ===================================== */
 
     const deleteButton =
         card.querySelector(
@@ -1421,16 +1361,40 @@ function createFormFillingCard(item){
 
 
 /* =========================================
-   FORM FILLING DOCUMENT OPEN
-   FIXED VERSION
+   DIRECT FORM DOCUMENT OPEN
 ========================================= */
 
-async function openFormFillingDocument(
-    fileValue,
-    documentType
+function openFormDocumentDirect(fileUrl){
+
+    if(!fileUrl){
+
+        alert(
+            "Document उपलब्ध नहीं है।"
+        );
+
+        return;
+
+    }
+
+    window.open(
+        fileUrl,
+        "_blank"
+    );
+
+}
+
+
+/* =========================================
+   VIEW PAYMENT DOCUMENT
+========================================= */
+
+function toggleFormDocument(
+    card,
+    type,
+    fileUrl
 ){
 
-    if(!fileValue){
+    if(!fileUrl){
 
         alert(
             "Document उपलब्ध नहीं है।"
@@ -1441,259 +1405,89 @@ async function openFormFillingDocument(
     }
 
 
-    try{
-
-        /*
-         * आपका Form Filling Storage Bucket
-         */
-
-        const BUCKET =
-            "form-filling-files";
-
-
-        let filePath =
-            String(fileValue).trim();
-
-
-        /*
-         * अगर database में पूरा Supabase URL
-         * save है तो केवल storage path निकालेंगे।
-         */
-
-        if(
-            filePath.startsWith("http://") ||
-            filePath.startsWith("https://")
-        ){
-
-            try{
-
-                const url =
-                    new URL(filePath);
-
-
-                const marker =
-                    "/storage/v1/object/";
-
-
-                const markerIndex =
-                    url.pathname.indexOf(marker);
-
-
-                if(markerIndex !== -1){
-
-                    let storagePart =
-                        url.pathname.substring(
-                            markerIndex + marker.length
-                        );
-
-
-                    storagePart =
-                        storagePart
-                        .replace(
-                            /^public\//,
-                            ""
-                        )
-                        .replace(
-                            /^sign\//,
-                            ""
-                        );
-
-
-                    /*
-                     * Bucket name हटाएँ
-                     */
-
-                    if(
-                        storagePart.startsWith(
-                            BUCKET + "/"
-                        )
-                    ){
-
-                        filePath =
-                            storagePart.substring(
-                                BUCKET.length + 1
-                            );
-
-                    }
-                    else{
-
-                        /*
-                         * URL में bucket के बाद का path
-                         */
-
-                        const parts =
-                            storagePart.split("/");
-
-                        if(parts.length > 1){
-
-                            parts.shift();
-
-                            filePath =
-                                parts.join("/");
-
-                        }
-
-                    }
-
-                }
-                else{
-
-                    /*
-                     * अगर यह Supabase Storage URL नहीं है,
-                     * तो original URL ही खोलें।
-                     */
-
-                    window.open(
-                        fileValue,
-                        "_blank"
-                    );
-
-                    return;
-
-                }
-
-            }
-            catch(urlError){
-
-                /*
-                 * URL parse नहीं हुआ तो original URL
-                 */
-
-                window.open(
-                    fileValue,
-                    "_blank"
-                );
-
-                return;
-
-            }
-
-        }
-
-
-        /*
-         * अगर path में bucket name पहले से मौजूद है
-         * तो उसे हटाएँ।
-         */
-
-        if(
-            filePath.startsWith(
-                BUCKET + "/"
-            )
-        ){
-
-            filePath =
-                filePath.substring(
-                    BUCKET.length + 1
-                );
-
-        }
-
-
-        /*
-         * शुरुआती slash हटाएँ
-         */
-
-        filePath =
-            filePath.replace(
-                /^\/+/,
-                ""
-            );
-
-
-        if(!filePath){
-
-            throw new Error(
-                "File path नहीं मिला।"
-            );
-
-        }
-
-
-        /*
-         * पहले Signed URL बनाएँ।
-         * इससे private/public दोनों स्थिति में
-         * document खोलने की संभावना रहती है।
-         */
-
-        const {
-            data,
-            error
-        } =
-        await securityClient
-        .storage
-        .from(BUCKET)
-        .createSignedUrl(
-            filePath,
-            600
+    const box =
+        card.querySelector(
+            `[data-document-box="${type}"]`
         );
 
 
-        if(
-            !error &&
-            data &&
-            data.signedUrl
-        ){
-
-            window.open(
-                data.signedUrl,
-                "_blank"
-            );
-
-            return;
-
-        }
-
+    if(!box){
 
         /*
-         * अगर Signed URL नहीं बन पाया तो
-         * Public URL से खोलने की कोशिश।
+         * Payment Screenshot का पुराना
+         * document box उपलब्ध नहीं है,
+         * इसलिए सीधे document खोलें।
          */
 
-        const {
-            data:publicData
-        } =
-        securityClient
-        .storage
-        .from(BUCKET)
-        .getPublicUrl(
-            filePath
+        window.open(
+            fileUrl,
+            "_blank"
         );
 
-
-        if(
-            publicData &&
-            publicData.publicUrl
-        ){
-
-            window.open(
-                publicData.publicUrl,
-                "_blank"
-            );
-
-            return;
-
-        }
-
-
-        throw new Error(
-            "Document URL नहीं बन पाया।"
-        );
+        return;
 
     }
-    catch(error){
-
-        console.error(
-            "Form Filling Document Error:",
-            error
-        );
 
 
-        alert(
-            "Document open नहीं हो पाया। कृपया फिर से प्रयास करें।"
-        );
+    if(
+        box.style.display === "block"
+    ){
+
+        box.style.display = "none";
+
+        return;
 
     }
+
+
+    box.style.display = "block";
+
+
+    const lowerUrl =
+        fileUrl.toLowerCase();
+
+
+    const isPdf =
+        lowerUrl.includes(".pdf") ||
+        lowerUrl.includes("application/pdf");
+
+
+    if(isPdf){
+
+        box.innerHTML = `
+            <div class="form-document-title">
+                💳 Payment Screenshot PDF
+            </div>
+
+            <iframe
+                src="${escapeHtml(fileUrl)}"
+                style="
+                    width:100%;
+                    height:500px;
+                    border:1px solid #ddd;
+                    border-radius:8px;
+                    background:white;
+                "
+            ></iframe>
+        `;
+
+        return;
+
+    }
+
+
+    box.innerHTML = `
+        <div class="form-document-title">
+            💳 Payment Screenshot
+        </div>
+
+        <img
+            src="${escapeHtml(fileUrl)}"
+            class="form-document-image"
+            alt="Payment Screenshot"
+            onerror="this.style.display='none';"
+        >
+    `;
 
 }
 
@@ -2709,6 +2503,10 @@ checkAdminSession();
 
 <script>
 
+/* =========================================
+   ADMIN SYSTEM PAGE NAVIGATION
+========================================= */
+
 (function(){
 
     function showAdminMenu(){
@@ -2894,4 +2692,4 @@ checkAdminSession();
 
 
 </body>
-</html>
+</html>मैंने सारा कोड ही भेज दिया है, आप खुद से चेक कर लीजिए और इसमें सुधार कर दीजिए और पूरा नया कोड दीजिए।
