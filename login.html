@@ -19,6 +19,7 @@
       justify-content: center;
       align-items: center;
       font-family: Arial, sans-serif;
+
       background:
         linear-gradient(
           to bottom,
@@ -84,12 +85,14 @@
       padding: 15px;
       border: none;
       border-radius: 12px;
+
       background: linear-gradient(
         to right,
         #ff9933,
         #ffffff,
         #138808
       );
+
       color: #111;
       font-size: 18px;
       font-weight: bold;
@@ -248,76 +251,24 @@
 
       try {
 
-        /*
-         * Existing device record खोजें
-         */
-        const { data: existingData, error: findError } =
-          await supabaseClient
-            .from("app_installations")
-            .select("id")
-            .eq("device_id", deviceId)
-            .maybeSingle();
+        // Supabase Database Function
+        const { error } =
+          await supabaseClient.rpc(
+            "save_app_login",
+            {
+              p_device_id: deviceId,
+              p_name: name,
+              p_mobile: mobile
+            }
+          );
 
 
-        if (findError) {
-          throw findError;
+        if (error) {
+          throw error;
         }
 
 
-        /*
-         * अगर device पहले से मौजूद है
-         * तो उसका नाम और मोबाइल अपडेट करें
-         */
-        if (existingData) {
-
-          const { error: updateError } =
-            await supabaseClient
-              .from("app_installations")
-              .update({
-                name: name,
-                mobile_number: mobile,
-                first_login_at:
-                  new Date().toISOString(),
-                last_login_at:
-                  new Date().toISOString(),
-                login_status: "logged_in",
-                updated_at:
-                  new Date().toISOString()
-              })
-              .eq("id", existingData.id);
-
-
-          if (updateError) {
-            throw updateError;
-          }
-
-        } else {
-
-          /*
-           * नया user/device
-           */
-          const { error: insertError } =
-            await supabaseClient
-              .from("app_installations")
-              .insert({
-                device_id: deviceId,
-                name: name,
-                mobile_number: mobile,
-                first_login_at:
-                  new Date().toISOString(),
-                last_login_at:
-                  new Date().toISOString(),
-                login_status: "logged_in"
-              });
-
-
-          if (insertError) {
-            throw insertError;
-          }
-        }
-
-
-        // Local login
+        // Local login information
         localStorage.setItem(
           "spdd_login",
           "true"
@@ -345,6 +296,7 @@
 
 
         message.style.color = "green";
+
         message.textContent =
           "Login सफल हो गया।";
 
