@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0,
+                   maximum-scale=1.0, user-scalable=no">
+
+    <meta name="theme-color" content="#0d47a1">
+
+    <title>Install Student Portal</title>
+
+    <link rel="manifest" href="./manifest.json">
+
+    <link rel="icon"
+          href="./images/app-icon-192.png.jpeg">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            min-height: 100%;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background:
+                linear-gradient(
+                    to bottom,
+                    #ff9933 0%,
+                    #ff9933 33.33%,
+                    #ffffff 33.33%,
+                    #ffffff 66.66%,
+                    #138808 66.66%,
+                    #138808 100%
+                );
+            padding: 20px;
+        }
+
+        .install-container {
+            width: 100%;
+            max-width: 430px;
+            background: rgba(255, 255, 255, 0.96);
+            border-radius: 25px;
+            padding: 35px 25px;
+            text-align: center;
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.25);
+        }
+
+        .logo {
+            width: 105px;
+            height: 105px;
+            object-fit: cover;
+            border-radius: 22px;
+            margin-bottom: 18px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+        }
+
+        .chakra {
+            font-size: 42px;
+            line-height: 1;
+            margin-bottom: 12px;
+        }
+
+        h1 {
+            font-size: 28px;
+            color: #0d47a1;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            font-size: 16px;
+            color: #555;
+            line-height: 1.5;
+            margin-bottom: 28px;
+        }
+
+        .install-btn {
+            width: 100%;
+            border: none;
+            border-radius: 14px;
+            padding: 17px 20px;
+            font-size: 21px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            color: white;
+            cursor: pointer;
+
+            background:
+                linear-gradient(
+                    to bottom,
+                    #ff9933 0%,
+                    #ff9933 33.33%,
+                    #0d47a1 33.33%,
+                    #0d47a1 66.66%,
+                    #138808 66.66%,
+                    #138808 100%
+                );
+
+            box-shadow:
+                0 7px 18px rgba(0, 0, 0, 0.25);
+
+            transition: transform 0.15s ease,
+                        box-shadow 0.15s ease;
+        }
+
+        .install-btn:active {
+            transform: scale(0.97);
+            box-shadow:
+                0 4px 10px rgba(0, 0, 0, 0.20);
+        }
+
+        .status {
+            margin-top: 20px;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #555;
+            min-height: 22px;
+        }
+
+        .features {
+            margin-top: 25px;
+            text-align: left;
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 12px 0;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .feature-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #f1f1f1;
+            font-size: 15px;
+            flex-shrink: 0;
+        }
+
+        .footer {
+            margin-top: 25px;
+            font-size: 12px;
+            color: #777;
+        }
+
+        @media (max-width: 380px) {
+            .install-container {
+                padding: 28px 20px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .install-btn {
+                font-size: 19px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="install-container">
+
+        <img
+            class="logo"
+            src="./images/app-icon-192.png.jpeg"
+            alt="Student Portal">
+
+        <div class="chakra">☸️</div>
+
+        <h1>Student Portal</h1>
+
+        <p class="subtitle">
+            Install Student Portal on your device
+            for quick and easy access.
+        </p>
+
+        <button
+            id="installButton"
+            class="install-btn">
+            INSTALL
+        </button>
+
+        <div
+            id="status"
+            class="status">
+            Tap INSTALL to add Student Portal to your device.
+        </div>
+
+        <div class="features">
+
+            <div class="feature">
+                <div class="feature-icon">📱</div>
+                <div>Use Student Portal like an app</div>
+            </div>
+
+            <div class="feature">
+                <div class="feature-icon">⚡</div>
+                <div>Quick access from your home screen</div>
+            </div>
+
+            <div class="feature">
+                <div class="feature-icon">🔔</div>
+                <div>Receive important notifications</div>
+            </div>
+
+        </div>
+
+        <div class="footer">
+            Student Portal
+        </div>
+
+    </div>
+
+
+    <script>
+
+        let deferredPrompt = null;
+
+        const installButton =
+            document.getElementById("installButton");
+
+        const status =
+            document.getElementById("status");
+
+
+        /*
+         * Browser sends this event when the PWA
+         * is eligible for installation.
+         */
+        window.addEventListener(
+            "beforeinstallprompt",
+            function(event) {
+
+                event.preventDefault();
+
+                deferredPrompt = event;
+
+                installButton.style.display = "block";
+
+                status.textContent =
+                    "Tap INSTALL to install Student Portal.";
+            }
+        );
+
+
+        /*
+         * INSTALL button
+         */
+        installButton.addEventListener(
+            "click",
+            async function() {
+
+                if (!deferredPrompt) {
+
+                    status.textContent =
+                        "If the install window does not appear, open your browser menu and choose 'Install app' or 'Add to Home screen'.";
+
+                    return;
+                }
+
+                deferredPrompt.prompt();
+
+                const choiceResult =
+                    await deferredPrompt.userChoice;
+
+                if (choiceResult.outcome === "accepted") {
+
+                    status.textContent =
+                        "Installation started successfully.";
+
+                } else {
+
+                    status.textContent =
+                        "Installation was cancelled.";
+                }
+
+                deferredPrompt = null;
+            }
+        );
+
+
+        /*
+         * Fired after the browser confirms
+         * that the PWA has been installed.
+         */
+        window.addEventListener(
+            "appinstalled",
+            function() {
+
+                status.textContent =
+                    "Student Portal installed successfully.";
+
+                installButton.textContent =
+                    "INSTALLED";
+
+                installButton.disabled = true;
+
+                installButton.style.opacity = "0.75";
+            }
+        );
+
+
+        /*
+         * Register existing service worker.
+         * This does not replace or modify the
+         * existing Firebase service-worker code.
+         */
+        if ("serviceWorker" in navigator) {
+
+            window.addEventListener(
+                "load",
+                function() {
+
+                    navigator.serviceWorker.register(
+                        "./service-worker.js"
+                    ).catch(function(error) {
+
+                        console.log(
+                            "Service Worker registration failed:",
+                            error
+                        );
+
+                    });
+
+                }
+            );
+
+        }
+
+    </script>
+
+</body>
+</html>
