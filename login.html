@@ -19,7 +19,6 @@
       justify-content: center;
       align-items: center;
       font-family: Arial, sans-serif;
-
       background:
         linear-gradient(
           to bottom,
@@ -85,14 +84,12 @@
       padding: 15px;
       border: none;
       border-radius: 12px;
-
       background: linear-gradient(
         to right,
         #ff9933,
         #ffffff,
         #138808
       );
-
       color: #111;
       font-size: 18px;
       font-weight: bold;
@@ -100,8 +97,9 @@
       border: 1px solid #ddd;
     }
 
-    .login-btn:active {
-      transform: scale(0.98);
+    .login-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
     }
 
     .message {
@@ -123,7 +121,10 @@
     >
 
     <h1>SPDD College</h1>
-    <div class="subtitle">Student Portal Login</div>
+
+    <div class="subtitle">
+      Student Portal Login
+    </div>
 
     <div class="input-box">
       <input
@@ -145,7 +146,11 @@
       >
     </div>
 
-    <button class="login-btn" onclick="loginUser()">
+    <button
+      class="login-btn"
+      id="loginBtn"
+      onclick="loginUser()"
+    >
       Login
     </button>
 
@@ -153,76 +158,236 @@
 
   </div>
 
+
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <script>
 
-    // Device ID बनाना/सेव करना
+    const SUPABASE_URL =
+      "https://aghizlgvrhunpuxvohep.supabase.co";
+
+    const SUPABASE_KEY =
+      "sb_publishable_gpc7KUqUIykO3WM1aCzRfg_Myo8AKyx";
+
+    const supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
+
+
+    // Device ID
     function getDeviceId() {
-      let deviceId = localStorage.getItem("spdd_device_id");
+
+      let deviceId =
+        localStorage.getItem("spdd_device_id");
 
       if (!deviceId) {
-        deviceId =
-          "device-" +
-          Date.now() +
-          "-" +
-          Math.random().toString(36).substring(2, 15);
 
-        localStorage.setItem("spdd_device_id", deviceId);
+        deviceId =
+          crypto.randomUUID();
+
+        localStorage.setItem(
+          "spdd_device_id",
+          deviceId
+        );
       }
 
       return deviceId;
     }
 
 
-    function loginUser() {
+    async function loginUser() {
 
-      const name = document.getElementById("name").value.trim();
-      const mobile = document.getElementById("mobile").value.trim();
-      const message = document.getElementById("message");
+      const name =
+        document.getElementById("name").value.trim();
+
+      const mobile =
+        document.getElementById("mobile").value.trim();
+
+      const message =
+        document.getElementById("message");
+
+      const loginBtn =
+        document.getElementById("loginBtn");
 
 
       // Name check
       if (!name) {
+
         message.style.color = "red";
-        message.textContent = "कृपया अपना नाम दर्ज करें।";
+        message.textContent =
+          "कृपया अपना नाम दर्ज करें।";
+
         return;
       }
 
 
       // Mobile check
       if (!/^[0-9]{10}$/.test(mobile)) {
+
         message.style.color = "red";
         message.textContent =
           "कृपया सही 10 अंकों का मोबाइल नंबर दर्ज करें।";
+
         return;
       }
 
 
-      // Login information save
-      localStorage.setItem("spdd_login", "true");
-      localStorage.setItem("spdd_user_name", name);
-      localStorage.setItem("spdd_user_mobile", mobile);
-      localStorage.setItem("spdd_login_time", new Date().toISOString());
-      localStorage.setItem("spdd_device_id", getDeviceId());
+      loginBtn.disabled = true;
+      loginBtn.textContent = "Please wait...";
+
+      message.style.color = "#0d47a1";
+      message.textContent =
+        "Login हो रहा है...";
 
 
-      message.style.color = "green";
-      message.textContent = "Login सफल हो रहा है...";
+      const deviceId = getDeviceId();
 
 
-      // Main portal
-      setTimeout(function() {
-        window.location.href = "./index.html";
-      }, 500);
+      try {
+
+        /*
+         * Existing device record खोजें
+         */
+        const { data: existingData, error: findError } =
+          await supabaseClient
+            .from("app_installations")
+            .select("id")
+            .eq("device_id", deviceId)
+            .maybeSingle();
+
+
+        if (findError) {
+          throw findError;
+        }
+
+
+        /*
+         * अगर device पहले से मौजूद है
+         * तो उसका नाम और मोबाइल अपडेट करें
+         */
+        if (existingData) {
+
+          const { error: updateError } =
+            await supabaseClient
+              .from("app_installations")
+              .update({
+                name: name,
+                mobile_number: mobile,
+                first_login_at:
+                  new Date().toISOString(),
+                last_login_at:
+                  new Date().toISOString(),
+                login_status: "logged_in",
+                updated_at:
+                  new Date().toISOString()
+              })
+              .eq("id", existingData.id);
+
+
+          if (updateError) {
+            throw updateError;
+          }
+
+        } else {
+
+          /*
+           * नया user/device
+           */
+          const { error: insertError } =
+            await supabaseClient
+              .from("app_installations")
+              .insert({
+                device_id: deviceId,
+                name: name,
+                mobile_number: mobile,
+                first_login_at:
+                  new Date().toISOString(),
+                last_login_at:
+                  new Date().toISOString(),
+                login_status: "logged_in"
+              });
+
+
+          if (insertError) {
+            throw insertError;
+          }
+        }
+
+
+        // Local login
+        localStorage.setItem(
+          "spdd_login",
+          "true"
+        );
+
+        localStorage.setItem(
+          "spdd_user_name",
+          name
+        );
+
+        localStorage.setItem(
+          "spdd_user_mobile",
+          mobile
+        );
+
+        localStorage.setItem(
+          "spdd_login_time",
+          new Date().toISOString()
+        );
+
+        localStorage.setItem(
+          "spdd_device_id",
+          deviceId
+        );
+
+
+        message.style.color = "green";
+        message.textContent =
+          "Login सफल हो गया।";
+
+
+        setTimeout(function() {
+
+          window.location.href =
+            "./index.html";
+
+        }, 500);
+
+
+      } catch (error) {
+
+        console.error(
+          "Login Error:",
+          error
+        );
+
+        message.style.color = "red";
+
+        message.textContent =
+          "Login नहीं हो पाया। कृपया फिर कोशिश करें।";
+
+        loginBtn.disabled = false;
+        loginBtn.textContent = "Login";
+      }
     }
 
 
     // Mobile में केवल numbers
-    document.getElementById("mobile").addEventListener(
-      "input",
-      function() {
-        this.value = this.value.replace(/\D/g, "").slice(0, 10);
-      }
-    );
+    document
+      .getElementById("mobile")
+      .addEventListener(
+        "input",
+        function() {
+
+          this.value =
+            this.value
+              .replace(/\D/g, "")
+              .slice(0, 10);
+        }
+      );
 
   </script>
 
