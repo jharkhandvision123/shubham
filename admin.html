@@ -2023,10 +2023,10 @@ async function loadProjectFileSubmissions(){
         await securityClient
         .from("project_file_submissions")
         .select(
-            "id,mobile_number,admit_card_url,payment_screenshot_url,verification_status,download_link,created_at"
+            "id,serial_number,mobile_number,admit_card_url,payment_screenshot_url,verification_status,download_link,created_at"
         )
         .order(
-            "created_at",
+            "serial_number",
             {
                 ascending:false
             }
@@ -2091,6 +2091,10 @@ function createProjectSubmissionCard(item){
         "project-submission";
 
 
+    const serial =
+        item.serial_number || "—";
+
+
     const mobile =
         item.mobile_number || "Not available";
 
@@ -2151,6 +2155,10 @@ function createProjectSubmissionCard(item){
 
 
     card.innerHTML = `
+
+        <div class="project-mobile">
+            🔢 Serial Number: ${escapeHtml(serial)}
+        </div>
 
         <div class="project-mobile">
             📱 Mobile Number: ${escapeHtml(mobile)}
@@ -2879,4 +2887,4 @@ checkAdminSession();
 
 
 </body>
-</html> 
+</html>
