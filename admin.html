@@ -1262,7 +1262,7 @@ async function loadFormFillingSubmissions(){
         await securityClient
         .from("form_filling_submissions")
         .select(
-            "id,serial_number,form_type,semester,category,mobile_number,admit_card_url,payment_screenshot_url,status,created_at"
+            "id,serial_number,form_type,semester,category,mobile_number,admit_card_url,rasid_url,payment_screenshot_url,status,created_at"
         )
         .order(
             "serial_number",
@@ -1464,6 +1464,32 @@ function createFormFillingCard(item){
 
 
             ${
+                item.rasid_url
+                ?
+                `
+                <button
+                    type="button"
+                    class="view-document-btn"
+                    data-form-view="rasid"
+                >
+                    📄 VIEW RECEIPT
+                </button>
+
+                <div
+                    class="form-document-box"
+                    data-document-box="rasid"
+                >
+                    <div class="form-document-title">
+                        📄 Receipt
+                    </div>
+                </div>
+                `
+                :
+                ""
+            }
+
+
+            ${
                 item.payment_screenshot_url
                 ?
                 `
@@ -1554,6 +1580,30 @@ function createFormFillingCard(item){
                     card,
                     "admit",
                     item.admit_card_url
+                );
+
+            }
+        );
+
+    }
+
+
+    const rasidButton =
+        card.querySelector(
+            '[data-form-view="rasid"]'
+        );
+
+
+    if(rasidButton){
+
+        rasidButton.addEventListener(
+            "click",
+            function(){
+
+                toggleFormDocument(
+                    card,
+                    "rasid",
+                    item.rasid_url
                 );
 
             }
@@ -1671,7 +1721,7 @@ function toggleFormDocument(
 
         box.innerHTML = `
             <div class="form-document-title">
-                ${type === "admit" ? "🪪 Admit Card" : "💳 Payment Screenshot"}
+                ${type === "admit" ? "🪪 Admit Card" : type === "rasid" ? "📄 Receipt" : "💳 Payment Screenshot"}
             </div>
         `;
 
@@ -1696,7 +1746,7 @@ function toggleFormDocument(
 
         box.innerHTML = `
             <div class="form-document-title">
-                ${type === "admit" ? "🪪 Admit Card PDF" : "💳 Payment Screenshot PDF"}
+                ${type === "admit" ? "🪪 Admit Card PDF" : type === "rasid" ? "📄 Receipt PDF" : "💳 Payment Screenshot PDF"}
             </div>
 
             <a
@@ -1716,13 +1766,13 @@ function toggleFormDocument(
 
     box.innerHTML = `
         <div class="form-document-title">
-            ${type === "admit" ? "🪪 Admit Card" : "💳 Payment Screenshot"}
+            ${type === "admit" ? "🪪 Admit Card" : type === "rasid" ? "📄 Receipt" : "💳 Payment Screenshot"}
         </div>
 
         <img
             src="${escapeHtml(fileUrl)}"
             class="form-document-image"
-            alt="${type === "admit" ? "Admit Card" : "Payment Screenshot"}"
+            alt="${type === "admit" ? "Admit Card" : type === "rasid" ? "Receipt" : "Payment Screenshot"}"
             onerror="this.style.display='none';this.nextElementSibling.style.display='block';"
         >
 
