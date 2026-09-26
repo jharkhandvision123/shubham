@@ -1262,7 +1262,7 @@ async function loadFormFillingSubmissions(){
         await securityClient
         .from("form_filling_submissions")
         .select(
-            "id,serial_number,form_type,semester,category,mobile_number,admit_card_url,rasid_url,payment_screenshot_url,status,created_at"
+            "id,serial_number,form_type,semester,category,mobile_number,admit_card_url,payment_screenshot_url,status,created_at"
         )
         .order(
             "serial_number",
@@ -1464,32 +1464,6 @@ function createFormFillingCard(item){
 
 
             ${
-                item.rasid_url
-                ?
-                `
-                <button
-                    type="button"
-                    class="view-document-btn"
-                    data-form-view="rasid"
-                >
-                    📄 VIEW RECEIPT
-                </button>
-
-                <div
-                    class="form-document-box"
-                    data-document-box="rasid"
-                >
-                    <div class="form-document-title">
-                        📄 Receipt
-                    </div>
-                </div>
-                `
-                :
-                ""
-            }
-
-
-            ${
                 item.payment_screenshot_url
                 ?
                 `
@@ -1588,30 +1562,6 @@ function createFormFillingCard(item){
     }
 
 
-    const rasidButton =
-        card.querySelector(
-            '[data-form-view="rasid"]'
-        );
-
-
-    if(rasidButton){
-
-        rasidButton.addEventListener(
-            "click",
-            function(){
-
-                toggleFormDocument(
-                    card,
-                    "rasid",
-                    item.rasid_url
-                );
-
-            }
-        );
-
-    }
-
-
     const paymentButton =
         card.querySelector(
             '[data-form-view="payment"]'
@@ -1685,7 +1635,7 @@ function createFormFillingCard(item){
    VIEW FORM DOCUMENT
 ========================================= */
 
-function toggleFormDocument(
+async function toggleFormDocument(
     card,
     type,
     fileUrl
@@ -1732,60 +1682,155 @@ function toggleFormDocument(
 
     box.style.display = "block";
 
-
-    const lowerUrl =
-        fileUrl.toLowerCase();
-
-
-    const isPdf =
-        lowerUrl.includes(".pdf") ||
-        lowerUrl.includes("application/pdf");
-
-
-    if(isPdf){
-
-        box.innerHTML = `
-            <div class="form-document-title">
-                ${type === "admit" ? "🪪 Admit Card PDF" : type === "rasid" ? "📄 Receipt PDF" : "💳 Payment Screenshot PDF"}
-            </div>
-
-            <a
-                href="${escapeHtml(fileUrl)}"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="form-pdf-link"
-            >
-                📄 OPEN PDF
-            </a>
-        `;
-
-        return;
-
-    }
-
-
     box.innerHTML = `
         <div class="form-document-title">
             ${type === "admit" ? "🪪 Admit Card" : type === "rasid" ? "📄 Receipt" : "💳 Payment Screenshot"}
         </div>
-
-        <img
-            src="${escapeHtml(fileUrl)}"
-            class="form-document-image"
-            alt="${type === "admit" ? "Admit Card" : type === "rasid" ? "Receipt" : "Payment Screenshot"}"
-            onerror="this.style.display='none';this.nextElementSibling.style.display='block';"
-        >
-
-        <a
-            href="${escapeHtml(fileUrl)}"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="form-pdf-link"
-            style="display:none;"
-        >
-            📄 OPEN DOCUMENT
-        </a>
+        <div style="padding:10px;">Document खुल रहा है...</div>
     `;
+
+
+    try{
+
+        let finalUrl = fileUrl;
+
+        /*
+           Form Filling files are stored in the
+           project-files bucket. The database may contain
+           either a full public Storage URL or a file path.
+           Convert the Storage path/URL to a signed URL so
+           private buckets can also be opened.
+        */
+
+        let filePath = null;
+
+        if(
+            typeof fileUrl === "string" &&
+            fileUrl.includes("/storage/v1/object/public/project-files/")
+        ){
+
+            filePath =
+                fileUrl.split(
+                    "/storage/v1/object/public/project-files/"
+                )[1];
+
+            filePath =
+                decodeURIComponent(filePath);
+
+        }
+        else if(
+            typeof fileUrl === "string" &&
+            !fileUrl.startsWith("http://") &&
+            !fileUrl.startsWith("https://")
+        ){
+
+            filePath = fileUrl;
+
+        }
+
+        if(filePath){
+
+            const {
+                data:signedData,
+                error:signedError
+            } =
+            await securityClient
+            .storage
+            .from("project-files")
+            .createSignedUrl(
+                filePath,
+                300
+            );
+
+            if(signedError){
+                throw signedError;
+            }
+
+            if(
+                !signedData ||
+                !signedData.signedUrl
+            ){
+                throw new Error(
+                    "Signed URL नहीं मिला।"
+                );
+            }
+
+            finalUrl = signedData.signedUrl;
+
+        }
+
+
+        const lowerUrl =
+            finalUrl.toLowerCase();
+
+        const isPdf =
+            lowerUrl.includes(".pdf") ||
+            lowerUrl.includes("application/pdf");
+
+
+        if(isPdf){
+
+            box.innerHTML = `
+                <div class="form-document-title">
+                    ${type === "admit" ? "🪪 Admit Card PDF" : type === "rasid" ? "📄 Receipt PDF" : "💳 Payment Screenshot PDF"}
+                </div>
+
+                <a
+                    href="${escapeHtml(finalUrl)}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="form-pdf-link"
+                >
+                    📄 OPEN PDF
+                </a>
+            `;
+
+            return;
+
+        }
+
+
+        box.innerHTML = `
+            <div class="form-document-title">
+                ${type === "admit" ? "🪪 Admit Card" : type === "rasid" ? "📄 Receipt" : "💳 Payment Screenshot"}
+            </div>
+
+            <img
+                src="${escapeHtml(finalUrl)}"
+                class="form-document-image"
+                alt="${type === "admit" ? "Admit Card" : type === "rasid" ? "Receipt" : "Payment Screenshot"}"
+                onerror="this.style.display='none';this.nextElementSibling.style.display='block';"
+            >
+
+            <a
+                href="${escapeHtml(finalUrl)}"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="form-pdf-link"
+                style="display:none;"
+            >
+                📄 OPEN DOCUMENT
+            </a>
+        `;
+
+    }
+    catch(error){
+
+        console.error(
+            "Form Document Open Error:",
+            error
+        );
+
+        box.innerHTML = `
+            <div class="form-document-title">
+                ${type === "admit" ? "🪪 Admit Card" : type === "rasid" ? "📄 Receipt" : "💳 Payment Screenshot"}
+            </div>
+            <div style="padding:10px;color:#d32f2f;">
+                ❌ Document open नहीं हो पाया।
+            </div>
+        `;
+
+    }
 
 }
 
