@@ -76,6 +76,9 @@ button{
 
 #loginBtn,
 #searchBtn,
+#uploadBtn,
+#addVideoBtn,
+#searchDeleteBtn,
 #uploadReceiptBtn,
 #projectFileRefreshBtn,
 #formFillingRefreshBtn,
@@ -102,6 +105,9 @@ button{
 }
 
 #message,
+#uploadMessage,
+#videoMessage,
+#deleteMessage,
 #receiptUploadMessage,
 #projectFileMessage,
 #formFillingMessage,
@@ -495,6 +501,9 @@ button{
             <button type="button" class="system-menu-btn" data-system="notification">🔔 Notification Management</button>
             <button type="button" class="system-menu-btn" data-system="form">Form Filling Management</button>
             <button type="button" class="system-menu-btn" data-system="project">Project File Verification</button>
+            <button type="button" class="system-menu-btn" data-system="pdf">Upload PDF</button>
+            <button type="button" class="system-menu-btn" data-system="video">Add Solution Video</button>
+            <button type="button" class="system-menu-btn" data-system="deletecontent">Delete Content</button>
             <button type="button" class="system-menu-btn" data-system="receipt">Receipt Upload / Delete</button>
             <button type="button" class="system-menu-btn" data-system="login-users">Login System</button>
 
@@ -617,7 +626,24 @@ button{
             <button type="button" class="back-to-menu">← BACK TO ADMIN MENU</button>
         </div>
 
-<div class="system-page" id="system-receipt">
+
+        <div class="system-page" id="system-pdf">
+                    
+
+
+            <div id="deleteMessage"></div>
+
+            <div id="deleteResults"></div>
+
+        </div>
+
+
+
+            <button type="button" class="back-to-menu">← BACK TO ADMIN MENU</button>
+        </div>
+
+
+        <div class="system-page" id="system-receipt">
                     <!-- =====================================
              DELETE RECEIPT
         ====================================== -->
@@ -994,7 +1020,7 @@ async function loadFormFillingSubmissions(){
         await securityClient
         .from("form_filling_submissions")
         .select(
-            "id,serial_number,form_type,semester,category,mobile_number,admit_card_url,payment_screenshot_url,status,created_at"
+            "id,serial_number,form_type,semester,category,mobile_number,admit_card_url,rasid_url,payment_screenshot_url,status,created_at"
         )
         .order(
             "serial_number",
@@ -1196,6 +1222,32 @@ function createFormFillingCard(item){
 
 
             ${
+                item.rasid_url
+                ?
+                `
+                <button
+                    type="button"
+                    class="view-document-btn"
+                    data-form-view="rasid"
+                >
+                    📄 VIEW RECEIPT
+                </button>
+
+                <div
+                    class="form-document-box"
+                    data-document-box="rasid"
+                >
+                    <div class="form-document-title">
+                        📄 Receipt
+                    </div>
+                </div>
+                `
+                :
+                ""
+            }
+
+
+            ${
                 item.payment_screenshot_url
                 ?
                 `
@@ -1286,6 +1338,30 @@ function createFormFillingCard(item){
                     card,
                     "admit",
                     item.admit_card_url
+                );
+
+            }
+        );
+
+    }
+
+
+    const rasidButton =
+        card.querySelector(
+            '[data-form-view="rasid"]'
+        );
+
+
+    if(rasidButton){
+
+        rasidButton.addEventListener(
+            "click",
+            function(){
+
+                toggleFormDocument(
+                    card,
+                    "rasid",
+                    item.rasid_url
                 );
 
             }
@@ -1403,7 +1479,7 @@ function toggleFormDocument(
 
         box.innerHTML = `
             <div class="form-document-title">
-                ${type === "admit" ? "🪪 Admit Card" : "💳 Payment Screenshot"}
+                ${type === "admit" ? "🪪 Admit Card" : type === "rasid" ? "📄 Receipt" : "💳 Payment Screenshot"}
             </div>
         `;
 
@@ -1428,7 +1504,7 @@ function toggleFormDocument(
 
         box.innerHTML = `
             <div class="form-document-title">
-                ${type === "admit" ? "🪪 Admit Card PDF" : "💳 Payment Screenshot PDF"}
+                ${type === "admit" ? "🪪 Admit Card PDF" : type === "rasid" ? "📄 Receipt PDF" : "💳 Payment Screenshot PDF"}
             </div>
 
             <a
@@ -1448,13 +1524,13 @@ function toggleFormDocument(
 
     box.innerHTML = `
         <div class="form-document-title">
-            ${type === "admit" ? "🪪 Admit Card" : "💳 Payment Screenshot"}
+            ${type === "admit" ? "🪪 Admit Card" : type === "rasid" ? "📄 Receipt" : "💳 Payment Screenshot"}
         </div>
 
         <img
             src="${escapeHtml(fileUrl)}"
             class="form-document-image"
-            alt="${type === "admit" ? "Admit Card" : "Payment Screenshot"}"
+            alt="${type === "admit" ? "Admit Card" : type === "rasid" ? "Receipt" : "Payment Screenshot"}"
             onerror="this.style.display='none';this.nextElementSibling.style.display='block';"
         >
 
@@ -1688,7 +1764,12 @@ projectFileRefreshBtn.addEventListener(
 );
 
 
+let projectFileLoadNumber = 0;
+
+
 async function loadProjectFileSubmissions(){
+
+    const currentLoad = ++projectFileLoadNumber;
 
     projectFileMessage.textContent =
         "Loading...";
@@ -1705,14 +1786,19 @@ async function loadProjectFileSubmissions(){
         await securityClient
         .from("project_file_submissions")
         .select(
-            "id,mobile_number,admit_card_url,payment_screenshot_url,verification_status,download_link,created_at"
+            "id,serial_number,mobile_number,admit_card_url,payment_screenshot_url,verification_status,download_link,created_at"
         )
         .order(
-            "created_at",
+            "serial_number",
             {
                 ascending:false
             }
         );
+
+
+        if(currentLoad !== projectFileLoadNumber){
+            return;
+        }
 
 
         if(error){
@@ -1738,14 +1824,36 @@ async function loadProjectFileSubmissions(){
         }
 
 
+        /*
+         * एक Serial Number का केवल एक ही section दिखाएँ।
+         * इससे duplicate load/record की स्थिति में भी
+         * Admin Panel में एक serial दोबारा नहीं दिखेगा।
+         */
+        const seenSerialNumbers = new Set();
+
         data.forEach(function(item){
 
+            const serialKey =
+                item.serial_number !== null &&
+                item.serial_number !== undefined
+                ? String(item.serial_number)
+                : "no-serial-" + String(item.id);
+
+            if(seenSerialNumbers.has(serialKey)){
+                return;
+            }
+
+            seenSerialNumbers.add(serialKey);
             createProjectSubmissionCard(item);
 
         });
 
     }
     catch(error){
+
+        if(currentLoad !== projectFileLoadNumber){
+            return;
+        }
 
         console.error(
             "Project File Load Error:",
@@ -1771,6 +1879,10 @@ function createProjectSubmissionCard(item){
 
     card.className =
         "project-submission";
+
+
+    const serial =
+        item.serial_number || "—";
 
 
     const mobile =
@@ -1833,6 +1945,10 @@ function createProjectSubmissionCard(item){
 
 
     card.innerHTML = `
+
+        <div class="project-mobile">
+            🔢 Serial Number: ${escapeHtml(serial)}
+        </div>
 
         <div class="project-mobile">
             📱 Mobile Number: ${escapeHtml(mobile)}
