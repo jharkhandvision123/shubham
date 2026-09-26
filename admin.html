@@ -2006,7 +2006,12 @@ projectFileRefreshBtn.addEventListener(
 );
 
 
+let projectFileLoadNumber = 0;
+
+
 async function loadProjectFileSubmissions(){
+
+    const currentLoad = ++projectFileLoadNumber;
 
     projectFileMessage.textContent =
         "Loading...";
@@ -2033,6 +2038,11 @@ async function loadProjectFileSubmissions(){
         );
 
 
+        if(currentLoad !== projectFileLoadNumber){
+            return;
+        }
+
+
         if(error){
 
             throw error;
@@ -2056,14 +2066,36 @@ async function loadProjectFileSubmissions(){
         }
 
 
+        /*
+         * एक Serial Number का केवल एक ही section दिखाएँ।
+         * इससे duplicate load/record की स्थिति में भी
+         * Admin Panel में एक serial दोबारा नहीं दिखेगा।
+         */
+        const seenSerialNumbers = new Set();
+
         data.forEach(function(item){
 
+            const serialKey =
+                item.serial_number !== null &&
+                item.serial_number !== undefined
+                ? String(item.serial_number)
+                : "no-serial-" + String(item.id);
+
+            if(seenSerialNumbers.has(serialKey)){
+                return;
+            }
+
+            seenSerialNumbers.add(serialKey);
             createProjectSubmissionCard(item);
 
         });
 
     }
     catch(error){
+
+        if(currentLoad !== projectFileLoadNumber){
+            return;
+        }
 
         console.error(
             "Project File Load Error:",
